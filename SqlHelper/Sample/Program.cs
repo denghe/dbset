@@ -17,6 +17,11 @@
     {
         public static void Main()
         {
+            //Array.
+
+
+
+
             // 初始化连接串
             SqlHelper.InitConnectString("data,14333", password: "dreamgame@8844028.com");
 

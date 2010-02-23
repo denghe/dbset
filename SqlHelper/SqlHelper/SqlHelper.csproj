@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="DbSet.cs" />
     <Compile Include="DbSet_Extensions.cs" />
+    <Compile Include="DbSet_Partial.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpResultConfig.cs" />
     <Compile Include="SqlGens.cs" />

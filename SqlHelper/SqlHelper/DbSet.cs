@@ -100,7 +100,7 @@ public partial class DbRow
 /// <summary>
 ///  Collects information relevant to a warning or error returned by SQL Server.
 /// </summary>
-public class SqlError
+public partial class SqlError
 {
     /// <summary>
     ///     Gets the severity level of the error returned from SQL Server.
@@ -165,22 +165,4 @@ public class SqlError
     ///     The number that represents the error code.
     /// </summary>
     public byte State { get; set; }
-    /// <summary>
-    ///     Gets the complete text of the error message.
-    ///
-    /// Returns:
-    ///     The complete text of the error.
-    /// </summary>
-    public override string ToString()
-    {
-        return string.Format(@"Class       = {0}
-LineNumber  = {1}
-Message     = {2}
-Number      = {3}
-Procedure   = {4}
-Server      = {5}
-Source      = {6}
-State       = {7}",
-            Class, LineNumber, Message, Number, Procedure, Server, Source, State);
-    }
 }

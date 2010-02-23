@@ -20,43 +20,46 @@ public static partial class DbSet_Extensions
         if (ds.Errors.Count > 0)
         {
             Console.Write("\r\n\r\nRaise Errors:");
-            foreach (var e in ds.Errors) Console.Write("\r\n\r\n" + e.ToString());
+            foreach (var e in ds.Errors) Console.Write("\r\n\r\n" + ToErrorString(e));
         }
         Console.Write("\r\n\r\nRecords Affected:" + ds.RecordsAffected);
         Console.Write("\r\n\r\nReturn:" + ds.ReturnValue);
         return ds;
     }
-    public static byte[] GetBytes(this DbSet ds)
-    {
-        throw new Exception("todo");
-    }
-    public static DbSet ToDbSet(this byte[] bytes)
-    {
-        throw new Exception("todo");
-    }
-
     public static DbTable Dump(this DbTable dt)
     {
         var count = dt.Columns.Count;
-        Console.WriteLine("\r\n\r\nTable:" + dt.Name.ToNameString());
-        Console.Write(dt.Columns[0].Name.ToNameString());
+        Console.WriteLine("\r\n\r\nTable:" + ToNameString(dt.Name));
+        Console.Write(ToNameString(dt.Columns[0].Name));
         for (var i = 1; i < count; i++)
-            Console.Write("\t" + dt.Columns[i].Name.ToNameString());
+            Console.Write("\t" + ToNameString(dt.Columns[i].Name));
         foreach (var dr in dt.Rows)
         {
-            Console.Write("\r\n" + dr[0].ToValueString());
+            Console.Write("\r\n" + ToValueString(dr[0]));
             for (var i = 1; i < count; i++)
-                Console.Write("\t" + dr[i].ToValueString());
+                Console.Write("\t" + ToValueString(dr[i]));
         }
         return dt;
     }
-    public static string ToNameString(this string s)
+    public static string ToNameString(string s)
     {
         if (string.IsNullOrEmpty(s)) return "[NoName]";
         return s;
     }
-    public static string ToValueString(this object o)
+    public static string ToValueString(object o)
     {
         return o == DBNull.Value ? "[Null]" : o.ToString();
+    }
+    public static string ToErrorString(SqlError e)
+    {
+        return string.Format(@"Class       = {0}
+LineNumber  = {1}
+Message     = {2}
+Number      = {3}
+Procedure   = {4}
+Server      = {5}
+Source      = {6}
+State       = {7}",
+    e.Class, e.LineNumber, e.Message, e.Number, e.Procedure, e.Server, e.Source, e.State);
     }
 }
