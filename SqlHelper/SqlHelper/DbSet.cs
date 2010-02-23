@@ -111,6 +111,14 @@ public partial class SqlError
     /// </summary>
     public byte Class { get; set; }
     /// <summary>
+    ///     Gets a numeric error code from SQL Server that represents an error, warning
+    ///     or "no data found" message.
+    ///
+    /// Returns:
+    ///     The number that represents the error code.
+    /// </summary>
+    public byte State { get; set; }
+    /// <summary>
     ///     Gets the line number within the Transact-SQL command batch or stored procedure
     ///     that contains the error.
     ///
@@ -118,7 +126,14 @@ public partial class SqlError
     ///     The line number within the Transact-SQL command batch or stored procedure
     ///     that contains the error.
     /// </summary>
-    public int LineNumber { get; set; }
+    public int  LineNumber { get; set; }
+    /// <summary>
+    ///     Gets a number that identifies the type of error.
+    ///
+    /// Returns:
+    ///     The number that identifies the type of error.
+    /// </summary>
+    public int  Number { get; set; }
     /// <summary>
     ///     Gets the text describing the error.
     ///
@@ -127,13 +142,6 @@ public partial class SqlError
     ///     SQL Server, see SQL Server Books Online.
     /// </summary>
     public string Message { get; set; }
-    /// <summary>
-    ///     Gets a number that identifies the type of error.
-    ///
-    /// Returns:
-    ///     The number that identifies the type of error.
-    /// </summary>
-    public int Number { get; set; }
     /// <summary>
     ///     Gets the name of the stored procedure or remote procedure call (RPC) that
     ///     generated the error.
@@ -157,12 +165,4 @@ public partial class SqlError
     ///     The name of the provider that generated the error.
     /// </summary>
     public string Source { get; set; }
-    /// <summary>
-    ///     Gets a numeric error code from SQL Server that represents an error, warning
-    ///     or "no data found" message.
-    ///
-    /// Returns:
-    ///     The number that represents the error code.
-    /// </summary>
-    public byte State { get; set; }
 }
