@@ -71,7 +71,7 @@ partial class DbRow
                     break;
                 case "System.Char":
                     var charbytes = Encoding.Unicode.GetBytes(new char[] { (char)_itemArray[i] });
-                    buffers.Add(BitConverter.GetBytes(charbytes.Length));
+                    buffers.Add(new byte[] { (byte)charbytes.Length });
                     buffers.Add(charbytes);
                     break;
                 case "System.DateTime":
@@ -89,6 +89,14 @@ partial class DbRow
                 case "System.Guid":
                     buffers.Add(((Guid)_itemArray[i]).ToByteArray());
                     break;
+                    // todo:
+                    //System.SByte
+                        //System.Single
+                    //System.String
+                    //System.TimeSpan
+                    //System.UInt16
+                    //System.UInt32
+                //System.UInt64
                 case "System.Int16":
                     buffers.Add(BitConverter.GetBytes((short)_itemArray[i]));
                     break;
