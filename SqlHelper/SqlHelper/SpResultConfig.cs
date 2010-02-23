@@ -70,8 +70,7 @@ namespace SpResultConfig
     {
         public static string GetXml(this Config cfg)
         {
-            // todo
-            return "";
+            throw new Exception("todo");
         }
         public static Config GetConfig(this string xml)
         {
