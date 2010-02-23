@@ -20,16 +20,16 @@
             // 初始化连接串
             SqlHelper.InitConnectString("data,14333", password: "dreamgame@8844028.com");
 
-            // 调用一个存储过程并输出结果
-            SqlHelper.ExecuteDbSet(SqlHelper.NewCommand("test")
-                .AddParameter("p1", 12345)
-                .AddParameter("p2", DateTime.Now)
-            ).Dump();
+            //// 调用一个存储过程并输出结果
+            //SqlHelper.ExecuteDbSet(SqlHelper.NewCommand("test")
+            //    .AddParameter("p1", 12345)
+            //    .AddParameter("p2", DateTime.Now)
+            //).Dump();
             //SqlHelper.ExecuteDbSet("test",true).Dump();
 
-            Console.ReadLine();
+            //Console.ReadLine();
 
-            return;
+            //return;
 
             // 执行一组 TSQL 并输出
             SqlHelper.ExecuteDbSet(@"
