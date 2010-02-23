@@ -70,7 +70,9 @@ partial class DbRow
                     buffers.Add(bytes);
                     break;
                 case "System.Char":
-                    buffers.Add(Encoding.Unicode.GetBytes(new char[] { (char)_itemArray[i] }));
+                    var charbytes = Encoding.Unicode.GetBytes(new char[] { (char)_itemArray[i] });
+                    buffers.Add(BitConverter.GetBytes(charbytes.Length));
+                    buffers.Add(charbytes);
                     break;
                 case "System.DateTime":
                     buffers.Add(BitConverter.GetBytes(((DateTime)_itemArray[i]).ToBinary()));
