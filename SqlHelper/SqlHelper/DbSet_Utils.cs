@@ -72,6 +72,7 @@ public static partial class DbSet_Utils
     #region GetBytes (generic)
     public static byte[] GetBytes(this object o)
     {
+        // todo: 改成散 GetBytes 调用
         if (o == null || o == DBNull.Value) return null;
         var typeName = o.GetType().Name;
         var buffers = new List<byte[]>();
