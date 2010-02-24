@@ -11,54 +11,55 @@ public static partial class DbSet_Utils
     {
         return BitConverter.GetBytes(o);
     }
-    public static byte[] GetBytes(this byte o)
-    {
-    }
-    public static byte[] GetBytes(this Byte[] o)
-    {
-    }
-    public static byte[] GetBytes(this char o)
-    {
-    }
-    public static byte[] GetBytes(this DateTime o)
-    {
-    }
-    public static byte[] GetBytes(this decimal o)
-    {
-    }
-    public static byte[] GetBytes(this double o)
-    {
-    }
-    public static byte[] GetBytes(this short o)
-    {
-    }
-    public static byte[] GetBytes(this int o)
-    {
-    }
-    public static byte[] GetBytes(this long o)
-    {
-    }
-    public static byte[] GetBytes(this sbyte o)
-    {
-    }
-    public static byte[] GetBytes(this float o)
-    {
-    }
-    public static byte[] GetBytes(this string o)
-    {
-    }
-    public static byte[] GetBytes(this ushort o)
-    {
-    }
-    public static byte[] GetBytes(this uint o)
-    {
-    }
-    public static byte[] GetBytes(this ulong o)
-    {
-    }
+    //public static byte[] GetBytes(this byte o)
+    //{
+    //}
+    //public static byte[] GetBytes(this Byte[] o)
+    //{
+    //}
+    //public static byte[] GetBytes(this char o)
+    //{
+    //}
+    //public static byte[] GetBytes(this DateTime o)
+    //{
+    //}
+    //public static byte[] GetBytes(this decimal o)
+    //{
+    //}
+    //public static byte[] GetBytes(this double o)
+    //{
+    //}
+    //public static byte[] GetBytes(this short o)
+    //{
+    //}
+    //public static byte[] GetBytes(this int o)
+    //{
+    //}
+    //public static byte[] GetBytes(this long o)
+    //{
+    //}
+    //public static byte[] GetBytes(this sbyte o)
+    //{
+    //}
+    //public static byte[] GetBytes(this float o)
+    //{
+    //}
+    //public static byte[] GetBytes(this string o)
+    //{
+    //}
+    //public static byte[] GetBytes(this ushort o)
+    //{
+    //}
+    //public static byte[] GetBytes(this uint o)
+    //{
+    //}
+    //public static byte[] GetBytes(this ulong o)
+    //{
+    //}
 
     #endregion
 
+    #region GetBytes (generic)
     public static byte[] GetBytes(this object o)
     {
         if (o == null || o == DBNull.Value) return null;
@@ -128,9 +129,9 @@ public static partial class DbSet_Utils
             return result;
         }
     }
+    #endregion
 
-
-
+    #region ToObject (generic)
     public static object GetObject(this byte[] buffer, Type type, ref int startIndex)
     {
         return GetObject(buffer, type.Name, ref startIndex);
@@ -243,6 +244,8 @@ public static partial class DbSet_Utils
         }
         return null;
     }
+
+    #endregion
 
     public static byte[] Combine(this List<byte[]> byteslist)
     {
