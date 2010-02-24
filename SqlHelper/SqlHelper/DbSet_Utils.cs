@@ -38,22 +38,22 @@ public static partial class DbSet_Utils
     public static byte[] GetBytes(this long o)
     {
     }
-    public static byte[] GetBytes(this long o)
+    public static byte[] GetBytes(this sbyte o)
     {
     }
-    public static byte[] GetBytes(this long o)
+    public static byte[] GetBytes(this float o)
     {
     }
-    public static byte[] GetBytes(this long o)
+    public static byte[] GetBytes(this string o)
     {
     }
-    public static byte[] GetBytes(this long o)
+    public static byte[] GetBytes(this ushort o)
     {
     }
-    public static byte[] GetBytes(this long o)
+    public static byte[] GetBytes(this uint o)
     {
     }
-    public static byte[] GetBytes(this long o)
+    public static byte[] GetBytes(this ulong o)
     {
     }
 
@@ -108,11 +108,11 @@ public static partial class DbSet_Utils
                 buffers.Add(stringbytes);
                 break;
             case "System.UInt16":
-                return BitConverter.GetBytes((System.UInt16)o);
+                return BitConverter.GetBytes((ushort)o);
             case "System.UInt32":
-                return BitConverter.GetBytes((System.UInt32)o);
+                return BitConverter.GetBytes((uint)o);
             case "System.UInt64":
-                return BitConverter.GetBytes((System.UInt64)o);
+                return BitConverter.GetBytes((ulong)o);
         }
         if (buffers.Count == 0) return null;
         else if (buffers.Count == 1) return buffers[0];
