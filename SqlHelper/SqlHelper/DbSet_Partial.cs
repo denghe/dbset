@@ -98,17 +98,37 @@ partial class DbRow
                 case "System.Int64":
                     buffers.Add(BitConverter.GetBytes((long)_itemArray[i]));
                     break;
-                // todo:
-                //System.SByte
-                //System.Single
-                //System.String
-                //System.TimeSpan
-                //System.UInt16
-                //System.UInt32
-                //System.UInt64
+                case "System.SByte":
+                    buffers.Add(new byte[] { (byte)(sbyte)_itemArray[i] });
+                    break;
+                case "System.Single":
+                    buffers.Add(BitConverter.GetBytes((float)_itemArray[i]));
+                    break;
+                case "System.String":
+                    var stringbytes = Encoding.Unicode.GetBytes((string)_itemArray[i]);
+                    buffers.Add(BitConverter.GetBytes(stringbytes.Length));
+                    buffers.Add(stringbytes);
+                    break;
+                case "System.UInt16":
+                    buffers.Add(BitConverter.GetBytes((System.UInt16)_itemArray[i]));
+                    break;
+                case "System.UInt32":
+                    buffers.Add(BitConverter.GetBytes((System.UInt32)_itemArray[i]));
+                    break;
+                case "System.UInt64":
+                    buffers.Add(BitConverter.GetBytes((System.UInt64)_itemArray[i]));
+                    break;
             }
         }
-        throw new Exception("todo");
+        var result = new byte[buffers.Sum(o => o.Length)];
+        var idx = 0;
+        foreach (var buffer in buffers)
+        {
+            var len = buffer.Length;
+            Array.Copy(buffer, 0, result, idx, len);
+            idx += len;
+        }
+        return result;
     }
     public DbSet Fill(byte[] buffer)
     {
