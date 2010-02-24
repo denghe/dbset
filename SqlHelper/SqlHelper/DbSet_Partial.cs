@@ -30,6 +30,8 @@ partial class DbColumn
 {
     public byte[] GetBytes()
     {
+        var buffers = new List<byte[]>();
+        buffers.Add(this.Name.GetBytes(typeof(string)));
         throw new Exception("todo");
     }
     public void Fill(byte[] buffer, ref int startIndex)
