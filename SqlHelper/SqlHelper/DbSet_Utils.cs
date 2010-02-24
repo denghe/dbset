@@ -78,12 +78,12 @@ public static partial class DbSet_Utils
             return result;
         }
     }
-    public static object GetObject(this byte[] buffer, Type type, ref int startIndex, int length = 0)
+    public static object GetObject(this byte[] buffer, Type type, ref int startIndex)
     {
-        return GetObject(buffer, type.Name, ref startIndex, length);
+        return GetObject(buffer, type.Name, ref startIndex);
     }
 
-    public static object GetObject(this byte[] buffer, string typeName, ref int startIndex, int length = 0)
+    public static object GetObject(this byte[] buffer, string typeName, ref int startIndex)
     {
         switch (typeName)
         {
@@ -93,9 +93,11 @@ public static partial class DbSet_Utils
                 return buffer[startIndex++];
             case "System.Byte[]":
                 {
-                    var result = new byte[length];
-                    Array.Copy(buffer, startIndex, result, 0, length);
-                    startIndex += length;
+                    var len = BitConverter.ToInt32(buffer, startIndex);
+                    startIndex += sizeof(int);
+                    var result = new byte[len];
+                    Array.Copy(buffer, startIndex, result, 0, len);
+                    startIndex += len;
                     return result;
                 }
             case "System.Char":

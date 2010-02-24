@@ -42,26 +42,38 @@ partial class DbRow
     public byte[] GetBytes()
     {
         // DbRow 对象的数据操作，依赖于 Table.Columns 的数据类型数据
-        // 存储顺序：字段 Count 个 byte 的 0(DbNull), 1 标记， 非 DbNull 的字段长度 4 bytes (如果非定长) + 内容 bytes 若干
+        // 如果字段可空 则前置 1 byte 标记位( 1 不空， 0 空 )
 
         var buffers = new List<byte[]>();
-        var bytes_flags = new byte[_itemArray.Length];
-        buffers.Add(bytes_flags);
         for (int i = 0; i < _itemArray.Length; i++)
         {
-            if (_itemArray[i] == DBNull.Value)
+            var column = Table.Columns[i];
+            if (column.AllowDBNull)
             {
-                bytes_flags[i] = 0;
-                continue;
+                if (_itemArray[i] == DBNull.Value)
+                {
+                    buffers.Add(new byte[] { (byte)0 });
+                    continue;
+                }
+                else buffers.Add(new byte[] { (byte)1 });
             }
-            else bytes_flags[i] = 1;
             buffers.Add(_itemArray[i].GetBytes(Table.Columns[i].Type.Name));
         }
         return buffers.Combine();
     }
     public void Fill(byte[] buffer, ref int startIndex)
     {
-        throw new Exception("todo");
+        for (int i = 0; i < _itemArray.Length; i++)
+        {
+            var column = Table.Columns[i];
+            if (column.AllowDBNull)
+            {
+                if (buffer[startIndex++] == (byte)0)
+                    _itemArray[i] = DBNull.Value;
+                else
+                    _itemArray[i] = buffer.GetObject(column.Type.Name, ref startIndex);
+            }
+        }
     }
 }
 
