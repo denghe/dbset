@@ -11,51 +11,61 @@ public static partial class DbSet_Utils
     {
         return BitConverter.GetBytes(o);
     }
-    //public static byte[] GetBytes(this byte o)
-    //{
-    //}
-    //public static byte[] GetBytes(this Byte[] o)
-    //{
-    //}
-    //public static byte[] GetBytes(this char o)
-    //{
-    //}
-    //public static byte[] GetBytes(this DateTime o)
-    //{
-    //}
-    //public static byte[] GetBytes(this decimal o)
-    //{
-    //}
-    //public static byte[] GetBytes(this double o)
-    //{
-    //}
-    //public static byte[] GetBytes(this short o)
-    //{
-    //}
-    //public static byte[] GetBytes(this int o)
-    //{
-    //}
-    //public static byte[] GetBytes(this long o)
-    //{
-    //}
-    //public static byte[] GetBytes(this sbyte o)
-    //{
-    //}
-    //public static byte[] GetBytes(this float o)
-    //{
-    //}
-    //public static byte[] GetBytes(this string o)
-    //{
-    //}
-    //public static byte[] GetBytes(this ushort o)
-    //{
-    //}
-    //public static byte[] GetBytes(this uint o)
-    //{
-    //}
-    //public static byte[] GetBytes(this ulong o)
-    //{
-    //}
+    public static byte[] GetBytes(this byte o)
+    {
+        return new byte[] { o };
+    }
+    public static byte[] GetBytes(this Byte[] o)
+    {
+        var length = o.Length;
+        var bytes = BitConverter.GetBytes(length);
+        Array.Resize<byte>(ref bytes, sizeof(int) + length);
+        Array.Copy(o, 0, bytes, sizeof(int), length);
+        return bytes;
+    }
+    public static byte[] GetBytes(this char o)
+    {
+    }
+    public static byte[] GetBytes(this DateTime o)
+    {
+    }
+    public static byte[] GetBytes(this decimal o)
+    {
+    }
+    public static byte[] GetBytes(this double o)
+    {
+    }
+    public static byte[] GetBytes(this short o)
+    {
+    }
+    public static byte[] GetBytes(this int o)
+    {
+    }
+    public static byte[] GetBytes(this long o)
+    {
+    }
+    public static byte[] GetBytes(this sbyte o)
+    {
+    }
+    public static byte[] GetBytes(this float o)
+    {
+    }
+    public static byte[] GetBytes(this string o)
+    {
+    }
+    public static byte[] GetBytes(this ushort o)
+    {
+    }
+    public static byte[] GetBytes(this uint o)
+    {
+    }
+    public static byte[] GetBytes(this ulong o)
+    {
+    }
+
+    #endregion
+
+    #region ToXxxxxx
 
     #endregion
 
@@ -132,11 +142,11 @@ public static partial class DbSet_Utils
     #endregion
 
     #region ToObject (generic)
-    public static object GetObject(this byte[] buffer, Type type, ref int startIndex)
+    public static object ToObject(this byte[] buffer, Type type, ref int startIndex)
     {
-        return GetObject(buffer, type.Name, ref startIndex);
+        return ToObject(buffer, type.Name, ref startIndex);
     }
-    public static object GetObject(this byte[] buffer, string typeName, ref int startIndex)
+    public static object ToObject(this byte[] buffer, string typeName, ref int startIndex)
     {
         switch (typeName)
         {

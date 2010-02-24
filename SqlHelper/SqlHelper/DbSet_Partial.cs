@@ -73,7 +73,7 @@ partial class DbRow
                 if (buffer[startIndex++] == (byte)0)
                     _itemArray[i] = DBNull.Value;
                 else
-                    _itemArray[i] = buffer.GetObject(column.Type, ref startIndex);
+                    _itemArray[i] = buffer.ToObject(column.Type, ref startIndex);
             }
         }
     }
@@ -96,13 +96,13 @@ partial class SqlError
     }
     public void Fill(byte[] buffer, ref int startIndex)
     {
-        this.Class = (byte)buffer.GetObject(typeof(byte), ref startIndex);
-        this.State = (byte)buffer.GetObject(typeof(byte), ref startIndex);
-        this.LineNumber = (int)buffer.GetObject(typeof(int), ref startIndex);
-        this.Number = (int)buffer.GetObject(typeof(int), ref startIndex);
-        this.Message = (string)buffer.GetObject(typeof(string), ref startIndex);
-        this.Procedure = (string)buffer.GetObject(typeof(string), ref startIndex);
-        this.Server = (string)buffer.GetObject(typeof(string), ref startIndex);
-        this.Source = (string)buffer.GetObject(typeof(string), ref startIndex);
+        this.Class = (byte)buffer.ToObject(typeof(byte), ref startIndex);
+        this.State = (byte)buffer.ToObject(typeof(byte), ref startIndex);
+        this.LineNumber = (int)buffer.ToObject(typeof(int), ref startIndex);
+        this.Number = (int)buffer.ToObject(typeof(int), ref startIndex);
+        this.Message = (string)buffer.ToObject(typeof(string), ref startIndex);
+        this.Procedure = (string)buffer.ToObject(typeof(string), ref startIndex);
+        this.Server = (string)buffer.ToObject(typeof(string), ref startIndex);
+        this.Source = (string)buffer.ToObject(typeof(string), ref startIndex);
     }
 }
