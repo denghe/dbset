@@ -5,14 +5,64 @@ using System.Text;
 
 public static partial class DbSet_Utils
 {
-    public static byte[] GetBytes(this object o, Type type = null)
+
+    #region GetBytes
+    public static byte[] GetBytes(this bool o)
     {
-        return GetBytes(o, type == null ? null : type.Name);
+        return BitConverter.GetBytes(o);
     }
-    public static byte[] GetBytes(this object o, string typeName)
+    public static byte[] GetBytes(this byte o)
+    {
+    }
+    public static byte[] GetBytes(this Byte[] o)
+    {
+    }
+    public static byte[] GetBytes(this char o)
+    {
+    }
+    public static byte[] GetBytes(this DateTime o)
+    {
+    }
+    public static byte[] GetBytes(this decimal o)
+    {
+    }
+    public static byte[] GetBytes(this double o)
+    {
+    }
+    public static byte[] GetBytes(this short o)
+    {
+    }
+    public static byte[] GetBytes(this int o)
+    {
+    }
+    public static byte[] GetBytes(this long o)
+    {
+    }
+    public static byte[] GetBytes(this long o)
+    {
+    }
+    public static byte[] GetBytes(this long o)
+    {
+    }
+    public static byte[] GetBytes(this long o)
+    {
+    }
+    public static byte[] GetBytes(this long o)
+    {
+    }
+    public static byte[] GetBytes(this long o)
+    {
+    }
+    public static byte[] GetBytes(this long o)
+    {
+    }
+
+    #endregion
+
+    public static byte[] GetBytes(this object o)
     {
         if (o == null || o == DBNull.Value) return null;
-        if (typeName == null) typeName = o.GetType().Name;
+        var typeName = o.GetType().Name;
         var buffers = new List<byte[]>();
         switch (typeName)
         {
@@ -33,7 +83,7 @@ public static partial class DbSet_Utils
             case "System.DateTime":
                 return BitConverter.GetBytes(((DateTime)o).ToBinary());
             case "System.Decimal":
-                var ints = Decimal.GetBits((Decimal)o);
+                var ints = Decimal.GetBits((decimal)o);
                 buffers.Add(BitConverter.GetBytes((byte)ints.Length));
                 foreach (var a in ints)
                     buffers.Add(BitConverter.GetBytes(a));
@@ -78,11 +128,13 @@ public static partial class DbSet_Utils
             return result;
         }
     }
+
+
+
     public static object GetObject(this byte[] buffer, Type type, ref int startIndex)
     {
         return GetObject(buffer, type.Name, ref startIndex);
     }
-
     public static object GetObject(this byte[] buffer, string typeName, ref int startIndex)
     {
         switch (typeName)

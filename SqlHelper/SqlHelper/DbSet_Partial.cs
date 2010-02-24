@@ -31,7 +31,7 @@ partial class DbColumn
     public byte[] GetBytes()
     {
         var buffers = new List<byte[]>();
-        buffers.Add(this.Name.GetBytes(typeof(string)));
+        buffers.Add(this.Name.GetBytes());
         throw new Exception("todo");
     }
     public void Fill(byte[] buffer, ref int startIndex)
@@ -59,7 +59,7 @@ partial class DbRow
                 }
                 else buffers.Add(new byte[] { (byte)1 });
             }
-            buffers.Add(_itemArray[i].GetBytes(Table.Columns[i].Type.Name));
+            buffers.Add(_itemArray[i].GetBytes());
         }
         return buffers.Combine();
     }
@@ -73,7 +73,7 @@ partial class DbRow
                 if (buffer[startIndex++] == (byte)0)
                     _itemArray[i] = DBNull.Value;
                 else
-                    _itemArray[i] = buffer.GetObject(column.Type.Name, ref startIndex);
+                    _itemArray[i] = buffer.GetObject(column.Type, ref startIndex);
             }
         }
     }
@@ -84,8 +84,8 @@ partial class SqlError
     public byte[] GetBytes()
     {
         var buffers = new List<byte[]>();
-        buffers.Add(new byte[] { this.Class });
-        buffers.Add(new byte[] { this.State });
+        buffers.Add(this.Class.GetBytes());
+        buffers.Add(this.State.GetBytes());
         buffers.Add(this.LineNumber.GetBytes());
         buffers.Add(this.Number.GetBytes());
         buffers.Add(this.Message.GetBytes());
@@ -96,8 +96,8 @@ partial class SqlError
     }
     public void Fill(byte[] buffer, ref int startIndex)
     {
-        this.Class = buffer[startIndex++];
-        this.State = buffer[startIndex++];
+        this.Class = (byte)buffer.GetObject(typeof(byte), ref startIndex);
+        this.State = (byte)buffer.GetObject(typeof(byte), ref startIndex);
         this.LineNumber = (int)buffer.GetObject(typeof(int), ref startIndex);
         this.Number = (int)buffer.GetObject(typeof(int), ref startIndex);
         this.Message = (string)buffer.GetObject(typeof(string), ref startIndex);
