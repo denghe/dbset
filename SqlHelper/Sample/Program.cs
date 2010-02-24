@@ -12,14 +12,33 @@
 
     using DAL;
     using SpResultConfig;
+    using System.Diagnostics;
 
     public class Test
     {
+        //public static void m1(string s) { }
+        //public static void m2(System.Type t) { }
         public static void Main()
         {
-            
+            //var o = 123;
+            //var sw = new Stopwatch();
+            //sw.Start();
+            //for (int i = 0; i < 1000000; i++)
+            //{
+            //    m2(o.GetType());
+            //}
+            //sw.Stop();
+            //Console.WriteLine(sw.ElapsedTicks);
+            //sw.Restart();
+            //for (int i = 0; i < 1000000; i++)
+            //{
+            //    m1(typeof(int).Name);
+            //}
+            //sw.Stop();
+            //Console.WriteLine(sw.ElapsedTicks);
 
 
+            /*
 
             // 初始化连接串
             SqlHelper.InitConnectString("data,14333", password: "dreamgame@8844028.com");
@@ -85,6 +104,8 @@
             foreach (var o in cfg.Results) Console.WriteLine(o.Category.ToString());
 
             Console.ReadKey();
+
+             */
         }
     }
 
