@@ -63,7 +63,7 @@
 
             // 执行一组 TSQL 并输出
             var ds = SqlHelper.ExecuteDbSet(@"
-                        	select 1,2;
+                        	select 1 as 'c1',2 as 'c2';
                         	print N'print';
                         	select 3,null;
                         	raiserror (N'error',1,1);"
@@ -78,10 +78,20 @@
             //ds.Tables.Add(dt);
             //dt.Set = ds;
 
+            //var ds2 = new DbSet();
+            //var dt2 = new DbTable() { Set = ds2 };
+            //ds2.Tables.Add(dt2);
+
+            //idx = 0;
+            ////dt2.Fill(ds[1].GetBytes(), ref idx);
+            //dt2.Columns.Fill(ds[0].Columns.GetBytes(), ref idx, dt2);
+            //idx = 0;
+            //dt2.Rows.Fill(ds[0].Rows.GetBytes(), ref idx, dt2);
+
+            //Console.WriteLine(ds[0].Rows.GetBytes().ToHexString());
             var ds2 = new DbSet();
             idx = 0;
             ds2.Fill(ds.GetBytes(), ref idx);
-
             ds2.Dump();
 
             //Console.WriteLine(ds.Errors.GetBytes().GetHexString());

@@ -17,7 +17,7 @@ public static partial class DbSet_Utils
     }
     public static byte[] GetBytes(this byte[] o)
     {
-        if (o == null) o = new byte[] { };
+        if (o == null || o.Length == 0) return new byte[4];
         var length = o.Length;
         var bytes = BitConverter.GetBytes(length);
         Array.Resize<byte>(ref bytes, sizeof(int) + length);
@@ -76,7 +76,8 @@ public static partial class DbSet_Utils
     }
     public static byte[] GetBytes(this string o)
     {
-        var stringbytes = Encoding.Unicode.GetBytes(o ?? "");
+        if (string.IsNullOrEmpty(o)) return new byte[4];
+        var stringbytes = Encoding.Unicode.GetBytes(o);
         var length = stringbytes.Length;
         var bytes = BitConverter.GetBytes(length);
         Array.Resize<byte>(ref bytes, sizeof(int) + length);
@@ -116,6 +117,8 @@ public static partial class DbSet_Utils
     {
         var len = BitConverter.ToInt32(buffer, startIndex);
         startIndex += sizeof(int);
+        if (len == 0) return new byte[0];
+        else if (len == -1) return null;
         var result = new byte[len];
         Array.Copy(buffer, startIndex, result, 0, len);
         startIndex += len;
@@ -189,6 +192,8 @@ public static partial class DbSet_Utils
     {
         var len = BitConverter.ToInt32(buffer, startIndex);
         startIndex += 4;
+        if (len == 0) return "";
+        else if (len == -1) return null;
         var result = Encoding.Unicode.GetString(buffer, startIndex, len);
         startIndex += len;
         return result;

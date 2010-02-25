@@ -6,6 +6,15 @@ using System.Collections;
 
 partial class DbSet
 {
+    public DbSet(byte[] buffer, ref int startIndex)
+    {
+        Fill(buffer, ref startIndex);
+    }
+    public DbSet(byte[] buffer)
+    {
+        var startIndex = 0;
+        Fill(buffer, ref startIndex);
+    }
     public byte[] GetBytes()
     {
         var buffers = new List<byte[]>();
@@ -89,6 +98,15 @@ partial class Tables
 
 partial class DbTable
 {
+    public DbTable(byte[] buffer, ref int startIndex)
+    {
+        Fill(buffer, ref startIndex);
+    }
+    public DbTable(byte[] buffer)
+    {
+        var startIndex = 0;
+        Fill(buffer, ref startIndex);
+    }
     public byte[] GetBytes()
     {
         var buffers = new List<byte[]>();
@@ -203,6 +221,7 @@ partial class DbRow
                 else
                     _itemArray[i] = DbSet_Utils.ToObject(buffer, column.Type, ref startIndex);
             }
+            else _itemArray[i] = DbSet_Utils.ToObject(buffer, column.Type, ref startIndex);
         }
     }
 }
