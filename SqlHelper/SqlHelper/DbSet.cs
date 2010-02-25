@@ -89,13 +89,30 @@ public partial class DbRow
     private DbRow() { }
     public DbRow(DbTable parent, params object[] data)
     {
-        if (parent.Columns.Count == 0 && (data == null || data.Length > 0))
+        var count = parent.Columns.Count;
+        if (count == 0 && (data == null || data.Length > 0))
             throw new Exception("Beyond the limited number of fields");
-        else if (parent.Columns.Count > 0 && (data == null || data.Length != parent.Columns.Count))
-            throw new Exception("Insufficient data or Beyond the limited number of fields");
-        this.Table = parent;
-        this._itemArray = data;
-        parent.Rows.Add(this);
+        else
+        {
+            if (data == null || data.Length == 0)
+            {
+                this._itemArray = new object[count];
+                for (int i = 0; i < count; i++)
+                {
+                    this._itemArray[i] = DBNull.Value;
+                }
+            }
+            else if (data.Length != count)
+            {
+                throw new Exception("Insufficient data or Beyond the limited number of fields");
+            }
+            else
+            {
+                this._itemArray = data;
+            }
+            this.Table = parent;
+            parent.Rows.Add(this);
+        }
     }
 
     public DbTable Table { get; private set; }
@@ -146,14 +163,14 @@ public partial class SqlError
     ///     The line number within the Transact-SQL command batch or stored procedure
     ///     that contains the error.
     /// </summary>
-    public int  LineNumber { get; set; }
+    public int LineNumber { get; set; }
     /// <summary>
     ///     Gets a number that identifies the type of error.
     ///
     /// Returns:
     ///     The number that identifies the type of error.
     /// </summary>
-    public int  Number { get; set; }
+    public int Number { get; set; }
     /// <summary>
     ///     Gets the text describing the error.
     ///

@@ -8,11 +8,21 @@ partial class DbSet
 {
     public byte[] GetBytes()
     {
-        throw new Exception("todo");
+        var buffers = new List<byte[]>();
+        buffers.Add(this.RecordsAffected.GetBytes());
+        buffers.Add(this.ReturnValue.GetBytes());
+        buffers.Add(this.Errors.GetBytes());
+        buffers.Add(this.Messages.GetBytes());
+        buffers.Add(this.Tables.GetBytes());
+        return buffers.Combine();
     }
     public void Fill(byte[] buffer, ref int startIndex)
     {
-        throw new Exception("todo");
+        this.RecordsAffected = buffer.ToInt32(ref startIndex);
+        this.ReturnValue = buffer.ToInt32(ref startIndex);
+        this.Errors.Fill(buffer, ref startIndex);
+        this.Messages.Fill(buffer, ref startIndex);
+        this.Tables.Fill(buffer, ref startIndex, this);
     }
 }
 
@@ -20,10 +30,20 @@ partial class Errors
 {
     public byte[] GetBytes()
     {
-        return null;
+        var buffers = new List<byte[]>();
+        buffers.Add(this.Count.GetBytes());
+        foreach (var s in this) buffers.Add(s.GetBytes());
+        return buffers.Combine();
     }
     public void Fill(byte[] buffer, ref int startIndex)
     {
+        var count = buffer.ToInt32(ref startIndex);
+        for (int i = 0; i < count; i++)
+        {
+            var se = new SqlError();
+            se.Fill(buffer, ref startIndex);
+            this.Add(se);
+        }
     }
 }
 
@@ -31,10 +51,18 @@ partial class Messages
 {
     public byte[] GetBytes()
     {
-        return null;
+        var buffers = new List<byte[]>();
+        buffers.Add(this.Count.GetBytes());
+        foreach (var s in this) buffers.Add(s.GetBytes());
+        return buffers.Combine();
     }
     public void Fill(byte[] buffer, ref int startIndex)
     {
+        var count = buffer.ToInt32(ref startIndex);
+        for (int i = 0; i < count; i++)
+        {
+            this.Add(buffer.ToString(ref startIndex));
+        }
     }
 }
 
@@ -42,12 +70,23 @@ partial class Tables
 {
     public byte[] GetBytes()
     {
-        return null;
+        var buffers = new List<byte[]>();
+        buffers.Add(this.Count.GetBytes());
+        foreach (var table in this) buffers.Add(table.GetBytes());
+        return buffers.Combine();
     }
-    public void Fill(byte[] buffer, ref int startIndex)
+    public void Fill(byte[] buffer, ref int startIndex, DbSet ds)
     {
+        var count = buffer.ToInt32(ref startIndex);
+        for (int i = 0; i < count; i++)
+        {
+            var t = new DbTable { Set = ds };
+            t.Fill(buffer, ref startIndex);
+            ds.Tables.Add(t);
+        }
     }
 }
+
 partial class DbTable
 {
     public byte[] GetBytes()
@@ -55,26 +94,62 @@ partial class DbTable
         var buffers = new List<byte[]>();
         buffers.Add(this.Name.GetBytes());
         buffers.Add(this.Schema.GetBytes());
-        //foreach (var col in this.Columns) buffers.Add(col.GetBytes());
-        //foreach (var row in this.Rows) buffers.Add(row.GetBytes());
+        buffers.Add(this.Columns.GetBytes());
+        buffers.Add(this.Rows.GetBytes());
         //buffers.Add(this.Set.GetBytes());
         return buffers.Combine();
     }
     public void Fill(byte[] buffer, ref int startIndex)
     {
-        throw new Exception("todo");
+        this.Name = buffer.ToString(ref startIndex);
+        this.Schema = buffer.ToString(ref startIndex);
+        this.Columns.Fill(buffer, ref startIndex, this);
+        this.Rows.Fill(buffer, ref startIndex, this);
     }
 }
+
 partial class Columns
 {
     public byte[] GetBytes()
     {
-        return null;
+        var buffers = new List<byte[]>();
+        buffers.Add(this.Count.GetBytes());
+        foreach (var col in this) buffers.Add(col.GetBytes());
+        return buffers.Combine();
     }
-    public void Fill(byte[] buffer, ref int startIndex)
+    public void Fill(byte[] buffer, ref int startIndex, DbTable t)
     {
+        var count = buffer.ToInt32(ref startIndex);
+        for (int i = 0; i < count; i++)
+        {
+            var col = new DbColumn(t);
+            col.Fill(buffer, ref startIndex);
+            this.Add(col);
+        }
     }
 }
+
+partial class Rows
+{
+    public byte[] GetBytes()
+    {
+        var buffers = new List<byte[]>();
+        buffers.Add(this.Count.GetBytes());
+        foreach (var row in this) buffers.Add(row.GetBytes());
+        return buffers.Combine();
+    }
+    public void Fill(byte[] buffer, ref int startIndex, DbTable t)
+    {
+        var count = buffer.ToInt32(ref startIndex);
+        for (int i = 0; i < count; i++)
+        {
+            var row = new DbRow(t);
+            row.Fill(buffer, ref startIndex);
+            this.Add(row);
+        }
+    }
+}
+
 partial class DbColumn
 {
     public byte[] GetBytes()
@@ -93,16 +168,7 @@ partial class DbColumn
         this.Type = buffer.ToType(ref startIndex);
     }
 }
-partial class Rows
-{
-    public byte[] GetBytes()
-    {
-        return null;
-    }
-    public void Fill(byte[] buffer, ref int startIndex)
-    {
-    }
-}
+
 partial class DbRow
 {
     public byte[] GetBytes()
