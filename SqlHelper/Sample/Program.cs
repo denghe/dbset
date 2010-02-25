@@ -17,23 +17,12 @@
 
     public class Test
     {
-        //public static byte[] GetBytes(DataSet ds)
-        //{
-        //    var sb = new StringBuilder();
-        //    var sw = new StringWriter(sb);
-        //    ds.WriteXml(sw);
-        //    return sw.ToString().GetBytes();
-        //}
-
         public static void Main()
         {
             // 初始化连接串
             SqlHelper.InitConnectString("sql", password: "1");
 
             //var sql = @"select * from t1;";
-            //sql += sql; sql += sql; sql += sql; sql += sql;
-            //sql += sql; sql += sql; sql += sql; sql += sql;
-            //sql += sql; sql += sql;
 
             //var ds = SqlHelper.ExecuteDataSet(sql);
             //Console.WriteLine("DataSet:");
