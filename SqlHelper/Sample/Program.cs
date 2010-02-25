@@ -16,32 +16,34 @@
 
     public class Test
     {
-        //public static void m1(string s) { }
-        //public static void m2(System.Type t) { }
         public static void Main()
         {
-            //var o = 123;
-            //var sw = new Stopwatch();
-            //sw.Start();
-            //for (int i = 0; i < 1000000; i++)
-            //{
-            //    m2(o.GetType());
-            //}
-            //sw.Stop();
-            //Console.WriteLine(sw.ElapsedTicks);
-            //sw.Restart();
-            //for (int i = 0; i < 1000000; i++)
-            //{
-            //    m1(typeof(int).Name);
-            //}
-            //sw.Stop();
-            //Console.WriteLine(sw.ElapsedTicks);
-
-
-            /*
-
             // 初始化连接串
             SqlHelper.InitConnectString("data,14333", password: "dreamgame@8844028.com");
+
+            //var err = new Errors();
+            //err.Add(new SqlError { Class = 1, LineNumber = 2, Message = "msg", Number = 3, Procedure = "sp", Server = "server", Source = "source", State = 4 });
+            //err.Add(new SqlError { Class = 4, LineNumber = 5, Message = null, Number = 6, Procedure = "", Server = "", Source = "", State = 7 });
+
+            //var err2 = new Errors();
+            //var i = 0;
+            //err2.Fill(err.GetBytes(), ref i);
+
+
+
+            var dt = new DbTable();
+            dt.NewColumn("c1", typeof(string));
+            dt.NewColumn("c2", typeof(int));
+            dt.NewRow("asdf", 1);
+            dt.NewRow("qwer", 2);
+
+            dt.Columns[0].GetBytes().ToHexString();
+
+            //var dt2 = new DbTable();
+            //var idx = 0;
+            //dt2.Fill(dt.GetBytes(), ref idx);
+
+
 
             //// 调用一个存储过程并输出结果
             //SqlHelper.ExecuteDbSet(SqlHelper.NewCommand("test")
@@ -54,13 +56,31 @@
 
             //return;
 
-            // 执行一组 TSQL 并输出
-            SqlHelper.ExecuteDbSet(@"
-            	select 1,2;
-            	print N'print';
-            	select 3,null;
-            	raiserror (N'error',1,1);"
-            ).Dump();
+            //            // 执行一组 TSQL 并输出
+            //            var ds = SqlHelper.ExecuteDbSet(@"
+            //            	select 1,2;
+            //            	print N'print';
+            //            	select 3,null;
+            //            	raiserror (N'error',1,1);"
+            //            );
+
+            //Console.WriteLine(ds.Errors.GetBytes().GetHexString());
+
+            //var idx = 0;
+            //var errors = new Errors();
+            //errors.Fill(ds.Errors.GetBytes(), ref idx);
+
+
+
+            //var bytes = ds.GetBytes();
+
+            //Console.WriteLine("\r\n\r\n" + bytes.GetHexString());
+
+            //var idx = 0;
+            //var ds2 = new DbSet();
+            //ds2.Fill(bytes, ref idx);
+
+            //ds2.Dump();
 
             Console.ReadLine();
             return;
@@ -105,7 +125,6 @@
 
             Console.ReadKey();
 
-             */
         }
     }
 

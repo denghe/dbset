@@ -68,7 +68,7 @@ public static partial class SqlUtils
     /// <summary>
     /// convert byte[] to string for MSSQL 'value'
     /// </summary>
-    public static string GetHexString(this byte[] bytes)
+    public static string ToHexString(this byte[] bytes)
     {
         if (bytes == null || bytes.Length == 0) return "";
         var sb = new StringBuilder("0x");

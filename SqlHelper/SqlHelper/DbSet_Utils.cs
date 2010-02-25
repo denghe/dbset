@@ -15,8 +15,9 @@ public static partial class DbSet_Utils
     {
         return new byte[] { o };
     }
-    public static byte[] GetBytes(this Byte[] o)
+    public static byte[] GetBytes(this byte[] o)
     {
+        if (o == null) o = new byte[] { };
         var length = o.Length;
         var bytes = BitConverter.GetBytes(length);
         Array.Resize<byte>(ref bytes, sizeof(int) + length);
@@ -39,7 +40,7 @@ public static partial class DbSet_Utils
     public static byte[] GetBytes(this decimal o)
     {
         var buffers = new List<byte[]>();
-        var ints = Decimal.GetBits(o);
+        var ints = decimal.GetBits(o);
         buffers.Add(BitConverter.GetBytes((byte)ints.Length));
         foreach (var a in ints)
             buffers.Add(BitConverter.GetBytes(a));
@@ -75,7 +76,7 @@ public static partial class DbSet_Utils
     }
     public static byte[] GetBytes(this string o)
     {
-        var stringbytes = Encoding.Unicode.GetBytes(o);
+        var stringbytes = Encoding.Unicode.GetBytes(o ?? "");
         var length = stringbytes.Length;
         var bytes = BitConverter.GetBytes(length);
         Array.Resize<byte>(ref bytes, sizeof(int) + length);
@@ -96,7 +97,7 @@ public static partial class DbSet_Utils
     }
     public static byte[] GetBytes(this Type o)
     {
-        return o.Name.GetBytes();
+        return o.FullName.GetBytes();
     }
 
     #endregion
@@ -220,7 +221,7 @@ public static partial class DbSet_Utils
     public static byte[] GetBytes(object o)
     {
         if (o == null || o == DBNull.Value) return null;
-        var typeName = o.GetType().Name;
+        var typeName = o.GetType().FullName;
         switch (typeName)
         {
             case "System.Boolean":
@@ -268,7 +269,7 @@ public static partial class DbSet_Utils
     #region ToObject (generic)
     public static object ToObject(byte[] buffer, Type type, ref int startIndex)
     {
-        return ToObject(buffer, type.Name, ref startIndex);
+        return ToObject(buffer, type.FullName, ref startIndex);
     }
     public static object ToObject(byte[] buffer, string typeName, ref int startIndex)
     {
@@ -321,10 +322,11 @@ public static partial class DbSet_Utils
 
     public static byte[] Combine(this List<byte[]> byteslist)
     {
-        var result = new byte[byteslist.Sum(o => o.Length)];
+        var result = new byte[byteslist.Sum(o => o == null ? 0 : o.Length)];
         var idx = 0;
         foreach (var bytes in byteslist)
         {
+            if (bytes == null) continue;
             var len = bytes.Length;
             Array.Copy(bytes, 0, result, idx, len);
             idx += len;

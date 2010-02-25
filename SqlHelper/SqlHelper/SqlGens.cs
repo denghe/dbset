@@ -58,7 +58,7 @@ public static class SqlGens
             }
             else if (c.DataType == typeof(byte[]))
             {
-                sb2.Append(((byte[])r[c]).GetHexString());
+                sb2.Append(((byte[])r[c]).ToHexString());
             }
             else if (c.DataType == typeof(bool))
             {
@@ -133,7 +133,7 @@ public static class SqlGens
             }
             else if (c.DataType == typeof(byte[]))
             {
-                sb.Append(((byte[])r[c]).GetHexString());
+                sb.Append(((byte[])r[c]).ToHexString());
             }
             else if (c.DataType == typeof(bool))
             {
