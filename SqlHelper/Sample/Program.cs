@@ -13,30 +13,101 @@
     using DAL;
     using SpResultConfig;
     using System.Diagnostics;
+    using System.IO;
 
     public class Test
     {
+        //public static byte[] GetBytes(DataSet ds)
+        //{
+        //    var sb = new StringBuilder();
+        //    var sw = new StringWriter(sb);
+        //    ds.WriteXml(sw);
+        //    return sw.ToString().GetBytes();
+        //}
+
         public static void Main()
         {
             // 初始化连接串
             SqlHelper.InitConnectString("sql", password: "1");
 
-            // 执行一组 TSQL 并输出
-            var ds = SqlHelper.ExecuteDbSet(@"
-                        	select 1 as 'c1',2 as 'c2';
-                        	print N'print';
-                        	select 3,null;
-                        	raiserror (N'error',1,1);"
-            );
-            var bytes = ds.GetBytes();
+            //var sql = @"select * from t1;";
+            //sql += sql; sql += sql; sql += sql; sql += sql;
+            //sql += sql; sql += sql; sql += sql; sql += sql;
+            //sql += sql; sql += sql;
 
-            Console.Write(bytes.ToHexString());
+            //var ds = SqlHelper.ExecuteDataSet(sql);
+            //Console.WriteLine("DataSet:");
+            //var sw = new Stopwatch();
+            //sw.Start();
+            //for (int i = 0; i < 100; i++)
+            //{
+            //    var bytes = GetBytes(ds);
+            //    if (i == 0) Console.WriteLine(bytes.Length);
+            //}
+            //sw.Stop();
+            //Console.WriteLine(sw.ElapsedTicks);
 
-            Console.ReadLine();
-            return;
+            //var dbs = SqlHelper.ExecuteDbSet(sql, false);
+            //Console.WriteLine("DbSet:");
+            //sw.Restart();
+            //for (int i = 0; i < 100; i++)
+            //{
+            //    var bytes = dbs.GetBytes();
+            //    if (i == 0) Console.WriteLine(bytes.Length);
+            //}
+            //sw.Stop();
+            //Console.WriteLine(sw.ElapsedTicks);
 
-            var ds2 = new DbSet(bytes);
-            ds2.Dump();
+            //Console.ReadLine();
+
+            //ds.ReadXml(new MemoryStream(Encoding.UTF8.GetBytes(s)));
+
+            /*
+            StringBuilder sb = new StringBuilder();
+            StringWriter sw = new StringWriter(sb);
+            _CurrrentDALGenSetting.AcceptChanges();
+            _CurrrentDALGenSetting.WriteXml(sw);
+            Utils.SetDescription(db, "SPGenSettings_DALGen", sb.ToString());
+
+             */
+
+            //var mem = Process.GetCurrentProcess().WorkingSet64 / 1024.0 / 1024.0;
+
+            //var ds = SqlHelper.ExecuteDataSet(sql);
+            //var dbs = SqlHelper.ExecuteDbSet(sql);
+            //var sw = new Stopwatch();
+            //sw.Start();
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    dbs = SqlHelper.ExecuteDbSet(sql, false);
+            //}
+            //sw.Stop();
+            //Console.WriteLine(sw.ElapsedTicks);
+            //sw.Restart();
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    ds = SqlHelper.ExecuteDataSet(sql);
+            //}
+            //sw.Stop();
+            //Console.WriteLine(sw.ElapsedTicks);
+
+
+            //            // 执行一组 TSQL 并输出
+            //            var ds = SqlHelper.ExecuteDbSet(@"
+            //                        	select 1 as 'c1',2 as 'c2';
+            //                        	print N'print';
+            //                        	select 3,null;
+            //                        	raiserror (N'error',1,1);"
+            //            );
+            //            var bytes = ds.GetBytes();
+
+            //            Console.Write(bytes.ToHexString());
+
+            //Console.ReadLine();
+            //return;
+
+            //var ds2 = new DbSet(bytes);
+            //ds2.Dump();
 
             Console.ReadLine();
             return;
