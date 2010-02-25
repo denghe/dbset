@@ -19,7 +19,7 @@
         public static void Main()
         {
             // 初始化连接串
-            SqlHelper.InitConnectString("sql", password: "");
+            SqlHelper.InitConnectString("sql", password: "1");
 
             // 执行一组 TSQL 并输出
             var ds = SqlHelper.ExecuteDbSet(@"
@@ -86,5 +86,4 @@
             #endregion
         }
     }
-
 }
