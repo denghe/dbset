@@ -34,6 +34,7 @@ union all
 select 3, 'banana', 1.23;
 print 'end'
 raiserror ('warning2',1,1);
+-- return 123;
 ";
             SqlHelper.ExecuteDbSet(sql, isGetInfoMessage: true).Dump();
 
