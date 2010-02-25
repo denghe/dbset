@@ -30,14 +30,19 @@
             //err2.Fill(err.GetBytes(), ref i);
 
 
+            int idx = 0;
 
-            var dt = new DbTable();
-            dt.NewColumn("c1", typeof(string));
-            dt.NewColumn("c2", typeof(int));
-            dt.NewRow("asdf", 1);
-            dt.NewRow("qwer", 2);
+            //var dt = new DbTable();
+            //dt.NewColumn("c1", typeof(string));
+            //dt.NewColumn("c2", typeof(int));
+            //dt.NewRow("asdf", 1);
+            //dt.NewRow("qwer", 2);
 
-            dt.Columns[0].GetBytes().ToHexString();
+            //var dt2 = new DbTable();
+            //idx = 0;
+            //dt2.Fill(dt.GetBytes(), ref idx);
+
+
 
             //var dt2 = new DbTable();
             //var idx = 0;
@@ -56,13 +61,28 @@
 
             //return;
 
-            //            // 执行一组 TSQL 并输出
-            //            var ds = SqlHelper.ExecuteDbSet(@"
-            //            	select 1,2;
-            //            	print N'print';
-            //            	select 3,null;
-            //            	raiserror (N'error',1,1);"
-            //            );
+            // 执行一组 TSQL 并输出
+            var ds = SqlHelper.ExecuteDbSet(@"
+                        	select 1,2;
+                        	print N'print';
+                        	select 3,null;
+                        	raiserror (N'error',1,1);"
+            ).Dump();
+
+            //var ds = new DbSet();
+            //var dt = new DbTable();
+            //dt.NewColumn("c1", typeof(string));
+            //dt.NewColumn("c2", typeof(int));
+            //dt.NewRow("asdf", 1);
+            //dt.NewRow("qwer", 2);
+            //ds.Tables.Add(dt);
+            //dt.Set = ds;
+
+            var ds2 = new DbSet();
+            idx = 0;
+            ds2.Fill(ds.GetBytes(), ref idx);
+
+            ds2.Dump();
 
             //Console.WriteLine(ds.Errors.GetBytes().GetHexString());
 

@@ -124,7 +124,6 @@ partial class Columns
         {
             var col = new DbColumn(t);
             col.Fill(buffer, ref startIndex);
-            this.Add(col);
         }
     }
 }
@@ -145,7 +144,6 @@ partial class Rows
         {
             var row = new DbRow(t);
             row.Fill(buffer, ref startIndex);
-            this.Add(row);
         }
     }
 }
