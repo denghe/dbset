@@ -94,6 +94,10 @@ public static partial class DbSet_Utils
     {
         return BitConverter.GetBytes(o);
     }
+    public static byte[] GetBytes(this Type o)
+    {
+        return o.Name.GetBytes();
+    }
 
     #endregion
 
@@ -206,10 +210,14 @@ public static partial class DbSet_Utils
         startIndex += sizeof(ulong);
         return result;
     }
+    public static Type ToType(this byte[] buffer, ref int startIndex)
+    {
+        return Type.GetType(buffer.ToString(ref startIndex));
+    }
     #endregion
 
     #region GetBytes (generic)
-    public static byte[] GetBytes(this object o)
+    public static byte[] GetBytes(object o)
     {
         if (o == null || o == DBNull.Value) return null;
         var typeName = o.GetType().Name;
@@ -249,6 +257,8 @@ public static partial class DbSet_Utils
                 return ((uint)o).GetBytes();
             case "System.UInt64":
                 return ((ulong)o).GetBytes();
+            case "System.Type":
+                return ((Type)o).GetBytes();
             default:
                 return null;
         }
@@ -256,48 +266,50 @@ public static partial class DbSet_Utils
     #endregion
 
     #region ToObject (generic)
-    public static object ToObject(this byte[] buffer, Type type, ref int startIndex)
+    public static object ToObject(byte[] buffer, Type type, ref int startIndex)
     {
         return ToObject(buffer, type.Name, ref startIndex);
     }
-    public static object ToObject(this byte[] buffer, string typeName, ref int startIndex)
+    public static object ToObject(byte[] buffer, string typeName, ref int startIndex)
     {
         switch (typeName)
         {
             case "System.Boolean":
-                return ToBoolean(buffer, ref startIndex);
+                return buffer.ToBoolean(ref startIndex);
             case "System.Byte":
-                return ToByte(buffer, ref startIndex);
+                return buffer.ToByte(ref startIndex);
             case "System.Byte[]":
-                return ToBytes(buffer, ref startIndex);
+                return buffer.ToBytes(ref startIndex);
             case "System.Char":
-                return ToChar(buffer, ref startIndex);
+                return buffer.ToChar(ref startIndex);
             case "System.DateTime":
-                return ToDateTime(buffer, ref startIndex);
+                return buffer.ToDateTime(ref startIndex);
             case "System.Decimal":
-                return ToDecimal(buffer, ref startIndex);
+                return buffer.ToDecimal(ref startIndex);
             case "System.Double":
-                return ToDouble(buffer, ref startIndex);
+                return buffer.ToDouble(ref startIndex);
             case "System.Guid":
-                return ToGuid(buffer, ref startIndex);
+                return buffer.ToGuid(ref startIndex);
             case "System.Int16":
-                return ToInt16(buffer, ref startIndex);
+                return buffer.ToInt16(ref startIndex);
             case "System.Int32":
-                return ToInt32(buffer, ref startIndex);
+                return buffer.ToInt32(ref startIndex);
             case "System.Int64":
-                return ToInt64(buffer, ref startIndex);
+                return buffer.ToInt64(ref startIndex);
             case "System.SByte":
-                return ToSByte(buffer, ref startIndex);
+                return buffer.ToSByte(ref startIndex);
             case "System.Single":
-                return ToSingle(buffer, ref startIndex);
+                return buffer.ToSingle(ref startIndex);
             case "System.String":
-                return ToString(buffer, ref startIndex);
+                return buffer.ToString(ref startIndex);
             case "System.UInt16":
-                return ToUInt16(buffer, ref startIndex);
-            case "System.UInt32":
-                return ToUInt32(buffer, ref startIndex);
+                return buffer.ToUInt16(ref startIndex);
+            case "Systebuffer.m.UInt32":
+                return buffer.ToUInt32(ref startIndex);
             case "System.UInt64":
-                return ToUInt64(buffer, ref startIndex);
+                return buffer.ToUInt64(ref startIndex);
+            case "System.Type":
+                return buffer.ToType(ref startIndex);
             default:
                 return null;
         }

@@ -7,14 +7,14 @@ public partial class DbSet
 {
     public DbSet()
     {
-        this.Tables = new List<DbTable>();
-        this.Messages = new List<string>();
-        this.Errors = new List<SqlError>();
+        this.Tables = new Tables();
+        this.Messages = new Messages();
+        this.Errors = new Errors();
     }
 
-    public List<DbTable> Tables { get; private set; }
-    public List<string> Messages { get; private set; }
-    public List<SqlError> Errors { get; private set; }
+    public Tables Tables { get; private set; }
+    public Messages Messages { get; private set; }
+    public Errors Errors { get; private set; }
     public int ReturnValue { get; set; }
     public int RecordsAffected { get; set; }
 
@@ -22,19 +22,30 @@ public partial class DbSet
     public DbTable this[string name] { get { return Tables.Find(o => o.Name == name); } }
     public DbTable this[string name, string schema] { get { return Tables.Find(o => o.Name == name && o.Schema == schema); } }
 }
+
+public partial class Tables : List<DbTable>
+{
+}
+public partial class Messages : List<string>
+{
+}
+public partial class Errors : List<SqlError>
+{
+}
+
 public partial class DbTable
 {
     public DbTable()
     {
-        this.Rows = new List<DbRow>();
-        this.Columns = new List<DbColumn>();
+        this.Rows = new Rows();
+        this.Columns = new Columns();
     }
 
     public DbSet Set { get; set; }
     public string Name { get; set; }
     public string Schema { get; set; }
-    public List<DbRow> Rows { get; private set; }
-    public List<DbColumn> Columns { get; private set; }
+    public Rows Rows { get; private set; }
+    public Columns Columns { get; private set; }
 
     public DbRow this[int rowIdx] { get { return this.Rows[rowIdx]; } }
     public int GetOrdinal() { if (Set == null) return 0; return Set.Tables.IndexOf(this); }
@@ -45,6 +56,14 @@ public partial class DbTable
     public DbColumn NewColumn(string name, Type type) { return new DbColumn(this, name, type); }
     public DbColumn NewColumn(string name) { return new DbColumn(this, name); }
 }
+
+public partial class Rows : List<DbRow>
+{
+}
+public partial class Columns : List<DbColumn>
+{
+}
+
 public partial class DbColumn
 {
     private DbColumn() { }
@@ -64,6 +83,7 @@ public partial class DbColumn
 
     public int GetOrdinal() { return this.Table.Columns.IndexOf(this); }
 }
+
 public partial class DbRow
 {
     private DbRow() { }
