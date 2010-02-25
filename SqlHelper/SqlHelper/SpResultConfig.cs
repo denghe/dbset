@@ -6,6 +6,32 @@ using System.Xml.Linq;
 
 namespace SpResultConfig
 {
+    /*
+
+    XML 示例：
+     
+<Config>
+	<Options Select=""True"" Return=""True"" Print=""True"" Raiserror=""True"" />
+
+	<Result Name=""Total"" 		Category=""Scalar"" 	Type=""Int32"" 	Description=""总行数"" />
+	<Result Name=""PageSize"" 	Category=""Scalar"" 	Type=""Int32"" 	Description=""每页行数"" />
+	<Result Name=""Rows"" 		Category=""TableRows"" 	Struct=""xxx""  Schema=""dbo"" 	 			Description=""dbo.xxx表当前页的数据"" />
+	<Result Name=""SomeData1""  Category=""StructRow""  Struct=""asdf"" Description=""附带的相关明细数据1（单行）"" />
+	<Result Name=""SomeData2""  Category=""StructRows"" Struct=""qwer"" Description=""附带的相关明细数据2（多行）"" />
+
+    <Struct Name=""asdf"">
+		<Column Name=""ID"" 	    Type=""Int32"" 	    Nullable=""False""  Description=""编号"" />
+		<Column Name=""Name"" 	    Type=""String"" 	Nullable=""False""  Description=""名称"" />
+		<Column Name=""SaleTime"" 	Type=""DateTime"" 	Nullable=""True""   Description=""出货时间"" />
+    </Struct>
+    <Struct Name=""qwer"">
+		<Column Name=""ID"" 	    Type=""Int32"" 	    Nullable=""False""  Description=""编号"" />
+		<Column Name=""Price"" 	    Type=""Decimal""    Nullable=""False""  Description=""价格"" />
+    </Struct>
+</Config>
+
+    */
+
     public class Config
     {
         public Options Options { get; set; }
