@@ -19,10 +19,10 @@
     {
         public static void Main()
         {
-            // 初始化连接串
+            // int sql connection
             SqlHelper.InitConnectString("sql", password: "1");
 
-
+            // 
         }
     }
 }
