@@ -5,7 +5,8 @@ using System.Text;
 
 public static partial class DbSet_Utils
 {
-    #region GetBytes
+    #region Types to byte[] (GetBytes)
+
     public static byte[] GetBytes(this bool o)
     {
         return BitConverter.GetBytes(o);
@@ -96,7 +97,8 @@ public static partial class DbSet_Utils
 
     #endregion
 
-    #region ToType
+    #region byte[] to Type (ToXxxxxx)
+
     public static bool ToBoolean(this byte[] buffer, ref int startIndex)
     {
         return BitConverter.ToBoolean(buffer, startIndex++);
@@ -119,7 +121,7 @@ public static partial class DbSet_Utils
         var len = buffer[startIndex++];
         var result = Encoding.Unicode.GetChars(buffer, startIndex, len);
         startIndex += len;
-        return result;
+        return result[0];
     }
     public static DateTime ToDateTime(this byte[] buffer, ref int startIndex)
     {
