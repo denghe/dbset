@@ -19,7 +19,7 @@
         public static void Main()
         {
             // 初始化连接串
-            SqlHelper.InitConnectString("data,14333", password: "dreamgame@8844028.com");
+            SqlHelper.InitConnectString("sql", password: "");
 
             // 执行一组 TSQL 并输出
             var ds = SqlHelper.ExecuteDbSet(@"
