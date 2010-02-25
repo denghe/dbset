@@ -7,10 +7,12 @@ using System.Collections;
 partial class DbSet
 {
     public DbSet(byte[] buffer, ref int startIndex)
+        : this()
     {
         Fill(buffer, ref startIndex);
     }
     public DbSet(byte[] buffer)
+        : this()
     {
         var startIndex = 0;
         Fill(buffer, ref startIndex);
@@ -99,10 +101,12 @@ partial class Tables
 partial class DbTable
 {
     public DbTable(byte[] buffer, ref int startIndex)
+        : this()
     {
         Fill(buffer, ref startIndex);
     }
     public DbTable(byte[] buffer)
+        : this()
     {
         var startIndex = 0;
         Fill(buffer, ref startIndex);

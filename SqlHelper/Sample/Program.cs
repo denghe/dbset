@@ -21,100 +21,28 @@
             // 初始化连接串
             SqlHelper.InitConnectString("data,14333", password: "dreamgame@8844028.com");
 
-            //var err = new Errors();
-            //err.Add(new SqlError { Class = 1, LineNumber = 2, Message = "msg", Number = 3, Procedure = "sp", Server = "server", Source = "source", State = 4 });
-            //err.Add(new SqlError { Class = 4, LineNumber = 5, Message = null, Number = 6, Procedure = "", Server = "", Source = "", State = 7 });
-
-            //var err2 = new Errors();
-            //var i = 0;
-            //err2.Fill(err.GetBytes(), ref i);
-
-
-            int idx = 0;
-
-            //var dt = new DbTable();
-            //dt.NewColumn("c1", typeof(string));
-            //dt.NewColumn("c2", typeof(int));
-            //dt.NewRow("asdf", 1);
-            //dt.NewRow("qwer", 2);
-
-            //var dt2 = new DbTable();
-            //idx = 0;
-            //dt2.Fill(dt.GetBytes(), ref idx);
-
-
-
-            //var dt2 = new DbTable();
-            //var idx = 0;
-            //dt2.Fill(dt.GetBytes(), ref idx);
-
-
-
-            //// 调用一个存储过程并输出结果
-            //SqlHelper.ExecuteDbSet(SqlHelper.NewCommand("test")
-            //    .AddParameter("p1", 12345)
-            //    .AddParameter("p2", DateTime.Now)
-            //).Dump();
-            //SqlHelper.ExecuteDbSet("test",true).Dump();
-
-            //Console.ReadLine();
-
-            //return;
-
             // 执行一组 TSQL 并输出
             var ds = SqlHelper.ExecuteDbSet(@"
                         	select 1 as 'c1',2 as 'c2';
                         	print N'print';
                         	select 3,null;
                         	raiserror (N'error',1,1);"
-            ).Dump();
+            );
+            var bytes = ds.GetBytes();
 
-            //var ds = new DbSet();
-            //var dt = new DbTable();
-            //dt.NewColumn("c1", typeof(string));
-            //dt.NewColumn("c2", typeof(int));
-            //dt.NewRow("asdf", 1);
-            //dt.NewRow("qwer", 2);
-            //ds.Tables.Add(dt);
-            //dt.Set = ds;
-
-            //var ds2 = new DbSet();
-            //var dt2 = new DbTable() { Set = ds2 };
-            //ds2.Tables.Add(dt2);
-
-            //idx = 0;
-            ////dt2.Fill(ds[1].GetBytes(), ref idx);
-            //dt2.Columns.Fill(ds[0].Columns.GetBytes(), ref idx, dt2);
-            //idx = 0;
-            //dt2.Rows.Fill(ds[0].Rows.GetBytes(), ref idx, dt2);
-
-            //Console.WriteLine(ds[0].Rows.GetBytes().ToHexString());
-            var ds2 = new DbSet();
-            idx = 0;
-            ds2.Fill(ds.GetBytes(), ref idx);
-            ds2.Dump();
-
-            //Console.WriteLine(ds.Errors.GetBytes().GetHexString());
-
-            //var idx = 0;
-            //var errors = new Errors();
-            //errors.Fill(ds.Errors.GetBytes(), ref idx);
-
-
-
-            //var bytes = ds.GetBytes();
-
-            //Console.WriteLine("\r\n\r\n" + bytes.GetHexString());
-
-            //var idx = 0;
-            //var ds2 = new DbSet();
-            //ds2.Fill(bytes, ref idx);
-
-            //ds2.Dump();
+            Console.Write(bytes.ToHexString());
 
             Console.ReadLine();
             return;
 
+            var ds2 = new DbSet(bytes);
+            ds2.Dump();
+
+            Console.ReadLine();
+            return;
+
+
+            #region Config
 
             using (var tran = SqlHelper.NewTransaction())
             {
@@ -155,6 +83,7 @@
 
             Console.ReadKey();
 
+            #endregion
         }
     }
 
