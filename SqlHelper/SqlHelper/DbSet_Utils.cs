@@ -5,7 +5,6 @@ using System.Text;
 
 public static partial class DbSet_Utils
 {
-
     #region GetBytes
     public static byte[] GetBytes(this bool o)
     {
@@ -25,119 +24,231 @@ public static partial class DbSet_Utils
     }
     public static byte[] GetBytes(this char o)
     {
+        var charbytes = Encoding.Unicode.GetBytes(new char[] { o });
+        var length = charbytes.Length;
+        var bytes = BitConverter.GetBytes(length);
+        Array.Resize<byte>(ref bytes, sizeof(int) + length);
+        Array.Copy(charbytes, 0, bytes, sizeof(int), length);
+        return bytes;
     }
     public static byte[] GetBytes(this DateTime o)
     {
+        return BitConverter.GetBytes(o.ToBinary());
     }
     public static byte[] GetBytes(this decimal o)
     {
+        var buffers = new List<byte[]>();
+        var ints = Decimal.GetBits(o);
+        buffers.Add(BitConverter.GetBytes((byte)ints.Length));
+        foreach (var a in ints)
+            buffers.Add(BitConverter.GetBytes(a));
+        return buffers.Combine();
     }
     public static byte[] GetBytes(this double o)
     {
+        return BitConverter.GetBytes(o);
+    }
+    public static byte[] GetBytes(this Guid o)
+    {
+        return o.ToByteArray();
     }
     public static byte[] GetBytes(this short o)
     {
+        return BitConverter.GetBytes(o);
     }
     public static byte[] GetBytes(this int o)
     {
+        return BitConverter.GetBytes(o);
     }
     public static byte[] GetBytes(this long o)
     {
+        return BitConverter.GetBytes(o);
     }
     public static byte[] GetBytes(this sbyte o)
     {
+        return new byte[] { (byte)o };
     }
     public static byte[] GetBytes(this float o)
     {
+        return BitConverter.GetBytes(o);
     }
     public static byte[] GetBytes(this string o)
     {
+        var stringbytes = Encoding.Unicode.GetBytes(o);
+        var length = stringbytes.Length;
+        var bytes = BitConverter.GetBytes(length);
+        Array.Resize<byte>(ref bytes, sizeof(int) + length);
+        Array.Copy(stringbytes, 0, bytes, sizeof(int), length);
+        return bytes;
     }
     public static byte[] GetBytes(this ushort o)
     {
+        return BitConverter.GetBytes(o);
     }
     public static byte[] GetBytes(this uint o)
     {
+        return BitConverter.GetBytes(o);
     }
     public static byte[] GetBytes(this ulong o)
     {
+        return BitConverter.GetBytes(o);
     }
 
     #endregion
 
-    #region ToXxxxxx
-
+    #region ToType
+    public static bool ToBoolean(this byte[] buffer, ref int startIndex)
+    {
+        return BitConverter.ToBoolean(buffer, startIndex++);
+    }
+    public static byte ToByte(this byte[] buffer, ref int startIndex)
+    {
+        return buffer[startIndex++];
+    }
+    public static byte[] ToBytes(this byte[] buffer, ref int startIndex)
+    {
+        var len = BitConverter.ToInt32(buffer, startIndex);
+        startIndex += sizeof(int);
+        var result = new byte[len];
+        Array.Copy(buffer, startIndex, result, 0, len);
+        startIndex += len;
+        return result;
+    }
+    public static char ToChar(this byte[] buffer, ref int startIndex)
+    {
+        var len = buffer[startIndex++];
+        var result = Encoding.Unicode.GetChars(buffer, startIndex, len);
+        startIndex += len;
+        return result;
+    }
+    public static DateTime ToDateTime(this byte[] buffer, ref int startIndex)
+    {
+        var result = DateTime.FromBinary(BitConverter.ToInt64(buffer, startIndex));
+        startIndex += sizeof(long);
+        return result;
+    }
+    public static decimal ToDecimal(this byte[] buffer, ref int startIndex)
+    {
+        var num = buffer[startIndex++];
+        var bits = new int[num];
+        var len = num * 4;
+        for (var i = 0; i < len; i += 4)
+            bits[i] = BitConverter.ToInt32(buffer, startIndex + i);
+        startIndex += len;
+        return new decimal(bits);
+    }
+    public static double ToDouble(this byte[] buffer, ref int startIndex)
+    {
+        var result = BitConverter.ToDouble(buffer, startIndex);
+        startIndex += sizeof(double);
+        return result;
+    }
+    public static Guid ToGuid(this byte[] buffer, ref int startIndex)
+    {
+        var bytes = new byte[16];
+        Array.Copy(buffer, startIndex, bytes, 0, 16);
+        startIndex += 16;
+        return new Guid(bytes);
+    }
+    public static short ToInt16(this byte[] buffer, ref int startIndex)
+    {
+        var result = BitConverter.ToInt16(buffer, startIndex);
+        startIndex += sizeof(short);
+        return result;
+    }
+    public static int ToInt32(this byte[] buffer, ref int startIndex)
+    {
+        var result = BitConverter.ToInt32(buffer, startIndex);
+        startIndex += sizeof(int);
+        return result;
+    }
+    public static long ToInt64(this byte[] buffer, ref int startIndex)
+    {
+        var result = BitConverter.ToInt64(buffer, startIndex);
+        startIndex += sizeof(long);
+        return result;
+    }
+    public static sbyte ToSByte(this byte[] buffer, ref int startIndex)
+    {
+        return (sbyte)(byte)buffer[startIndex++];
+    }
+    public static float ToSingle(this byte[] buffer, ref int startIndex)
+    {
+        var result = BitConverter.ToSingle(buffer, startIndex);
+        startIndex += sizeof(float);
+        return result;
+    }
+    public static string ToString(this byte[] buffer, ref int startIndex)
+    {
+        var len = BitConverter.ToInt32(buffer, startIndex);
+        startIndex += 4;
+        var result = Encoding.Unicode.GetString(buffer, startIndex, len);
+        startIndex += len;
+        return result;
+    }
+    public static ushort ToUInt16(this byte[] buffer, ref int startIndex)
+    {
+        var result = BitConverter.ToUInt16(buffer, startIndex);
+        startIndex += sizeof(ushort);
+        return result;
+    }
+    public static uint ToUInt32(this byte[] buffer, ref int startIndex)
+    {
+        var result = BitConverter.ToUInt32(buffer, startIndex);
+        startIndex += sizeof(uint);
+        return result;
+    }
+    public static ulong ToUInt64(this byte[] buffer, ref int startIndex)
+    {
+        var result = BitConverter.ToUInt64(buffer, startIndex);
+        startIndex += sizeof(ulong);
+        return result;
+    }
     #endregion
 
     #region GetBytes (generic)
     public static byte[] GetBytes(this object o)
     {
-        // todo: 改成散 GetBytes 调用
         if (o == null || o == DBNull.Value) return null;
         var typeName = o.GetType().Name;
-        var buffers = new List<byte[]>();
         switch (typeName)
         {
             case "System.Boolean":
-                return BitConverter.GetBytes((bool)o);
+                return ((bool)o).GetBytes();
             case "System.Byte":
-                return new byte[] { (byte)o };
+                return ((byte)o).GetBytes();
             case "System.Byte[]":
-                var bytes = (byte[])o;
-                buffers.Add(BitConverter.GetBytes(bytes.Length));
-                buffers.Add(bytes);
-                break;
+                return ((byte[])o).GetBytes();
             case "System.Char":
-                var charbytes = Encoding.Unicode.GetBytes(new char[] { (char)o });
-                buffers.Add(new byte[] { (byte)charbytes.Length });
-                buffers.Add(charbytes);
-                break;
+                return ((char)o).GetBytes();
             case "System.DateTime":
-                return BitConverter.GetBytes(((DateTime)o).ToBinary());
+                return ((DateTime)o).GetBytes();
             case "System.Decimal":
-                var ints = Decimal.GetBits((decimal)o);
-                buffers.Add(BitConverter.GetBytes((byte)ints.Length));
-                foreach (var a in ints)
-                    buffers.Add(BitConverter.GetBytes(a));
-                break;
+                return ((decimal)o).GetBytes();
             case "System.Double":
-                return BitConverter.GetBytes((double)o);
+                return ((double)o).GetBytes();
             case "System.Guid":
-                return ((Guid)o).ToByteArray();
+                return ((Guid)o).GetBytes();
             case "System.Int16":
-                return BitConverter.GetBytes((short)o);
+                return ((short)o).GetBytes();
             case "System.Int32":
-                return BitConverter.GetBytes((int)o);
+                return ((int)o).GetBytes();
             case "System.Int64":
-                return BitConverter.GetBytes((long)o);
+                return ((long)o).GetBytes();
             case "System.SByte":
-                return new byte[] { (byte)(sbyte)o };
+                return ((sbyte)o).GetBytes();
             case "System.Single":
-                return BitConverter.GetBytes((float)o);
+                return ((float)o).GetBytes();
             case "System.String":
-                var stringbytes = Encoding.Unicode.GetBytes((string)o);
-                buffers.Add(BitConverter.GetBytes(stringbytes.Length));
-                buffers.Add(stringbytes);
-                break;
+                return ((string)o).GetBytes();
             case "System.UInt16":
-                return BitConverter.GetBytes((ushort)o);
+                return ((ushort)o).GetBytes();
             case "System.UInt32":
-                return BitConverter.GetBytes((uint)o);
+                return ((uint)o).GetBytes();
             case "System.UInt64":
-                return BitConverter.GetBytes((ulong)o);
-        }
-        if (buffers.Count == 0) return null;
-        else if (buffers.Count == 1) return buffers[0];
-        else
-        {
-            var buff1 = buffers[0];
-            var buff2 = buffers[1];
-            var length_buff1 = buff1.Length;
-            var length_buff2 = buff2.Length;
-            var result = new byte[length_buff1 + length_buff2];
-            Array.Copy(buff1, 0, result, 0, length_buff1);
-            Array.Copy(buff2, 0, result, length_buff1, length_buff2);
-            return result;
+                return ((ulong)o).GetBytes();
+            default:
+                return null;
         }
     }
     #endregion
@@ -152,111 +263,47 @@ public static partial class DbSet_Utils
         switch (typeName)
         {
             case "System.Boolean":
-                return BitConverter.ToBoolean(buffer, startIndex++);
+                return ToBoolean(buffer, ref startIndex);
             case "System.Byte":
-                return buffer[startIndex++];
+                return ToByte(buffer, ref startIndex);
             case "System.Byte[]":
-                {
-                    var len = BitConverter.ToInt32(buffer, startIndex);
-                    startIndex += sizeof(int);
-                    var result = new byte[len];
-                    Array.Copy(buffer, startIndex, result, 0, len);
-                    startIndex += len;
-                    return result;
-                }
+                return ToBytes(buffer, ref startIndex);
             case "System.Char":
-                {
-                    var len = buffer[startIndex++];
-                    var result = Encoding.Unicode.GetChars(buffer, startIndex, len);
-                    startIndex += len;
-                    return result;
-                }
+                return ToChar(buffer, ref startIndex);
             case "System.DateTime":
-                {
-                    var result = DateTime.FromBinary(BitConverter.ToInt64(buffer, startIndex));
-                    startIndex += sizeof(long);
-                    return result;
-                }
+                return ToDateTime(buffer, ref startIndex);
             case "System.Decimal":
-                {
-                    var num = buffer[startIndex++];
-                    var bits = new int[num];
-                    var len = num * 4;
-                    for (var i = 0; i < len; i += 4)
-                        bits[i] = BitConverter.ToInt32(buffer, startIndex + i);
-                    startIndex += len;
-                    return new decimal(bits);
-                }
+                return ToDecimal(buffer, ref startIndex);
             case "System.Double":
-                {
-                    var result = BitConverter.ToDouble(buffer, startIndex);
-                    startIndex += sizeof(double);
-                    return result;
-                }
+                return ToDouble(buffer, ref startIndex);
             case "System.Guid":
-                {
-                    var bytes = new byte[16];
-                    Array.Copy(buffer, startIndex, bytes, 0, 16);
-                    startIndex += 16;
-                    return new Guid(bytes);
-                }
+                return ToGuid(buffer, ref startIndex);
             case "System.Int16":
-                {
-                    var result = BitConverter.ToInt16(buffer, startIndex);
-                    startIndex += sizeof(short);
-                    return result;
-                }
+                return ToInt16(buffer, ref startIndex);
             case "System.Int32":
-                {
-                    var result = BitConverter.ToInt32(buffer, startIndex);
-                    startIndex += sizeof(int);
-                    return result;
-                }
+                return ToInt32(buffer, ref startIndex);
             case "System.Int64":
-                {
-                    var result = BitConverter.ToInt64(buffer, startIndex);
-                    startIndex += sizeof(long);
-                    return result;
-                }
+                return ToInt64(buffer, ref startIndex);
             case "System.SByte":
-                return (sbyte)(byte)buffer[startIndex++];
+                return ToSByte(buffer, ref startIndex);
             case "System.Single":
-                {
-                    var result = BitConverter.ToSingle(buffer, startIndex);
-                    startIndex += sizeof(float);
-                    return result;
-                }
+                return ToSingle(buffer, ref startIndex);
             case "System.String":
-                {
-                    var len = BitConverter.ToInt32(buffer, startIndex);
-                    startIndex += 4;
-                    var result = Encoding.Unicode.GetString(buffer, startIndex, len);
-                    startIndex += len;
-                    return result;
-                }
+                return ToString(buffer, ref startIndex);
             case "System.UInt16":
-                {
-                    var result = BitConverter.ToUInt16(buffer, startIndex);
-                    startIndex += sizeof(ushort);
-                    return result;
-                }
+                return ToUInt16(buffer, ref startIndex);
             case "System.UInt32":
-                {
-                    var result = BitConverter.ToUInt32(buffer, startIndex);
-                    startIndex += sizeof(uint);
-                    return result;
-                }
+                return ToUInt32(buffer, ref startIndex);
             case "System.UInt64":
-                {
-                    var result = BitConverter.ToUInt64(buffer, startIndex);
-                    startIndex += sizeof(ulong);
-                    return result;
-                }
+                return ToUInt64(buffer, ref startIndex);
+            default:
+                return null;
         }
-        return null;
     }
 
     #endregion
+
+    #region List<byte[]> Combine
 
     public static byte[] Combine(this List<byte[]> byteslist)
     {
@@ -270,4 +317,6 @@ public static partial class DbSet_Utils
         }
         return result;
     }
+
+    #endregion
 }
