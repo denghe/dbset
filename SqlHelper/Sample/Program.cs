@@ -22,8 +22,9 @@
             Console.SetWindowSize(Console.WindowWidth, 50);
 
             // int sql connection
-            SqlHelper.InitConnectString("sql", password: "1");
+            SqlHelper.InitConnectString("data,14333", username:"admin");
 
+            // test get info messages, multi select results
             var sql = @"
 print 'begin';
 select 3 as 'Rows',1 as 'PageIdx', 10 as 'PageSize';
@@ -35,9 +36,14 @@ union all
 select 3, 'banana', 1.23;
 print 'end'
 raiserror ('warning2',1,1);
--- return 123;
 ";
             SqlHelper.ExecuteDbSet(sql, isGetInfoMessage: true).Dump();
+
+            // test sp's return value.
+            // CREATE PROCEDURE TestReturn @r INT AS BEGIN RETURN @r; END
+            SqlHelper.ExecuteDbSet(SqlHelper.NewCommand("TestReturn").AddParameter("r", 123)).Dump();
+
+
 
             Console.ReadLine();
         }

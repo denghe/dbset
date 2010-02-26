@@ -24,8 +24,8 @@
                 Console.Write("\r\n\r\nRaise Errors:");
                 foreach (var e in ds.Errors) Console.Write("\r\n\r\n" + ToErrorString(e));
             }
-            Console.Write("\r\n\r\nRecords Affected:" + ds.RecordsAffected);
-            Console.Write("\r\n\r\nReturn:" + ds.ReturnValue);
+            if (ds.RecordsAffected >= 0) Console.Write("\r\n\r\nRecords Affected:" + ds.RecordsAffected);
+            if (ds.ReturnValue != 0) Console.Write("\r\n\r\nReturn:" + ds.ReturnValue);
             return ds;
         }
         public static DbTable Dump(this DbTable dt)
