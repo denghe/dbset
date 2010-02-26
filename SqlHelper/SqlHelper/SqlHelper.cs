@@ -961,6 +961,13 @@
             cmd.Parameters.Add(p);
             return cmd;
         }
+        public static SqlCommand AddStructuredParameter(this SqlCommand cmd, string pname, params object[][] rows)
+        {
+            var p = new SqlParameter(pname, SqlDbType.Structured);
+            if (rows != null) p.Value = NewDataTable(rows);
+            cmd.Parameters.Add(p);
+            return cmd;
+        }
 
         public static DataTable ToDataTable(this DbTable dbt)
         {
@@ -974,6 +981,13 @@
         {
             var dt = new DataTable();
             for (int i = 0; i < numCols; i++) dt.Columns.Add(i.ToString());
+            foreach (var row in rows) dt.Rows.Add(row);
+            return dt;
+        }
+        public static DataTable NewDataTable(params object[][] rows)
+        {
+            var dt = new DataTable();
+            for (int i = 0; i < rows[0].Length; i++) dt.Columns.Add(i.ToString());
             foreach (var row in rows) dt.Rows.Add(row);
             return dt;
         }
