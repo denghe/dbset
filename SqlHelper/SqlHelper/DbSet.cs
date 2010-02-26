@@ -51,12 +51,16 @@
 
         public DbRow this[int rowIdx] { get { return this.Rows[rowIdx]; } }
         public int GetOrdinal() { if (Set == null) return 0; return Set.Tables.IndexOf(this); }
-        public DbRow NewRow(params object[] data) { return new DbRow(this, data); }
 
-        public DbColumn NewColumn() { return new DbColumn(this); }
-        public DbColumn NewColumn(string name, Type type, bool nullable) { return new DbColumn(this, name, type, nullable); }
-        public DbColumn NewColumn(string name, Type type) { return new DbColumn(this, name, type); }
-        public DbColumn NewColumn(string name) { return new DbColumn(this, name); }
+        public DbRow NewRow(params object[] data) { return new DbRow(this, data); }
+        public DbTable AddRow(params object[] data) { new DbRow(this, data); return this; }
+
+        public DbColumn NewColumn() { return new DbColumn(this, null, typeof(string), true); }
+        public DbColumn NewColumn(string name, Type type, bool nullable = true) { return new DbColumn(this, name, type, nullable); }
+        public DbColumn NewColumn(Type type) { return new DbColumn(this, null, type, true); }
+        public DbColumn NewColumn(string name) { return new DbColumn(this, name, typeof(string), true); }
+
+
     }
 
     public partial class Rows : List<DbRow>
@@ -69,14 +73,12 @@
     public partial class DbColumn
     {
         private DbColumn() { }
+        public DbColumn(DbTable parent) { this.Table = parent; }
         public DbColumn(DbTable parent, string name, Type type, bool nullable)
         {
             this.Table = parent; parent.Columns.Add(this); this.Name = name; this.Type = type; this.AllowDBNull = nullable;
             if (parent.Rows.Count > 0) foreach (DbRow row in parent.Rows) row.Increase();
         }
-        public DbColumn(DbTable parent, string name, Type type) : this(parent, name, type, true) { }
-        public DbColumn(DbTable parent, string name) : this(parent, name, typeof(string)) { }
-        public DbColumn(DbTable parent) : this(parent, null, typeof(string)) { }
 
         public DbTable Table { get; set; }
         public string Name { get; set; }

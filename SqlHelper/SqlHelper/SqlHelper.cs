@@ -940,6 +940,45 @@
             return cmd;
         }
 
+        public static SqlCommand AddStructuredParameter(this SqlCommand cmd, string pname, DbTable value = null)
+        {
+            var p = new SqlParameter(pname, SqlDbType.Structured);
+            if (value != null) p.Value = ((DbTable)value).ToDataTable();
+            cmd.Parameters.Add(p);
+            return cmd;
+        }
+        public static SqlCommand AddStructuredParameter(this SqlCommand cmd, string pname, DataTable value = null)
+        {
+            var p = new SqlParameter(pname, SqlDbType.Structured);
+            if (value != null) p.Value = value;
+            cmd.Parameters.Add(p);
+            return cmd;
+        }
+        public static SqlCommand AddStructuredParameter(this SqlCommand cmd, string pname, int numCols, params object[][] rows)
+        {
+            var p = new SqlParameter(pname, SqlDbType.Structured);
+            if (rows != null) p.Value = NewDataTable(numCols, rows);
+            cmd.Parameters.Add(p);
+            return cmd;
+        }
+
+        public static DataTable ToDataTable(this DbTable dbt)
+        {
+            var dt = new DataTable();
+            foreach (var c in dbt.Columns) dt.Columns.Add(c.Name, c.Type);
+            foreach (var r in dbt.Rows) dt.Rows.Add(r.ItemArray());
+            return dt;
+        }
+
+        public static DataTable NewDataTable(int numCols, params object[][] rows)
+        {
+            var dt = new DataTable();
+            for (int i = 0; i < numCols; i++) dt.Columns.Add(i.ToString());
+            foreach (var row in rows) dt.Rows.Add(row);
+            return dt;
+        }
+
+
         public static SqlCommand RemoveParameter(this SqlCommand cmd, string pname)
         {
             cmd.Parameters.RemoveAt(pname);

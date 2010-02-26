@@ -1,3 +1,7 @@
 ﻿
 撰写方法，实现将 DbTable 转为 DataTable
 撰写方法，实现将 IEnumerable<T> 转为 DataTable
+增强 AddParameter 方法，实现如果传入参数为 DbTable 结构时，自动将其转为 DataTable
+增强 AddParameter 方法，实现如果传入参数为 IEnumerable<T> 结构时，自动将其转为 DataTable
+
+添加 DbTable 构造函数，可接受 Parm Type[] 以一次性构造只和顺序有关的结构
