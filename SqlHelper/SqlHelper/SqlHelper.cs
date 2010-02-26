@@ -1,4 +1,4 @@
-﻿namespace DAL
+﻿namespace SqlLib.DAL
 {
     using System;
     using System.Collections.Concurrent;
@@ -330,7 +330,7 @@
                         ds.Messages.Add(err.Message);
                         continue;
                     }
-                    ds.Errors.Add(new global::SqlError
+                    ds.Errors.Add(new SqlLib.SqlError
                     {
                         Class = err.Class,
                         LineNumber = err.LineNumber,
@@ -799,7 +799,7 @@
                         ds.Messages.Add(err.Message);
                         continue;
                     }
-                    ds.Errors.Add(new global::SqlError
+                    ds.Errors.Add(new SqlLib.SqlError
                     {
                         Class = err.Class,
                         LineNumber = err.LineNumber,

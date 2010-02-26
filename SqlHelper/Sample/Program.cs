@@ -12,7 +12,8 @@
     using System.Diagnostics;
     using System.IO;
 
-    using DAL;
+    using SqlLib;
+    using SqlLib.DAL;
 
     public class Test
     {
