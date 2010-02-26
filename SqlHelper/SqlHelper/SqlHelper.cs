@@ -940,28 +940,28 @@
             return cmd;
         }
 
-        public static SqlCommand AddStructuredParameter(this SqlCommand cmd, string pname, DbTable value = null)
+        public static SqlCommand AddParameter(this SqlCommand cmd, string pname, DbTable value = null)
         {
             var p = new SqlParameter(pname, SqlDbType.Structured);
             if (value != null) p.Value = ((DbTable)value).ToDataTable();
             cmd.Parameters.Add(p);
             return cmd;
         }
-        public static SqlCommand AddStructuredParameter(this SqlCommand cmd, string pname, DataTable value = null)
+        public static SqlCommand AddParameter(this SqlCommand cmd, string pname, DataTable value = null)
         {
             var p = new SqlParameter(pname, SqlDbType.Structured);
             if (value != null) p.Value = value;
             cmd.Parameters.Add(p);
             return cmd;
         }
-        public static SqlCommand AddStructuredParameter(this SqlCommand cmd, string pname, int numCols, params object[][] rows)
+        public static SqlCommand AddParameter(this SqlCommand cmd, string pname, int numCols, params object[][] rows)
         {
             var p = new SqlParameter(pname, SqlDbType.Structured);
             if (rows != null) p.Value = NewDataTable(numCols, rows);
             cmd.Parameters.Add(p);
             return cmd;
         }
-        public static SqlCommand AddStructuredParameter(this SqlCommand cmd, string pname, params object[][] rows)
+        public static SqlCommand AddParameter(this SqlCommand cmd, string pname, params object[][] rows)
         {
             var p = new SqlParameter(pname, SqlDbType.Structured);
             if (rows != null) p.Value = NewDataTable(rows);

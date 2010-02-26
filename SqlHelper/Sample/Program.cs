@@ -40,22 +40,24 @@ raiserror ('warning2',1,1);
             SqlHelper.ExecuteDbSet(sql, isGetInfoMessage: true).Dump();
 
             // test sp's return value.
-            // CREATE PROCEDURE TestReturn @r INT AS BEGIN RETURN @r; END
-            SqlHelper.ExecuteDbSet(SqlHelper.NewCommand("TestReturn").AddParameter("r", 123)).Dump();
-
             // test call TableType Parameter's sp
             /*
 CREATE TYPE [dbo].[G_INT_STR] AS TABLE(
 	c1 int,
 	c2 nvarchar(max)
 )
+CREATE PROCEDURE TestTableType
+    @T dbo.G_INT_STR READONLY
+AS BEGIN
+    SELECT * FROM @T;
+    RETURN (SELECT COUNT(*) FROM @T);
+END
              */
-            // CREATE PROCEDURE TestTableType @T dbo.G_INT_STR READONLY AS BEGIN SELECT * FROM @T; END
-            SqlHelper.ExecuteDbSet(SqlHelper.NewCommand("TestTableType").AddStructuredParameter("T", 2,
+            SqlHelper.ExecuteDbSet(SqlHelper.NewCommand("TestTableType").AddParameter("T",
                 new object[] { 1, "asdf" },
                 new object[] { 2, "qwerg" },
                 new object[] { 3, "zxcvzz" })
-            ).Dump(); 
+            ).Dump();
 
             Console.ReadLine();
         }
