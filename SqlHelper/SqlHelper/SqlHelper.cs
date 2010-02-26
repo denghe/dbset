@@ -353,10 +353,13 @@
             if (isGetInfoMessage) conn.InfoMessage += h;
             if (imHandler != null) conn.InfoMessage += imHandler;
             SqlParameter returnParameter = null;
-            if (!cmd.Parameters.Contains("RETURN_VALUE"))
+            if (cmd.CommandType == CommandType.StoredProcedure)
             {
-                returnParameter = new SqlParameter("RETURN_VALUE", System.Data.SqlDbType.Int, 0, ParameterDirection.ReturnValue, false, 0, 0, null, DataRowVersion.Current, null);
-                cmd.Parameters.Add(returnParameter);
+                if (!cmd.Parameters.Contains("RETURN_VALUE"))
+                {
+                    returnParameter = new SqlParameter("RETURN_VALUE", System.Data.SqlDbType.Int, 0, ParameterDirection.ReturnValue, false, 0, 0, null, DataRowVersion.Current, null);
+                    cmd.Parameters.Add(returnParameter);
+                }
             }
             try
             {
@@ -388,13 +391,19 @@
                     } while (r.NextResult());
                     ds.RecordsAffected = r.RecordsAffected;
                 }
-                var o = cmd.Parameters["RETURN_VALUE"].Value;
-                if (o == null || o == DBNull.Value) ds.ReturnValue = 0;
-                ds.ReturnValue = (int)o;
+                if (cmd.CommandType == CommandType.StoredProcedure)
+                {
+                    var o = cmd.Parameters["RETURN_VALUE"].Value;
+                    if (o == null || o == DBNull.Value) ds.ReturnValue = 0;
+                    ds.ReturnValue = (int)o;
+                }
             }
             finally
             {
-                if (returnParameter != null) cmd.Parameters.Remove(returnParameter);
+                if (cmd.CommandType == CommandType.StoredProcedure)
+                {
+                    if (returnParameter != null) cmd.Parameters.Remove(returnParameter);
+                }
                 if (imHandler != null) conn.InfoMessage -= imHandler;
                 if (isGetInfoMessage) conn.InfoMessage -= h;
                 if (ocs == -1 || ocs == (int)ConnectionState.Closed) conn.Close();
@@ -826,7 +835,7 @@
                     cmd.Transaction = se.Second;
                     cmd.CommandType = isStoredProcedure ? CommandType.StoredProcedure : CommandType.Text;
                     cmd.CommandText = s;
-                    cmd.Parameters.Add(new SqlParameter("RETURN_VALUE", System.Data.SqlDbType.Int, 0, ParameterDirection.ReturnValue, false, 0, 0, null, DataRowVersion.Current, null));
+                    if (isStoredProcedure) cmd.Parameters.Add(new SqlParameter("RETURN_VALUE", System.Data.SqlDbType.Int, 0, ParameterDirection.ReturnValue, false, 0, 0, null, DataRowVersion.Current, null));
                     using (var r = cmd.ExecuteReader())
                     {
                         do
@@ -853,9 +862,12 @@
                         } while (r.NextResult());
                         ds.RecordsAffected = r.RecordsAffected;
                     }
-                    var o = cmd.Parameters["RETURN_VALUE"].Value;
-                    if (o == null || o == DBNull.Value) ds.ReturnValue = 0;
-                    ds.ReturnValue = (int)o;
+                    if (isStoredProcedure)
+                    {
+                        var o = cmd.Parameters["RETURN_VALUE"].Value;
+                        if (o == null || o == DBNull.Value) ds.ReturnValue = 0;
+                        ds.ReturnValue = (int)o;
+                    }
                 }
             }
             finally
