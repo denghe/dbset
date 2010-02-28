@@ -43,6 +43,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Copy of Program.cs" />
+    <Compile Include="DAL\DAL_StoredProcedures.cs" />
+    <Compile Include="DAL\DAL_StoredProcedures_Methods.cs" />
+    <Compile Include="DAL\DAL_Tables.cs" />
+    <Compile Include="DAL\DAL_UserDefinedFunctions_Scalar.cs" />
+    <Compile Include="DAL\DAL_UserDefinedFunctions_Table.cs" />
+    <Compile Include="DAL\DAL_UserDefinedTableTypes.cs" />
+    <Compile Include="DAL\DAL_Views.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -1,4 +1,4 @@
-﻿namespace SqlLib.DAL
+﻿namespace SqlLib
 {
     using System;
     using System.Collections.Concurrent;
