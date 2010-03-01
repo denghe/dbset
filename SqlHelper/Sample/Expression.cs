@@ -12,10 +12,10 @@ namespace NewDM
             var exp1 = Exp.dbo.t1.id.Equals(1 | 2).name.Like("2") | Exp.dbo.t2.id.Equals(3).name.Like("真爽");
 
             // 单表快捷查询
-            t1.List(o => o.id.Equals(1).name.Like("t2") | o.name.Equals("t3"));
+            dbo.t1.List(o => o.id.Equals(1).name.Like("t2") | o.name.Equals("t3"));
 
             // 表达式驱动来返回列表
-            (Exp.dbo.t1.id.Equals(1 | 2).name.Like("2") | Exp.dbo.t2.id.Equals(3).name.Like("真爽")).List<t1>();
+            (Exp.dbo.t1.id.Equals(1 | 2).name.Like("2") | Exp.dbo.t2.id.Equals(3).name.Like("真爽")).List<dbo.t1>();
 
             Console.WriteLine(exp1);
 
@@ -74,8 +74,8 @@ namespace NewDM
         public class dbo
         {
             // 类型快捷创建
-            public static t1 t1 = new t1();
-            public static t2 t2 = new t2();
+            public static global::dbo.t1 t1 = new global::dbo.t1();
+            public static global::dbo.t2 t2 = new global::dbo.t2();
         }
 
     }
@@ -139,6 +139,11 @@ namespace NewDM
             return t;
         }
     }
+}
+
+namespace dbo
+{
+    using NewDM;
 
     public class t1 : Exp
     {
