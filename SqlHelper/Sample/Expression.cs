@@ -9,18 +9,18 @@ namespace NewDM
         static void Main(string[] args)
         {
             // 关联查询
-            Exp exp1 = Exp.t1.id.Equals(1 | 2).name.Like("2") | Exp.t2.id.Equals(3).name.Like("真爽");
+            var exp1 = Exp.dbo.t1.id.Equals(1 | 2).name.Like("2") | Exp.dbo.t2.id.Equals(3).name.Like("真爽");
 
             // 单表快捷查询
             t1.List(o => o.id.Equals(1).name.Like("t2") | o.name.Equals("t3"));
 
             // 表达式驱动来返回列表
-            (Exp.t1.id.Equals(1 | 2).name.Like("2") | Exp.t2.id.Equals(3).name.Like("真爽")).List<t1>();
+            (Exp.dbo.t1.id.Equals(1 | 2).name.Like("2") | Exp.dbo.t2.id.Equals(3).name.Like("真爽")).List<t1>();
 
             Console.WriteLine(exp1);
 
             // 看下加的 IsNull
-            Console.WriteLine(Exp.t1.id.IsNull().name.IsNotNull() | Exp.t2.name.IsNotNull());
+            Console.WriteLine(Exp.dbo.t1.id.IsNull().name.IsNotNull() | Exp.dbo.t2.name.IsNotNull());
 
             Console.ReadLine();
         }
@@ -71,9 +71,12 @@ namespace NewDM
             return _list;
         }
 
-        // 类型快捷创建
-        public static t1 t1 = new t1();
-        public static t2 t2 = new t2();
+        public class dbo
+        {
+            // 类型快捷创建
+            public static t1 t1 = new t1();
+            public static t2 t2 = new t2();
+        }
 
     }
 

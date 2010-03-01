@@ -52,7 +52,7 @@
     <Compile Include="DAL\DAL_UserDefinedTableTypes.cs" />
     <Compile Include="DAL\DAL_Views.cs" />
     <Compile Include="Expression.cs" />
-    <Compile Include="Program.cs" />
+    <None Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
