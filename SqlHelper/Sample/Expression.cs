@@ -12,7 +12,7 @@ namespace NewDM
             var exp1 = Exp.dbo.t1.id.Equals(1 | 2).name.Like("2") | Exp.dbo.t2.id.Equals(3).name.Like("真爽");
 
             // 单表快捷查询
-            dbo.t1.List(o => o.id.Equals(1).name.Like("t2") | o.name.Equals("t3"));
+            dbo.t1.Select(o => o.id.Equals(1).name.Like("t2") | o.name.Equals("t3"));
 
             // 表达式驱动来返回列表
             (Exp.dbo.t1.id.Equals(1 | 2).name.Like("2") | Exp.dbo.t2.id.Equals(3).name.Like("真爽")).List<dbo.t1>();
@@ -160,7 +160,7 @@ namespace dbo
         {
             get { return new Column_String<t1>(this, "name"); }
         }
-        public static List<t1> List(ExpHandler exp)
+        public static List<t1> Select(ExpHandler exp)
         {
             return new List<t1>();
         }
@@ -181,7 +181,7 @@ namespace dbo
         {
             get { return new Column_String<t2>(this, "name"); }
         }
-        public static List<t2> List(ExpHandler exp)
+        public static List<t2> Select(ExpHandler exp)
         {
             return new List<t2>();
         }
