@@ -24,12 +24,67 @@
                 & o.id.IsNull()
             );
 
+            
+
             Console.Write(exp.ToString());
 
             Console.ReadLine();
         }
     }
 }
+
+
+namespace DAL.Tables.dbo
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
+
+    public partial class t1
+    {
+        public static List<t1> Select(Expressions.dbo.t1.ExpHandler exp)
+        {
+            return new List<t1>();
+        }
+    }
+
+}
+
+
+
+namespace DAL.Expressions.dbo
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
+
+    public partial class t1 : ExpressionsBase
+    {
+        public t1()
+            : base("dbo", "t1")
+        {
+        }
+        public Column_Int32<t1> id
+        {
+            get { return new Column_Int32<t1>(this, "id"); }
+        }
+        public Column_String<t1> name
+        {
+            get { return new Column_String<t1>(this, "name"); }
+        }
+
+        public delegate ExpressionsBase ExpHandler(t1 t1);
+        public static ExpressionsBase New(ExpHandler eh)
+        {
+            return eh.Invoke(new t1());
+        }
+    }
+
+
+}
+
 
 namespace DAL.Expressions
 {
@@ -133,82 +188,6 @@ namespace DAL.Expressions
             var t = new T();
             t.zzzSetWhere((string.IsNullOrEmpty(_exp.ToString()) ? "" : (_exp.ToString() + " AND ")) + "[" + _exp.zzzGetSchema() + "].[" + _exp.zzzGetName() + "].[" + this._field + "] LIKE '%" + value + "%'");
             return t;
-        }
-    }
-}
-
-namespace DAL.Expressions.dbo
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-
-
-    public partial class t1 : ExpressionsBase
-    {
-        public t1()
-            : base("dbo", "t1")
-        {
-        }
-        public Column_Int32<t1> id
-        {
-            get { return new Column_Int32<t1>(this, "id"); }
-        }
-        public Column_String<t1> name
-        {
-            get { return new Column_String<t1>(this, "name"); }
-        }
-
-        public delegate ExpressionsBase ExpHandler(t1 t1);
-        public static ExpressionsBase New(ExpHandler eh)
-        {
-            return eh.Invoke(new t1());
-        }
-    }
-
-    public partial class t2 : ExpressionsBase
-    {
-        public t2()
-            : base("dbo", "t2")
-        {
-        }
-        public Column_Int32<t2> id
-        {
-            get { return new Column_Int32<t2>(this, "id"); }
-        }
-        public Column_String<t2> name
-        {
-            get { return new Column_String<t2>(this, "name"); }
-        }
-
-        public delegate ExpressionsBase ExpHandler(t2 t2);
-        public static t2 New(ExpHandler eh)
-        {
-            return (t2)eh.Invoke(new t2());
-        }
-    }
-}
-
-namespace DAL.Tables.dbo
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-
-
-    public partial class t1
-    {
-        public static List<t1> Select(Expressions.dbo.t1.ExpHandler exp)
-        {
-            return new List<t1>();
-        }
-    }
-
-    public partial class t2
-    {
-        public static List<t2> Select(Expressions.dbo.t2.ExpHandler exp)
-        {
-            return new List<t2>();
         }
     }
 }
