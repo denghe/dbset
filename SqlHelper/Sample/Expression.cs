@@ -4,83 +4,72 @@
     using System.Collections.Generic;
     using System.Text;
 
-    using DAL.Expressions.dbo;
+    //using DAL.Expressions.dbo;
 
     class Program
     {
         static void Main(string[] args)
         {
             // 单表快捷查询
-            t1.Select(o => o.id.Equals(1).name.Like("t2") | o.name.Equals("t3") & o.id.IsNull());
+            DAL.Tables.dbo.t1.Select(o => o.id.Equals(1).name.Like("t2") | o.name.Equals("t3") & o.id.IsNull());
+
+            var exp = DAL.Expressions.dbo.t1.New(o => o.id.Equals(1).name.Like("t2") | o.name.Equals("t3") & o.id.IsNull());
+
+            Console.Write(exp.ToString());
 
             Console.ReadLine();
         }
     }
 }
 
-namespace DAL
+namespace DAL.Expressions
 {
     using System;
     using System.Collections.Generic;
     using System.Text;
 
-    public class __ExpBase
+    public class ExpressionsBase
     {
         private string _where;
         private string _name;
         private string _schema;
 
-        public void zSetWhere(string where) { _where = where; }
-        public string zGetName() { return _name; }
-        public string zGetSchema() { return _schema; }
+        public void zzzSetWhere(string where) { _where = where; }
+        public string zzzGetName() { return _name; }
+        public string zzzGetSchema() { return _schema; }
         public override string ToString() { return _where; }
 
-        public __ExpBase() { }
-        public __ExpBase(string where) { _where = where; }
-        public __ExpBase(string schema, string name)
+        public ExpressionsBase() { }
+        public ExpressionsBase(string where) { _where = where; }
+        public ExpressionsBase(string schema, string name)
         {
             this._name = name; this._schema = schema;
         }
 
         // TSQL 运算符转为方法
-        public __ExpBase And(__ExpBase e)
+        public ExpressionsBase And(ExpressionsBase e)
         {
-            return new __ExpBase("(" + _where + ")" + " AND " + "(" + e._where + ")");
+            return new ExpressionsBase("(" + _where + ")" + " AND " + "(" + e._where + ")");
         }
-        public __ExpBase Or(__ExpBase e)
+        public ExpressionsBase Or(ExpressionsBase e)
         {
-            return new __ExpBase("(" + _where + ")" + " OR " + "(" + e._where + ")");
+            return new ExpressionsBase("(" + _where + ")" + " OR " + "(" + e._where + ")");
         }
 
         // 运算符重载
-        public static __ExpBase operator &(__ExpBase e1, __ExpBase e2)
+        public static ExpressionsBase operator &(ExpressionsBase e1, ExpressionsBase e2)
         {
             return e1.And(e2);
         }
-        public static __ExpBase operator |(__ExpBase e1, __ExpBase e2)
+        public static ExpressionsBase operator |(ExpressionsBase e1, ExpressionsBase e2)
         {
             return e1.Or(e2);
         }
-
-        // 表达式驱动来返回列表
-        public List<T> List<T>() where T : new()
-        {
-            List<T> _list = new List<T>();
-            return _list;
-        }
-
-        // 类型快捷创建
-        public class dbo
-        {
-            public static DAL.Expressions.dbo.t1 t1 = new DAL.Expressions.dbo.t1();
-            public static DAL.Expressions.dbo.t2 t2 = new DAL.Expressions.dbo.t2();
-        }
-
     }
 
 
 
-    public class Column<T> where T : __ExpBase, new()
+    public class Column<T> where T : ExpressionsBase, new()
     {
         protected string _field;
         protected T _exp;
@@ -93,18 +82,18 @@ namespace DAL
         public T IsNull()
         {
             var t = new T();
-            t.zSetWhere((string.IsNullOrEmpty(_exp.ToString()) ? "" : (_exp.ToString() + " AND ")) + "[" + _exp.zGetSchema() + "].[" + _exp.zGetName() + "].[" + this._field + "] IS NULL");
+            t.zzzSetWhere((string.IsNullOrEmpty(_exp.ToString()) ? "" : (_exp.ToString() + " AND ")) + "[" + _exp.zzzGetSchema() + "].[" + _exp.zzzGetName() + "].[" + this._field + "] IS NULL");
             return t;
         }
         public T IsNotNull()
         {
             var t = new T();
-            t.zSetWhere((string.IsNullOrEmpty(_exp.ToString()) ? "" : (_exp.ToString() + " AND ")) + "[" + _exp.zGetSchema() + "].[" + _exp.zGetName() + "].[" + this._field + "] IS NOT NULL");
+            t.zzzSetWhere((string.IsNullOrEmpty(_exp.ToString()) ? "" : (_exp.ToString() + " AND ")) + "[" + _exp.zzzGetSchema() + "].[" + _exp.zzzGetName() + "].[" + this._field + "] IS NOT NULL");
             return t;
         }
     }
 
-    public class Column_Int32<T> : Column<T> where T : __ExpBase, new()
+    public class Column_Int32<T> : Column<T> where T : ExpressionsBase, new()
     {
         public Column_Int32(T exp, string s)
             : base(exp, s)
@@ -113,12 +102,12 @@ namespace DAL
         public T Equals(Int32 value)
         {
             var t = new T();
-            t.zSetWhere((string.IsNullOrEmpty(_exp.ToString()) ? "" : (_exp.ToString() + " AND ")) + "[" + _exp.zGetSchema() + "].[" + _exp.zGetName() + "].[" + this._field + "] = '" + value + "'");
+            t.zzzSetWhere((string.IsNullOrEmpty(_exp.ToString()) ? "" : (_exp.ToString() + " AND ")) + "[" + _exp.zzzGetSchema() + "].[" + _exp.zzzGetName() + "].[" + this._field + "] = '" + value + "'");
             return t;
         }
     }
 
-    public class Column_String<T> : Column<T> where T : __ExpBase, new()
+    public class Column_String<T> : Column<T> where T : ExpressionsBase, new()
     {
         public Column_String(T exp, string s)
             : base(exp, s)
@@ -127,13 +116,13 @@ namespace DAL
         public T Equals(String value)
         {
             var t = new T();
-            t.zSetWhere((string.IsNullOrEmpty(_exp.ToString()) ? "" : (_exp.ToString() + " AND ")) + "[" + _exp.zGetSchema() + "].[" + _exp.zGetName() + "].[" + this._field + "] = '" + value + "'");
+            t.zzzSetWhere((string.IsNullOrEmpty(_exp.ToString()) ? "" : (_exp.ToString() + " AND ")) + "[" + _exp.zzzGetSchema() + "].[" + _exp.zzzGetName() + "].[" + this._field + "] = '" + value + "'");
             return t;
         }
         public T Like(string value)
         {
             var t = new T();
-            t.zSetWhere((string.IsNullOrEmpty(_exp.ToString()) ? "" : (_exp.ToString() + " AND ")) + "[" + _exp.zGetSchema() + "].[" + _exp.zGetName() + "].[" + this._field + "] LIKE '%" + value + "%'");
+            t.zzzSetWhere((string.IsNullOrEmpty(_exp.ToString()) ? "" : (_exp.ToString() + " AND ")) + "[" + _exp.zzzGetSchema() + "].[" + _exp.zzzGetName() + "].[" + this._field + "] LIKE '%" + value + "%'");
             return t;
         }
     }
@@ -145,15 +134,13 @@ namespace DAL.Expressions.dbo
     using System.Collections.Generic;
     using System.Text;
 
-    using DAL;
 
-    public partial class t1 : __ExpBase
+    public partial class t1 : ExpressionsBase
     {
         public t1()
             : base("dbo", "t1")
         {
         }
-        public delegate __ExpBase ExpHandler(t1 t1);
         public Column_Int32<t1> id
         {
             get { return new Column_Int32<t1>(this, "id"); }
@@ -162,19 +149,20 @@ namespace DAL.Expressions.dbo
         {
             get { return new Column_String<t1>(this, "name"); }
         }
-        public static List<t1> Select(ExpHandler exp)
+
+        public delegate ExpressionsBase ExpHandler(t1 t1);
+        public static ExpressionsBase New(ExpHandler eh)
         {
-            return new List<t1>();
+            return eh.Invoke(new t1());
         }
     }
 
-    public partial class t2 : __ExpBase
+    public partial class t2 : ExpressionsBase
     {
         public t2()
             : base("dbo", "t2")
         {
         }
-        public delegate __ExpBase ExpHandler(t2 t2);
         public Column_Int32<t2> id
         {
             get { return new Column_Int32<t2>(this, "id"); }
@@ -183,7 +171,33 @@ namespace DAL.Expressions.dbo
         {
             get { return new Column_String<t2>(this, "name"); }
         }
-        public static List<t2> Select(ExpHandler exp)
+
+        public delegate ExpressionsBase ExpHandler(t2 t2);
+        public static t2 New(ExpHandler eh)
+        {
+            return (t2)eh.Invoke(new t2());
+        }
+    }
+}
+
+namespace DAL.Tables.dbo
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
+
+    public partial class t1
+    {
+        public static List<t1> Select(Expressions.dbo.t1.ExpHandler exp)
+        {
+            return new List<t1>();
+        }
+    }
+
+    public partial class t2
+    {
+        public static List<t2> Select(Expressions.dbo.t2.ExpHandler exp)
         {
             return new List<t2>();
         }
