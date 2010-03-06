@@ -11,17 +11,17 @@
         static void Main(string[] args)
         {
             var rows = DAL.Tables.dbo.t1.Select(o =>
-                o.id.Equals(1)
+                (o.id.Equal(1)
                 & o.name.Like("t2")
-                | o.name.Equals("t3")
-                & o.id.IsNull()
+                | o.name.Equal("t3")
+                & o.id.IsNull()).Not()
             );
 
             var exp = t1.New(o =>
-                o.id.Equals(1)
+                (o.id.Equal(1)
                 & o.name.Like("t2")
-                | o.name.Equals("t3")
-                & o.id.IsNull()
+                | o.name.Equal("t3")
+                & o.id.IsNull()).Not()
             );
 
             
@@ -133,10 +133,6 @@ namespace DAL.Expressions
         {
             return e1.Or(e2);
         }
-        public static ExpressionsBase operator ^(ExpressionsBase e1, ExpressionsBase e2)
-        {
-            return e1.Not();
-        }
     }
 
 
@@ -171,7 +167,7 @@ namespace DAL.Expressions
             : base(exp, s)
         {
         }
-        public T Equals(Int32 value)
+        public T Equal(Int32 value)
         {
             var t = new T();
             t.zzzSetWhere((string.IsNullOrEmpty(_exp.ToString()) ? "" : (_exp.ToString() + " AND ")) + "[" + _exp.zzzGetSchema() + "].[" + _exp.zzzGetName() + "].[" + this._field + "] = '" + value + "'");
@@ -185,7 +181,7 @@ namespace DAL.Expressions
             : base(exp, s)
         {
         }
-        public T Equals(String value)
+        public T Equal(String value)
         {
             var t = new T();
             t.zzzSetWhere((string.IsNullOrEmpty(_exp.ToString()) ? "" : (_exp.ToString() + " AND ")) + "[" + _exp.zzzGetSchema() + "].[" + _exp.zzzGetName() + "].[" + this._field + "] = '" + value + "'");
