@@ -24,7 +24,7 @@
                 & o.id.IsNull()).Not()
             );
 
-            
+
 
             Console.Write(exp.ToString());
 
@@ -40,7 +40,7 @@ namespace DAL.Tables.dbo
     using System.Collections.Generic;
     using System.Text;
 
-
+    // 生成物
     public partial class t1
     {
         public static List<t1> Select(Expressions.dbo.t1.ExpHandler exp)
@@ -59,27 +59,20 @@ namespace DAL.Expressions.dbo
     using System.Collections.Generic;
     using System.Text;
 
-
-    public partial class t1 : ExpressionsBase
+    // 生成物
+    public partial class t1 : TableBase
     {
         public t1()
-            : base("dbo", "t1")
         {
+            _name = "dbo";
+            _schema = "t1";
         }
-        public Column_Int32<t1> id
-        {
-            get { return new Column_Int32<t1>(this, "id"); }
-        }
-        public Column_String<t1> name
-        {
-            get { return new Column_String<t1>(this, "name"); }
-        }
+        public delegate TableBase ExpHandler(t1 t1);
+        public static TableBase New(ExpHandler eh) { return eh.Invoke(new t1()); }
 
-        public delegate ExpressionsBase ExpHandler(t1 t1);
-        public static ExpressionsBase New(ExpHandler eh)
-        {
-            return eh.Invoke(new t1());
-        }
+        public ColumnBase_Int32<t1> id { get { return new ColumnBase_Int32<t1>(this, "id"); } }
+        public Column_String<t1> name { get { return new Column_String<t1>(this, "name"); } }
+        //...
     }
 
 
@@ -92,106 +85,129 @@ namespace DAL.Expressions
     using System.Collections.Generic;
     using System.Text;
 
-    public class ExpressionsBase
+    public class TableBase
     {
-        private string _where;
-        private string _name;
-        private string _schema;
+        protected string _name = null;
+        protected string _schema = null;
+        protected ColumnBase _column = null;
+        protected bool _isAnd = true;
+        protected bool _isNot = false;
+        protected List<TableBase> _childs = new List<TableBase>();
 
-        public void zzzSetWhere(string where) { _where = where; }
-        public string zzzGetName() { return _name; }
-        public string zzzGetSchema() { return _schema; }
-        public override string ToString() { return _where; }
-
-        public ExpressionsBase() { }
-        public ExpressionsBase(string where) { _where = where; }
-        public ExpressionsBase(string schema, string name)
-        {
-            this._name = name; this._schema = schema;
-        }
+        public override string ToString() { return _childs.ToString(); }
 
         // 基础方法: AND , OR
-        public ExpressionsBase And(ExpressionsBase e)
+        public TableBase And(TableBase t)
         {
-            return new ExpressionsBase("(" + _where + ")" + " AND " + "(" + e._where + ")");
+            _isAnd = true;
+            _childs.Add(t);
+            return this;
         }
-        public ExpressionsBase Or(ExpressionsBase e)
+        public TableBase Or(TableBase t)
         {
-            return new ExpressionsBase("(" + _where + ")" + " OR " + "(" + e._where + ")");
+            _isAnd = false;
+            _childs.Add(t);
+            return this;
         }
-        public ExpressionsBase Not()
+        public TableBase Not()
         {
-            return new ExpressionsBase(" NOT (" + _where + ")");
+            _isNot = true;
+            return this;
         }
 
         // 运算符重载
-        public static ExpressionsBase operator &(ExpressionsBase e1, ExpressionsBase e2)
+        public static TableBase operator &(TableBase e1, TableBase e2)
         {
             return e1.And(e2);
         }
-        public static ExpressionsBase operator |(ExpressionsBase e1, ExpressionsBase e2)
+        public static TableBase operator |(TableBase e1, TableBase e2)
         {
             return e1.Or(e2);
         }
     }
 
-
-
-    public class Column<T> where T : ExpressionsBase, new()
+    public class ColumnBase
     {
-        protected string _field;
-        protected T _exp;
-        public Column(T exp, string f)
+        public TableBase Parent = null;
+        public string Column = null;
+        public SqlOperators Operate = 0;
+        public object Value = null;
+    }
+
+    public class ColumnBase<T> : ColumnBase where T : TableBase, new()
+    {
+        public ColumnBase(T exp, string f)
         {
-            _exp = exp;
-            _field = f;
+            Parent = exp;
+            Column = f;
         }
 
         public T IsNull()
         {
             var t = new T();
-            t.zzzSetWhere((string.IsNullOrEmpty(_exp.ToString()) ? "" : (_exp.ToString() + " AND ")) + "[" + _exp.zzzGetSchema() + "].[" + _exp.zzzGetName() + "].[" + this._field + "] IS NULL");
+            //t.zzzSetWhere((string.IsNullOrEmpty(_t.ToString()) ? "" : (_t.ToString() + " AND ")) + "[" + _t.zzzGetSchema() + "].[" + _t.zzzGetName() + "].[" + this._field + "] IS NULL");
             return t;
         }
         public T IsNotNull()
         {
             var t = new T();
-            t.zzzSetWhere((string.IsNullOrEmpty(_exp.ToString()) ? "" : (_exp.ToString() + " AND ")) + "[" + _exp.zzzGetSchema() + "].[" + _exp.zzzGetName() + "].[" + this._field + "] IS NOT NULL");
+            //t.zzzSetWhere((string.IsNullOrEmpty(_t.ToString()) ? "" : (_t.ToString() + " AND ")) + "[" + _t.zzzGetSchema() + "].[" + _t.zzzGetName() + "].[" + this._field + "] IS NOT NULL");
             return t;
         }
     }
 
-    public class Column_Int32<T> : Column<T> where T : ExpressionsBase, new()
+    public class ColumnBase_Int32<T> : ColumnBase<T> where T : TableBase, new()
     {
-        public Column_Int32(T exp, string s)
-            : base(exp, s)
+        public ColumnBase_Int32(T t, string s)
+            : base(t, s)
         {
         }
         public T Equal(Int32 value)
         {
             var t = new T();
-            t.zzzSetWhere((string.IsNullOrEmpty(_exp.ToString()) ? "" : (_exp.ToString() + " AND ")) + "[" + _exp.zzzGetSchema() + "].[" + _exp.zzzGetName() + "].[" + this._field + "] = '" + value + "'");
+            //t.zzzSetWhere((string.IsNullOrEmpty(_t.ToString()) ? "" : (_t.ToString() + " AND ")) + "[" + _t.zzzGetSchema() + "].[" + _t.zzzGetName() + "].[" + this._field + "] = '" + value + "'");
             return t;
         }
     }
 
-    public class Column_String<T> : Column<T> where T : ExpressionsBase, new()
+    public class Column_String<T> : ColumnBase<T> where T : TableBase, new()
     {
-        public Column_String(T exp, string s)
-            : base(exp, s)
+        public Column_String(T t, string s)
+            : base(t, s)
         {
         }
         public T Equal(String value)
         {
             var t = new T();
-            t.zzzSetWhere((string.IsNullOrEmpty(_exp.ToString()) ? "" : (_exp.ToString() + " AND ")) + "[" + _exp.zzzGetSchema() + "].[" + _exp.zzzGetName() + "].[" + this._field + "] = '" + value + "'");
+            //t.zzzSetWhere((string.IsNullOrEmpty(_t.ToString()) ? "" : (_t.ToString() + " AND ")) + "[" + _t.zzzGetSchema() + "].[" + _t.zzzGetName() + "].[" + this._field + "] = '" + value + "'");
             return t;
         }
         public T Like(string value)
         {
             var t = new T();
-            t.zzzSetWhere((string.IsNullOrEmpty(_exp.ToString()) ? "" : (_exp.ToString() + " AND ")) + "[" + _exp.zzzGetSchema() + "].[" + _exp.zzzGetName() + "].[" + this._field + "] LIKE '%" + value + "%'");
+            //t.zzzSetWhere((string.IsNullOrEmpty(_t.ToString()) ? "" : (_t.ToString() + " AND ")) + "[" + _t.zzzGetSchema() + "].[" + _t.zzzGetName() + "].[" + this._field + "] LIKE '%" + value + "%'");
             return t;
         }
+    }
+
+
+    /// <summary>
+    /// 表达式运算符
+    /// </summary>
+    public enum SqlOperators : int
+    {
+        Custom = 0,
+        Equal,
+        LessThan,
+        LessEqual,
+        GreaterThan,
+        GreaterEqual,
+        NotEqual,
+        Like,
+        CustomLike,
+        NotLike,
+        CustomNotLike,
+        In,
+        NotIn
     }
 }
