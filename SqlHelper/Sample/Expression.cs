@@ -10,21 +10,23 @@
     {
         static void Main(string[] args)
         {
-            var rows = DAL.Tables.dbo.t1.Select(o =>
-                (o.id.Equal(1)
-                & o.name.Like("t2")
-                | o.name.Equal("t3")
-                & o.id.IsNull()).Not()
-            );
+            //var rows = DAL.Tables.dbo.t1.Select(o =>
+            //    (o.id.Equal(1)
+            //    & o.name.Like("t2")
+            //    | o.name.Equal("t3")
+            //    & o.id.IsNull()).Not()
+            //);
+
+            //var exp = t1.New(o =>
+            //    (o.id.Equal(1)
+            //    & o.name.Like("t2")
+            //    | o.name.Equal("t3")
+            //    & o.id.IsNull()).Not()
+            //);
 
             var exp = t1.New(o =>
-                (o.id.Equal(1)
-                & o.name.Like("t2")
-                | o.name.Equal("t3")
-                & o.id.IsNull()).Not()
+                (o.id.Equal(1) & o.id.Equal(2)) | o.id.Equal(3) 
             );
-
-
 
             Console.Write(exp.ToString());
 
@@ -70,8 +72,8 @@ namespace DAL.Expressions.dbo
         public delegate TableBase ExpHandler(t1 t1);
         public static TableBase New(ExpHandler eh) { return eh.Invoke(new t1()); }
 
-        public ColumnBase_Int32<t1> id { get { return new ColumnBase_Int32<t1>(this, "id"); } }
-        public Column_String<t1> name { get { return new Column_String<t1>(this, "name"); } }
+        public ColumnBase_Int32<t1> id { get { return new ColumnBase_Int32<t1>(new t1(), "id"); } }
+        public Column_String<t1> name { get { return new Column_String<t1>(new t1(), "name"); } }
         //...
     }
 
@@ -89,7 +91,7 @@ namespace DAL.Expressions
     {
         protected string _name = null;
         protected string _schema = null;
-        protected ColumnBase _column = null;
+        public ColumnBase _column = null;
         protected bool _isAnd = true;
         protected bool _isNot = false;
         protected List<TableBase> _childs = new List<TableBase>();
@@ -136,23 +138,25 @@ namespace DAL.Expressions
 
     public class ColumnBase<T> : ColumnBase where T : TableBase, new()
     {
-        public ColumnBase(T exp, string f)
+        public ColumnBase(T t, string n)
         {
-            Parent = exp;
-            Column = f;
+            Parent = t;
+            Column = n;
         }
 
         public T IsNull()
         {
-            var t = new T();
-            //t.zzzSetWhere((string.IsNullOrEmpty(_t.ToString()) ? "" : (_t.ToString() + " AND ")) + "[" + _t.zzzGetSchema() + "].[" + _t.zzzGetName() + "].[" + this._field + "] IS NULL");
-            return t;
+            Parent._column = this;
+            Operate = SqlOperators.Equal;
+            Value = null;
+            return (T)Parent;
         }
         public T IsNotNull()
         {
-            var t = new T();
-            //t.zzzSetWhere((string.IsNullOrEmpty(_t.ToString()) ? "" : (_t.ToString() + " AND ")) + "[" + _t.zzzGetSchema() + "].[" + _t.zzzGetName() + "].[" + this._field + "] IS NOT NULL");
-            return t;
+            Parent._column = this;
+            Operate = SqlOperators.NotEqual;
+            Value = null;
+            return (T)Parent;
         }
     }
 
@@ -164,9 +168,10 @@ namespace DAL.Expressions
         }
         public T Equal(Int32 value)
         {
-            var t = new T();
-            //t.zzzSetWhere((string.IsNullOrEmpty(_t.ToString()) ? "" : (_t.ToString() + " AND ")) + "[" + _t.zzzGetSchema() + "].[" + _t.zzzGetName() + "].[" + this._field + "] = '" + value + "'");
-            return t;
+            Parent._column = this;
+            Operate = SqlOperators.Equal;
+            Value = value;
+            return (T)Parent;
         }
     }
 
@@ -178,15 +183,17 @@ namespace DAL.Expressions
         }
         public T Equal(String value)
         {
-            var t = new T();
-            //t.zzzSetWhere((string.IsNullOrEmpty(_t.ToString()) ? "" : (_t.ToString() + " AND ")) + "[" + _t.zzzGetSchema() + "].[" + _t.zzzGetName() + "].[" + this._field + "] = '" + value + "'");
-            return t;
+            Parent._column = this;
+            Operate = SqlOperators.Equal;
+            Value = value;
+            return (T)Parent;
         }
         public T Like(string value)
         {
-            var t = new T();
-            //t.zzzSetWhere((string.IsNullOrEmpty(_t.ToString()) ? "" : (_t.ToString() + " AND ")) + "[" + _t.zzzGetSchema() + "].[" + _t.zzzGetName() + "].[" + this._field + "] LIKE '%" + value + "%'");
-            return t;
+            Parent._column = this;
+            Operate = SqlOperators.Like;
+            Value = value;
+            return (T)Parent;
         }
     }
 
