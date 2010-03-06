@@ -4,16 +4,25 @@
     using System.Collections.Generic;
     using System.Text;
 
-    //using DAL.Expressions.dbo;
+    using DAL.Expressions.dbo;
 
     class Program
     {
         static void Main(string[] args)
         {
-            // 单表快捷查询
-            DAL.Tables.dbo.t1.Select(o => o.id.Equals(1).name.Like("t2") | o.name.Equals("t3") & o.id.IsNull());
+            var rows = DAL.Tables.dbo.t1.Select(o =>
+                o.id.Equals(1)
+                & o.name.Like("t2")
+                | o.name.Equals("t3")
+                & o.id.IsNull()
+            );
 
-            var exp = DAL.Expressions.dbo.t1.New(o => o.id.Equals(1).name.Like("t2") | o.name.Equals("t3") & o.id.IsNull());
+            var exp = t1.New(o =>
+                o.id.Equals(1)
+                & o.name.Like("t2")
+                | o.name.Equals("t3")
+                & o.id.IsNull()
+            );
 
             Console.Write(exp.ToString());
 
