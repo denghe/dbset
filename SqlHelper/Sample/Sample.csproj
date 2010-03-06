@@ -45,7 +45,7 @@
   <ItemGroup>
     <None Include="Copy of Program.cs" />
     <Compile Include="Expression.cs" />
-    <Compile Include="Program.cs" />
+    <None Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -110,7 +110,7 @@ namespace DAL.Expressions
             this._name = name; this._schema = schema;
         }
 
-        // TSQL 运算符转为方法
+        // 基础方法: AND , OR
         public ExpressionsBase And(ExpressionsBase e)
         {
             return new ExpressionsBase("(" + _where + ")" + " AND " + "(" + e._where + ")");
@@ -118,6 +118,10 @@ namespace DAL.Expressions
         public ExpressionsBase Or(ExpressionsBase e)
         {
             return new ExpressionsBase("(" + _where + ")" + " OR " + "(" + e._where + ")");
+        }
+        public ExpressionsBase Not()
+        {
+            return new ExpressionsBase(" NOT (" + _where + ")");
         }
 
         // 运算符重载
@@ -128,6 +132,10 @@ namespace DAL.Expressions
         public static ExpressionsBase operator |(ExpressionsBase e1, ExpressionsBase e2)
         {
             return e1.Or(e2);
+        }
+        public static ExpressionsBase operator ^(ExpressionsBase e1, ExpressionsBase e2)
+        {
+            return e1.Not();
         }
     }
 
