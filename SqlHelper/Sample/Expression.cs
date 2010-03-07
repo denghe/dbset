@@ -10,27 +10,20 @@
     {
         static void Main(string[] args)
         {
-            //var rows = DAL.Tables.dbo.t1.Select(o =>
-            //    (o.id.Equal(1)
-            //    & o.name.Like("t2")
-            //    | o.name.Equal("t3")
-            //    & o.id.IsNull()).Not()
-            //);
+            var rows = DAL.Tables.dbo.t2.Select(o =>
+                (o.id.Equal(1)
+                & o.id.Equal(2)
+                | o.id.Equal(3)
+                & o.id.Equal(4)).Not()
+            );
 
-            //var exp = t1.New(o =>
-            //    (o.id.Equal(1)
-            //    & o.name.Like("t2")
-            //    | o.name.Equal("t3")
-            //    & o.id.IsNull()).Not()
-            //);
+            var exp1 = t2.New(o => o.id.Equal(1).id.Equal(2).id.Equal(3));
 
-            //var exp = t1.New(o =>
-            //    (o.id.Equal(1) & o.id.Equal(2)) | o.id.Equal(3)
-            //);
+            Console.WriteLine(exp1);
 
-            var exp2 = t2.New(o => o.id.Equal(1));
+            var exp2 = t2.New(o => (o.id.Equal(1) | o.id.Equal(2)) & (o.id.Equal(3) | o.id.Equal(4)));
 
-            Console.Write(exp2.Expression.Operate.ToString());
+            Console.WriteLine(exp2);
 
             Console.ReadLine();
         }
@@ -44,14 +37,14 @@ namespace DAL.Tables.dbo
     using System.Collections.Generic;
     using System.Text;
 
-    //// 生成物
-    //public partial class t1
-    //{
-    //    public static List<t1> Select(Expressions.dbo.t1.ExpHandler exp)
-    //    {
-    //        return new List<t1>();
-    //    }
-    //}
+    // 生成物
+    public partial class t2
+    {
+        public static List<t2> Select(Expressions.dbo.t2.ExpHandler exp)
+        {
+            return new List<t2>();
+        }
+    }
 
 }
 
@@ -63,22 +56,6 @@ namespace DAL.Expressions.dbo
     using System.Collections.Generic;
     using System.Text;
 
-    //// 生成物
-    //public partial class t1 : TableBase
-    //{
-    //    public t1()
-    //    {
-    //        _name = "dbo";
-    //        _schema = "t1";
-    //    }
-    //    public delegate TableBase ExpHandler(t1 t1);
-    //    public static TableBase New(ExpHandler eh) { return eh.Invoke(new t1()); }
-
-    //    public ColumnBase_Int32<t1> id { get { return new ColumnBase_Int32<t1>(new t1(), "id"); } }
-    //    public Column_String<t1> name { get { return new Column_String<t1>(new t1(), "name"); } }
-    //    //...
-    //}
-
     // 生成物
     public partial class t2 : LogicalNode
     {
@@ -86,21 +63,33 @@ namespace DAL.Expressions.dbo
             : base(null, SqlLogicals.And, null, null)
         {
         }
+        public t2(t2 first, SqlLogicals operate, t2 second)
+            : base(first, operate, second, null)
+        {
+        }
         public delegate t2 ExpHandler(t2 t2);
         public static t2 New(ExpHandler eh) { return eh.Invoke(new t2()); }
+
+        public t2 And(t2 L) { return new t2(this, SqlLogicals.And, L); }
+        public t2 Or(t2 L) { return new t2(this, SqlLogicals.Or, L); }
+        public t2 Not() { return new t2(this, SqlLogicals.Not, null); }
+        public static t2 operator &(t2 a, t2 b) { return a.And(b); }
+        public static t2 operator |(t2 a, t2 b) { return a.Or(b); }
+
 
         public ExpressionNode_Nullable_Int32<t2> id
         {
             get
             {
-                var exp = new ExpressionNode_Nullable_Int32<t2>(this, "id");
-                this.Expression = exp;
-                return exp;
+                var L = new t2();
+                var e = new ExpressionNode_Nullable_Int32<t2>(L, "id");
+                L.Expression = e;
+
+                return e;
             }
         }
-        //...
+        // todo: more columns
     }
-
 }
 
 
@@ -139,17 +128,32 @@ namespace DAL.Expressions
             this.Expression = exp;
         }
 
-        public LogicalNode And(ExpressionNode e)
+        //public LogicalNode And(LogicalNode L)
+        //{
+        //    return new LogicalNode(this, SqlLogicals.And, L, null);
+        //}
+        //public LogicalNode Or(LogicalNode L)
+        //{
+        //    return new LogicalNode(this, SqlLogicals.Or, L, null);
+        //}
+        //public LogicalNode Not()
+        //{
+        //    return new LogicalNode(this, SqlLogicals.Not, null, null);
+        //}
+
+        public override string ToString()
         {
-            return new LogicalNode(this, SqlLogicals.And, e.Parent, null);
-        }
-        public LogicalNode Or(ExpressionNode e)
-        {
-            return new LogicalNode(this, SqlLogicals.Or, e.Parent, null);
-        }
-        public LogicalNode Not()
-        {
-            return new LogicalNode(this, SqlLogicals.Not, null, null);
+            if (this.Expression == null)
+            {
+                var firstQuote = this.First.Logical == SqlLogicals.Or && this.Logical == SqlLogicals.And;
+                var secondQuote = this.Second.Logical == SqlLogicals.Or && this.Logical == SqlLogicals.And;
+                var s1 = firstQuote ? "( " : "";
+                var s2 = firstQuote ? " ) " : " ";
+                var s3 = secondQuote ? " ( " : " ";
+                var s4 = secondQuote ? " )" : "";
+                return s1 + this.First.ToString() + s2 + this.Logical.ToString() + s3 + this.Second.ToString() + s4;
+            }
+            return this.Expression.ToString();
         }
     }
 
@@ -207,6 +211,11 @@ namespace DAL.Expressions
         }
 
         // todo: more operate methods
+
+        public override string ToString()
+        {
+            return this.Column + " " + this.Operate.ToString() + " " + Value.ToString();
+        }
     }
 
     public partial class ExpressionNode_Nullable_Int32<T> : ExpressionNode<T> where T : LogicalNode
@@ -215,143 +224,24 @@ namespace DAL.Expressions
             : base(parent, column)
         {
         }
-        public T Equal(Int32 value)
+        public T Equal(Int32? value)
         {
             this.Operate = SqlOperators.Equal;
             this.Value = value;
+
             return (T)this.Parent;
         }
 
+        // todo: more operate methods
+
+
         public override string ToString()
         {
-            return this.Column + 
+            return this.Column + " " + this.Operate.ToString() + " " + (Value == null ? "[Null]" : Value.ToString());
         }
-
-        // todo: more operate methods
     }
 
     // todo: more ExpressionNode_ DataTypes, ExpressionNode_Nullable_ DataTypes class
-
-
-
-
-
-
-
-
-
-
-
-
-    //public class TableBase
-    //{
-    //    protected string _name = null;
-    //    protected string _schema = null;
-    //    public ColumnBase _column = null;
-    //    protected bool _isAnd = true;
-    //    protected bool _isNot = false;
-    //    protected List<TableBase> _childs = new List<TableBase>();
-
-    //    public override string ToString() { return _childs.ToString(); }
-
-    //    // 基础方法: AND , OR
-    //    public TableBase And(TableBase t)
-    //    {
-    //        _isAnd = true;
-    //        _childs.Add(t);
-    //        return this;
-    //    }
-    //    public TableBase Or(TableBase t)
-    //    {
-    //        _isAnd = false;
-    //        _childs.Add(t);
-    //        return this;
-    //    }
-    //    public TableBase Not()
-    //    {
-    //        _isNot = true;
-    //        return this;
-    //    }
-
-    //    // 运算符重载
-    //    public static TableBase operator &(TableBase e1, TableBase e2)
-    //    {
-    //        return e1.And(e2);
-    //    }
-    //    public static TableBase operator |(TableBase e1, TableBase e2)
-    //    {
-    //        return e1.Or(e2);
-    //    }
-    //}
-
-    //public class ColumnBase
-    //{
-    //    public TableBase Parent = null;
-    //    public string Column = null;
-    //    public SqlOperators Operate = 0;
-    //    public object Value = null;
-    //}
-
-    //public class ColumnBase<T> : ColumnBase where T : TableBase, new()
-    //{
-    //    public ColumnBase(T t, string n)
-    //    {
-    //        Parent = t;
-    //        Column = n;
-    //    }
-
-    //    public T IsNull()
-    //    {
-    //        Parent._column = this;
-    //        Operate = SqlOperators.Equal;
-    //        Value = null;
-    //        return (T)Parent;
-    //    }
-    //    public T IsNotNull()
-    //    {
-    //        Parent._column = this;
-    //        Operate = SqlOperators.NotEqual;
-    //        Value = null;
-    //        return (T)Parent;
-    //    }
-    //}
-
-    //public class ColumnBase_Int32<T> : ColumnBase<T> where T : TableBase, new()
-    //{
-    //    public ColumnBase_Int32(T t, string s)
-    //        : base(t, s)
-    //    {
-    //    }
-    //    public T Equal(Int32 value)
-    //    {
-    //        Parent._column = this;
-    //        Operate = SqlOperators.Equal;
-    //        Value = value;
-    //        return (T)Parent;
-    //    }
-    //}
-
-    //public class Column_String<T> : ColumnBase<T> where T : TableBase, new()
-    //{
-    //    public Column_String(T t, string s)
-    //        : base(t, s)
-    //    {
-    //    }
-    //    public T Equal(String value)
-    //    {
-    //        Parent._column = this;
-    //        Operate = SqlOperators.Equal;
-    //        Value = value;
-    //        return (T)Parent;
-    //    }
-    //    public T Like(string value)
-    //    {
-    //        Parent._column = this;
-    //        Operate = SqlOperators.Like;
-    //        Value = value;
-    //        return (T)Parent;
-    //    }
-    //}
 
 
     /// <summary>
@@ -359,7 +249,10 @@ namespace DAL.Expressions
     /// </summary>
     public enum SqlOperators : int
     {
-        Custom = 0,
+        Null = 0,
+
+        Custom,
+
         Equal,
         NotEqual,
 
@@ -384,7 +277,8 @@ namespace DAL.Expressions
     /// </summary>
     public enum SqlLogicals : int
     {
-        And = 0,
+        Null = 0,
+        And,
         Or,
         Not
     }
