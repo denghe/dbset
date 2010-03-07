@@ -4,22 +4,16 @@
     using System.Collections.Generic;
     using System.Text;
 
-    using DAL.Expressions.dbo;
-
     class Program
     {
         static void Main(string[] args)
         {
-            var rows = DAL.Tables.dbo.t2.Select(o =>
-                (o.id.Equal(1)
-                & o.id.Equal(2)
-                | o.id.Equal(3)
-                & o.id.Equal(4)).Not()
+            var exp = DAL.Expressions.dbo.t2.New(o =>
+                (o.id.Equal(1) | o.id.Equal(2)) & (o.id.Equal(null) | o.id.IsNull()).Not()
             );
+            var rows = DAL.Tables.dbo.t2.Select(exp);
 
-            var exp2 = t2.New(o => (o.id.Equal(1) | o.id.Equal(2)) & (o.id.Equal(3) | o.id.Equal(4)));
-
-            Console.WriteLine(exp2);
+            Console.WriteLine(exp);
 
             Console.ReadLine();
         }
@@ -33,12 +27,15 @@ namespace DAL.Tables.dbo
     using System.Collections.Generic;
     using System.Text;
 
-    // 生成物
     public partial class t2
     {
         // todo: columns properties here
 
-        public static List<t2> Select(Expressions.dbo.t2.ExpHandler exp)
+        public static List<t2> Select(Expressions.dbo.t2.ExpHandler eh)
+        {
+            return Select(eh.Invoke(new Expressions.dbo.t2()));
+        }
+        public static List<t2> Select(Expressions.dbo.t2 exp)
         {
             var where = exp.ToString();
             var tsql = "SELECT * FROM t2" + (where.Length > 0 ? " WHERE " : "") + where;
@@ -47,7 +44,6 @@ namespace DAL.Tables.dbo
             return new List<t2>();
         }
     }
-
 }
 
 
@@ -58,19 +54,19 @@ namespace DAL.Expressions.dbo
     using System.Collections.Generic;
     using System.Text;
 
-    // 生成物
-    public partial class t2 : LogicalNode<t2>
+    public partial class t2 : SqlLogicalNode<t2>
     {
-        public ExpressionNode_Nullable_Int32<t2> id
-        {
-            get
-            {
-                return this.New_ExpressionNode_Nullable_Int32("id");
-            }
-        }
-        // todo: more columns
+        public SqlExpressionNode_Nullable_Int32<t2> id { get { return this.New_ExpressionNode_Nullable_Int32("id"); } }
+
+        // todo: more columns here
     }
 }
+
+
+
+
+
+
 
 
 namespace DAL.Expressions
@@ -80,17 +76,17 @@ namespace DAL.Expressions
     using System.Text;
 
 
-    public partial class LogicalNode
+    public partial class SqlLogicalNode
     {
         public SqlLogicals Logical = SqlLogicals.And;
-        public LogicalNode First;
-        public LogicalNode Second;
-        public ExpressionNode Expression;
+        public SqlLogicalNode First;
+        public SqlLogicalNode Second;
+        public SqlExpressionNode Expression;
     }
 
-    public partial class ExpressionNode
+    public partial class SqlExpressionNode
     {
-        public LogicalNode Parent;
+        public SqlLogicalNode Parent;
         public string Column;
         public SqlOperators Operate = SqlOperators.NotSet;
         public object Value;
@@ -98,25 +94,49 @@ namespace DAL.Expressions
 
 
 
-    partial class LogicalNode
+    partial class SqlLogicalNode
     {
         public override string ToString()
         {
             if (this.Expression == null)
             {
-                var firstQuote = this.First.Logical == SqlLogicals.Or && this.Logical == SqlLogicals.And;
-                var secondQuote = this.Second.Logical == SqlLogicals.Or && this.Logical == SqlLogicals.And;
-                var s1 = firstQuote ? "( " : "";
-                var s2 = firstQuote ? " ) " : " ";
-                var s3 = secondQuote ? " ( " : " ";
-                var s4 = secondQuote ? " )" : "";
-                return s1 + this.First.ToString() + s2 + this.Logical.ToString() + s3 + this.Second.ToString() + s4;
+                if (this.Logical == SqlLogicals.Not)
+                {
+                    var firstQuote = this.First.Logical != SqlLogicals.Not;
+                    var s1 = firstQuote ? " ( " : " ";
+                    var s2 = firstQuote ? " )" : "";
+                    return GetSqlOperater(this.Logical) + s1 + this.First.ToString() + s2;
+                }
+                else
+                {
+                    var firstQuote = this.First.Logical == SqlLogicals.Or && this.Logical == SqlLogicals.And;
+                    var secondQuote = this.Second.Logical == SqlLogicals.Or && this.Logical == SqlLogicals.And;
+                    var s1 = firstQuote ? "( " : "";
+                    var s2 = firstQuote ? " ) " : " ";
+                    var s3 = secondQuote ? " ( " : " ";
+                    var s4 = secondQuote ? " )" : "";
+                    return s1 + this.First.ToString() + s2 + GetSqlOperater(this.Logical) + s3 + this.Second.ToString() + s4;
+                }
             }
             return this.Expression.ToString();
         }
+
+        /// <summary>
+        /// 获取运算符的 SQL 写法
+        /// </summary>
+        public static string GetSqlOperater(SqlLogicals op)
+        {
+            switch (op)
+            {
+                case SqlLogicals.And: return "AND";
+                case SqlLogicals.Or: return "OR";
+                case SqlLogicals.Not: return "NOT";
+            }
+            return "";
+        }
     }
 
-    public class LogicalNode<T> : LogicalNode where T : LogicalNode, new()
+    public class SqlLogicalNode<T> : SqlLogicalNode where T : SqlLogicalNode, new()
     {
         public delegate T ExpHandler(T eh);
         public static T New(ExpHandler eh) { return eh.Invoke(new T()); }
@@ -125,20 +145,20 @@ namespace DAL.Expressions
         public T Or(T L) { return new T { First = this, Logical = SqlLogicals.Or, Second = L }; }
         public T Not() { return new T { First = this, Logical = SqlLogicals.Not }; }
 
-        public static T operator &(LogicalNode<T> a, LogicalNode<T> b) { return new T { First = a, Logical = SqlLogicals.And, Second = b }; }
-        public static T operator |(LogicalNode<T> a, LogicalNode<T> b) { return new T { First = a, Logical = SqlLogicals.Or, Second = b }; }
+        public static T operator &(SqlLogicalNode<T> a, SqlLogicalNode<T> b) { return new T { First = a, Logical = SqlLogicals.And, Second = b }; }
+        public static T operator |(SqlLogicalNode<T> a, SqlLogicalNode<T> b) { return new T { First = a, Logical = SqlLogicals.Or, Second = b }; }
 
-        public ExpressionNode_Nullable_Int32<T> New_ExpressionNode_Nullable_Int32(string column)
+        public SqlExpressionNode_Nullable_Int32<T> New_ExpressionNode_Nullable_Int32(string column)
         {
             var L = new T();
-            var e = new ExpressionNode_Nullable_Int32<T> { Parent = L, Column = "id" };
+            var e = new SqlExpressionNode_Nullable_Int32<T> { Parent = L, Column = "id" };
             L.Expression = e;
             return e;
         }
-        public ExpressionNode_Int32<T> New_ExpressionNode_Int32(string column)
+        public SqlExpressionNode_Int32<T> New_ExpressionNode_Int32(string column)
         {
             var L = new T();
-            var e = new ExpressionNode_Int32<T> { Parent = L, Column = "id" };
+            var e = new SqlExpressionNode_Int32<T> { Parent = L, Column = "id" };
             L.Expression = e;
             return e;
         }
@@ -146,7 +166,34 @@ namespace DAL.Expressions
         // todo: more new expression
     }
 
-    public partial class ExpressionNode_Nullable<T> : ExpressionNode where T : LogicalNode, new()
+    partial class SqlExpressionNode
+    {
+        /// <summary>
+        /// 获取运算符的 SQL 写法
+        /// </summary>
+        public static string GetSqlOperater(SqlOperators op)
+        {
+            switch (op)
+            {
+                case SqlOperators.Custom: return "";
+                case SqlOperators.Equal: return "=";
+                case SqlOperators.LessThan: return "<";
+                case SqlOperators.LessEqual: return "<=";
+                case SqlOperators.GreaterThan: return ">";
+                case SqlOperators.GreaterEqual: return ">=";
+                case SqlOperators.NotEqual: return "<>";
+                case SqlOperators.Like:
+                case SqlOperators.CustomLike: return "LIKE";
+                case SqlOperators.NotLike:
+                case SqlOperators.CustomNotLike: return "NOT LIKE";
+                case SqlOperators.In: return "IN";
+                case SqlOperators.NotIn: return "NOT IN";
+            }
+            return "";
+        }
+    }
+
+    public partial class SqlExpressionNode_Nullable<T> : SqlExpressionNode where T : SqlLogicalNode, new()
     {
         public T IsNull()
         {
@@ -162,7 +209,7 @@ namespace DAL.Expressions
         }
     }
 
-    public partial class ExpressionNode_Int32<T> : ExpressionNode where T : LogicalNode, new()
+    public partial class SqlExpressionNode_Int32<T> : SqlExpressionNode where T : SqlLogicalNode, new()
     {
         public T Equal(Int32 value)
         {
@@ -175,11 +222,11 @@ namespace DAL.Expressions
 
         public override string ToString()
         {
-            return this.Column + " " + this.Operate.ToString() + " " + Value.ToString();
+            return this.Column + " " + GetSqlOperater(this.Operate) + " " + Value.ToString();
         }
     }
 
-    public partial class ExpressionNode_Nullable_Int32<T> : ExpressionNode where T : LogicalNode, new()
+    public partial class SqlExpressionNode_Nullable_Int32<T> : SqlExpressionNode_Nullable<T> where T : SqlLogicalNode, new()
     {
         public T Equal(Int32? value)
         {
@@ -193,11 +240,16 @@ namespace DAL.Expressions
 
         public override string ToString()
         {
-            return this.Column + " " + this.Operate.ToString() + " " + (Value == null ? "[Null]" : Value.ToString());
+            if (this.Operate == SqlOperators.Equal && (this.Value == null || this.Value == DBNull.Value))
+                return this.Column + " IS NULL";
+            else if (this.Operate == SqlOperators.NotEqual && (this.Value == null || this.Value == DBNull.Value))
+                return this.Column + " IS NOT NULL";
+            return this.Column + " " + GetSqlOperater(this.Operate) + " " + (Value == null ? "NULL" : Value.ToString());
         }
     }
 
     // todo: more ExpressionNode_ DataTypes, ExpressionNode_Nullable_ DataTypes class
+
 
 
     /// <summary>
