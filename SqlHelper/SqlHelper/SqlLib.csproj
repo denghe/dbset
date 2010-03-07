@@ -51,6 +51,7 @@
     <Compile Include="DbSet_Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpResultConfig.cs" />
+    <Compile Include="SqlExpressions.cs" />
     <Compile Include="SqlGens.cs" />
     <Compile Include="SqlHelper.cs" />
     <Compile Include="SqlUtils.cs" />
