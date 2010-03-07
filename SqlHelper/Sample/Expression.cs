@@ -59,23 +59,7 @@ namespace DAL.Expressions.dbo
     // 生成物
     public partial class t2 : LogicalNode<t2>
     {
-        public delegate t2 ExpHandler(t2 t2);
-        public static t2 New(ExpHandler eh) { return eh.Invoke(new t2()); }
-
-        public static t2 operator &(t2 a, t2 b) { return a.And(b); }
-        public static t2 operator |(t2 a, t2 b) { return a.Or(b); }
-
-        public ExpressionNode_Nullable_Int32<t2> id
-        {
-            get
-            {
-                var L = new t2();
-                var e = new ExpressionNode_Nullable_Int32<t2> { Parent = L, Column = "id" };
-                L.Expression = e;
-
-                return e;
-            }
-        }
+        public ExpressionNode_Nullable_Int32<t2> id { get { return this.New_ExpressionNode_Nullable_Int32<t2>("id"); } }
         // todo: more columns
     }
 }
@@ -126,9 +110,25 @@ namespace DAL.Expressions
 
     public class LogicalNode<T> : LogicalNode where T : LogicalNode, new()
     {
+        public delegate T ExpHandler(T eh);
+        public static T New(ExpHandler eh) { return eh.Invoke(new T()); }
+
         public T And(T L) { return new T { First = this, Logical = SqlLogicals.And, Second = L }; }
         public T Or(T L) { return new T { First = this, Logical = SqlLogicals.Or, Second = L }; }
         public T Not() { return new T { First = this, Logical = SqlLogicals.Not }; }
+
+        public static T operator &(LogicalNode<T> a, LogicalNode<T> b) { return new T { First = a, Logical = SqlLogicals.And, Second = b }; }
+        public static T operator |(LogicalNode<T> a, LogicalNode<T> b) { return new T { First = a, Logical = SqlLogicals.Or, Second = b }; }
+
+        public ExpressionNode_Nullable_Int32<T> New_ExpressionNode_Nullable_Int32(string column)
+        {
+            var L = new T();
+            var e = new ExpressionNode_Nullable_Int32<T> { Parent = L, Column = "id" };
+            L.Expression = e;
+            return e;
+        }
+
+        // todo: more new expression
     }
 
     public partial class ExpressionNode_Nullable<T> : ExpressionNode where T : LogicalNode, new()
