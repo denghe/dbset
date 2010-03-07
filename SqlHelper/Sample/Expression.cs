@@ -17,10 +17,6 @@
                 & o.id.Equal(4)).Not()
             );
 
-            var exp1 = t2.New(o => o.id.Equal(1).id.Equal(2).id.Equal(3));
-
-            Console.WriteLine(exp1);
-
             var exp2 = t2.New(o => (o.id.Equal(1) | o.id.Equal(2)) & (o.id.Equal(3) | o.id.Equal(4)));
 
             Console.WriteLine(exp2);
@@ -40,8 +36,14 @@ namespace DAL.Tables.dbo
     // 生成物
     public partial class t2
     {
+        // todo: columns properties here
+
         public static List<t2> Select(Expressions.dbo.t2.ExpHandler exp)
         {
+            var where = exp.ToString();
+            var tsql = "SELECT * FROM t2" + (where.Length > 0 ? " WHERE " : "") + where;
+
+            // todo: get data & return
             return new List<t2>();
         }
     }
@@ -59,7 +61,13 @@ namespace DAL.Expressions.dbo
     // 生成物
     public partial class t2 : LogicalNode<t2>
     {
-        public ExpressionNode_Nullable_Int32<t2> id { get { return this.New_ExpressionNode_Nullable_Int32("id"); } }
+        public ExpressionNode_Nullable_Int32<t2> id
+        {
+            get
+            {
+                return this.New_ExpressionNode_Nullable_Int32("id");
+            }
+        }
         // todo: more columns
     }
 }
@@ -82,10 +90,10 @@ namespace DAL.Expressions
 
     public partial class ExpressionNode
     {
-        public LogicalNode Parent = null;
-        public string Column = null;
+        public LogicalNode Parent;
+        public string Column;
         public SqlOperators Operate = SqlOperators.NotSet;
-        public object Value = null;
+        public object Value;
     }
 
 
@@ -175,15 +183,9 @@ namespace DAL.Expressions
     {
         public T Equal(Int32? value)
         {
-            if (this.Operate == SqlOperators.NotSet)
-            {
-                this.Operate = SqlOperators.Equal;
-                this.Value = value;
-                return (T)this.Parent;
-            }
-            var t = new T { First = this.Parent };
-            t.Second = new T { Expression = new ExpressionNode_Nullable_Int32<T> { Parent = t } };
-            return t;
+            this.Operate = SqlOperators.Equal;
+            this.Value = value;
+            return (T)this.Parent;
         }
 
         // todo: more operate methods
