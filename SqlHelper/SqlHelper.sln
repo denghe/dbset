@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlHelper", "SqlHelper\SqlHelper.csproj", "{EF00EADE-0D3E-445E-A63F-3BE5D1684DCA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlLib", "SqlHelper\SqlLib.csproj", "{EF00EADE-0D3E-445E-A63F-3BE5D1684DCA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample", "Sample\Sample.csproj", "{E1E41AE0-AF89-4196-869F-6B6BE59BF9B9}"
 EndProject

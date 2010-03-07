@@ -50,9 +50,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SqlHelper\SqlHelper.csproj">
+    <ProjectReference Include="..\SqlHelper\SqlLib.csproj">
       <Project>{EF00EADE-0D3E-445E-A63F-3BE5D1684DCA}</Project>
-      <Name>SqlHelper</Name>
+      <Name>SqlLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

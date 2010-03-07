@@ -66,6 +66,8 @@ namespace DAL.Expressions.dbo
     using System.Collections.Generic;
     using System.Text;
 
+    using SqlLib.Expressions;
+
     public partial class t2 : SqlLogicalNode<t2>
     {
         public override string ToString()
@@ -86,7 +88,7 @@ namespace DAL.Expressions.dbo
 
 
 
-namespace DAL.Expressions
+namespace SqlLib.Expressions
 {
     using System;
     using System.Collections.Generic;
@@ -250,6 +252,23 @@ namespace DAL.Expressions
             L.SqlExpression = e;
             return e;
         }
+
+
+
+
+
+        /*
+            Unknown,
+            Byte,
+            Bytes,
+            Int16,
+            Int32,
+            Int64,
+            Decimal,
+            DateTime,
+            String
+        */
+
 
         // todo: more new expression
     }
