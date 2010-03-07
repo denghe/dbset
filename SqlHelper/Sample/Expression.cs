@@ -57,32 +57,20 @@ namespace DAL.Expressions.dbo
     using System.Text;
 
     // 生成物
-    public partial class t2 : LogicalNode
+    public partial class t2 : LogicalNode<t2>
     {
-        public t2()
-            : base(null, SqlLogicals.And, null, null)
-        {
-        }
-        public t2(t2 first, SqlLogicals operate, t2 second)
-            : base(first, operate, second, null)
-        {
-        }
         public delegate t2 ExpHandler(t2 t2);
         public static t2 New(ExpHandler eh) { return eh.Invoke(new t2()); }
 
-        public t2 And(t2 L) { return new t2(this, SqlLogicals.And, L); }
-        public t2 Or(t2 L) { return new t2(this, SqlLogicals.Or, L); }
-        public t2 Not() { return new t2(this, SqlLogicals.Not, null); }
         public static t2 operator &(t2 a, t2 b) { return a.And(b); }
         public static t2 operator |(t2 a, t2 b) { return a.Or(b); }
-
 
         public ExpressionNode_Nullable_Int32<t2> id
         {
             get
             {
                 var L = new t2();
-                var e = new ExpressionNode_Nullable_Int32<t2>(L, "id");
+                var e = new ExpressionNode_Nullable_Int32<t2> { Parent = L, Column = "id" };
                 L.Expression = e;
 
                 return e;
@@ -102,7 +90,7 @@ namespace DAL.Expressions
 
     public partial class LogicalNode
     {
-        public SqlLogicals Logical;
+        public SqlLogicals Logical = SqlLogicals.And;
         public LogicalNode First;
         public LogicalNode Second;
         public ExpressionNode Expression;
@@ -112,7 +100,7 @@ namespace DAL.Expressions
     {
         public LogicalNode Parent = null;
         public string Column = null;
-        public SqlOperators Operate = 0;
+        public SqlOperators Operate = SqlOperators.NotSet;
         public object Value = null;
     }
 
@@ -120,27 +108,6 @@ namespace DAL.Expressions
 
     partial class LogicalNode
     {
-        public LogicalNode(LogicalNode first, SqlLogicals logical, LogicalNode second, ExpressionNode exp)
-        {
-            this.First = first;
-            this.Logical = logical;
-            this.Second = second;
-            this.Expression = exp;
-        }
-
-        //public LogicalNode And(LogicalNode L)
-        //{
-        //    return new LogicalNode(this, SqlLogicals.And, L, null);
-        //}
-        //public LogicalNode Or(LogicalNode L)
-        //{
-        //    return new LogicalNode(this, SqlLogicals.Or, L, null);
-        //}
-        //public LogicalNode Not()
-        //{
-        //    return new LogicalNode(this, SqlLogicals.Not, null, null);
-        //}
-
         public override string ToString()
         {
             if (this.Expression == null)
@@ -157,24 +124,15 @@ namespace DAL.Expressions
         }
     }
 
-    partial class ExpressionNode
+    public class LogicalNode<T> : LogicalNode where T : LogicalNode, new()
     {
-        public ExpressionNode(LogicalNode parent, string column, SqlOperators operate, object value)
-        {
-            this.Parent = parent;
-            this.Column = column;
-            this.Operate = operate;
-            this.Value = value;
-        }
+        public T And(T L) { return new T { First = this, Logical = SqlLogicals.And, Second = L }; }
+        public T Or(T L) { return new T { First = this, Logical = SqlLogicals.Or, Second = L }; }
+        public T Not() { return new T { First = this, Logical = SqlLogicals.Not }; }
     }
 
-    public partial class ExpressionNode_Nullable<T> : ExpressionNode where T : LogicalNode
+    public partial class ExpressionNode_Nullable<T> : ExpressionNode where T : LogicalNode, new()
     {
-        public ExpressionNode_Nullable(LogicalNode parent, string column)
-            : base(parent, column, SqlOperators.Custom, null)
-        {
-        }
-
         public T IsNull()
         {
             this.Operate = SqlOperators.Equal;
@@ -189,20 +147,8 @@ namespace DAL.Expressions
         }
     }
 
-    public partial class ExpressionNode<T> : ExpressionNode where T : LogicalNode
+    public partial class ExpressionNode_Int32<T> : ExpressionNode where T : LogicalNode, new()
     {
-        public ExpressionNode(LogicalNode parent, string column)
-            : base(parent, column, SqlOperators.Custom, null)
-        {
-        }
-    }
-
-    public partial class ExpressionNode_Int32<T> : ExpressionNode<T> where T : LogicalNode
-    {
-        public ExpressionNode_Int32(LogicalNode parent, string column)
-            : base(parent, column)
-        {
-        }
         public T Equal(Int32 value)
         {
             this.Operate = SqlOperators.Equal;
@@ -218,18 +164,19 @@ namespace DAL.Expressions
         }
     }
 
-    public partial class ExpressionNode_Nullable_Int32<T> : ExpressionNode<T> where T : LogicalNode
+    public partial class ExpressionNode_Nullable_Int32<T> : ExpressionNode where T : LogicalNode, new()
     {
-        public ExpressionNode_Nullable_Int32(LogicalNode parent, string column)
-            : base(parent, column)
-        {
-        }
         public T Equal(Int32? value)
         {
-            this.Operate = SqlOperators.Equal;
-            this.Value = value;
-
-            return (T)this.Parent;
+            if (this.Operate == SqlOperators.NotSet)
+            {
+                this.Operate = SqlOperators.Equal;
+                this.Value = value;
+                return (T)this.Parent;
+            }
+            var t = new T { First = this.Parent };
+            t.Second = new T { Expression = new ExpressionNode_Nullable_Int32<T> { Parent = t } };
+            return t;
         }
 
         // todo: more operate methods
@@ -249,7 +196,7 @@ namespace DAL.Expressions
     /// </summary>
     public enum SqlOperators : int
     {
-        Null = 0,
+        NotSet = 0,
 
         Custom,
 
@@ -277,7 +224,8 @@ namespace DAL.Expressions
     /// </summary>
     public enum SqlLogicals : int
     {
-        Null = 0,
+        NotSet = 0,
+
         And,
         Or,
         Not
