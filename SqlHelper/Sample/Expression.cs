@@ -59,7 +59,7 @@ namespace DAL.Expressions.dbo
     // 生成物
     public partial class t2 : LogicalNode<t2>
     {
-        public ExpressionNode_Nullable_Int32<t2> id { get { return this.New_ExpressionNode_Nullable_Int32<t2>("id"); } }
+        public ExpressionNode_Nullable_Int32<t2> id { get { return this.New_ExpressionNode_Nullable_Int32("id"); } }
         // todo: more columns
     }
 }
@@ -124,6 +124,13 @@ namespace DAL.Expressions
         {
             var L = new T();
             var e = new ExpressionNode_Nullable_Int32<T> { Parent = L, Column = "id" };
+            L.Expression = e;
+            return e;
+        }
+        public ExpressionNode_Int32<T> New_ExpressionNode_Int32(string column)
+        {
+            var L = new T();
+            var e = new ExpressionNode_Int32<T> { Parent = L, Column = "id" };
             L.Expression = e;
             return e;
         }
