@@ -17,13 +17,13 @@
             var e = exp.t2.New();
             if (true) e.And(o => o.id.Equal(1));
             if (false) e.And(o => o.id.Equal(2));
-            if (true) e.And(o => o.id.Equal(3));
+            if (true) e.And(o => o.id.Between(3, 4));
             var rows = db.t2.Select(e);
             Console.WriteLine(e);
 
             // direct
             Console.WriteLine(DAL.Expressions.dbo.t2.New(o =>
-                    (o.id.Equal(1) | o.id.Equal(2)) & (o.id.Equal(null) | o.id.IsNull()).Not()
+                    (o.id.IsNull() | o.id.GreaterEqual(2)) & (o.id.Equal(null) | o.id.Between(3, 4)).Not()
                 )
             );
 

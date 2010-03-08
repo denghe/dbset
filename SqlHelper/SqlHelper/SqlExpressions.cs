@@ -322,7 +322,7 @@
         {
             switch (op)
             {
-                case SqlOperators.Custom: return "{0}";
+                case SqlOperators.Custom: return "{0} {1}";
                 case SqlOperators.Equal: return "{0} = {1}";
                 case SqlOperators.LessThan: return "{0} < {1}";
                 case SqlOperators.LessEqual: return "{0} <= {1}";
@@ -355,7 +355,7 @@
                 so = "{0} IS NOT {1}";
             else so = GetSqlOperater(this.Operate);
 
-            return sn + string.Format(so, GetValueString(), GetValue2String());
+            return string.Format(so, sn, GetValueString(), GetValue2String());
         }
 
         protected virtual string GetValueString()
