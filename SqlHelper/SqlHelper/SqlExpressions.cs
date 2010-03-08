@@ -551,6 +551,14 @@
             this.Value = value;
             return (T)this.Parent;
         }
+
+        public T Between(Int16 value, Int16 value2)
+        {
+            this.Operate = SqlOperators.Between;
+            this.Value = value;
+            this.Value2 = value2;
+            return (T)this.Parent;
+        }
     }
 
     public partial class SqlExpressionNode_Nullable_Int16<T> : SqlExpressionNode_Nullable<T> where T : SqlLogicalNode, new()
@@ -598,6 +606,14 @@
             if (value == null) value = 0;
             this.Operate = SqlOperators.LessEqual;
             this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T Between(Int16? value, Int16? value2)
+        {
+            this.Operate = SqlOperators.Between;
+            this.Value = value;
+            this.Value2 = value2;
             return (T)this.Parent;
         }
     }
@@ -649,6 +665,14 @@
             this.Value = value;
             return (T)this.Parent;
         }
+
+        public T Between(Int32 value, Int32 value2)
+        {
+            this.Operate = SqlOperators.Between;
+            this.Value = value;
+            this.Value2 = value2;
+            return (T)this.Parent;
+        }
     }
 
     public partial class SqlExpressionNode_Nullable_Int32<T> : SqlExpressionNode_Nullable<T> where T : SqlLogicalNode, new()
@@ -696,6 +720,14 @@
             if (value == null) value = 0;
             this.Operate = SqlOperators.LessEqual;
             this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T Between(Int32? value, Int32? value2)
+        {
+            this.Operate = SqlOperators.Between;
+            this.Value = value;
+            this.Value2 = value2;
             return (T)this.Parent;
         }
     }
@@ -747,6 +779,14 @@
             this.Value = value;
             return (T)this.Parent;
         }
+
+        public T Between(Int64 value, Int64 value2)
+        {
+            this.Operate = SqlOperators.Between;
+            this.Value = value;
+            this.Value2 = value2;
+            return (T)this.Parent;
+        }
     }
 
     public partial class SqlExpressionNode_Nullable_Int64<T> : SqlExpressionNode_Nullable<T> where T : SqlLogicalNode, new()
@@ -794,6 +834,14 @@
             if (value == null) value = 0;
             this.Operate = SqlOperators.LessEqual;
             this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T Between(Int64? value, Int64? value2)
+        {
+            this.Operate = SqlOperators.Between;
+            this.Value = value;
+            this.Value2 = value2;
             return (T)this.Parent;
         }
     }
@@ -845,6 +893,14 @@
             this.Value = value;
             return (T)this.Parent;
         }
+
+        public T Between(Decimal value, Decimal value2)
+        {
+            this.Operate = SqlOperators.Between;
+            this.Value = value;
+            this.Value2 = value2;
+            return (T)this.Parent;
+        }
     }
 
     public partial class SqlExpressionNode_Nullable_Decimal<T> : SqlExpressionNode_Nullable<T> where T : SqlLogicalNode, new()
@@ -892,6 +948,14 @@
             if (value == null) value = 0;
             this.Operate = SqlOperators.LessEqual;
             this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T Between(Decimal? value, Decimal? value2)
+        {
+            this.Operate = SqlOperators.Between;
+            this.Value = value;
+            this.Value2 = value2;
             return (T)this.Parent;
         }
     }
@@ -953,6 +1017,14 @@
             this.Value = value;
             return (T)this.Parent;
         }
+
+        public T Between(DateTime value, DateTime value2)
+        {
+            this.Operate = SqlOperators.Between;
+            this.Value = value;
+            this.Value2 = value2;
+            return (T)this.Parent;
+        }
     }
 
     public partial class SqlExpressionNode_Nullable_DateTime<T> : SqlExpressionNode_Nullable<T> where T : SqlLogicalNode, new()
@@ -1012,6 +1084,14 @@
             if (value == null) value = new DateTime();
             this.Operate = SqlOperators.LessEqual;
             this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T Between(DateTime? value, DateTime? value2)
+        {
+            this.Operate = SqlOperators.Between;
+            this.Value = value;
+            this.Value2 = value2;
             return (T)this.Parent;
         }
     }
