@@ -95,6 +95,8 @@
 
         public string ToSqlString(string schema = null, string name = null)
         {
+            schema = SqlUtils.EscapeSqlObjectName(schema);
+            name = SqlUtils.EscapeSqlObjectName(name);
             if (this.Expression == null)
             {
                 if (this.Logical == Logicals.Not)
