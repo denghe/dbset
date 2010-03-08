@@ -42,7 +42,6 @@
         GreaterThan,
 
         Like,
-        CustomLike,
 
         In,
 
@@ -329,8 +328,7 @@
                 case SqlOperators.GreaterThan: return "{0} > {1}";
                 case SqlOperators.GreaterEqual: return "{0} >= {1}";
                 case SqlOperators.NotEqual: return "{0} <> {1}";
-                case SqlOperators.Like:
-                case SqlOperators.CustomLike: return "{0} LIKE {1}";
+                case SqlOperators.Like: return "{0} LIKE {1}";
                 case SqlOperators.In: return "{0} IN ({1})";
                 case SqlOperators.Between: return "{0} BETWEEN {1} AND {2}";
             }
@@ -1032,13 +1030,13 @@
         protected override string GetValueString()
         {
             if (this.Value == null || this.Value == DBNull.Value) return "NULL";
-            return ((DateTime?)this.Value).Value.ToString("yyyy-MM-d HH:mm:ss.ffffzzz");
+            return ((DateTime?)this.Value).Value.ToString("'yyyy-MM-d HH:mm:ss.ffffzzz'");
         }
 
         protected override string GetValue2String()
         {
             if (this.Value2 == null || this.Value2 == DBNull.Value) return "NULL";
-            return ((DateTime?)this.Value2).Value.ToString("yyyy-MM-d HH:mm:ss.ffffzzz");
+            return ((DateTime?)this.Value2).Value.ToString("'yyyy-MM-d HH:mm:ss.ffffzzz'");
         }
 
         public T Equal(DateTime? value)
@@ -1102,6 +1100,16 @@
 
     public partial class SqlExpressionNode_String<T> : SqlExpressionNode where T : SqlLogicalNode, new()
     {
+        protected override string GetValueString()
+        {
+            return "'" + ((string)this.Value).Replace("'", "''") + "'";
+        }
+
+        protected override string GetValue2String()
+        {
+            return "'" + ((string)this.Value2).Replace("'", "''") + "'";
+        }
+
         public T Equal(String value)
         {
             if (value == null) value = "";
@@ -1146,6 +1154,14 @@
         {
             if (value == null) value = "";
             this.Operate = SqlOperators.LessEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T Like(String value)
+        {
+            if (value == null) value = "";
+            this.Operate = SqlOperators.Like;
             this.Value = value;
             return (T)this.Parent;
         }
@@ -1195,6 +1211,14 @@
         {
             if (value == null) value = "";
             this.Operate = SqlOperators.LessEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T Like(String value)
+        {
+            if (value == null) value = "";
+            this.Operate = SqlOperators.Like;
             this.Value = value;
             return (T)this.Parent;
         }
