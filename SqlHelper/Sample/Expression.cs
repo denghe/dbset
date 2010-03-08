@@ -72,7 +72,7 @@ namespace DAL.Expressions.dbo
     {
         public override string ToString()
         {
-            return base.ToString("dbo", "t2");
+            return base.ToSqlString("dbo", "t2");
         }
 
         public SqlExpressionNode_Nullable_Int32<t2> id { get { return this.New_SqlExpressionNode_Nullable_Int32("id"); } }

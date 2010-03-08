@@ -88,30 +88,10 @@
 
         public override string ToString()
         {
-            if (this.SqlExpression == null)
-            {
-                if (this.Logical == SqlLogicals.Not)
-                {
-                    var firstQuote = this.First.Logical != SqlLogicals.Not;
-                    var s1 = firstQuote ? " ( " : " ";
-                    var s2 = firstQuote ? " )" : "";
-                    return GetSqlOperater(this.Logical) + s1 + this.First.ToString() + s2;
-                }
-                else
-                {
-                    var firstQuote = this.First.Logical == SqlLogicals.Or && this.Logical == SqlLogicals.And;
-                    var secondQuote = this.Second.Logical == SqlLogicals.Or && this.Logical == SqlLogicals.And;
-                    var s1 = firstQuote ? "( " : "";
-                    var s2 = firstQuote ? " ) " : " ";
-                    var s3 = secondQuote ? " ( " : " ";
-                    var s4 = secondQuote ? " )" : "";
-                    return s1 + this.First.ToString() + s2 + GetSqlOperater(this.Logical) + s3 + this.Second.ToString() + s4;
-                }
-            }
-            return this.SqlExpression.ToString();
+            return this.ToSqlString();
         }
 
-        public string ToString(string schema, string name)
+        public string ToSqlString(string schema = null, string name = null)
         {
             if (this.SqlExpression == null)
             {
@@ -120,7 +100,7 @@
                     var firstQuote = this.First.Logical != SqlLogicals.Not;
                     var s1 = firstQuote ? " ( " : " ";
                     var s2 = firstQuote ? " )" : "";
-                    return GetSqlOperater(this.Logical) + s1 + this.First.ToString(schema, name) + s2;
+                    return GetSqlOperater(this.Logical) + s1 + this.First.ToSqlString(schema, name) + s2;
                 }
                 else
                 {
@@ -130,7 +110,7 @@
                     var s2 = firstQuote ? " ) " : " ";
                     var s3 = secondQuote ? " ( " : " ";
                     var s4 = secondQuote ? " )" : "";
-                    return s1 + this.First.ToString(schema, name) + s2 + GetSqlOperater(this.Logical) + s3 + this.Second.ToString(schema, name) + s4;
+                    return s1 + this.First.ToSqlString(schema, name) + s2 + GetSqlOperater(this.Logical) + s3 + this.Second.ToSqlString(schema, name) + s4;
                 }
             }
             return this.SqlExpression.ToSqlString(schema, name);
@@ -183,30 +163,19 @@
             }
         }
 
-
         public static T operator &(SqlLogicalNode<T> a, SqlLogicalNode<T> b) { return new T { First = a, Logical = SqlLogicals.And, Second = b }; }
         public static T operator |(SqlLogicalNode<T> a, SqlLogicalNode<T> b) { return new T { First = a, Logical = SqlLogicals.Or, Second = b }; }
 
-        public SqlExpressionNode_Nullable_Int32<T> New_SqlExpressionNode_Nullable_Int32(string column)
+        protected void CheckExpression()
         {
-            if (this.SqlExpression != null) throw new Exception("do not support column.operate(value).column.operate(value).....");
-            var L = new T();
-            var e = new SqlExpressionNode_Nullable_Int32<T> { Parent = L, ColumnName = "id" };
-            L.SqlExpression = e;
-            return e;
+            if (this.SqlExpression != null)
+                throw new Exception("do not support column.operate(value).column.operate(value).....");
         }
-        public SqlExpressionNode_Int32<T> New_SqlExpressionNode_Int32(string column)
-        {
-            if (this.SqlExpression != null) throw new Exception("do not support column.operate(value).column.operate(value).....");
-            var L = new T();
-            var e = new SqlExpressionNode_Int32<T> { Parent = L, ColumnName = "id" };
-            L.SqlExpression = e;
-            return e;
-        }
+
 
         public SqlExpressionNode_Nullable_Boolean<T> New_SqlExpressionNode_Nullable_Boolean(string column)
         {
-            if (this.SqlExpression != null) throw new Exception("do not support column.operate(value).column.operate(value).....");
+            CheckExpression();
             var L = new T();
             var e = new SqlExpressionNode_Nullable_Boolean<T> { Parent = L, ColumnName = "id" };
             L.SqlExpression = e;
@@ -214,29 +183,131 @@
         }
         public SqlExpressionNode_Boolean<T> New_SqlExpressionNode_Boolean(string column)
         {
-            if (this.SqlExpression != null) throw new Exception("do not support column.operate(value).column.operate(value).....");
+            CheckExpression();
             var L = new T();
             var e = new SqlExpressionNode_Boolean<T> { Parent = L, ColumnName = "id" };
             L.SqlExpression = e;
             return e;
         }
 
+        public SqlExpressionNode_Nullable_Bytes<T> New_SqlExpressionNode_Nullable_Bytes(string column)
+        {
+            CheckExpression();
+            var L = new T();
+            var e = new SqlExpressionNode_Nullable_Bytes<T> { Parent = L, ColumnName = "id" };
+            L.SqlExpression = e;
+            return e;
+        }
+        public SqlExpressionNode_Bytes<T> New_SqlExpressionNode_Bytes(string column)
+        {
+            CheckExpression();
+            var L = new T();
+            var e = new SqlExpressionNode_Bytes<T> { Parent = L, ColumnName = "id" };
+            L.SqlExpression = e;
+            return e;
+        }
 
+        public SqlExpressionNode_Nullable_Int16<T> New_SqlExpressionNode_Nullable_Int16(string column)
+        {
+            CheckExpression();
+            var L = new T();
+            var e = new SqlExpressionNode_Nullable_Int16<T> { Parent = L, ColumnName = "id" };
+            L.SqlExpression = e;
+            return e;
+        }
+        public SqlExpressionNode_Int16<T> New_SqlExpressionNode_Int16(string column)
+        {
+            CheckExpression();
+            var L = new T();
+            var e = new SqlExpressionNode_Int16<T> { Parent = L, ColumnName = "id" };
+            L.SqlExpression = e;
+            return e;
+        }
 
-        /*
-            Unknown,
-            Boolean,
-            Bytes,
-            Int16,
-            Int32,
-            Int64,
-            Decimal,
-            DateTime,
-            String
-        */
+        public SqlExpressionNode_Nullable_Int32<T> New_SqlExpressionNode_Nullable_Int32(string column)
+        {
+            CheckExpression();
+            var L = new T();
+            var e = new SqlExpressionNode_Nullable_Int32<T> { Parent = L, ColumnName = "id" };
+            L.SqlExpression = e;
+            return e;
+        }
+        public SqlExpressionNode_Int32<T> New_SqlExpressionNode_Int32(string column)
+        {
+            CheckExpression();
+            var L = new T();
+            var e = new SqlExpressionNode_Int32<T> { Parent = L, ColumnName = "id" };
+            L.SqlExpression = e;
+            return e;
+        }
 
+        public SqlExpressionNode_Nullable_Int64<T> New_SqlExpressionNode_Nullable_Int64(string column)
+        {
+            CheckExpression();
+            var L = new T();
+            var e = new SqlExpressionNode_Nullable_Int64<T> { Parent = L, ColumnName = "id" };
+            L.SqlExpression = e;
+            return e;
+        }
+        public SqlExpressionNode_Int64<T> New_SqlExpressionNode_Int64(string column)
+        {
+            CheckExpression();
+            var L = new T();
+            var e = new SqlExpressionNode_Int64<T> { Parent = L, ColumnName = "id" };
+            L.SqlExpression = e;
+            return e;
+        }
 
-        // todo: more new expression
+        public SqlExpressionNode_Nullable_Decimal<T> New_SqlExpressionNode_Nullable_Decimal(string column)
+        {
+            CheckExpression();
+            var L = new T();
+            var e = new SqlExpressionNode_Nullable_Decimal<T> { Parent = L, ColumnName = "id" };
+            L.SqlExpression = e;
+            return e;
+        }
+        public SqlExpressionNode_Decimal<T> New_SqlExpressionNode_Decimal(string column)
+        {
+            CheckExpression();
+            var L = new T();
+            var e = new SqlExpressionNode_Decimal<T> { Parent = L, ColumnName = "id" };
+            L.SqlExpression = e;
+            return e;
+        }
+
+        public SqlExpressionNode_Nullable_DateTime<T> New_SqlExpressionNode_Nullable_DateTime(string column)
+        {
+            CheckExpression();
+            var L = new T();
+            var e = new SqlExpressionNode_Nullable_DateTime<T> { Parent = L, ColumnName = "id" };
+            L.SqlExpression = e;
+            return e;
+        }
+        public SqlExpressionNode_DateTime<T> New_SqlExpressionNode_DateTime(string column)
+        {
+            CheckExpression();
+            var L = new T();
+            var e = new SqlExpressionNode_DateTime<T> { Parent = L, ColumnName = "id" };
+            L.SqlExpression = e;
+            return e;
+        }
+
+        public SqlExpressionNode_Nullable_String<T> New_SqlExpressionNode_Nullable_String(string column)
+        {
+            CheckExpression();
+            var L = new T();
+            var e = new SqlExpressionNode_Nullable_String<T> { Parent = L, ColumnName = "id" };
+            L.SqlExpression = e;
+            return e;
+        }
+        public SqlExpressionNode_String<T> New_SqlExpressionNode_String(string column)
+        {
+            CheckExpression();
+            var L = new T();
+            var e = new SqlExpressionNode_String<T> { Parent = L, ColumnName = "id" };
+            L.SqlExpression = e;
+            return e;
+        }
     }
 
     partial class SqlExpressionNode
@@ -377,7 +448,160 @@
         // todo: more operate methods
     }
 
-    // todo: more ExpressionNode_ DataTypes, ExpressionNode_Nullable_ DataTypes class
+    public partial class SqlExpressionNode_Bytes<T> : SqlExpressionNode where T : SqlLogicalNode, new()
+    {
+        protected override string GetValueString()
+        {
+            return SqlUtils.ToHexString((byte[])this.Value);
+        }
 
+        public T Equal(byte[] value)
+        {
+            if (value == null) value = new byte[] { };
+            this.Operate = SqlOperators.Equal;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        // todo: more operate methods
+    }
+
+    public partial class SqlExpressionNode_Nullable_Bytes<T> : SqlExpressionNode_Nullable<T> where T : SqlLogicalNode, new()
+    {
+        protected override string GetValueString()
+        {
+            return SqlUtils.ToHexString((byte[])this.Value);
+        }
+
+        public T Equal(Byte[] value)
+        {
+            this.Operate = SqlOperators.Equal;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        // todo: more operate methods
+    }
+
+    public partial class SqlExpressionNode_Int16<T> : SqlExpressionNode where T : SqlLogicalNode, new()
+    {
+        public T Equal(Int16 value)
+        {
+            this.Operate = SqlOperators.Equal;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        // todo: more operate methods
+    }
+
+    public partial class SqlExpressionNode_Nullable_Int16<T> : SqlExpressionNode_Nullable<T> where T : SqlLogicalNode, new()
+    {
+        public T Equal(Int16? value)
+        {
+            this.Operate = SqlOperators.Equal;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        // todo: more operate methods
+    }
+
+    public partial class SqlExpressionNode_Int64<T> : SqlExpressionNode where T : SqlLogicalNode, new()
+    {
+        public T Equal(Int64 value)
+        {
+            this.Operate = SqlOperators.Equal;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        // todo: more operate methods
+    }
+
+    public partial class SqlExpressionNode_Nullable_Int64<T> : SqlExpressionNode_Nullable<T> where T : SqlLogicalNode, new()
+    {
+        public T Equal(Int64? value)
+        {
+            this.Operate = SqlOperators.Equal;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        // todo: more operate methods
+    }
+
+    public partial class SqlExpressionNode_Decimal<T> : SqlExpressionNode where T : SqlLogicalNode, new()
+    {
+        public T Equal(Decimal value)
+        {
+            this.Operate = SqlOperators.Equal;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        // todo: more operate methods
+    }
+
+    public partial class SqlExpressionNode_Nullable_Decimal<T> : SqlExpressionNode_Nullable<T> where T : SqlLogicalNode, new()
+    {
+        public T Equal(Decimal? value)
+        {
+            this.Operate = SqlOperators.Equal;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        // todo: more operate methods
+    }
+
+    public partial class SqlExpressionNode_DateTime<T> : SqlExpressionNode where T : SqlLogicalNode, new()
+    {
+        public T Equal(DateTime value)
+        {
+            this.Operate = SqlOperators.Equal;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        // todo: more operate methods
+    }
+
+    public partial class SqlExpressionNode_Nullable_DateTime<T> : SqlExpressionNode_Nullable<T> where T : SqlLogicalNode, new()
+    {
+        public T Equal(DateTime? value)
+        {
+            this.Operate = SqlOperators.Equal;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        // todo: more operate methods
+    }
+
+    public partial class SqlExpressionNode_String<T> : SqlExpressionNode where T : SqlLogicalNode, new()
+    {
+        public T Equal(String value)
+        {
+            if (value == null) value = "";
+            this.Operate = SqlOperators.Equal;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        // todo: more operate methods
+    }
+
+    public partial class SqlExpressionNode_Nullable_String<T> : SqlExpressionNode_Nullable<T> where T : SqlLogicalNode, new()
+    {
+        public T Equal(String value)
+        {
+            this.Operate = SqlOperators.Equal;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        // todo: more operate methods
+    }
 
 }
