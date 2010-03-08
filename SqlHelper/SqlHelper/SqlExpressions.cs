@@ -21,10 +21,71 @@
         public object Value;
     }
 
+    /// <summary>
+    /// 字段--值 SQL 直接运算符
+    /// </summary>
+    public enum SqlOperators : int
+    {
+        NotSet = 0,
+
+        Custom,
+
+        Equal,
+        NotEqual,
+
+        LessEqual,
+        GreaterEqual,
+
+        LessThan,
+        GreaterThan,
+
+        Like,
+        CustomLike,
+
+        NotLike,
+        CustomNotLike,
+
+        In,
+        NotIn
+    }
+
+    /// <summary>
+    /// SQL 逻辑运算符
+    /// </summary>
+    public enum SqlLogicals : int
+    {
+        NotSet = 0,
+
+        And,
+        Or,
+        Not
+    }
 
 
     partial class SqlLogicalNode
     {
+        public void CopyTo(SqlLogicalNode o)
+        {
+            o.First = this.First;
+            o.Second = this.Second;
+            o.SqlExpression = this.SqlExpression;
+            o.Logical = this.Logical;
+        }
+
+        /// <summary>
+        /// 获取运算符的 SQL 写法
+        /// </summary>
+        public static string GetSqlOperater(SqlLogicals op)
+        {
+            switch (op)
+            {
+                case SqlLogicals.And: return "AND";
+                case SqlLogicals.Or: return "OR";
+                case SqlLogicals.Not: return "NOT";
+            }
+            return "";
+        }
+
         public override string ToString()
         {
             if (this.SqlExpression == null)
@@ -49,6 +110,7 @@
             }
             return this.SqlExpression.ToString();
         }
+
         public string ToString(string schema, string name)
         {
             if (this.SqlExpression == null)
@@ -71,30 +133,9 @@
                     return s1 + this.First.ToString(schema, name) + s2 + GetSqlOperater(this.Logical) + s3 + this.Second.ToString(schema, name) + s4;
                 }
             }
-            return this.SqlExpression.ToString(schema, name);
+            return this.SqlExpression.ToSqlString(schema, name);
         }
 
-        public void CopyTo(SqlLogicalNode o)
-        {
-            o.First = this.First;
-            o.Second = this.Second;
-            o.SqlExpression = this.SqlExpression;
-            o.Logical = this.Logical;
-        }
-
-        /// <summary>
-        /// 获取运算符的 SQL 写法
-        /// </summary>
-        public static string GetSqlOperater(SqlLogicals op)
-        {
-            switch (op)
-            {
-                case SqlLogicals.And: return "AND";
-                case SqlLogicals.Or: return "OR";
-                case SqlLogicals.Not: return "NOT";
-            }
-            return "";
-        }
     }
 
     public class SqlLogicalNode<T> : SqlLogicalNode where T : SqlLogicalNode, new()
@@ -163,13 +204,28 @@
             return e;
         }
 
-
+        public SqlExpressionNode_Nullable_Boolean<T> New_SqlExpressionNode_Nullable_Boolean(string column)
+        {
+            if (this.SqlExpression != null) throw new Exception("do not support column.operate(value).column.operate(value).....");
+            var L = new T();
+            var e = new SqlExpressionNode_Nullable_Boolean<T> { Parent = L, ColumnName = "id" };
+            L.SqlExpression = e;
+            return e;
+        }
+        public SqlExpressionNode_Boolean<T> New_SqlExpressionNode_Boolean(string column)
+        {
+            if (this.SqlExpression != null) throw new Exception("do not support column.operate(value).column.operate(value).....");
+            var L = new T();
+            var e = new SqlExpressionNode_Boolean<T> { Parent = L, ColumnName = "id" };
+            L.SqlExpression = e;
+            return e;
+        }
 
 
 
         /*
             Unknown,
-            Byte,
+            Boolean,
             Bytes,
             Int16,
             Int32,
@@ -209,7 +265,41 @@
             return "";
         }
 
-        public virtual string ToString(string schema, string name) { return ""; }
+        public override string ToString()
+        {
+            return this.ToSqlString();
+        }
+
+        public virtual string ToSqlString(string schema = null, string name = null)
+        {
+            // todo: switch type
+            string sn, so, sv;
+            sn = (string.IsNullOrEmpty(schema) ? "" : ("[" + schema + "]."))
+                + (string.IsNullOrEmpty(name) ? "" : ("[" + name + "]."))
+                + "[" + this.ColumnName + "]";
+
+            if (this.Operate == SqlOperators.Equal && (this.Value == null || this.Value == DBNull.Value))
+            {
+                so = "IS";
+                sv = "NULL";
+            }
+            else if (this.Operate == SqlOperators.NotEqual && (this.Value == null || this.Value == DBNull.Value))
+            {
+                so = "IS NOT";
+                sv = "NULL";
+            }
+            else
+            {
+                so = GetSqlOperater(this.Operate);
+                sv = this.GetValueString();
+            }
+            return sn + " " + so + " " + sv;
+        }
+
+        protected virtual string GetValueString()
+        {
+            return Value.ToString();
+        }
     }
 
     public partial class SqlExpressionNode_Nullable<T> : SqlExpressionNode where T : SqlLogicalNode, new()
@@ -238,15 +328,6 @@
         }
 
         // todo: more operate methods
-
-        public override string ToString()
-        {
-            return this.ColumnName + " " + GetSqlOperater(this.Operate) + " " + Value.ToString();
-        }
-        public override string ToString(string schema, string name)
-        {
-            return "[" + schema + "].[" + name + "].[" + this.ColumnName + "] " + GetSqlOperater(this.Operate) + " " + Value.ToString();
-        }
     }
 
     public partial class SqlExpressionNode_Nullable_Int32<T> : SqlExpressionNode_Nullable<T> where T : SqlLogicalNode, new()
@@ -259,69 +340,44 @@
         }
 
         // todo: more operate methods
+    }
 
-
-        public override string ToString()
+    public partial class SqlExpressionNode_Boolean<T> : SqlExpressionNode where T : SqlLogicalNode, new()
+    {
+        protected override string GetValueString()
         {
-            if (this.Operate == SqlOperators.Equal && (this.Value == null || this.Value == DBNull.Value))
-                return this.ColumnName + " IS NULL";
-            else if (this.Operate == SqlOperators.NotEqual && (this.Value == null || this.Value == DBNull.Value))
-                return this.ColumnName + " IS NOT NULL";
-            return this.ColumnName + " " + GetSqlOperater(this.Operate) + " " + (Value == null ? "NULL" : Value.ToString());
-        }
-        public override string ToString(string schema, string name)
-        {
-            if (this.Operate == SqlOperators.Equal && (this.Value == null || this.Value == DBNull.Value))
-                return "[" + schema + "].[" + name + "].[" + this.ColumnName + "] IS NULL";
-            else if (this.Operate == SqlOperators.NotEqual && (this.Value == null || this.Value == DBNull.Value))
-                return "[" + schema + "].[" + name + "].[" + this.ColumnName + "] IS NOT NULL";
-            return "[" + schema + "].[" + name + "].[" + this.ColumnName + "] " + GetSqlOperater(this.Operate)
-                + " " + (Value == null ? "NULL" : Value.ToString());
+            return (bool)this.Value ? "1" : "0";
         }
 
+        public T Equal(Boolean value)
+        {
+            this.Operate = SqlOperators.Equal;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        // todo: more operate methods
+
+    }
+
+    public partial class SqlExpressionNode_Nullable_Boolean<T> : SqlExpressionNode_Nullable<T> where T : SqlLogicalNode, new()
+    {
+        protected override string GetValueString()
+        {
+            return ((bool?)this.Value).Value ? "1" : "0";
+        }
+
+        public T Equal(Boolean? value)
+        {
+            this.Operate = SqlOperators.Equal;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        // todo: more operate methods
     }
 
     // todo: more ExpressionNode_ DataTypes, ExpressionNode_Nullable_ DataTypes class
 
 
-
-    /// <summary>
-    /// 字段--值 SQL 直接运算符
-    /// </summary>
-    public enum SqlOperators : int
-    {
-        NotSet = 0,
-
-        Custom,
-
-        Equal,
-        NotEqual,
-
-        LessEqual,
-        GreaterEqual,
-
-        LessThan,
-        GreaterThan,
-
-        Like,
-        CustomLike,
-
-        NotLike,
-        CustomNotLike,
-
-        In,
-        NotIn
-    }
-
-    /// <summary>
-    /// SQL 逻辑运算符
-    /// </summary>
-    public enum SqlLogicals : int
-    {
-        NotSet = 0,
-
-        And,
-        Or,
-        Not
-    }
 }

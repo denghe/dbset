@@ -84,7 +84,7 @@
         public enum Type
         {
             Unknown,
-            Byte,
+            Boolean,
             Bytes,
             Int16,
             Int32,
