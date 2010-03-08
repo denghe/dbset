@@ -43,11 +43,7 @@
         Like,
         CustomLike,
 
-        NotLike,
-        CustomNotLike,
-
         In,
-        NotIn
     }
 
     /// <summary>
@@ -332,10 +328,7 @@
                 case SqlOperators.NotEqual: return "<>";
                 case SqlOperators.Like:
                 case SqlOperators.CustomLike: return "LIKE";
-                case SqlOperators.NotLike:
-                case SqlOperators.CustomNotLike: return "NOT LIKE";
                 case SqlOperators.In: return "IN";
-                case SqlOperators.NotIn: return "NOT IN";
             }
             return "";
         }
@@ -410,6 +403,12 @@
             return (T)this.Parent;
         }
 
+        public T NotEqual(Boolean value)
+        {
+            this.Operate = SqlOperators.NotEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
         // todo: more operate methods
 
     }
@@ -429,6 +428,12 @@
             return (T)this.Parent;
         }
 
+        public T NotEqual(Boolean? value)
+        {
+            this.Operate = SqlOperators.NotEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
         // todo: more operate methods
     }
 
@@ -451,7 +456,13 @@
             return (T)this.Parent;
         }
 
-        // todo: more operate methods
+        public T NotEqual(byte[] value)
+        {
+            if (value == null) value = new byte[] { };
+            this.Operate = SqlOperators.NotEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
     }
 
     public partial class SqlExpressionNode_Nullable_Bytes<T> : SqlExpressionNode_Nullable<T> where T : SqlLogicalNode, new()
@@ -464,12 +475,19 @@
 
         public T Equal(Byte[] value)
         {
+            if (value == null) value = new byte[] { };
             this.Operate = SqlOperators.Equal;
             this.Value = value;
             return (T)this.Parent;
         }
 
-        // todo: more operate methods
+        public T NotEqual(Byte[] value)
+        {
+            if (value == null) value = new byte[] { };
+            this.Operate = SqlOperators.NotEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
     }
 
     #endregion
@@ -485,7 +503,40 @@
             return (T)this.Parent;
         }
 
-        // todo: more operate methods
+        public T NotEqual(Int16 value)
+        {
+            this.Operate = SqlOperators.NotEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T GreaterThan(Int16 value)
+        {
+            this.Operate = SqlOperators.GreaterThan;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T LessThan(Int16 value)
+        {
+            this.Operate = SqlOperators.LessThan;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T GreaterEqual(Int16 value)
+        {
+            this.Operate = SqlOperators.GreaterEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T LessEqual(Int16 value)
+        {
+            this.Operate = SqlOperators.LessEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
     }
 
     public partial class SqlExpressionNode_Nullable_Int16<T> : SqlExpressionNode_Nullable<T> where T : SqlLogicalNode, new()
@@ -497,7 +548,44 @@
             return (T)this.Parent;
         }
 
-        // todo: more operate methods
+        public T NotEqual(Int16? value)
+        {
+            this.Operate = SqlOperators.NotEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T GreaterThan(Int16? value)
+        {
+            if (value == null) value = 0;
+            this.Operate = SqlOperators.GreaterThan;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T LessThan(Int16? value)
+        {
+            if (value == null) value = 0;
+            this.Operate = SqlOperators.LessThan;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T GreaterEqual(Int16? value)
+        {
+            if (value == null) value = 0;
+            this.Operate = SqlOperators.GreaterEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T LessEqual(Int16? value)
+        {
+            if (value == null) value = 0;
+            this.Operate = SqlOperators.LessEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
     }
 
     #endregion
@@ -513,7 +601,40 @@
             return (T)this.Parent;
         }
 
-        // todo: more operate methods
+        public T NotEqual(Int32 value)
+        {
+            this.Operate = SqlOperators.NotEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T GreaterThan(Int32 value)
+        {
+            this.Operate = SqlOperators.GreaterThan;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T LessThan(Int32 value)
+        {
+            this.Operate = SqlOperators.LessThan;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T GreaterEqual(Int32 value)
+        {
+            this.Operate = SqlOperators.GreaterEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T LessEqual(Int32 value)
+        {
+            this.Operate = SqlOperators.LessEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
     }
 
     public partial class SqlExpressionNode_Nullable_Int32<T> : SqlExpressionNode_Nullable<T> where T : SqlLogicalNode, new()
@@ -525,7 +646,44 @@
             return (T)this.Parent;
         }
 
-        // todo: more operate methods
+        public T NotEqual(Int32? value)
+        {
+            this.Operate = SqlOperators.NotEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T GreaterThan(Int32? value)
+        {
+            if (value == null) value = 0;
+            this.Operate = SqlOperators.GreaterThan;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T LessThan(Int32? value)
+        {
+            if (value == null) value = 0;
+            this.Operate = SqlOperators.LessThan;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T GreaterEqual(Int32? value)
+        {
+            if (value == null) value = 0;
+            this.Operate = SqlOperators.GreaterEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T LessEqual(Int32? value)
+        {
+            if (value == null) value = 0;
+            this.Operate = SqlOperators.LessEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
     }
 
     #endregion
@@ -541,7 +699,40 @@
             return (T)this.Parent;
         }
 
-        // todo: more operate methods
+        public T NotEqual(Int64 value)
+        {
+            this.Operate = SqlOperators.NotEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T GreaterThan(Int64 value)
+        {
+            this.Operate = SqlOperators.GreaterThan;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T LessThan(Int64 value)
+        {
+            this.Operate = SqlOperators.LessThan;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T GreaterEqual(Int64 value)
+        {
+            this.Operate = SqlOperators.GreaterEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T LessEqual(Int64 value)
+        {
+            this.Operate = SqlOperators.LessEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
     }
 
     public partial class SqlExpressionNode_Nullable_Int64<T> : SqlExpressionNode_Nullable<T> where T : SqlLogicalNode, new()
@@ -553,7 +744,44 @@
             return (T)this.Parent;
         }
 
-        // todo: more operate methods
+        public T NotEqual(Int64? value)
+        {
+            this.Operate = SqlOperators.NotEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T GreaterThan(Int64? value)
+        {
+            if (value == null) value = 0;
+            this.Operate = SqlOperators.GreaterThan;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T LessThan(Int64? value)
+        {
+            if (value == null) value = 0;
+            this.Operate = SqlOperators.LessThan;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T GreaterEqual(Int64? value)
+        {
+            if (value == null) value = 0;
+            this.Operate = SqlOperators.GreaterEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T LessEqual(Int64? value)
+        {
+            if (value == null) value = 0;
+            this.Operate = SqlOperators.LessEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
     }
 
     #endregion
@@ -569,7 +797,40 @@
             return (T)this.Parent;
         }
 
-        // todo: more operate methods
+        public T NotEqual(Decimal value)
+        {
+            this.Operate = SqlOperators.NotEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T GreaterThan(Decimal value)
+        {
+            this.Operate = SqlOperators.GreaterThan;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T LessThan(Decimal value)
+        {
+            this.Operate = SqlOperators.LessThan;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T GreaterEqual(Decimal value)
+        {
+            this.Operate = SqlOperators.GreaterEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T LessEqual(Decimal value)
+        {
+            this.Operate = SqlOperators.LessEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
     }
 
     public partial class SqlExpressionNode_Nullable_Decimal<T> : SqlExpressionNode_Nullable<T> where T : SqlLogicalNode, new()
@@ -581,7 +842,44 @@
             return (T)this.Parent;
         }
 
-        // todo: more operate methods
+        public T NotEqual(Decimal? value)
+        {
+            this.Operate = SqlOperators.NotEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T GreaterThan(Decimal? value)
+        {
+            if (value == null) value = 0;
+            this.Operate = SqlOperators.GreaterThan;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T LessThan(Decimal? value)
+        {
+            if (value == null) value = 0;
+            this.Operate = SqlOperators.LessThan;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T GreaterEqual(Decimal? value)
+        {
+            if (value == null) value = 0;
+            this.Operate = SqlOperators.GreaterEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T LessEqual(Decimal? value)
+        {
+            if (value == null) value = 0;
+            this.Operate = SqlOperators.LessEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
     }
 
     #endregion
@@ -602,7 +900,40 @@
             return (T)this.Parent;
         }
 
-        // todo: more operate methods
+        public T NotEqual(DateTime value)
+        {
+            this.Operate = SqlOperators.NotEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T GreaterThan(DateTime value)
+        {
+            this.Operate = SqlOperators.GreaterThan;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T LessThan(DateTime value)
+        {
+            this.Operate = SqlOperators.LessThan;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T GreaterEqual(DateTime value)
+        {
+            this.Operate = SqlOperators.GreaterEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T LessEqual(DateTime value)
+        {
+            this.Operate = SqlOperators.LessEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
     }
 
     public partial class SqlExpressionNode_Nullable_DateTime<T> : SqlExpressionNode_Nullable<T> where T : SqlLogicalNode, new()
@@ -620,7 +951,44 @@
             return (T)this.Parent;
         }
 
-        // todo: more operate methods
+        public T NotEqual(DateTime? value)
+        {
+            this.Operate = SqlOperators.NotEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T GreaterThan(DateTime? value)
+        {
+            if (value == null) value = new DateTime();
+            this.Operate = SqlOperators.GreaterThan;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T LessThan(DateTime? value)
+        {
+            if (value == null) value = new DateTime();
+            this.Operate = SqlOperators.LessThan;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T GreaterEqual(DateTime? value)
+        {
+            if (value == null) value = new DateTime();
+            this.Operate = SqlOperators.GreaterEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T LessEqual(DateTime? value)
+        {
+            if (value == null) value = new DateTime();
+            this.Operate = SqlOperators.LessEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
     }
 
     #endregion
@@ -637,7 +1005,45 @@
             return (T)this.Parent;
         }
 
-        // todo: more operate methods
+        public T NotEqual(String value)
+        {
+            if (value == null) value = "";
+            this.Operate = SqlOperators.NotEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T GreaterThan(String value)
+        {
+            if (value == null) value = "";
+            this.Operate = SqlOperators.GreaterThan;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T LessThan(String value)
+        {
+            if (value == null) value = "";
+            this.Operate = SqlOperators.LessThan;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T GreaterEqual(String value)
+        {
+            if (value == null) value = "";
+            this.Operate = SqlOperators.GreaterEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T LessEqual(String value)
+        {
+            if (value == null) value = "";
+            this.Operate = SqlOperators.LessEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
     }
 
     public partial class SqlExpressionNode_Nullable_String<T> : SqlExpressionNode_Nullable<T> where T : SqlLogicalNode, new()
@@ -649,7 +1055,44 @@
             return (T)this.Parent;
         }
 
-        // todo: more operate methods
+        public T NotEqual(String value)
+        {
+            this.Operate = SqlOperators.NotEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T GreaterThan(String value)
+        {
+            if (value == null) value = "";
+            this.Operate = SqlOperators.GreaterThan;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T LessThan(String value)
+        {
+            if (value == null) value = "";
+            this.Operate = SqlOperators.LessThan;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T GreaterEqual(String value)
+        {
+            if (value == null) value = "";
+            this.Operate = SqlOperators.GreaterEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T LessEqual(String value)
+        {
+            if (value == null) value = "";
+            this.Operate = SqlOperators.LessEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
     }
 
     #endregion
