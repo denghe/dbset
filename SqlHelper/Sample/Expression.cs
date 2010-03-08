@@ -75,6 +75,14 @@ namespace DAL.Expressions.dbo
             return base.ToSqlString("dbo", "t2");
         }
 
+        public SqlExpressionNode_Nullable_Int16<t2> id { get { return this.New_SqlExpressionNode_Nullable_Int32("id"); } }
+        public SqlExpressionNode_Nullable_Int32<t2> id { get { return this.New_SqlExpressionNode_Nullable_Int32("id"); } }
+        public SqlExpressionNode_Nullable_Int64<t2> id { get { return this.New_SqlExpressionNode_Nullable_Int32("id"); } }
+        public SqlExpressionNode_Nullable_Decimal<t2> id { get { return this.New_SqlExpressionNode_Nullable_Int32("id"); } }
+        public SqlExpressionNode_Nullable_DateTime<t2> id { get { return this.New_SqlExpressionNode_Nullable_Int32("id"); } }
+        public SqlExpressionNode_Nullable_Int32<t2> id { get { return this.New_SqlExpressionNode_Nullable_Int32("id"); } }
+        public SqlExpressionNode_Nullable_Int32<t2> id { get { return this.New_SqlExpressionNode_Nullable_Int32("id"); } }
+        public SqlExpressionNode_Nullable_Int32<t2> id { get { return this.New_SqlExpressionNode_Nullable_Int32("id"); } }
         public SqlExpressionNode_Nullable_Int32<t2> id { get { return this.New_SqlExpressionNode_Nullable_Int32("id"); } }
 
         // todo: more columns here

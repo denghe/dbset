@@ -310,6 +310,24 @@
             L.SqlExpression = e;
             return e;
         }
+
+        public SqlExpressionNode_Nullable_Guid<T> New_SqlExpressionNode_Nullable_Guid(string column)
+        {
+            CheckExpression();
+            var L = new T();
+            var e = new SqlExpressionNode_Nullable_Guid<T> { Parent = L, ColumnName = column };
+            L.SqlExpression = e;
+            return e;
+        }
+        public SqlExpressionNode_Guid<T> New_SqlExpressionNode_Guid(string column)
+        {
+            CheckExpression();
+            var L = new T();
+            var e = new SqlExpressionNode_Guid<T> { Parent = L, ColumnName = column };
+            L.SqlExpression = e;
+            return e;
+        }
+
     }
 
     partial class SqlExpressionNode
@@ -1169,6 +1187,19 @@
 
     public partial class SqlExpressionNode_Nullable_String<T> : SqlExpressionNode_Nullable<T> where T : SqlLogicalNode, new()
     {
+        protected override string GetValueString()
+        {
+            if (this.Value == null || this.Value == DBNull.Value) return "''";
+            return "'" + ((string)this.Value).Replace("'", "''") + "'";
+        }
+
+        protected override string GetValue2String()
+        {
+            if (this.Value2 == null || this.Value2 == DBNull.Value) return "''";
+            return "'" + ((string)this.Value2).Replace("'", "''") + "'";
+        }
+
+
         public T Equal(String value)
         {
             this.Operate = SqlOperators.Equal;
@@ -1219,6 +1250,69 @@
         {
             if (value == null) value = "";
             this.Operate = SqlOperators.Like;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+    }
+
+    #endregion
+
+    #region guid
+
+    public partial class SqlExpressionNode_Guid<T> : SqlExpressionNode where T : SqlLogicalNode, new()
+    {
+        protected override string GetValueString()
+        {
+            return "'" + ((Guid)this.Value).ToString() + "'";
+        }
+
+        protected override string GetValue2String()
+        {
+            return "'" + ((Guid)this.Value2).ToString() + "'";
+        }
+
+        public T Equal(Guid value)
+        {
+            if (value == null) value = new Guid();
+            this.Operate = SqlOperators.Equal;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T NotEqual(Guid value)
+        {
+            if (value == null) value = Guid();
+            this.Operate = SqlOperators.NotEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+    }
+
+    public partial class SqlExpressionNode_Nullable_Guid<T> : SqlExpressionNode_Nullable<T> where T : SqlLogicalNode, new()
+    {
+        protected override string GetValueString()
+        {
+            if (this.Value == null || this.Value == DBNull.Value) return "'" + (new Guid()).ToString() + "'";
+            return "'" + ((Guid)this.Value).ToString() + "'";
+        }
+
+        protected override string GetValue2String()
+        {
+            if (this.Value2 == null || this.Value == DBNull.Value2) return "'" + (new Guid()).ToString() + "'";
+            return "'" + ((Guid)this.Value2).ToString() + "'";
+        }
+
+
+        public T Equal(Guid value)
+        {
+            this.Operate = SqlOperators.Equal;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T NotEqual(Guid value)
+        {
+            this.Operate = SqlOperators.NotEqual;
             this.Value = value;
             return (T)this.Parent;
         }

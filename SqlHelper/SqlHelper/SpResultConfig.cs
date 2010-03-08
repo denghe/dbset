@@ -91,7 +91,8 @@
             Int64,
             Decimal,
             DateTime,
-            String
+            String,
+            Guid
         }
 
         public static partial class Extensions
