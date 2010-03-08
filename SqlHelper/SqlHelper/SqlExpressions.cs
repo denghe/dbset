@@ -175,7 +175,7 @@
         }
 
 
-        public SqlExpressionNode_Nullable_Boolean<T> New_SqlExpressionNode_Nullable_Boolean(string column)
+        protected SqlExpressionNode_Nullable_Boolean<T> New_SqlExpressionNode_Nullable_Boolean(string column)
         {
             CheckExpression();
             var L = new T();
@@ -183,7 +183,7 @@
             L.SqlExpression = e;
             return e;
         }
-        public SqlExpressionNode_Boolean<T> New_SqlExpressionNode_Boolean(string column)
+        protected SqlExpressionNode_Boolean<T> New_SqlExpressionNode_Boolean(string column)
         {
             CheckExpression();
             var L = new T();
@@ -192,7 +192,7 @@
             return e;
         }
 
-        public SqlExpressionNode_Nullable_Bytes<T> New_SqlExpressionNode_Nullable_Bytes(string column)
+        protected SqlExpressionNode_Nullable_Bytes<T> New_SqlExpressionNode_Nullable_Bytes(string column)
         {
             CheckExpression();
             var L = new T();
@@ -200,7 +200,7 @@
             L.SqlExpression = e;
             return e;
         }
-        public SqlExpressionNode_Bytes<T> New_SqlExpressionNode_Bytes(string column)
+        protected SqlExpressionNode_Bytes<T> New_SqlExpressionNode_Bytes(string column)
         {
             CheckExpression();
             var L = new T();
@@ -209,7 +209,7 @@
             return e;
         }
 
-        public SqlExpressionNode_Nullable_Int16<T> New_SqlExpressionNode_Nullable_Int16(string column)
+        protected SqlExpressionNode_Nullable_Int16<T> New_SqlExpressionNode_Nullable_Int16(string column)
         {
             CheckExpression();
             var L = new T();
@@ -217,7 +217,7 @@
             L.SqlExpression = e;
             return e;
         }
-        public SqlExpressionNode_Int16<T> New_SqlExpressionNode_Int16(string column)
+        protected SqlExpressionNode_Int16<T> New_SqlExpressionNode_Int16(string column)
         {
             CheckExpression();
             var L = new T();
@@ -226,7 +226,7 @@
             return e;
         }
 
-        public SqlExpressionNode_Nullable_Int32<T> New_SqlExpressionNode_Nullable_Int32(string column)
+        protected SqlExpressionNode_Nullable_Int32<T> New_SqlExpressionNode_Nullable_Int32(string column)
         {
             CheckExpression();
             var L = new T();
@@ -234,7 +234,7 @@
             L.SqlExpression = e;
             return e;
         }
-        public SqlExpressionNode_Int32<T> New_SqlExpressionNode_Int32(string column)
+        protected SqlExpressionNode_Int32<T> New_SqlExpressionNode_Int32(string column)
         {
             CheckExpression();
             var L = new T();
@@ -243,7 +243,7 @@
             return e;
         }
 
-        public SqlExpressionNode_Nullable_Int64<T> New_SqlExpressionNode_Nullable_Int64(string column)
+        protected SqlExpressionNode_Nullable_Int64<T> New_SqlExpressionNode_Nullable_Int64(string column)
         {
             CheckExpression();
             var L = new T();
@@ -251,7 +251,7 @@
             L.SqlExpression = e;
             return e;
         }
-        public SqlExpressionNode_Int64<T> New_SqlExpressionNode_Int64(string column)
+        protected SqlExpressionNode_Int64<T> New_SqlExpressionNode_Int64(string column)
         {
             CheckExpression();
             var L = new T();
@@ -260,7 +260,7 @@
             return e;
         }
 
-        public SqlExpressionNode_Nullable_Decimal<T> New_SqlExpressionNode_Nullable_Decimal(string column)
+        protected SqlExpressionNode_Nullable_Decimal<T> New_SqlExpressionNode_Nullable_Decimal(string column)
         {
             CheckExpression();
             var L = new T();
@@ -268,7 +268,7 @@
             L.SqlExpression = e;
             return e;
         }
-        public SqlExpressionNode_Decimal<T> New_SqlExpressionNode_Decimal(string column)
+        protected SqlExpressionNode_Decimal<T> New_SqlExpressionNode_Decimal(string column)
         {
             CheckExpression();
             var L = new T();
@@ -277,7 +277,7 @@
             return e;
         }
 
-        public SqlExpressionNode_Nullable_DateTime<T> New_SqlExpressionNode_Nullable_DateTime(string column)
+        protected SqlExpressionNode_Nullable_DateTime<T> New_SqlExpressionNode_Nullable_DateTime(string column)
         {
             CheckExpression();
             var L = new T();
@@ -285,7 +285,7 @@
             L.SqlExpression = e;
             return e;
         }
-        public SqlExpressionNode_DateTime<T> New_SqlExpressionNode_DateTime(string column)
+        protected SqlExpressionNode_DateTime<T> New_SqlExpressionNode_DateTime(string column)
         {
             CheckExpression();
             var L = new T();
@@ -294,7 +294,7 @@
             return e;
         }
 
-        public SqlExpressionNode_Nullable_String<T> New_SqlExpressionNode_Nullable_String(string column)
+        protected SqlExpressionNode_Nullable_String<T> New_SqlExpressionNode_Nullable_String(string column)
         {
             CheckExpression();
             var L = new T();
@@ -302,7 +302,7 @@
             L.SqlExpression = e;
             return e;
         }
-        public SqlExpressionNode_String<T> New_SqlExpressionNode_String(string column)
+        protected SqlExpressionNode_String<T> New_SqlExpressionNode_String(string column)
         {
             CheckExpression();
             var L = new T();
@@ -311,7 +311,7 @@
             return e;
         }
 
-        public SqlExpressionNode_Nullable_Guid<T> New_SqlExpressionNode_Nullable_Guid(string column)
+        protected SqlExpressionNode_Nullable_Guid<T> New_SqlExpressionNode_Nullable_Guid(string column)
         {
             CheckExpression();
             var L = new T();
@@ -319,7 +319,7 @@
             L.SqlExpression = e;
             return e;
         }
-        public SqlExpressionNode_Guid<T> New_SqlExpressionNode_Guid(string column)
+        protected SqlExpressionNode_Guid<T> New_SqlExpressionNode_Guid(string column)
         {
             CheckExpression();
             var L = new T();
@@ -1281,7 +1281,7 @@
 
         public T NotEqual(Guid value)
         {
-            if (value == null) value = Guid();
+            if (value == null) value = new Guid();
             this.Operate = SqlOperators.NotEqual;
             this.Value = value;
             return (T)this.Parent;
@@ -1293,24 +1293,24 @@
         protected override string GetValueString()
         {
             if (this.Value == null || this.Value == DBNull.Value) return "'" + (new Guid()).ToString() + "'";
-            return "'" + ((Guid)this.Value).ToString() + "'";
+            return "'" + ((Guid?)this.Value).ToString() + "'";
         }
 
         protected override string GetValue2String()
         {
-            if (this.Value2 == null || this.Value == DBNull.Value2) return "'" + (new Guid()).ToString() + "'";
-            return "'" + ((Guid)this.Value2).ToString() + "'";
+            if (this.Value2 == null || this.Value2 == DBNull.Value) return "'" + (new Guid()).ToString() + "'";
+            return "'" + ((Guid?)this.Value2).ToString() + "'";
         }
 
 
-        public T Equal(Guid value)
+        public T Equal(Guid? value)
         {
             this.Operate = SqlOperators.Equal;
             this.Value = value;
             return (T)this.Parent;
         }
 
-        public T NotEqual(Guid value)
+        public T NotEqual(Guid? value)
         {
             this.Operate = SqlOperators.NotEqual;
             this.Value = value;
