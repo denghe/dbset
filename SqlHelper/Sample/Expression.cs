@@ -13,13 +13,13 @@
         {
             //Console.WindowWidth = 160;
 
-            //// step construct
-            //var e = exp.t2.New();
-            //if (true) e.And(o => o.id.Equal(1));
-            //if (false) e.And(o => o.id.Equal(2));
-            //if (true) e.And(o => o.id.Between(3, 4));
-            //var rows = db.t2.Select(e);
-            //Console.WriteLine(e);
+            // step construct
+            var e = exp.t2.New();
+            if (true) e.And(o => o.Boolean.Equal(true));
+            if (true) e.And(o => o.Bytes.Equal(null));
+            if (true) e.And(o => o.DateTime.Between(DateTime.Now, DateTime.Now));
+            var rows = db.t2.Select(e);
+            Console.WriteLine(e);
 
             // direct
             Console.WriteLine(DAL.Expressions.dbo.t2.New(o =>
