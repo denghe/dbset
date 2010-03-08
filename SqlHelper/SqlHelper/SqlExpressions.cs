@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Text;
 
+    #region base
 
     public partial class SqlLogicalNode
     {
@@ -61,6 +62,9 @@
         Not
     }
 
+    #endregion
+
+    #region inherit & partial
 
     partial class SqlLogicalNode
     {
@@ -386,6 +390,12 @@
         }
     }
 
+    #endregion
+
+    #region inherit (data types)
+
+    #region bool
+
     public partial class SqlExpressionNode_Boolean<T> : SqlExpressionNode where T : SqlLogicalNode, new()
     {
         protected override string GetValueString()
@@ -421,6 +431,10 @@
 
         // todo: more operate methods
     }
+
+    #endregion
+
+    #region bytes
 
     public partial class SqlExpressionNode_Bytes<T> : SqlExpressionNode where T : SqlLogicalNode, new()
     {
@@ -458,6 +472,10 @@
         // todo: more operate methods
     }
 
+    #endregion
+
+    #region int16
+
     public partial class SqlExpressionNode_Int16<T> : SqlExpressionNode where T : SqlLogicalNode, new()
     {
         public T Equal(Int16 value)
@@ -481,6 +499,10 @@
 
         // todo: more operate methods
     }
+
+    #endregion
+
+    #region int32
 
     public partial class SqlExpressionNode_Int32<T> : SqlExpressionNode where T : SqlLogicalNode, new()
     {
@@ -506,6 +528,10 @@
         // todo: more operate methods
     }
 
+    #endregion
+
+    #region int64
+
     public partial class SqlExpressionNode_Int64<T> : SqlExpressionNode where T : SqlLogicalNode, new()
     {
         public T Equal(Int64 value)
@@ -530,6 +556,10 @@
         // todo: more operate methods
     }
 
+    #endregion
+
+    #region decimal
+
     public partial class SqlExpressionNode_Decimal<T> : SqlExpressionNode where T : SqlLogicalNode, new()
     {
         public T Equal(Decimal value)
@@ -553,6 +583,10 @@
 
         // todo: more operate methods
     }
+
+    #endregion
+
+    #region datetime
 
     public partial class SqlExpressionNode_DateTime<T> : SqlExpressionNode where T : SqlLogicalNode, new()
     {
@@ -589,6 +623,10 @@
         // todo: more operate methods
     }
 
+    #endregion
+
+    #region string
+
     public partial class SqlExpressionNode_String<T> : SqlExpressionNode where T : SqlLogicalNode, new()
     {
         public T Equal(String value)
@@ -614,4 +652,7 @@
         // todo: more operate methods
     }
 
+    #endregion
+
+    #endregion
 }
