@@ -53,7 +53,6 @@
                     | o.NInt64.GreaterEqual(45)
                     | o.NGuid.Equal(Guid.NewGuid())
                     | o.NString.Like("'")
-
                 )
             );
 
