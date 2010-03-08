@@ -627,6 +627,8 @@
 
         public T Between(Int16? value, Int16? value2)
         {
+            if (value == null) value = 0;
+            if (value2 == null) value2 = 0;
             this.Operate = SqlOperators.Between;
             this.Value = value;
             this.Value2 = value2;
@@ -741,6 +743,8 @@
 
         public T Between(Int32? value, Int32? value2)
         {
+            if (value == null) value = 0;
+            if (value2 == null) value2 = 0;
             this.Operate = SqlOperators.Between;
             this.Value = value;
             this.Value2 = value2;
@@ -855,6 +859,8 @@
 
         public T Between(Int64? value, Int64? value2)
         {
+            if (value == null) value = 0;
+            if (value2 == null) value2 = 0;
             this.Operate = SqlOperators.Between;
             this.Value = value;
             this.Value2 = value2;
@@ -969,6 +975,8 @@
 
         public T Between(Decimal? value, Decimal? value2)
         {
+            if (value == null) value = 0;
+            if (value2 == null) value2 = 0;
             this.Operate = SqlOperators.Between;
             this.Value = value;
             this.Value2 = value2;
@@ -1105,6 +1113,8 @@
 
         public T Between(DateTime? value, DateTime? value2)
         {
+            if (value == null) value = new DateTime();
+            if (value2 == null) value2 = new DateTime();
             this.Operate = SqlOperators.Between;
             this.Value = value;
             this.Value2 = value2;
