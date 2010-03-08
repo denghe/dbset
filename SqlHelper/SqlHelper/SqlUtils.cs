@@ -72,7 +72,7 @@
         /// </summary>
         public static string ToHexString(this byte[] bytes)
         {
-            if (bytes == null || bytes.Length == 0) return "";
+            if (bytes == null || bytes.Length == 0) return "0x";
             var sb = new StringBuilder("0x");
             for (int i = 0; i < bytes.Length; i++)
             {

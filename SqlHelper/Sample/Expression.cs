@@ -23,25 +23,37 @@
 
             // direct
             Console.WriteLine(DAL.Expressions.dbo.t2.New(o =>
-                    o.Boolean.Equal(null)
+                      o.Boolean.Equal(true)
                     | o.Bytes.Equal(null)
-                    | o.DateTime.Equal(null)
-                    | o.Decimal.GreaterThan(null)
-                    | o.Guid.Equal(null)
-                    | o.Int16.Equal(null)
-                    | o.Int32.Equal(null)
-                    | o.Int64.Equal(null)
-                    | o.String.Equal(null)
-
-                    | o.Boolean.Equal(true)
-                    | o.Bytes.Equal(new byte[] { 1, 2, 3, 4, 5 })
-                    | o.DateTime.Between(null, DateTime.Now)
+                    | o.DateTime.Between(DateTime.Now, DateTime.Now)
                     | o.Decimal.LessEqual(23)
                     | o.Int16.GreaterThan(12)
                     | o.Int32.LessThan(34)
                     | o.Int64.GreaterEqual(45)
                     | o.Guid.Equal(Guid.NewGuid())
-                    | o.String.Like("'")
+                    | o.String.Like(null)
+
+                    | o.NBoolean.Equal(null)
+                    | o.NBoolean.IsNull()
+                    | o.NBytes.Equal(null)
+                    | o.NDateTime.Equal(null)
+                    | o.NDecimal.GreaterThan(null)
+                    | o.NGuid.Equal(null)
+                    | o.NInt16.Equal(null)
+                    | o.NInt32.Equal(null)
+                    | o.NInt64.Equal(null)
+                    | o.NString.Equal(null)
+                    
+                    | o.NBoolean.Equal(true)
+                    | o.NBytes.Equal(new byte[] { 1, 2, 3, 4, 5 })
+                    | o.NDateTime.Between(null, DateTime.Now)
+                    | o.NDecimal.LessEqual(23)
+                    | o.NInt16.GreaterThan(12)
+                    | o.NInt32.LessThan(34)
+                    | o.NInt64.GreaterEqual(45)
+                    | o.NGuid.Equal(Guid.NewGuid())
+                    | o.NString.Like("'")
+
                 )
             );
 
@@ -86,23 +98,32 @@ namespace DAL.Expressions.dbo
 
     using SqlLib.Expressions;
 
-    public partial class t2 : SqlLogicalNode<t2>
+    public partial class t2 : LogicalNode<t2>
     {
         public override string ToString()
         {
             return base.ToSqlString("dbo", "t2");
         }
 
-        public SqlExpressionNode_Nullable_Int16<t2> Int16 { get { return this.New_SqlExpressionNode_Nullable_Int16("Int16"); } }
-        public SqlExpressionNode_Nullable_Int32<t2> Int32 { get { return this.New_SqlExpressionNode_Nullable_Int32("Int32"); } }
-        public SqlExpressionNode_Nullable_Int64<t2> Int64 { get { return this.New_SqlExpressionNode_Nullable_Int64("Int64"); } }
-        public SqlExpressionNode_Nullable_Decimal<t2> Decimal { get { return this.New_SqlExpressionNode_Nullable_Decimal("Decimal"); } }
-        public SqlExpressionNode_Nullable_DateTime<t2> DateTime { get { return this.New_SqlExpressionNode_Nullable_DateTime("DateTime"); } }
-        public SqlExpressionNode_Nullable_Boolean<t2> Boolean { get { return this.New_SqlExpressionNode_Nullable_Boolean("Boolean"); } }
-        public SqlExpressionNode_Nullable_Bytes<t2> Bytes { get { return this.New_SqlExpressionNode_Nullable_Bytes("Bytes"); } }
-        public SqlExpressionNode_Nullable_String<t2> String { get { return this.New_SqlExpressionNode_Nullable_String("String"); } }
-        public SqlExpressionNode_Nullable_Guid<t2> Guid { get { return this.New_SqlExpressionNode_Nullable_Guid("Guid"); } }
+        public ExpNode_Int16<t2> Int16 { get { return this.New_Int16("Int16"); } }
+        public ExpNode_Int32<t2> Int32 { get { return this.New_Int32("Int32"); } }
+        public ExpNode_Int64<t2> Int64 { get { return this.New_Int64("Int64"); } }
+        public ExpNode_Decimal<t2> Decimal { get { return this.New_Decimal("Decimal"); } }
+        public ExpNode_DateTime<t2> DateTime { get { return this.New_DateTime("DateTime"); } }
+        public ExpNode_Boolean<t2> Boolean { get { return this.New_Boolean("Boolean"); } }
+        public ExpNode_Bytes<t2> Bytes { get { return this.New_Bytes("Bytes"); } }
+        public ExpNode_String<t2> String { get { return this.New_String("String"); } }
+        public ExpNode_Guid<t2> Guid { get { return this.New_Guid("Guid"); } }
 
+        public ExpNode_Nullable_Int16<t2> NInt16 { get { return this.New_Nullable_Int16("NInt16"); } }
+        public ExpNode_Nullable_Int32<t2> NInt32 { get { return this.New_Nullable_Int32("NInt32"); } }
+        public ExpNode_Nullable_Int64<t2> NInt64 { get { return this.New_Nullable_Int64("NInt64"); } }
+        public ExpNode_Nullable_Decimal<t2> NDecimal { get { return this.New_Nullable_Decimal("NDecimal"); } }
+        public ExpNode_Nullable_DateTime<t2> NDateTime { get { return this.New_Nullable_DateTime("NDateTime"); } }
+        public ExpNode_Nullable_Boolean<t2> NBoolean { get { return this.New_Nullable_Boolean("NBoolean"); } }
+        public ExpNode_Nullable_Bytes<t2> NBytes { get { return this.New_Nullable_Bytes("NBytes"); } }
+        public ExpNode_Nullable_String<t2> NString { get { return this.New_Nullable_String("NString"); } }
+        public ExpNode_Nullable_Guid<t2> NGuid { get { return this.New_Nullable_Guid("NGuid"); } }
         // todo: more columns here
     }
 }
