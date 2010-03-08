@@ -343,27 +343,18 @@
 
         public virtual string ToSqlString(string schema = null, string name = null)
         {
-            // todo: switch type
             string sn, so, sv;
             sn = (string.IsNullOrEmpty(schema) ? "" : ("[" + schema + "]."))
                 + (string.IsNullOrEmpty(name) ? "" : ("[" + name + "]."))
                 + "[" + this.ColumnName + "]";
 
             if (this.Operate == SqlOperators.Equal && (this.Value == null || this.Value == DBNull.Value))
-            {
                 so = "IS";
-                sv = "NULL";
-            }
             else if (this.Operate == SqlOperators.NotEqual && (this.Value == null || this.Value == DBNull.Value))
-            {
                 so = "IS NOT";
-                sv = "NULL";
-            }
             else
-            {
                 so = GetSqlOperater(this.Operate);
-                sv = this.GetValueString();
-            }
+            sv = this.GetValueString();
             return sn + " " + so + " " + sv;
         }
 
@@ -375,6 +366,12 @@
 
     public partial class SqlExpressionNode_Nullable<T> : SqlExpressionNode where T : SqlLogicalNode, new()
     {
+        protected override string GetValueString()
+        {
+            if (this.Value == null || this.Value == DBNull.Value) return "NULL";
+            return base.GetValueString();
+        }
+
         public T IsNull()
         {
             this.Operate = SqlOperators.Equal;
@@ -387,30 +384,6 @@
             this.Value = null;
             return (T)this.Parent;
         }
-    }
-
-    public partial class SqlExpressionNode_Int32<T> : SqlExpressionNode where T : SqlLogicalNode, new()
-    {
-        public T Equal(Int32 value)
-        {
-            this.Operate = SqlOperators.Equal;
-            this.Value = value;
-            return (T)this.Parent;
-        }
-
-        // todo: more operate methods
-    }
-
-    public partial class SqlExpressionNode_Nullable_Int32<T> : SqlExpressionNode_Nullable<T> where T : SqlLogicalNode, new()
-    {
-        public T Equal(Int32? value)
-        {
-            this.Operate = SqlOperators.Equal;
-            this.Value = value;
-            return (T)this.Parent;
-        }
-
-        // todo: more operate methods
     }
 
     public partial class SqlExpressionNode_Boolean<T> : SqlExpressionNode where T : SqlLogicalNode, new()
@@ -435,6 +408,7 @@
     {
         protected override string GetValueString()
         {
+            if (this.Value == null || this.Value == DBNull.Value) return "NULL";
             return ((bool?)this.Value).Value ? "1" : "0";
         }
 
@@ -470,6 +444,7 @@
     {
         protected override string GetValueString()
         {
+            if (this.Value == null || this.Value == DBNull.Value) return "NULL";
             return SqlUtils.ToHexString((byte[])this.Value);
         }
 
@@ -498,6 +473,30 @@
     public partial class SqlExpressionNode_Nullable_Int16<T> : SqlExpressionNode_Nullable<T> where T : SqlLogicalNode, new()
     {
         public T Equal(Int16? value)
+        {
+            this.Operate = SqlOperators.Equal;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        // todo: more operate methods
+    }
+
+    public partial class SqlExpressionNode_Int32<T> : SqlExpressionNode where T : SqlLogicalNode, new()
+    {
+        public T Equal(Int32 value)
+        {
+            this.Operate = SqlOperators.Equal;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        // todo: more operate methods
+    }
+
+    public partial class SqlExpressionNode_Nullable_Int32<T> : SqlExpressionNode_Nullable<T> where T : SqlLogicalNode, new()
+    {
+        public T Equal(Int32? value)
         {
             this.Operate = SqlOperators.Equal;
             this.Value = value;
@@ -557,6 +556,11 @@
 
     public partial class SqlExpressionNode_DateTime<T> : SqlExpressionNode where T : SqlLogicalNode, new()
     {
+        protected override string GetValueString()
+        {
+            return ((DateTime)this.Value).ToString("yyyy-MM-d HH:mm:ss.ffffzzz");
+        }
+
         public T Equal(DateTime value)
         {
             this.Operate = SqlOperators.Equal;
@@ -569,6 +573,12 @@
 
     public partial class SqlExpressionNode_Nullable_DateTime<T> : SqlExpressionNode_Nullable<T> where T : SqlLogicalNode, new()
     {
+        protected override string GetValueString()
+        {
+            if (this.Value == null || this.Value == DBNull.Value) return "NULL";
+            return ((DateTime?)this.Value).Value.ToString("yyyy-MM-d HH:mm:ss.ffffzzz");
+        }
+
         public T Equal(DateTime? value)
         {
             this.Operate = SqlOperators.Equal;
