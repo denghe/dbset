@@ -20,6 +20,7 @@
         public string ColumnName;
         public SqlOperators Operate = SqlOperators.NotSet;
         public object Value;
+        public object Value2;
     }
 
     /// <summary>
@@ -44,6 +45,8 @@
         CustomLike,
 
         In,
+
+        Between,
     }
 
     /// <summary>
@@ -319,16 +322,17 @@
         {
             switch (op)
             {
-                case SqlOperators.Custom: return "";
-                case SqlOperators.Equal: return "=";
-                case SqlOperators.LessThan: return "<";
-                case SqlOperators.LessEqual: return "<=";
-                case SqlOperators.GreaterThan: return ">";
-                case SqlOperators.GreaterEqual: return ">=";
-                case SqlOperators.NotEqual: return "<>";
+                case SqlOperators.Custom: return "{0}";
+                case SqlOperators.Equal: return "{0} = {1}";
+                case SqlOperators.LessThan: return "{0} < {1}";
+                case SqlOperators.LessEqual: return "{0} <= {1}";
+                case SqlOperators.GreaterThan: return "{0} > {1}";
+                case SqlOperators.GreaterEqual: return "{0} >= {1}";
+                case SqlOperators.NotEqual: return "{0} <> {1}";
                 case SqlOperators.Like:
-                case SqlOperators.CustomLike: return "LIKE";
-                case SqlOperators.In: return "IN";
+                case SqlOperators.CustomLike: return "{0} LIKE {1}";
+                case SqlOperators.In: return "{0} IN ({1})";
+                case SqlOperators.Between: return "{0} BETWEEN {1} AND {2}";
             }
             return "";
         }
@@ -340,24 +344,28 @@
 
         public virtual string ToSqlString(string schema = null, string name = null)
         {
-            string sn, so, sv;
+            string sn, so;
             sn = (string.IsNullOrEmpty(schema) ? "" : ("[" + schema + "]."))
                 + (string.IsNullOrEmpty(name) ? "" : ("[" + name + "]."))
                 + "[" + this.ColumnName + "]";
 
             if (this.Operate == SqlOperators.Equal && (this.Value == null || this.Value == DBNull.Value))
-                so = "IS";
+                so = "{0} IS {1}";
             else if (this.Operate == SqlOperators.NotEqual && (this.Value == null || this.Value == DBNull.Value))
-                so = "IS NOT";
-            else
-                so = GetSqlOperater(this.Operate);
-            sv = this.GetValueString();
-            return sn + " " + so + " " + sv;
+                so = "{0} IS NOT {1}";
+            else so = GetSqlOperater(this.Operate);
+
+            return sn + string.Format(so, GetValueString(), GetValue2String());
         }
 
         protected virtual string GetValueString()
         {
             return Value.ToString();
+        }
+
+        protected virtual string GetValue2String()
+        {
+            return Value2.ToString();
         }
     }
 
@@ -366,7 +374,13 @@
         protected override string GetValueString()
         {
             if (this.Value == null || this.Value == DBNull.Value) return "NULL";
-            return base.GetValueString();
+            return Value.ToString();
+        }
+
+        protected override string GetValue2String()
+        {
+            if (this.Value2 == null || this.Value2 == DBNull.Value) return "NULL";
+            return Value2.ToString();
         }
 
         public T IsNull()
@@ -893,6 +907,11 @@
             return ((DateTime)this.Value).ToString("yyyy-MM-d HH:mm:ss.ffffzzz");
         }
 
+        protected override string GetValue2String()
+        {
+            return ((DateTime)this.Value2).ToString("yyyy-MM-d HH:mm:ss.ffffzzz");
+        }
+
         public T Equal(DateTime value)
         {
             this.Operate = SqlOperators.Equal;
@@ -942,6 +961,12 @@
         {
             if (this.Value == null || this.Value == DBNull.Value) return "NULL";
             return ((DateTime?)this.Value).Value.ToString("yyyy-MM-d HH:mm:ss.ffffzzz");
+        }
+
+        protected override string GetValue2String()
+        {
+            if (this.Value2 == null || this.Value2 == DBNull.Value) return "NULL";
+            return ((DateTime?)this.Value2).Value.ToString("yyyy-MM-d HH:mm:ss.ffffzzz");
         }
 
         public T Equal(DateTime? value)
