@@ -163,11 +163,6 @@ namespace DAL.Expressions
         {
             public partial class t2 : LogicalNode<t2>
             {
-                public override string ToString()
-                {
-                    return base.ToSqlString("dbo", "t2");
-                }
-
                 public ExpNode_Int16<t2> Int16 { get { return this.New_Int16("Int16"); } }
                 public ExpNode_Int32<t2> Int32 { get { return this.New_Int32("Int32"); } }
                 public ExpNode_Int64<t2> Int64 { get { return this.New_Int64("Int64"); } }
@@ -188,6 +183,11 @@ namespace DAL.Expressions
                 public ExpNode_Nullable_String<t2> NString { get { return this.New_Nullable_String("NString"); } }
                 public ExpNode_Nullable_Guid<t2> NGuid { get { return this.New_Nullable_Guid("NGuid"); } }
                 // todo: more columns here
+
+                public override string ToString()
+                {
+                    return base.ToSqlString("dbo", "t2");
+                }
             }
         }
     }
