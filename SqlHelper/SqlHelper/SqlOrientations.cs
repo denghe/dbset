@@ -108,20 +108,11 @@
 
         public virtual string ToSqlString(string schema = null, string name = null)
         {
-            string sn, so;
-            sn = (string.IsNullOrEmpty(schema) ? "" : ("[" + schema + "]."))
+            var sn = (string.IsNullOrEmpty(schema) ? "" : ("[" + schema + "]."))
                 + (string.IsNullOrEmpty(name) ? "" : ("[" + name + "]."))
                 + "[" + this.ColumnName + "]";
 
-            if (this.Operate == Orientations.Equal && (this.Value == null || this.Value == DBNull.Value))
-                so = "{0} IS {1}";
-            else if (this.Operate == Orientations.NotEqual && (this.Value == null || this.Value == DBNull.Value))
-                so = "{0} IS NOT {1}";
-            else so = GetSqlOperater(this.Operate);
-
-            if (this.Operate == Orientations.Between)
-                return string.Format(so, sn, GetValueString(), GetValue2String());
-            return string.Format(so, sn, GetValueString());
+            return sn + (this.Operate == Orientations.Descending ? " DESC" : "");
         }
     }
 
