@@ -93,7 +93,7 @@
             return this.ToSqlString();
         }
 
-        public string ToSqlString(string schema = null, string name = null)
+        public virtual string ToSqlString(string schema = null, string name = null)
         {
             schema = SqlUtils.EscapeSqlObjectName(schema);
             name = SqlUtils.EscapeSqlObjectName(name);

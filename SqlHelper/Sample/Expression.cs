@@ -6,6 +6,7 @@
     using System.Linq;
 
     using exp = DAL.Expressions.Tables.dbo;
+    using ori = DAL.Orientations.Tables.dbo;
     using db = DAL.Tables.dbo;
 
     class Program
@@ -18,6 +19,13 @@
             //);
             //Console.WriteLine(ori);
 
+            var query = new DAL.Queries.Tables.dbo.t2 { PageIndex = 0, PageSize = 20 }
+                .Where(o => o.c1.GreaterThan(123))
+                .OrderBy(o => o.c1.Asceding());
+
+            Console.WriteLine(query);
+            return;
+
             var rows = db.t2.Select(o =>
                  o.c1.Equal(123)
                  | o.c2.GreaterThan(12)
@@ -26,7 +34,6 @@
                  & o.c3.Desceding()
             );
 
-            return;
 
             //Console.WindowWidth = 160;
 
@@ -77,16 +84,37 @@
     }
 }
 
-//namespace DAL
-//{
-//    using System;
-//    using System.Collections.Generic;
-//    using System.Text;
+namespace DAL.Queries
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
 
-//    public interface IDataObject
-//    {
-//    }
-//}
+    namespace Tables
+    {
+        namespace dbo
+        {
+            public partial class t2 : SqlLib.Queries.Query<t2>
+            {
+                public t2 Where(DAL.Expressions.Tables.dbo.t2.Handler h)
+                {
+                    base.Expression = h.Invoke(new Expressions.Tables.dbo.t2());
+                    return this;
+                }
+                public t2 OrderBy(DAL.Orientations.Tables.dbo.t2.Handler h)
+                {
+                    base.Orientation = h.Invoke(new Orientations.Tables.dbo.t2());
+                    return this;
+                }
+
+                public override string ToString()
+                {
+                    return base.ToSqlString("dbo", "t2");
+                }
+            }
+        }
+    }
+}
 
 namespace DAL.Tables.dbo
 {
@@ -163,6 +191,11 @@ namespace DAL.Tables.dbo
         {
             return Select(where.Invoke(new Expressions.Tables.dbo.t2()), orderby.Invoke(new Orientations.Tables.dbo.t2()));
         }
+
+        public static List<t2> Select(Queries.Tables.dbo.t2.Handler query)
+        {
+            return null;
+        }
     }
 }
 
@@ -235,9 +268,9 @@ namespace DAL.Orientations
                 public ExpNode<t2> c2 { get { return this.New_Column("c2"); } }
                 public ExpNode<t2> c3 { get { return this.New_Column("c3"); } }
 
-                public override string ToString()
+                public override string ToSqlString(string schema = "dbo", string name = "t2")
                 {
-                    return base.ToSqlString("dbo", "t2");
+                    return base.ToSqlString(schema, name);
                 }
             }
         }
