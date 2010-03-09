@@ -56,13 +56,13 @@
 
     public class LogicalNode<T> : LogicalNode where T : LogicalNode, new()
     {
-        public delegate T ExpHandler(T eh);
-        public static T New(ExpHandler eh) { return eh.Invoke(new T()); }
+        public delegate T Handler(T eh);
+        public static T New(Handler eh) { return eh.Invoke(new T()); }
         public static T New() { return new T(); }
 
         public T And(T L) { return new T { First = this, Second = L }; }
 
-        public void And(ExpHandler eh)
+        public void And(Handler eh)
         {
             if (this.First == null && this.Expression == null)
             {
