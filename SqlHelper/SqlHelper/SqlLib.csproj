@@ -54,6 +54,7 @@
     <Compile Include="SqlExpressions.cs" />
     <Compile Include="SqlGens.cs" />
     <Compile Include="SqlHelper.cs" />
+    <Compile Include="SqlOrientations.cs" />
     <Compile Include="SqlUtils.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
