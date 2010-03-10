@@ -32,6 +32,8 @@
 
             // todo: 分页处理
 
+            // todo: 传入指定字段列表处理
+
             if (this.PageIndex == 0 && this.PageSize > 0) st = "TOP (" + this.PageSize + ") ";
 
             return "SELECT " + st + @"* FROM " + ssn + stn + (sw.Length > 0 ? " WHERE " : "") + sw + (so.Length > 0 ? " ORDER BY " : "") + so;
