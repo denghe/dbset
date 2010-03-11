@@ -9,15 +9,23 @@
 
     class Program {
         static void Main(string[] args) {
-            var q = query.t2.New(a => a
-                .SetPageSize(20)
-                .SetPageIndex(1)
-                .SetWhere(o => o.Name.Like("%a%"))
-                .SetOrderBy(o => o.CreateTime.Desceding())
+            //var q1 = query.t2.New(a => a
+            //    .SetPageSize(20)
+            //    .SetPageIndex(1)
+            //    .SetWhere(o => o.Name.Like("%a%"))
+            //    .SetOrderBy(o => o.CreateTime.Desceding())
+            //);
+            //if(true) q1.Where.And(o => o.ID.GreaterThan(5));
+            //if(true) q1.OrderBy.And(o => o.Name.Asceding());
+            //Console.WriteLine(q1);
+
+            var q2 = query.t2.New(
+                20
+                , 0
+                , o => o.Name.Like("%a%")
+                , o => o.CreateTime.Desceding()
             );
-            if(true) q.Where.And(o => o.ID.GreaterThan(5));
-            if(true) q.OrderBy.And(o => o.Name.Asceding());
-            Console.WriteLine(q);
+            Console.WriteLine(q2);
             //var rows = db.t2.Select(query);
 
             Console.ReadLine();

@@ -10,6 +10,16 @@
 
         public delegate T Handler(T eh);
         public static T New(Handler eh) { return eh.Invoke(new T()); }
+        public static T New(int pageSize, int pageIndex
+            , SqlLib.Expressions.LogicalNode<W>.Handler where
+            , SqlLib.Orientations.LogicalNode<O>.Handler orderby) {
+                return new T {
+                     PageIndex = pageIndex,
+                     PageSize = pageSize,
+                     Where = where.Invoke(new W()),
+                     OrderBy = orderby.Invoke(new O())
+                };
+        }
 
         public int PageIndex { get; set; }
         public int PageSize { get; set; }
