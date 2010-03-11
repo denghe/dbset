@@ -1,17 +1,14 @@
-﻿namespace SqlLib
-{
+﻿namespace SqlLib {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
 
-    public partial class DbSet
-    {
-        public DbSet()
-        {
-            this.Tables = new Tables();
-            this.Messages = new Messages();
-            this.Errors = new Errors();
+    public partial class DbSet {
+        public DbSet () {
+            this.Tables = new Tables ();
+            this.Messages = new Messages ();
+            this.Errors = new Errors ();
         }
 
         public Tables Tables { get; private set; }
@@ -21,26 +18,21 @@
         public int RecordsAffected { get; set; }
 
         public DbTable this[int index] { get { return Tables[index]; } }
-        public DbTable this[string name] { get { return Tables.Find(o => o.Name == name); } }
-        public DbTable this[string name, string schema] { get { return Tables.Find(o => o.Name == name && o.Schema == schema); } }
+        public DbTable this[string name] { get { return Tables.Find ( o => o.Name == name ); } }
+        public DbTable this[string name, string schema] { get { return Tables.Find ( o => o.Name == name && o.Schema == schema ); } }
     }
 
-    public partial class Tables : List<DbTable>
-    {
+    public partial class Tables : List<DbTable> {
     }
-    public partial class Messages : List<string>
-    {
+    public partial class Messages : List<string> {
     }
-    public partial class Errors : List<SqlError>
-    {
+    public partial class Errors : List<SqlError> {
     }
 
-    public partial class DbTable
-    {
-        public DbTable()
-        {
-            this.Rows = new Rows();
-            this.Columns = new Columns();
+    public partial class DbTable {
+        public DbTable () {
+            this.Rows = new Rows ();
+            this.Columns = new Columns ();
         }
 
         public DbSet Set { get; set; }
@@ -50,34 +42,30 @@
         public Columns Columns { get; private set; }
 
         public DbRow this[int rowIdx] { get { return this.Rows[rowIdx]; } }
-        public int GetOrdinal() { if (Set == null) return 0; return Set.Tables.IndexOf(this); }
+        public int GetOrdinal () { if ( Set == null ) return 0; return Set.Tables.IndexOf ( this ); }
 
-        public DbRow NewRow(params object[] data) { return new DbRow(this, data); }
-        public DbTable AddRow(params object[] data) { new DbRow(this, data); return this; }
+        public DbRow NewRow ( params object[] data ) { return new DbRow ( this, data ); }
+        public DbTable AddRow ( params object[] data ) { new DbRow ( this, data ); return this; }
 
-        public DbColumn NewColumn() { return new DbColumn(this, null, typeof(string), true); }
-        public DbColumn NewColumn(string name, Type type, bool nullable = true) { return new DbColumn(this, name, type, nullable); }
-        public DbColumn NewColumn(Type type) { return new DbColumn(this, null, type, true); }
-        public DbColumn NewColumn(string name) { return new DbColumn(this, name, typeof(string), true); }
+        public DbColumn NewColumn () { return new DbColumn ( this, null, typeof ( string ), true ); }
+        public DbColumn NewColumn ( string name, Type type, bool nullable = true ) { return new DbColumn ( this, name, type, nullable ); }
+        public DbColumn NewColumn ( Type type ) { return new DbColumn ( this, null, type, true ); }
+        public DbColumn NewColumn ( string name ) { return new DbColumn ( this, name, typeof ( string ), true ); }
 
 
     }
 
-    public partial class Rows : List<DbRow>
-    {
+    public partial class Rows : List<DbRow> {
     }
-    public partial class Columns : List<DbColumn>
-    {
+    public partial class Columns : List<DbColumn> {
     }
 
-    public partial class DbColumn
-    {
-        private DbColumn() { }
-        public DbColumn(DbTable parent) { this.Table = parent; }
-        public DbColumn(DbTable parent, string name, Type type, bool nullable)
-        {
-            this.Table = parent; parent.Columns.Add(this); this.Name = name; this.Type = type; this.AllowDBNull = nullable;
-            if (parent.Rows.Count > 0) foreach (DbRow row in parent.Rows) row.Increase();
+    public partial class DbColumn {
+        private DbColumn () { }
+        public DbColumn ( DbTable parent ) { this.Table = parent; }
+        public DbColumn ( DbTable parent, string name, Type type, bool nullable ) {
+            this.Table = parent; parent.Columns.Add ( this ); this.Name = name; this.Type = type; this.AllowDBNull = nullable;
+            if ( parent.Rows.Count > 0 ) foreach ( DbRow row in parent.Rows ) row.Increase ();
         }
 
         public DbTable Table { get; set; }
@@ -85,64 +73,52 @@
         public Type Type { get; set; }
         public bool AllowDBNull { get; set; }
 
-        public int GetOrdinal() { return this.Table.Columns.IndexOf(this); }
+        public int GetOrdinal () { return this.Table.Columns.IndexOf ( this ); }
     }
 
-    public partial class DbRow
-    {
-        private DbRow() { }
-        public DbRow(DbTable parent, params object[] data)
-        {
+    public partial class DbRow {
+        private DbRow () { }
+        public DbRow ( DbTable parent, params object[] data ) {
             var count = parent.Columns.Count;
-            if (count == 0 && (data == null || data.Length > 0))
-                throw new Exception("Beyond the limited number of fields");
-            else
-            {
-                if (data == null || data.Length == 0)
-                {
+            if ( count == 0 && ( data == null || data.Length > 0 ) )
+                throw new Exception ( "Beyond the limited number of fields" );
+            else {
+                if ( data == null || data.Length == 0 ) {
                     this._itemArray = new object[count];
-                    for (int i = 0; i < count; i++)
-                    {
+                    for ( int i = 0; i < count; i++ ) {
                         this._itemArray[i] = DBNull.Value;
                     }
-                }
-                else if (data.Length != count)
-                {
-                    throw new Exception("Insufficient data or Beyond the limited number of fields");
-                }
-                else
-                {
+                } else if ( data.Length != count ) {
+                    throw new Exception ( "Insufficient data or Beyond the limited number of fields" );
+                } else {
                     this._itemArray = data;
                 }
                 this.Table = parent;
-                parent.Rows.Add(this);
+                parent.Rows.Add ( this );
             }
         }
 
         public DbTable Table { get; private set; }
         private object[] _itemArray;
-        public object[] ItemArray() { return this._itemArray; }
+        public object[] ItemArray () { return this._itemArray; }
 
         public object this[int idx] { get { return this._itemArray[idx]; } set { this._itemArray[idx] = value; } }
-        public object this[DbColumn col] { get { return this._itemArray[col.GetOrdinal()]; } set { this._itemArray[col.GetOrdinal()] = value; } }
-        public object this[string name]
-        {
-            get { return this._itemArray[this.Table.Columns.Find(o => o.Name == name).GetOrdinal()]; }
-            set { this._itemArray[this.Table.Columns.Find(o => o.Name == name).GetOrdinal()] = value; }
+        public object this[DbColumn col] { get { return this._itemArray[col.GetOrdinal ()]; } set { this._itemArray[col.GetOrdinal ()] = value; } }
+        public object this[string name] {
+            get { return this._itemArray[this.Table.Columns.Find ( o => o.Name == name ).GetOrdinal ()]; }
+            set { this._itemArray[this.Table.Columns.Find ( o => o.Name == name ).GetOrdinal ()] = value; }
         }
-        public void SetValues(params object[] data) { this._itemArray = data; }
-        internal void Increase()
-        {
-            if (this._itemArray == null) this._itemArray = new object[] { null };
-            else Array.Resize<object>(ref this._itemArray, this._itemArray.Length + 1);
+        public void SetValues ( params object[] data ) { this._itemArray = data; }
+        internal void Increase () {
+            if ( this._itemArray == null ) this._itemArray = new object[] { null };
+            else Array.Resize<object> ( ref this._itemArray, this._itemArray.Length + 1 );
         }
     }
 
     /// <summary>
     ///  Collects information relevant to a warning or error returned by SQL Server.
     /// </summary>
-    public partial class SqlError
-    {
+    public partial class SqlError {
         /// <summary>
         ///     Gets the severity level of the error returned from SQL Server.
         ///
