@@ -1,5 +1,4 @@
-﻿namespace Sample
-{
+﻿namespace Sample {
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
@@ -14,10 +13,8 @@
 
     using SqlLib;
 
-    public class Test
-    {
-        public static void Main()
-        {
+    public class Test {
+        public static void Main() {
             Console.SetWindowSize(Console.WindowWidth, 50);
 
             // int sql connection

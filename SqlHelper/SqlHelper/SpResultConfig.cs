@@ -87,58 +87,58 @@
         }
 
         public static partial class Extensions {
-            public static string GetXml ( this Config cfg ) {
-                throw new Exception ( "todo" );
+            public static string GetXml(this Config cfg) {
+                throw new Exception("todo");
             }
-            public static Config GetConfig ( this string xml ) {
-                var xe = XElement.Parse ( xml );
+            public static Config GetConfig(this string xml) {
+                var xe = XElement.Parse(xml);
                 var config = new Config {
-                    Options = ( from XElement ele in xe.Elements ( "Options" )
-                                select new Options {
-                                    Return = ele.Attribute ( "Return" ).GetValue<bool> ( true ),
-                                    Print = ele.Attribute ( "Print" ).GetValue<bool> ( false ),
-                                    Raiserror = ele.Attribute ( "Raiserror" ).GetValue<bool> ( false ),
-                                    Select = ele.Attribute ( "Select" ).GetValue<bool> ( true ),
-                                } ).First (),
-                    Results = ( from XElement ele in xe.Elements ( "Result" )
-                                select new Result {
-                                    Name = ele.Attribute ( "Name" ).GetValue<string> ( "" ),
-                                    Category = ele.Attribute ( "Category" ).GetCategoryValue (),
-                                    Type = ele.Attribute ( "Type" ).GetTypeValue (),
-                                    Struct = ele.Attribute ( "Struct" ).GetValue<string> ( "" ),
-                                    Schema = ele.Attribute ( "Schema" ).GetValue<string> ( "" ),
-                                    Description = ele.Attribute ( "Description" ).GetValue<string> ( "" )
-                                } ).ToList (),
-                    Structs = ( from XElement ele in xe.Elements ( "Struct" )
-                                select new Struct {
-                                    Name = ele.Attribute ( "Name" ).GetValue<string> ( "" ),
-                                    Columns = ( from XElement e in ele.Elements ( "Column" )
-                                                select new Column {
-                                                    Name = e.Attribute ( "Name" ).GetValue<string> ( "" ),
-                                                    Type = e.Attribute ( "Type" ).GetTypeValue (),
-                                                    Nullable = e.Attribute ( "Nullable" ).GetValue<bool> ( false ),
-                                                    Description = e.Attribute ( "Description" ).GetValue<string> ( "" )
-                                                } ).ToList ()
-                                } ).ToList ()
+                    Options = (from XElement ele in xe.Elements("Options")
+                               select new Options {
+                                   Return = ele.Attribute("Return").GetValue<bool>(true),
+                                   Print = ele.Attribute("Print").GetValue<bool>(false),
+                                   Raiserror = ele.Attribute("Raiserror").GetValue<bool>(false),
+                                   Select = ele.Attribute("Select").GetValue<bool>(true),
+                               }).First(),
+                    Results = (from XElement ele in xe.Elements("Result")
+                               select new Result {
+                                   Name = ele.Attribute("Name").GetValue<string>(""),
+                                   Category = ele.Attribute("Category").GetCategoryValue(),
+                                   Type = ele.Attribute("Type").GetTypeValue(),
+                                   Struct = ele.Attribute("Struct").GetValue<string>(""),
+                                   Schema = ele.Attribute("Schema").GetValue<string>(""),
+                                   Description = ele.Attribute("Description").GetValue<string>("")
+                               }).ToList(),
+                    Structs = (from XElement ele in xe.Elements("Struct")
+                               select new Struct {
+                                   Name = ele.Attribute("Name").GetValue<string>(""),
+                                   Columns = (from XElement e in ele.Elements("Column")
+                                              select new Column {
+                                                  Name = e.Attribute("Name").GetValue<string>(""),
+                                                  Type = e.Attribute("Type").GetTypeValue(),
+                                                  Nullable = e.Attribute("Nullable").GetValue<bool>(false),
+                                                  Description = e.Attribute("Description").GetValue<string>("")
+                                              }).ToList()
+                               }).ToList()
                 };
 
                 // todo: check
                 return config;
             }
-            public static T GetValue<T> ( this XAttribute att, T deft ) {
-                if ( att == null ) return deft;
-                return (T)Convert.ChangeType ( att.Value, typeof ( T ) );
+            public static T GetValue<T>(this XAttribute att, T deft) {
+                if(att == null) return deft;
+                return (T)Convert.ChangeType(att.Value, typeof(T));
             }
-            public static Type GetTypeValue ( this XAttribute att ) {
-                if ( att == null ) return Type.Unknown;
+            public static Type GetTypeValue(this XAttribute att) {
+                if(att == null) return Type.Unknown;
                 Type t;
-                if ( Enum.TryParse<Type> ( att.Value, out t ) ) return t;
+                if(Enum.TryParse<Type>(att.Value, out t)) return t;
                 return Type.Unknown;
             }
-            public static Category GetCategoryValue ( this XAttribute att ) {
-                if ( att == null ) return Category.Unknown;
+            public static Category GetCategoryValue(this XAttribute att) {
+                if(att == null) return Category.Unknown;
                 Category t;
-                if ( Enum.TryParse<Category> ( att.Value, out t ) ) return t;
+                if(Enum.TryParse<Category>(att.Value, out t)) return t;
                 return Category.Unknown;
             }
         }
