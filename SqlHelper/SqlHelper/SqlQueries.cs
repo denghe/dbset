@@ -3,20 +3,20 @@
     using System.Collections.Generic;
     using System.Text;
 
-    public partial class Query<T, W, O>
-        where T : Query<T, W, O>, new()
-        where W : SqlLib.Expressions.LogicalNode<W>, new()
-        where O : SqlLib.Orientations.LogicalNode<O>, new() {
+    public partial class Query<Q, W, O>
+        where Q : Query<Q, W, O>, new()
+        where W : Expressions.LogicalNode<W>, new()
+        where O : Orientations.LogicalNode<O>, new() {
 
-        public delegate T Handler(T eh);
-        public static T New(Handler eh) { return eh.Invoke(new T()); }
-        public static T New(
-            SqlLib.Expressions.LogicalNode<W>.Handler where = null
-            , SqlLib.Orientations.LogicalNode<O>.Handler orderby = null
+        public delegate Q Handler(Q h);
+        public static Q New(Handler h) { return h.Invoke(new Q()); }
+        public static Q New(
+            Expressions.LogicalNode<W>.Handler where = null
+            , Orientations.LogicalNode<O>.Handler orderby = null
             , int pageSize = 0
             , int pageIndex = 0
             ) {
-            return new T {
+            return new Q {
                 PageIndex = pageIndex,
                 PageSize = pageSize,
                 Where = where == null ? new W() : where.Invoke(new W()),
@@ -29,21 +29,21 @@
         public W Where { get; set; }
         public O OrderBy { get; set; }
 
-        public T SetPageIndex(int pageIndex) {
+        public Q SetPageIndex(int pageIndex) {
             this.PageIndex = pageIndex;
-            return (T)this;
+            return (Q)this;
         }
-        public T SetPageSize(int pageSize) {
+        public Q SetPageSize(int pageSize) {
             this.PageSize = pageSize;
-            return (T)this;
+            return (Q)this;
         }
-        public T SetWhere(SqlLib.Expressions.LogicalNode<W>.Handler h) {
+        public Q SetWhere(Expressions.LogicalNode<W>.Handler h) {
             this.Where = h.Invoke(new W());
-            return (T)this;
+            return (Q)this;
         }
-        public T SetOrderBy(SqlLib.Orientations.LogicalNode<O>.Handler h) {
+        public Q SetOrderBy(Orientations.LogicalNode<O>.Handler h) {
             this.OrderBy = h.Invoke(new O());
-            return (T)this;
+            return (Q)this;
         }
 
 

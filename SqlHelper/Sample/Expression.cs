@@ -4,16 +4,33 @@
     using System.Text;
     using System.Linq;
 
-    using db = DAL.Tables.dbo;
-    using query = DAL.Queries.Tables.dbo;
     using SqlLib;
+    using db = DAL.Database.Tables.dbo;
+    using query = DAL.Queries.Tables.dbo;
 
     class Program {
         static void Main(string[] args) {
             // init connect string
             SqlHelper.InitConnectString(server: "data,14333", username: "admin");
-            //// dump all dbo.t2 data
-            //SqlHelper.ExecuteDbSet(query.t2.New().ToString()).Dump();
+            // dump all dbo.t2 data
+            SqlHelper.ExecuteDbSet(query.t2.New().ToString()).Dump();
+            // select method test
+            var row = db.t2.Select(5); // select * from t2 where id = 5     return t2
+            var row2 = db.t2.Select(6); // does not exist this id           return null
+            var rows = db.t2.Select(o => o.Name.GreaterThan("b") //         return List<t2>
+                , o=>o.CreateTime.Desceding()
+                , 3); // select top(3) * from t2 where Name > 'b' order by CreateTime desc
+
+            Console.WriteLine("\r\n\r\nresult: "
+                + (row == null ? 0 : row.ID) + " "
+                + (row2 == null ? 0 : row.ID) + " "
+                + rows.Count
+                );
+
+            Console.ReadLine();
+
+            //var rows = db.t2.Select();
+
             //// construct query
             //var q = query.t2.New(pageSize: 3, pageIndex: 1);
             //if(true) q.Where.And(o => o.ID.Between(1,5));
@@ -23,20 +40,6 @@
             //// get data & dump
             //var ds = SqlHelper.ExecuteDbSet(q.ToString());
             //ds.Dump();
-
-            var row = db.t2.Select(1); // exist
-            var row2 = db.t2.Select(6); // not exist
-            var rows = db.t2.Select(o => o.Name.GreaterThan("b")); // c,d,e
-
-            Console.WriteLine(
-                ""
-                + (row == null ? 0 : row.ID) + " "
-                + (row2 == null ? 0 : row.ID) + " "
-                + rows.Count
-                );
-
-            Console.ReadLine();
-            //var rows = db.t2.Select();
         }
     }
 }
@@ -98,8 +101,7 @@ namespace DAL.Orientations {
 }
 
 
-
-namespace DAL.Tables.dbo {
+namespace DAL.Database {
     using System;
     using System.Collections.Generic;
     using System.Text;
@@ -108,67 +110,72 @@ namespace DAL.Tables.dbo {
 
     using SqlLib;
 
-    /// <summary>
-    /// Table Name : [..].[..].[..]
-    /// Description: .......
-    /// </summary>
-    public partial class t2 {
-        /// <summary>
-        /// Field Name : ID
-        /// Property   : PrimaryKey, AutoIncrease, NotNull, int
-        /// Description: .......
-        /// </summary>
-        public int ID { get; set; }
+    namespace Tables {
+        namespace dbo {
 
-        /// <summary>
-        /// Field Name : Name
-        /// Property   : PrimaryKey, AutoIncrease, NotNull, int
-        /// Description: .......
-        /// </summary>
-        public string Name { get; set; }
+            /// <summary>
+            /// Table Name : [..].[..].[..]
+            /// Description: .......
+            /// </summary>
+            public partial class t2 {
+                /// <summary>
+                /// Field Name : ID
+                /// Property   : PrimaryKey, AutoIncrease, NotNull, int
+                /// Description: .......
+                /// </summary>
+                public int ID { get; set; }
 
-        /// <summary>
-        /// Field Name : CreateTime
-        /// Property   : PrimaryKey, AutoIncrease, NotNull, int
-        /// Description: .......
-        /// </summary>
-        public DateTime CreateTime { get; set; }
+                /// <summary>
+                /// Field Name : Name
+                /// Property   : PrimaryKey, AutoIncrease, NotNull, int
+                /// Description: .......
+                /// </summary>
+                public string Name { get; set; }
 
-        public static t2 Select(int id) {
-            return Select(o => o.ID.Equal(id)).FirstOrDefault();
-        }
+                /// <summary>
+                /// Field Name : CreateTime
+                /// Property   : PrimaryKey, AutoIncrease, NotNull, int
+                /// Description: .......
+                /// </summary>
+                public DateTime CreateTime { get; set; }
 
-        /// <summary>
-        /// Execute following TSQL and return： 
-        /// 
-        /// SELECT ID
-        ///      , Name
-        ///      , CreateTime
-        ///   FROM t2
-        ///  WHERE exp
-        /// </summary>
-        public static List<t2> Select(Queries.Tables.dbo.t2 q) {
-            var tsql = q.ToSqlString();
-            var rows = new List<t2>();
-            using(var reader = SqlHelper.ExecuteDataReader(tsql)) {
-                while(reader.Read()) {
-                    rows.Add(new t2 {
-                        ID = reader.GetInt32(0),
-                        Name = reader.GetString(1),
-                        CreateTime = reader.GetDateTime(2)
-                    });
+                public static t2 Select(int id) {
+                    return Select(o => o.ID.Equal(id)).FirstOrDefault();
+                }
+
+                /// <summary>
+                /// Execute following TSQL and return： 
+                /// 
+                /// SELECT ID
+                ///      , Name
+                ///      , CreateTime
+                ///   FROM t2
+                ///  WHERE exp
+                /// </summary>
+                public static List<t2> Select(Queries.Tables.dbo.t2 q) {
+                    var tsql = q.ToSqlString();
+                    var rows = new List<t2>();
+                    using(var reader = SqlHelper.ExecuteDataReader(tsql)) {
+                        while(reader.Read()) {
+                            rows.Add(new t2 {
+                                ID = reader.GetInt32(0),
+                                Name = reader.GetString(1),
+                                CreateTime = reader.GetDateTime(2)
+                            });
+                        }
+                    }
+                    return rows;
+                }
+
+                public static List<t2> Select(
+                    Expressions.Tables.dbo.t2.Handler where = null
+                    , Orientations.Tables.dbo.t2.Handler orderby = null
+                    , int pageSize = 0
+                    , int pageIndex = 0
+                    ) {
+                    return Select(Queries.Tables.dbo.t2.New(where, orderby, pageSize, pageIndex));
                 }
             }
-            return rows;
-        }
-
-        public static List<t2> Select(
-            Expressions.Tables.dbo.t2.Handler where = null
-            , Orientations.Tables.dbo.t2.Handler orderby = null
-            , int pageSize = 0
-            , int pageIndex = 0
-            ) {
-            return Select(Queries.Tables.dbo.t2.New(where, orderby, pageSize, pageIndex));
         }
     }
 }
