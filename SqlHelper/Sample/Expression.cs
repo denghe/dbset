@@ -21,16 +21,16 @@
             SqlHelper.ExecuteDbSet(query.t2.New().ToString()).Dump();
 
             // select method test
-            var row = db.t2.Select(5); // select * from t2 where id = 5     return t2
-            var row2 = db.t2.Select(6); // does not exist this id           return null
+            var row = db.t2.Select(5);                          // return t2(id=5)
+            var row2 = db.t2.Select(6);                         // return null
 
-            var q = query.t2.New(o => o.Name >= "a"                     // where name >= 'a'
-                , o => o.CreateTime.ASC                                 // order by createtime asc
-                , 3                                                     // pagesize
-                , 1                                                     // pageindex
-                , o => o.ID.Name.CreateTime);                           // column list
+            var q = query.t2.New(o => o.Name >= "a"             // where
+                , o => o.CreateTime.ASC & o.Name.DESC           // order by
+                , 3                                             // pagesize
+                , 1                                             // pageindex
+                , o => o.ID.Name.CreateTime);                   // column list
 
-            var rows = db.t2.Select(q);                                 // return List<t2>
+            var rows = db.t2.Select(q);                         // return List<t2>
 
             Console.WriteLine("\r\n\r\nresult: "
                 + (row == null ? 0 : row.ID) + " "
@@ -216,9 +216,9 @@ namespace DAL.Database {
                     , Orientations.Tables.dbo.t2.Handler orderby = null
                     , int pageSize = 0
                     , int pageIndex = 0
-                    , ColumnEnums.Tables.dbo.t2.Handler cols = null
+                    , ColumnEnums.Tables.dbo.t2.Handler columns = null
                     ) {
-                    return Select(Queries.Tables.dbo.t2.New(where, orderby, pageSize, pageIndex, cols));
+                    return Select(Queries.Tables.dbo.t2.New(where, orderby, pageSize, pageIndex, columns));
                 }
             }
         }
