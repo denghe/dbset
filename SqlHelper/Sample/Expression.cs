@@ -4,31 +4,39 @@
     using System.Text;
     using System.Linq;
 
-    using db    = DAL.Tables.dbo;
+    using db = DAL.Tables.dbo;
     using query = DAL.Queries.Tables.dbo;
+    using SqlLib;
 
     class Program {
         static void Main(string[] args) {
-            //var q1 = query.t2.New(a => a
-            //    .SetPageSize(20)
-            //    .SetPageIndex(1)
-            //    .SetWhere(o => o.Name.Like("%a%"))
-            //    .SetOrderBy(o => o.CreateTime.Desceding())
-            //);
-            //if(true) q1.Where.And(o => o.ID.GreaterThan(5));
-            //if(true) q1.OrderBy.And(o => o.Name.Asceding());
-            //Console.WriteLine(q1);
+            // init connect string
+            SqlHelper.InitConnectString(server: "data,14333", username: "admin");
+            //// dump all dbo.t2 data
+            //SqlHelper.ExecuteDbSet(query.t2.New().ToString()).Dump();
+            //// construct query
+            //var q = query.t2.New(pageSize: 3, pageIndex: 1);
+            //if(true) q.Where.And(o => o.ID.Between(1,5));
+            //if(true) q.OrderBy.And(o => o.Name.Desceding());
+            //// show query TSQL
+            //Console.WriteLine(q);
+            //// get data & dump
+            //var ds = SqlHelper.ExecuteDbSet(q.ToString());
+            //ds.Dump();
 
-            var q2 = query.t2.New(
-                20
-                , 0
-                , o => o.Name.Like("%a%")
-                , o => o.CreateTime.Desceding()
-            );
-            Console.WriteLine(q2);
-            //var rows = db.t2.Select(query);
+            var row = db.t2.Select(1); // exist
+            var row2 = db.t2.Select(6); // not exist
+            var rows = db.t2.Select(o => o.Name.GreaterThan("b")); // c,d,e
+
+            Console.WriteLine(
+                ""
+                + (row == null ? 0 : row.ID) + " "
+                + (row2 == null ? 0 : row.ID) + " "
+                + rows.Count
+                );
 
             Console.ReadLine();
+            //var rows = db.t2.Select();
         }
     }
 }
@@ -43,8 +51,8 @@ namespace DAL.Queries {
     namespace Tables {
         namespace dbo {
             public partial class t2 : Query<t2, Expressions.Tables.dbo.t2, Orientations.Tables.dbo.t2> {
-                public override string ToSqlString(string schema = "dbo", string name = "t2", List<string> columns = null) {
-                    return base.ToSqlString(schema, name, columns);
+                public override string ToSqlString(string schema = null, string name = null, List<string> columns = null) {
+                    return base.ToSqlString(schema ?? "dbo", name ?? "t2", columns);
                 }
             }
         }
@@ -62,9 +70,9 @@ namespace DAL.Expressions {
     namespace Tables {
         namespace dbo {
             public partial class t2 : LogicalNode<t2> {
-                public ExpNode_Int32<t2>    ID          { get { return this.New_Int32("ID"); } }
-                public ExpNode_String<t2>   Name        { get { return this.New_String("Name"); } }
-                public ExpNode_DateTime<t2> CreateTime  { get { return this.New_DateTime("CreateTime"); } }
+                public ExpNode_Int32<t2> ID { get { return this.New_Int32("ID"); } }
+                public ExpNode_String<t2> Name { get { return this.New_String("Name"); } }
+                public ExpNode_DateTime<t2> CreateTime { get { return this.New_DateTime("CreateTime"); } }
             }
         }
     }
@@ -96,6 +104,7 @@ namespace DAL.Tables.dbo {
     using System.Collections.Generic;
     using System.Text;
     using System.Data.SqlClient;
+    using System.Linq;
 
     using SqlLib;
 
@@ -125,6 +134,10 @@ namespace DAL.Tables.dbo {
         /// </summary>
         public DateTime CreateTime { get; set; }
 
+        public static t2 Select(int id) {
+            return Select(o => o.ID.Equal(id)).FirstOrDefault();
+        }
+
         /// <summary>
         /// Execute following TSQL and return： 
         /// 
@@ -134,8 +147,8 @@ namespace DAL.Tables.dbo {
         ///   FROM t2
         ///  WHERE exp
         /// </summary>
-        public static List<t2> Select(Queries.Tables.dbo.t2 query) {
-            var tsql = query.ToSqlString();
+        public static List<t2> Select(Queries.Tables.dbo.t2 q) {
+            var tsql = q.ToSqlString();
             var rows = new List<t2>();
             using(var reader = SqlHelper.ExecuteDataReader(tsql)) {
                 while(reader.Read()) {
@@ -149,9 +162,13 @@ namespace DAL.Tables.dbo {
             return rows;
         }
 
-        public static List<t2> Select(Queries.Tables.dbo.t2.Handler query) {
-            return Select(query.Invoke(new Queries.Tables.dbo.t2()));
+        public static List<t2> Select(
+            Expressions.Tables.dbo.t2.Handler where = null
+            , Orientations.Tables.dbo.t2.Handler orderby = null
+            , int pageSize = 0
+            , int pageIndex = 0
+            ) {
+            return Select(Queries.Tables.dbo.t2.New(where, orderby, pageSize, pageIndex));
         }
     }
 }
-

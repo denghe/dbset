@@ -469,8 +469,8 @@
                 }
             } finally {
                 if(imHandler != null) conn.InfoMessage -= imHandler;
-                if(ocs == -1 || ocs == (int)ConnectionState.Closed) conn.Close();
-                if(ocs == -1) conn.Dispose();
+                //if(ocs == -1 || ocs == (int)ConnectionState.Closed) conn.Close();
+                //if(ocs == -1) conn.Dispose();
             }
             return r;
         }

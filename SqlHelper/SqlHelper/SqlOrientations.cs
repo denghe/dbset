@@ -37,6 +37,7 @@
             schema = SqlUtils.EscapeSqlObjectName(schema);
             name = SqlUtils.EscapeSqlObjectName(name);
             if(this.Expression == null) {
+                if(this.Second == null) return "";
                 var s = this.Second.ToSqlString(schema, name);
                 return this.First.ToSqlString(schema, name) + (s.Length > 0 ? ", " : "") + s;
             }

@@ -87,6 +87,7 @@
             schema = SqlUtils.EscapeSqlObjectName(schema);
             name = SqlUtils.EscapeSqlObjectName(name);
             if(this.Expression == null) {
+                if(this.First == null) return "";
                 if(this.Logical == Logicals.Not) {
                     var firstQuote = this.First.Logical != Logicals.Not;
                     var s1 = firstQuote ? " ( " : " ";

@@ -10,15 +10,18 @@
 
         public delegate T Handler(T eh);
         public static T New(Handler eh) { return eh.Invoke(new T()); }
-        public static T New(int pageSize, int pageIndex
-            , SqlLib.Expressions.LogicalNode<W>.Handler where
-            , SqlLib.Orientations.LogicalNode<O>.Handler orderby) {
-                return new T {
-                     PageIndex = pageIndex,
-                     PageSize = pageSize,
-                     Where = where.Invoke(new W()),
-                     OrderBy = orderby.Invoke(new O())
-                };
+        public static T New(
+            SqlLib.Expressions.LogicalNode<W>.Handler where = null
+            , SqlLib.Orientations.LogicalNode<O>.Handler orderby = null
+            , int pageSize = 0
+            , int pageIndex = 0
+            ) {
+            return new T {
+                PageIndex = pageIndex,
+                PageSize = pageSize,
+                Where = where == null ? new W() : where.Invoke(new W()),
+                OrderBy = orderby == null ? new O() : orderby.Invoke(new O())
+            };
         }
 
         public int PageIndex { get; set; }
@@ -53,6 +56,9 @@
             if(!string.IsNullOrEmpty(name)) stn = "[" + name.Replace("]", "]]") + "]";
             sw = this.Where.ToSqlString("", "");
             so = this.OrderBy.ToSqlString("", "");
+            if(this.PageIndex > 0 && this.PageSize > 0 && so.Length == 0) {
+                throw new Exception("select page must be contain orderby orientations");
+            }
             if(columns != null && columns.Count > 0) {
                 if(columns.Count == 1) scs = "[" + columns[0].Replace("]", "]]") + "]";
                 else {
