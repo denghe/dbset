@@ -3,10 +3,32 @@
     using System.Collections.Generic;
     using System.Text;
 
-    public partial class Query<Q, W, O>
-        where Q : Query<Q, W, O>, new()
+    public partial class ColumnList<T> where T : ColumnList<T> {
+        protected List<int> __columns = new List<int>();
+        public virtual string ToSqlString(string schema = null, string name = null) {
+            // todo: check schema , name generate [schema].[name].[col]
+            if(__columns.Count == 0) return "*";
+            var sb = new StringBuilder();
+            foreach(var c in __columns) {
+                if(sb.Length > 0) sb.Append(", ");
+                sb.Append("[" + GetColumnName(c) + "]");
+            }
+            return sb.ToString();
+        }
+        public virtual string GetColumnName(int i) {
+            return i.ToString();
+        }
+        public override string ToString() {
+            return ToSqlString();
+        }
+        public delegate T Handler(T h);
+    }
+
+    public partial class Query<Q, W, O, CS>
+        where Q : Query<Q, W, O, CS>, new()
         where W : Expressions.LogicalNode<W>, new()
-        where O : Orientations.LogicalNode<O>, new() {
+        where O : Orientations.LogicalNode<O>, new()
+        where CS : ColumnList<CS>, new() {
 
         public delegate Q Handler(Q h);
         public static Q New(Handler h) { return h.Invoke(new Q()); }
@@ -15,12 +37,14 @@
             , Orientations.LogicalNode<O>.Handler orderby = null
             , int pageSize = 0
             , int pageIndex = 0
+            , ColumnList<CS>.Handler cols = null
             ) {
             return new Q {
                 PageIndex = pageIndex,
                 PageSize = pageSize,
                 Where = where == null ? new W() : where.Invoke(new W()),
-                OrderBy = orderby == null ? new O() : orderby.Invoke(new O())
+                OrderBy = orderby == null ? new O() : orderby.Invoke(new O()),
+                Columns = cols == null ? new CS() : cols.Invoke(new CS())
             };
         }
 
@@ -28,6 +52,7 @@
         public int PageSize { get; set; }
         public W Where { get; set; }
         public O OrderBy { get; set; }
+        public CS Columns { get; set; }
 
         public Q SetPageIndex(int pageIndex) {
             this.PageIndex = pageIndex;
@@ -51,11 +76,12 @@
             return this.ToSqlString();
         }
         public virtual string ToSqlString(string schema = null, string name = null, List<string> columns = null) {
-            string ssn = "", stn = "", sw = "", so = "", st = "", scs="*";
+            string ssn = "", stn = "", sw = "", so = "", st = "", scs="";
             if(!string.IsNullOrEmpty(schema)) ssn = "[" + schema.Replace("]", "]]") + "].";
             if(!string.IsNullOrEmpty(name)) stn = "[" + name.Replace("]", "]]") + "]";
             sw = this.Where.ToSqlString("", "");
             so = this.OrderBy.ToSqlString("", "");
+            scs = this.Columns.ToSqlString("", "");
             if(this.PageIndex > 0 && this.PageSize > 0 && so.Length == 0) {
                 throw new Exception("select page must be contain orderby orientations");
             }
@@ -73,17 +99,17 @@
                 var rowIndexTo = rowIndexFrom + PageSize - 1;
                 return @"
 WITH __T AS (
-    SELECT *
+    SELECT " + scs + @"
          , ROW_NUMBER() OVER (ORDER BY " + so + @") AS '__ROWNUMBER'
       FROM " + ssn + stn + (sw.Length > 0 ? @"
      WHERE " : "") + sw + @"
-) SELECT *
-    FROM __T
-   WHERE __ROWNUMBER BETWEEN " + rowIndexFrom + " AND " + rowIndexTo;
+) SELECT " + scs + @"
+    FROM [__T]
+   WHERE [__ROWNUMBER] BETWEEN " + rowIndexFrom + " AND " + rowIndexTo;
             }
             if(this.PageIndex == 0 && this.PageSize > 0) st = "TOP (" + this.PageSize + ") ";
             return @"
-SELECT " + st + @"*
+SELECT " + st + scs + @"
   FROM " + ssn + stn + (sw.Length > 0 ? @"
  WHERE " : "") + sw + (so.Length > 0 ? @"
  ORDER BY " : "") + so;

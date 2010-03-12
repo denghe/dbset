@@ -389,6 +389,9 @@
             this.Value = value;
             return (T)this.Parent;
         }
+
+        public static T operator ==(ExpNode_Boolean<T> a, Boolean b) { return a.Equal(b); }
+        public static T operator !=(ExpNode_Boolean<T> a, Boolean b) { return a.NotEqual(b); }
     }
 
     public partial class ExpNode_Nullable_Boolean<T> : ExpNode_Nullable<T> where T : LogicalNode, new() {
@@ -412,6 +415,10 @@
             this.Value = value;
             return (T)this.Parent;
         }
+
+        public static T operator ==(ExpNode_Nullable_Boolean<T> a, Boolean? b) { return a.Equal(b); }
+        public static T operator !=(ExpNode_Nullable_Boolean<T> a, Boolean? b) { return a.NotEqual(b); }
+
     }
 
     #endregion
@@ -439,6 +446,9 @@
             this.Value = value;
             return (T)this.Parent;
         }
+
+        public static T operator ==(ExpNode_Bytes<T> a, byte[] b) { return a.Equal(b); }
+        public static T operator !=(ExpNode_Bytes<T> a, byte[] b) { return a.NotEqual(b); }
     }
 
     public partial class ExpNode_Nullable_Bytes<T> : ExpNode_Nullable<T> where T : LogicalNode, new() {
@@ -464,6 +474,9 @@
             this.Value = value;
             return (T)this.Parent;
         }
+
+        public static T operator ==(ExpNode_Nullable_Bytes<T> a, byte[] b) { return a.Equal(b); }
+        public static T operator !=(ExpNode_Nullable_Bytes<T> a, byte[] b) { return a.NotEqual(b); }
     }
 
     #endregion
@@ -513,6 +526,15 @@
             this.Value2 = value2;
             return (T)this.Parent;
         }
+
+        public static T operator >(ExpNode_Int16<T> a, Int16 b) { return a.GreaterThan(b); }
+        public static T operator <(ExpNode_Int16<T> a, Int16 b) { return a.LessThan(b); }
+
+        public static T operator >=(ExpNode_Int16<T> a, Int16 b) { return a.GreaterEqual(b); }
+        public static T operator <=(ExpNode_Int16<T> a, Int16 b) { return a.LessEqual(b); }
+
+        public static T operator ==(ExpNode_Int16<T> a, Int16 b) { return a.Equal(b); }
+        public static T operator !=(ExpNode_Int16<T> a, Int16 b) { return a.NotEqual(b); }
     }
 
     public partial class ExpNode_Nullable_Int16<T> : ExpNode_Nullable<T> where T : LogicalNode, new() {
@@ -564,6 +586,15 @@
             this.Value2 = value2;
             return (T)this.Parent;
         }
+
+        public static T operator >(ExpNode_Nullable_Int16<T> a, Int16? b) { return a.GreaterThan(b); }
+        public static T operator <(ExpNode_Nullable_Int16<T> a, Int16? b) { return a.LessThan(b); }
+
+        public static T operator >=(ExpNode_Nullable_Int16<T> a, Int16? b) { return a.GreaterEqual(b); }
+        public static T operator <=(ExpNode_Nullable_Int16<T> a, Int16? b) { return a.LessEqual(b); }
+
+        public static T operator ==(ExpNode_Nullable_Int16<T> a, Int16? b) { return a.Equal(b); }
+        public static T operator !=(ExpNode_Nullable_Int16<T> a, Int16? b) { return a.NotEqual(b); }
     }
 
     #endregion
@@ -613,6 +644,15 @@
             this.Value2 = value2;
             return (T)this.Parent;
         }
+
+        public static T operator >(ExpNode_Int32<T> a, Int32 b) { return a.GreaterThan(b); }
+        public static T operator <(ExpNode_Int32<T> a, Int32 b) { return a.LessThan(b); }
+
+        public static T operator >=(ExpNode_Int32<T> a, Int32 b) { return a.GreaterEqual(b); }
+        public static T operator <=(ExpNode_Int32<T> a, Int32 b) { return a.LessEqual(b); }
+
+        public static T operator ==(ExpNode_Int32<T> a, Int32 b) { return a.Equal(b); }
+        public static T operator !=(ExpNode_Int32<T> a, Int32 b) { return a.NotEqual(b); }
     }
 
     public partial class ExpNode_Nullable_Int32<T> : ExpNode_Nullable<T> where T : LogicalNode, new() {
@@ -664,6 +704,15 @@
             this.Value2 = value2;
             return (T)this.Parent;
         }
+
+        public static T operator >(ExpNode_Nullable_Int32<T> a, Int32? b) { return a.GreaterThan(b); }
+        public static T operator <(ExpNode_Nullable_Int32<T> a, Int32? b) { return a.LessThan(b); }
+
+        public static T operator >=(ExpNode_Nullable_Int32<T> a, Int32? b) { return a.GreaterEqual(b); }
+        public static T operator <=(ExpNode_Nullable_Int32<T> a, Int32? b) { return a.LessEqual(b); }
+
+        public static T operator ==(ExpNode_Nullable_Int32<T> a, Int32? b) { return a.Equal(b); }
+        public static T operator !=(ExpNode_Nullable_Int32<T> a, Int32? b) { return a.NotEqual(b); }
     }
 
     #endregion
@@ -713,6 +762,15 @@
             this.Value2 = value2;
             return (T)this.Parent;
         }
+
+        public static T operator >(ExpNode_Int64<T> a, Int64 b) { return a.GreaterThan(b); }
+        public static T operator <(ExpNode_Int64<T> a, Int64 b) { return a.LessThan(b); }
+
+        public static T operator >=(ExpNode_Int64<T> a, Int64 b) { return a.GreaterEqual(b); }
+        public static T operator <=(ExpNode_Int64<T> a, Int64 b) { return a.LessEqual(b); }
+
+        public static T operator ==(ExpNode_Int64<T> a, Int64 b) { return a.Equal(b); }
+        public static T operator !=(ExpNode_Int64<T> a, Int64 b) { return a.NotEqual(b); }
     }
 
     public partial class ExpNode_Nullable_Int64<T> : ExpNode_Nullable<T> where T : LogicalNode, new() {
@@ -764,6 +822,15 @@
             this.Value2 = value2;
             return (T)this.Parent;
         }
+
+        public static T operator >(ExpNode_Nullable_Int64<T> a, Int64? b) { return a.GreaterThan(b); }
+        public static T operator <(ExpNode_Nullable_Int64<T> a, Int64? b) { return a.LessThan(b); }
+
+        public static T operator >=(ExpNode_Nullable_Int64<T> a, Int64? b) { return a.GreaterEqual(b); }
+        public static T operator <=(ExpNode_Nullable_Int64<T> a, Int64? b) { return a.LessEqual(b); }
+
+        public static T operator ==(ExpNode_Nullable_Int64<T> a, Int64? b) { return a.Equal(b); }
+        public static T operator !=(ExpNode_Nullable_Int64<T> a, Int64? b) { return a.NotEqual(b); }
     }
 
     #endregion
@@ -813,6 +880,15 @@
             this.Value2 = value2;
             return (T)this.Parent;
         }
+
+        public static T operator >(ExpNode_Decimal<T> a, Decimal b) { return a.GreaterThan(b); }
+        public static T operator <(ExpNode_Decimal<T> a, Decimal b) { return a.LessThan(b); }
+
+        public static T operator >=(ExpNode_Decimal<T> a, Decimal b) { return a.GreaterEqual(b); }
+        public static T operator <=(ExpNode_Decimal<T> a, Decimal b) { return a.LessEqual(b); }
+
+        public static T operator ==(ExpNode_Decimal<T> a, Decimal b) { return a.Equal(b); }
+        public static T operator !=(ExpNode_Decimal<T> a, Decimal b) { return a.NotEqual(b); }
     }
 
     public partial class ExpNode_Nullable_Decimal<T> : ExpNode_Nullable<T> where T : LogicalNode, new() {
@@ -864,6 +940,15 @@
             this.Value2 = value2;
             return (T)this.Parent;
         }
+
+        public static T operator >(ExpNode_Nullable_Decimal<T> a, Decimal? b) { return a.GreaterThan(b); }
+        public static T operator <(ExpNode_Nullable_Decimal<T> a, Decimal? b) { return a.LessThan(b); }
+
+        public static T operator >=(ExpNode_Nullable_Decimal<T> a, Decimal? b) { return a.GreaterEqual(b); }
+        public static T operator <=(ExpNode_Nullable_Decimal<T> a, Decimal? b) { return a.LessEqual(b); }
+
+        public static T operator ==(ExpNode_Nullable_Decimal<T> a, Decimal? b) { return a.Equal(b); }
+        public static T operator !=(ExpNode_Nullable_Decimal<T> a, Decimal? b) { return a.NotEqual(b); }
     }
 
     #endregion
@@ -921,6 +1006,15 @@
             this.Value2 = value2;
             return (T)this.Parent;
         }
+
+        public static T operator >(ExpNode_DateTime<T> a, DateTime b) { return a.GreaterThan(b); }
+        public static T operator <(ExpNode_DateTime<T> a, DateTime b) { return a.LessThan(b); }
+
+        public static T operator >=(ExpNode_DateTime<T> a, DateTime b) { return a.GreaterEqual(b); }
+        public static T operator <=(ExpNode_DateTime<T> a, DateTime b) { return a.LessEqual(b); }
+
+        public static T operator ==(ExpNode_DateTime<T> a, DateTime b) { return a.Equal(b); }
+        public static T operator !=(ExpNode_DateTime<T> a, DateTime b) { return a.NotEqual(b); }
     }
 
     public partial class ExpNode_Nullable_DateTime<T> : ExpNode_Nullable<T> where T : LogicalNode, new() {
@@ -982,6 +1076,15 @@
             this.Value2 = value2;
             return (T)this.Parent;
         }
+
+        public static T operator >(ExpNode_Nullable_DateTime<T> a, DateTime? b) { return a.GreaterThan(b); }
+        public static T operator <(ExpNode_Nullable_DateTime<T> a, DateTime? b) { return a.LessThan(b); }
+
+        public static T operator >=(ExpNode_Nullable_DateTime<T> a, DateTime? b) { return a.GreaterEqual(b); }
+        public static T operator <=(ExpNode_Nullable_DateTime<T> a, DateTime? b) { return a.LessEqual(b); }
+
+        public static T operator ==(ExpNode_Nullable_DateTime<T> a, DateTime? b) { return a.Equal(b); }
+        public static T operator !=(ExpNode_Nullable_DateTime<T> a, DateTime? b) { return a.NotEqual(b); }
     }
 
     #endregion
@@ -1045,6 +1148,15 @@
             this.Value = value;
             return (T)this.Parent;
         }
+
+        public static T operator >(ExpNode_String<T> a, string b) { return a.GreaterThan(b); }
+        public static T operator <(ExpNode_String<T> a, string b) { return a.LessThan(b); }
+
+        public static T operator >=(ExpNode_String<T> a, string b) { return a.GreaterEqual(b); }
+        public static T operator <=(ExpNode_String<T> a, string b) { return a.LessEqual(b); }
+
+        public static T operator ==(ExpNode_String<T> a, string b) { return a.Equal(b); }
+        public static T operator !=(ExpNode_String<T> a, string b) { return a.NotEqual(b); }
     }
 
     public partial class ExpNode_Nullable_String<T> : ExpNode_Nullable<T> where T : LogicalNode, new() {
@@ -1057,7 +1169,6 @@
             if(this.Value2 == null || this.Value2 == DBNull.Value) return "NULL";
             return "'" + ((string)this.Value2).Replace("'", "''") + "'";
         }
-
 
         public T Equal(String value) {
             this.Operate = Operators.Equal;
@@ -1105,6 +1216,15 @@
             this.Value = value;
             return (T)this.Parent;
         }
+
+        public static T operator >(ExpNode_Nullable_String<T> a, string b) { return a.GreaterThan(b); }
+        public static T operator <(ExpNode_Nullable_String<T> a, string b) { return a.LessThan(b); }
+
+        public static T operator >=(ExpNode_Nullable_String<T> a, string b) { return a.GreaterEqual(b); }
+        public static T operator <=(ExpNode_Nullable_String<T> a, string b) { return a.LessEqual(b); }
+
+        public static T operator ==(ExpNode_Nullable_String<T> a, string b) { return a.Equal(b); }
+        public static T operator !=(ExpNode_Nullable_String<T> a, string b) { return a.NotEqual(b); }
     }
 
     #endregion
@@ -1131,6 +1251,9 @@
             this.Value = value;
             return (T)this.Parent;
         }
+
+        public static T operator ==(ExpNode_Guid<T> a, Guid b) { return a.Equal(b); }
+        public static T operator !=(ExpNode_Guid<T> a, Guid b) { return a.NotEqual(b); }
     }
 
     public partial class ExpNode_Nullable_Guid<T> : ExpNode_Nullable<T> where T : LogicalNode, new() {
@@ -1156,6 +1279,9 @@
             this.Value = value;
             return (T)this.Parent;
         }
+
+        public static T operator ==(ExpNode_Nullable_Guid<T> a, Guid? b) { return a.Equal(b); }
+        public static T operator !=(ExpNode_Nullable_Guid<T> a, Guid? b) { return a.NotEqual(b); }
     }
 
     #endregion

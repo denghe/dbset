@@ -100,14 +100,18 @@
 
 
     public partial class ExpNode<T> : ExpNode where T : LogicalNode, new() {
-        public T Asceding() {
-            this.Operate = Orientations.Ascending;
-            return (T)this.Parent;
+        public T ASC {
+            get {
+                this.Operate = Orientations.Ascending;
+                return (T)this.Parent;
+            }
         }
 
-        public T Desceding() {
-            this.Operate = Orientations.Descending;
-            return (T)this.Parent;
+        public T DESC {
+            get {
+                this.Operate = Orientations.Descending;
+                return (T)this.Parent;
+            }
         }
     }
 }

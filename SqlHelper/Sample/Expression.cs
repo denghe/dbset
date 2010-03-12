@@ -8,24 +8,37 @@
     using db = DAL.Database.Tables.dbo;
     using query = DAL.Queries.Tables.dbo;
 
+
+
+
+
+
     class Program {
         static void Main(string[] args) {
             // init connect string
             SqlHelper.InitConnectString(server: "data,14333", username: "admin");
             // dump all dbo.t2 data
             SqlHelper.ExecuteDbSet(query.t2.New().ToString()).Dump();
+
             // select method test
             var row = db.t2.Select(5); // select * from t2 where id = 5     return t2
             var row2 = db.t2.Select(6); // does not exist this id           return null
-            var rows = db.t2.Select(o => o.Name.GreaterThan("b") //         return List<t2>
-                , o=>o.CreateTime.Desceding()
-                , 3); // select top(3) * from t2 where Name > 'b' order by CreateTime desc
+
+            var q = query.t2.New(o => o.Name >= "a"                     // where name >= 'a'
+                , o => o.CreateTime.ASC                                 // order by createtime asc
+                , 3                                                     // pagesize
+                , 1                                                     // pageindex
+                , o => o.ID.Name.CreateTime);                           // column list
+
+            var rows = db.t2.Select(q);                                 // return List<t2>
 
             Console.WriteLine("\r\n\r\nresult: "
                 + (row == null ? 0 : row.ID) + " "
                 + (row2 == null ? 0 : row.ID) + " "
                 + rows.Count
                 );
+
+            Console.WriteLine(q.ToString());
 
             Console.ReadLine();
 
@@ -53,9 +66,40 @@ namespace DAL.Queries {
 
     namespace Tables {
         namespace dbo {
-            public partial class t2 : Query<t2, Expressions.Tables.dbo.t2, Orientations.Tables.dbo.t2> {
+            public partial class t2 : Query<t2, Expressions.Tables.dbo.t2, Orientations.Tables.dbo.t2, ColumnEnums.Tables.dbo.t2> {
                 public override string ToSqlString(string schema = null, string name = null, List<string> columns = null) {
                     return base.ToSqlString(schema ?? "dbo", name ?? "t2", columns);
+                }
+            }
+        }
+    }
+}
+
+namespace DAL.ColumnEnums {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
+    using SqlLib.Queries;
+
+    namespace Tables {
+        namespace dbo {
+            public partial class t2 : ColumnList<t2> {
+                public t2 ID {
+                    get { __columns.Add(0); return this; }
+                }
+                public t2 Name {
+                    get { __columns.Add(1); return this; }
+                }
+                public t2 CreateTime {
+                    get { __columns.Add(2); return this; }
+                }
+
+                protected static string[] __cns = new string[]{
+                    "ID", "Name", "CreateTime"
+                };
+                public override string GetColumnName(int i) {
+                    return __cns[i];
                 }
             }
         }
@@ -172,8 +216,9 @@ namespace DAL.Database {
                     , Orientations.Tables.dbo.t2.Handler orderby = null
                     , int pageSize = 0
                     , int pageIndex = 0
+                    , ColumnEnums.Tables.dbo.t2.Handler cols = null
                     ) {
-                    return Select(Queries.Tables.dbo.t2.New(where, orderby, pageSize, pageIndex));
+                    return Select(Queries.Tables.dbo.t2.New(where, orderby, pageSize, pageIndex, cols));
                 }
             }
         }
