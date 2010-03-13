@@ -85,18 +85,14 @@ namespace DAL.ColumnEnums {
     namespace Tables {
         namespace dbo {
             public partial class t2 : ColumnList<t2> {
-                public t2 ID {
-                    get { __columns.Add(0); return this; }
-                }
-                public t2 Name {
-                    get { __columns.Add(1); return this; }
-                }
-                public t2 CreateTime {
-                    get { __columns.Add(2); return this; }
-                }
+                public t2 ID { get { __columns.Add(0); return this; } }
+                public t2 Name { get { __columns.Add(1); return this; } }
+                public t2 CreateTime { get { __columns.Add(2); return this; } }
 
                 protected static string[] __cns = new string[]{
-                    "ID", "Name", "CreateTime"
+                    "ID", 
+                    "Name", 
+                    "CreateTime"
                 };
                 public override string GetColumnName(int i) {
                     return __cns[i];
@@ -219,6 +215,11 @@ namespace DAL.Database {
                     , ColumnEnums.Tables.dbo.t2.Handler columns = null
                     ) {
                     return Select(Queries.Tables.dbo.t2.New(where, orderby, pageSize, pageIndex, columns));
+                }
+
+                public static t2 Update(t2 o) {
+                    // todo:
+                    return o;
                 }
             }
         }
