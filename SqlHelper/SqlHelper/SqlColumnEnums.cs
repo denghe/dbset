@@ -22,5 +22,14 @@
             return ToSqlString();
         }
         public delegate T Handler(T h);
+
+        public string this[int i] {
+            get {
+                return GetColumnName(i);
+            }
+        }
+        public int Count() {
+            return __columns.Count;
+        }
     }
 }

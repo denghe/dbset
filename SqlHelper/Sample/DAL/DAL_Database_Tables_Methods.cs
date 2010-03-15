@@ -16,16 +16,33 @@ namespace DAL.Database.Tables.dbo
             var rows = new List<Formula_890>();
             using(var reader = SqlHelper.ExecuteDataReader(tsql))
             {
-                while(reader.Read())
-                {
-                    rows.Add(new Formula_890
-                    {
-                        Name = reader.GetString(0),
-                        Expression = reader.IsDBNull(1) ? null : reader.GetString(1),
-                        Value = reader.IsDBNull(2) ? null : reader.GetString(2),
-                        IsGenerator = reader.IsDBNull(3) ? null : new bool?(reader.GetBoolean(3))
-                    });
+                var count = q.Columns == null ? 0 : q.Columns.Count();
+                if(count > 0 && count < 4) {
+                    while(reader.Read()) {
+                        var row = new Formula_890();
+                        for(int i = 0; i < count; i++) {
+                            if(q.Columns[i] == @"Name") {row.Name = reader.GetString(0); i++; }
+                            else if(i < count && q.Columns[i] == @"Expression") {row.Expression = reader.IsDBNull(1) ? null : reader.GetString(1); i++; }
+                            else if(i < count && q.Columns[i] == @"Value") {row.Value = reader.IsDBNull(2) ? null : reader.GetString(2); i++; }
+                            else if(i < count && q.Columns[i] == @"IsGenerator") {row.IsGenerator = reader.IsDBNull(3) ? null : new bool?(reader.GetBoolean(3)); i++; }
+                        }
+                        rows.Add(row);
+                    }
                 }
+                else
+                {
+                    while(reader.Read())
+                    {
+                        rows.Add(new Formula_890
+                        {
+                            Name = reader.GetString(0),
+                            Expression = reader.IsDBNull(1) ? null : reader.GetString(1),
+                            Value = reader.IsDBNull(2) ? null : reader.GetString(2),
+                            IsGenerator = reader.IsDBNull(3) ? null : new bool?(reader.GetBoolean(3))
+                        });
+                    }
+                }
+
             }
             return rows;
         }
@@ -41,9 +58,9 @@ namespace DAL.Database.Tables.dbo
             return Select(Queries.Tables.dbo.Formula_890.New(where, orderby, pageSize, pageIndex, columns));
         }
 
-        public static Formula_890 Select(string c0)
+        public static Formula_890 Select(string c0, ColumnEnums.Tables.dbo.Formula_890.Handler columns = null)
         {
-            return Select(o=>o.Name.Equal(c0)).FirstOrDefault();
+            return Select(o => o.Name.Equal(c0), columns: columns).FirstOrDefault();
         }
 
     }
@@ -55,15 +72,31 @@ namespace DAL.Database.Tables.dbo
             var rows = new List<FS>();
             using(var reader = SqlHelper.ExecuteDataReader(tsql))
             {
-                while(reader.Read())
-                {
-                    rows.Add(new FS
-                    {
-                        ID = reader.GetGuid(0),
-                        Category = reader.GetValue(1),
-                        Stream = reader.IsDBNull(2) ? null : reader.GetSqlBinary(2).Value
-                    });
+                var count = q.Columns == null ? 0 : q.Columns.Count();
+                if(count > 0 && count < 3) {
+                    while(reader.Read()) {
+                        var row = new FS();
+                        for(int i = 0; i < count; i++) {
+                            if(q.Columns[i] == @"ID") {row.ID = reader.GetGuid(0); i++; }
+                            else if(i < count && q.Columns[i] == @"Category") {row.Category = reader.GetValue(1); i++; }
+                            else if(i < count && q.Columns[i] == @"Stream") {row.Stream = reader.IsDBNull(2) ? null : reader.GetSqlBinary(2).Value; i++; }
+                        }
+                        rows.Add(row);
+                    }
                 }
+                else
+                {
+                    while(reader.Read())
+                    {
+                        rows.Add(new FS
+                        {
+                            ID = reader.GetGuid(0),
+                            Category = reader.GetValue(1),
+                            Stream = reader.IsDBNull(2) ? null : reader.GetSqlBinary(2).Value
+                        });
+                    }
+                }
+
             }
             return rows;
         }
@@ -79,9 +112,9 @@ namespace DAL.Database.Tables.dbo
             return Select(Queries.Tables.dbo.FS.New(where, orderby, pageSize, pageIndex, columns));
         }
 
-        public static FS Select(Guid c0)
+        public static FS Select(Guid c0, ColumnEnums.Tables.dbo.FS.Handler columns = null)
         {
-            return Select(o => o.ID.Equal(c0)).FirstOrDefault();
+            return Select(o => o.ID.Equal(c0), columns: columns).FirstOrDefault();
         }
 
     }
@@ -93,15 +126,31 @@ namespace DAL.Database.Tables.dbo
             var rows = new List<ParentChildOrg>();
             using(var reader = SqlHelper.ExecuteDataReader(tsql))
             {
-                while(reader.Read())
-                {
-                    rows.Add(new ParentChildOrg
-                    {
-                        EmployeeID = reader.GetInt32(0),
-                        ManagerId = reader.IsDBNull(1) ? null : new int?(reader.GetInt32(1)),
-                        EmployeeName = reader.IsDBNull(2) ? null : reader.GetString(2)
-                    });
+                var count = q.Columns == null ? 0 : q.Columns.Count();
+                if(count > 0 && count < 3) {
+                    while(reader.Read()) {
+                        var row = new ParentChildOrg();
+                        for(int i = 0; i < count; i++) {
+                            if(q.Columns[i] == @"EmployeeID") {row.EmployeeID = reader.GetInt32(0); i++; }
+                            else if(i < count && q.Columns[i] == @"ManagerId") {row.ManagerId = reader.IsDBNull(1) ? null : new int?(reader.GetInt32(1)); i++; }
+                            else if(i < count && q.Columns[i] == @"EmployeeName") {row.EmployeeName = reader.IsDBNull(2) ? null : reader.GetString(2); i++; }
+                        }
+                        rows.Add(row);
+                    }
                 }
+                else
+                {
+                    while(reader.Read())
+                    {
+                        rows.Add(new ParentChildOrg
+                        {
+                            EmployeeID = reader.GetInt32(0),
+                            ManagerId = reader.IsDBNull(1) ? null : new int?(reader.GetInt32(1)),
+                            EmployeeName = reader.IsDBNull(2) ? null : reader.GetString(2)
+                        });
+                    }
+                }
+
             }
             return rows;
         }
@@ -117,9 +166,9 @@ namespace DAL.Database.Tables.dbo
             return Select(Queries.Tables.dbo.ParentChildOrg.New(where, orderby, pageSize, pageIndex, columns));
         }
 
-        public static ParentChildOrg Select(int c0)
+        public static ParentChildOrg Select(int c0, ColumnEnums.Tables.dbo.ParentChildOrg.Handler columns = null)
         {
-            return Select(o => o.EmployeeID.Equal(c0)).FirstOrDefault();
+            return Select(o => o.EmployeeID.Equal(c0), columns: columns).FirstOrDefault();
         }
 
     }
@@ -131,15 +180,31 @@ namespace DAL.Database.Tables.dbo
             var rows = new List<t>();
             using(var reader = SqlHelper.ExecuteDataReader(tsql))
             {
-                while(reader.Read())
-                {
-                    rows.Add(new t
-                    {
-                        a = reader.GetInt32(0),
-                        b = reader.GetInt32(1),
-                        c = reader.GetSqlBinary(2).Value
-                    });
+                var count = q.Columns == null ? 0 : q.Columns.Count();
+                if(count > 0 && count < 3) {
+                    while(reader.Read()) {
+                        var row = new t();
+                        for(int i = 0; i < count; i++) {
+                            if(q.Columns[i] == @"a") {row.a = reader.GetInt32(0); i++; }
+                            else if(i < count && q.Columns[i] == @"b") {row.b = reader.GetInt32(1); i++; }
+                            else if(i < count && q.Columns[i] == @"c") {row.c = reader.GetSqlBinary(2).Value; i++; }
+                        }
+                        rows.Add(row);
+                    }
                 }
+                else
+                {
+                    while(reader.Read())
+                    {
+                        rows.Add(new t
+                        {
+                            a = reader.GetInt32(0),
+                            b = reader.GetInt32(1),
+                            c = reader.GetSqlBinary(2).Value
+                        });
+                    }
+                }
+
             }
             return rows;
         }
@@ -164,14 +229,29 @@ namespace DAL.Database.Tables.dbo
             var rows = new List<t1>();
             using(var reader = SqlHelper.ExecuteDataReader(tsql))
             {
-                while(reader.Read())
-                {
-                    rows.Add(new t1
-                    {
-                        ID = reader.GetInt32(0),
-                        PID = reader.IsDBNull(1) ? null : new int?(reader.GetInt32(1))
-                    });
+                var count = q.Columns == null ? 0 : q.Columns.Count();
+                if(count > 0 && count < 2) {
+                    while(reader.Read()) {
+                        var row = new t1();
+                        for(int i = 0; i < count; i++) {
+                            if(q.Columns[i] == @"ID") {row.ID = reader.GetInt32(0); i++; }
+                            else if(i < count && q.Columns[i] == @"PID") {row.PID = reader.IsDBNull(1) ? null : new int?(reader.GetInt32(1)); i++; }
+                        }
+                        rows.Add(row);
+                    }
                 }
+                else
+                {
+                    while(reader.Read())
+                    {
+                        rows.Add(new t1
+                        {
+                            ID = reader.GetInt32(0),
+                            PID = reader.IsDBNull(1) ? null : new int?(reader.GetInt32(1))
+                        });
+                    }
+                }
+
             }
             return rows;
         }
@@ -187,9 +267,9 @@ namespace DAL.Database.Tables.dbo
             return Select(Queries.Tables.dbo.t1.New(where, orderby, pageSize, pageIndex, columns));
         }
 
-        public static t1 Select(int c0)
+        public static t1 Select(int c0, ColumnEnums.Tables.dbo.t1.Handler columns = null)
         {
-            return Select(o => o.ID.Equal(c0)).FirstOrDefault();
+            return Select(o => o.ID.Equal(c0), columns: columns).FirstOrDefault();
         }
 
     }
@@ -201,15 +281,31 @@ namespace DAL.Database.Tables.dbo
             var rows = new List<t2>();
             using(var reader = SqlHelper.ExecuteDataReader(tsql))
             {
-                while(reader.Read())
-                {
-                    rows.Add(new t2
-                    {
-                        ID = reader.GetInt32(0),
-                        Name = reader.GetString(1),
-                        CreateTime = reader.GetDateTime(2)
-                    });
+                var count = q.Columns == null ? 0 : q.Columns.Count();
+                if(count > 0 && count < 3) {
+                    while(reader.Read()) {
+                        var row = new t2();
+                        for(int i = 0; i < count; i++) {
+                            if(q.Columns[i] == @"ID") {row.ID = reader.GetInt32(0); i++; }
+                            else if(i < count && q.Columns[i] == @"Name") {row.Name = reader.GetString(1); i++; }
+                            else if(i < count && q.Columns[i] == @"CreateTime") {row.CreateTime = reader.GetDateTime(2); i++; }
+                        }
+                        rows.Add(row);
+                    }
                 }
+                else
+                {
+                    while(reader.Read())
+                    {
+                        rows.Add(new t2
+                        {
+                            ID = reader.GetInt32(0),
+                            Name = reader.GetString(1),
+                            CreateTime = reader.GetDateTime(2)
+                        });
+                    }
+                }
+
             }
             return rows;
         }
@@ -225,9 +321,9 @@ namespace DAL.Database.Tables.dbo
             return Select(Queries.Tables.dbo.t2.New(where, orderby, pageSize, pageIndex, columns));
         }
 
-        public static t2 Select(int c0)
+        public static t2 Select(int c0, ColumnEnums.Tables.dbo.t2.Handler columns = null)
         {
-            return Select(o => o.ID.Equal(c0)).FirstOrDefault();
+            return Select(o => o.ID.Equal(c0), columns: columns).FirstOrDefault();
         }
 
     }
@@ -239,14 +335,29 @@ namespace DAL.Database.Tables.dbo
             var rows = new List<tree>();
             using(var reader = SqlHelper.ExecuteDataReader(tsql))
             {
-                while(reader.Read())
-                {
-                    rows.Add(new tree
-                    {
-                        Parent = reader.GetString(0),
-                        Children = reader.IsDBNull(1) ? null : reader.GetString(1)
-                    });
+                var count = q.Columns == null ? 0 : q.Columns.Count();
+                if(count > 0 && count < 2) {
+                    while(reader.Read()) {
+                        var row = new tree();
+                        for(int i = 0; i < count; i++) {
+                            if(q.Columns[i] == @"Parent") {row.Parent = reader.GetString(0); i++; }
+                            else if(i < count && q.Columns[i] == @"Children") {row.Children = reader.IsDBNull(1) ? null : reader.GetString(1); i++; }
+                        }
+                        rows.Add(row);
+                    }
                 }
+                else
+                {
+                    while(reader.Read())
+                    {
+                        rows.Add(new tree
+                        {
+                            Parent = reader.GetString(0),
+                            Children = reader.IsDBNull(1) ? null : reader.GetString(1)
+                        });
+                    }
+                }
+
             }
             return rows;
         }
@@ -262,9 +373,9 @@ namespace DAL.Database.Tables.dbo
             return Select(Queries.Tables.dbo.tree.New(where, orderby, pageSize, pageIndex, columns));
         }
 
-        public static tree Select(string c0)
+        public static tree Select(string c0, ColumnEnums.Tables.dbo.tree.Handler columns = null)
         {
-            return Select(o => o.Parent.Equal(c0)).FirstOrDefault();
+            return Select(o => o.Parent.Equal(c0), columns: columns).FirstOrDefault();
         }
 
     }
@@ -280,15 +391,31 @@ namespace DAL.Database.Tables.MySchema
             var rows = new List<FS>();
             using(var reader = SqlHelper.ExecuteDataReader(tsql))
             {
-                while(reader.Read())
-                {
-                    rows.Add(new FS
-                    {
-                        dbo_FSID = reader.GetGuid(0),
-                        asdf = reader.IsDBNull(1) ? null : reader.GetString(1),
-                        ID = reader.GetInt32(2)
-                    });
+                var count = q.Columns == null ? 0 : q.Columns.Count();
+                if(count > 0 && count < 3) {
+                    while(reader.Read()) {
+                        var row = new FS();
+                        for(int i = 0; i < count; i++) {
+                            if(q.Columns[i] == @"dbo_FSID") {row.dbo_FSID = reader.GetGuid(0); i++; }
+                            else if(i < count && q.Columns[i] == @"asdf") {row.asdf = reader.IsDBNull(1) ? null : reader.GetString(1); i++; }
+                            else if(i < count && q.Columns[i] == @"ID") {row.ID = reader.GetInt32(2); i++; }
+                        }
+                        rows.Add(row);
+                    }
                 }
+                else
+                {
+                    while(reader.Read())
+                    {
+                        rows.Add(new FS
+                        {
+                            dbo_FSID = reader.GetGuid(0),
+                            asdf = reader.IsDBNull(1) ? null : reader.GetString(1),
+                            ID = reader.GetInt32(2)
+                        });
+                    }
+                }
+
             }
             return rows;
         }
@@ -304,9 +431,9 @@ namespace DAL.Database.Tables.MySchema
             return Select(Queries.Tables.MySchema.FS.New(where, orderby, pageSize, pageIndex, columns));
         }
 
-        public static FS Select(int c0)
+        public static FS Select(int c0, ColumnEnums.Tables.MySchema.FS.Handler columns = null)
         {
-            return Select(o => o.ID.Equal(c0)).FirstOrDefault();
+            return Select(o => o.ID.Equal(c0), columns: columns).FirstOrDefault();
         }
 
     }
@@ -322,14 +449,29 @@ namespace DAL.Database.Tables.Schema1
             var rows = new List<T1>();
             using(var reader = SqlHelper.ExecuteDataReader(tsql))
             {
-                while(reader.Read())
-                {
-                    rows.Add(new T1
-                    {
-                        ID = reader.GetInt32(0),
-                        PID = reader.IsDBNull(1) ? null : new int?(reader.GetInt32(1))
-                    });
+                var count = q.Columns == null ? 0 : q.Columns.Count();
+                if(count > 0 && count < 2) {
+                    while(reader.Read()) {
+                        var row = new T1();
+                        for(int i = 0; i < count; i++) {
+                            if(q.Columns[i] == @"ID") {row.ID = reader.GetInt32(0); i++; }
+                            else if(i < count && q.Columns[i] == @"PID") {row.PID = reader.IsDBNull(1) ? null : new int?(reader.GetInt32(1)); i++; }
+                        }
+                        rows.Add(row);
+                    }
                 }
+                else
+                {
+                    while(reader.Read())
+                    {
+                        rows.Add(new T1
+                        {
+                            ID = reader.GetInt32(0),
+                            PID = reader.IsDBNull(1) ? null : new int?(reader.GetInt32(1))
+                        });
+                    }
+                }
+
             }
             return rows;
         }
@@ -345,9 +487,9 @@ namespace DAL.Database.Tables.Schema1
             return Select(Queries.Tables.Schema1.T1.New(where, orderby, pageSize, pageIndex, columns));
         }
 
-        public static T1 Select(int c0)
+        public static T1 Select(int c0, ColumnEnums.Tables.Schema1.T1.Handler columns = null)
         {
-            return Select(o => o.ID.Equal(c0)).FirstOrDefault();
+            return Select(o => o.ID.Equal(c0), columns: columns).FirstOrDefault();
         }
 
     }

@@ -7,7 +7,7 @@ SqlLib 类库一只
 
 数据结构类映射
   含 SELECT 方法
-
+  todo: SELECT (限定字段列表)
   todo: UPDATE 方法
   todo: DELETE 方法
 
