@@ -23,7 +23,7 @@
             SqlHelper.ExecuteDbSet(query.t2.New(columns: o => o.ID).ToString()).Dump();
 
             // select method test
-            var row = db.t2.Select(5, o => o.ID.Name.CreateTime);               // return t2(id=5)
+            var row = db.t2.Select(5, o => o.CreateTime.Name.ID);               // return t2(id=5)
             var row2 = db.t2.Select(6);                         // return null
 
             var q = query.t2.New(o => o.Name >= "a"             // where

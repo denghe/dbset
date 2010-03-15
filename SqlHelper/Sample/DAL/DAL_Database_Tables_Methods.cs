@@ -21,10 +21,10 @@ namespace DAL.Database.Tables.dbo
                     while(reader.Read()) {
                         var row = new Formula_890();
                         for(int i = 0; i < count; i++) {
-                            if(q.Columns[i] == @"Name") {row.Name = reader.GetString(0); i++; }
-                            else if(i < count && q.Columns[i] == @"Expression") {row.Expression = reader.IsDBNull(1) ? null : reader.GetString(1); i++; }
-                            else if(i < count && q.Columns[i] == @"Value") {row.Value = reader.IsDBNull(2) ? null : reader.GetString(2); i++; }
-                            else if(i < count && q.Columns[i] == @"IsGenerator") {row.IsGenerator = reader.IsDBNull(3) ? null : new bool?(reader.GetBoolean(3)); i++; }
+                            if(q.Columns[i] == @"Name") {row.Name = reader.GetString(i); i++; }
+                            else if(i < count && q.Columns[i] == @"Expression") {row.Expression = reader.IsDBNull(i) ? null : reader.GetString(i); i++; }
+                            else if(i < count && q.Columns[i] == @"Value") {row.Value = reader.IsDBNull(i) ? null : reader.GetString(i); i++; }
+                            else if(i < count && q.Columns[i] == @"IsGenerator") {row.IsGenerator = reader.IsDBNull(i) ? null : new bool?(reader.GetBoolean(i)); i++; }
                         }
                         rows.Add(row);
                     }
@@ -77,9 +77,9 @@ namespace DAL.Database.Tables.dbo
                     while(reader.Read()) {
                         var row = new FS();
                         for(int i = 0; i < count; i++) {
-                            if(q.Columns[i] == @"ID") {row.ID = reader.GetGuid(0); i++; }
-                            else if(i < count && q.Columns[i] == @"Category") {row.Category = reader.GetValue(1); i++; }
-                            else if(i < count && q.Columns[i] == @"Stream") {row.Stream = reader.IsDBNull(2) ? null : reader.GetSqlBinary(2).Value; i++; }
+                            if(q.Columns[i] == @"ID") {row.ID = reader.GetGuid(i); i++; }
+                            else if(i < count && q.Columns[i] == @"Category") {row.Category = reader.GetValue(i); i++; }
+                            else if(i < count && q.Columns[i] == @"Stream") {row.Stream = reader.IsDBNull(i) ? null : reader.GetSqlBinary(i).Value; i++; }
                         }
                         rows.Add(row);
                     }
@@ -131,9 +131,9 @@ namespace DAL.Database.Tables.dbo
                     while(reader.Read()) {
                         var row = new ParentChildOrg();
                         for(int i = 0; i < count; i++) {
-                            if(q.Columns[i] == @"EmployeeID") {row.EmployeeID = reader.GetInt32(0); i++; }
-                            else if(i < count && q.Columns[i] == @"ManagerId") {row.ManagerId = reader.IsDBNull(1) ? null : new int?(reader.GetInt32(1)); i++; }
-                            else if(i < count && q.Columns[i] == @"EmployeeName") {row.EmployeeName = reader.IsDBNull(2) ? null : reader.GetString(2); i++; }
+                            if(q.Columns[i] == @"EmployeeID") {row.EmployeeID = reader.GetInt32(i); i++; }
+                            else if(i < count && q.Columns[i] == @"ManagerId") {row.ManagerId = reader.IsDBNull(i) ? null : new int?(reader.GetInt32(i)); i++; }
+                            else if(i < count && q.Columns[i] == @"EmployeeName") {row.EmployeeName = reader.IsDBNull(i) ? null : reader.GetString(i); i++; }
                         }
                         rows.Add(row);
                     }
@@ -185,9 +185,9 @@ namespace DAL.Database.Tables.dbo
                     while(reader.Read()) {
                         var row = new t();
                         for(int i = 0; i < count; i++) {
-                            if(q.Columns[i] == @"a") {row.a = reader.GetInt32(0); i++; }
-                            else if(i < count && q.Columns[i] == @"b") {row.b = reader.GetInt32(1); i++; }
-                            else if(i < count && q.Columns[i] == @"c") {row.c = reader.GetSqlBinary(2).Value; i++; }
+                            if(q.Columns[i] == @"a") {row.a = reader.GetInt32(i); i++; }
+                            else if(i < count && q.Columns[i] == @"b") {row.b = reader.GetInt32(i); i++; }
+                            else if(i < count && q.Columns[i] == @"c") {row.c = reader.GetSqlBinary(i).Value; i++; }
                         }
                         rows.Add(row);
                     }
@@ -234,8 +234,8 @@ namespace DAL.Database.Tables.dbo
                     while(reader.Read()) {
                         var row = new t1();
                         for(int i = 0; i < count; i++) {
-                            if(q.Columns[i] == @"ID") {row.ID = reader.GetInt32(0); i++; }
-                            else if(i < count && q.Columns[i] == @"PID") {row.PID = reader.IsDBNull(1) ? null : new int?(reader.GetInt32(1)); i++; }
+                            if(q.Columns[i] == @"ID") {row.ID = reader.GetInt32(i); i++; }
+                            else if(i < count && q.Columns[i] == @"PID") {row.PID = reader.IsDBNull(i) ? null : new int?(reader.GetInt32(i)); i++; }
                         }
                         rows.Add(row);
                     }
@@ -282,13 +282,13 @@ namespace DAL.Database.Tables.dbo
             using(var reader = SqlHelper.ExecuteDataReader(tsql))
             {
                 var count = q.Columns == null ? 0 : q.Columns.Count();
-                if(count > 0 && count < 3) {
+                if(count > 0) {
                     while(reader.Read()) {
                         var row = new t2();
                         for(int i = 0; i < count; i++) {
-                            if(q.Columns[i] == @"ID") {row.ID = reader.GetInt32(0); i++; }
-                            else if(i < count && q.Columns[i] == @"Name") {row.Name = reader.GetString(1); i++; }
-                            else if(i < count && q.Columns[i] == @"CreateTime") {row.CreateTime = reader.GetDateTime(2); i++; }
+                            if(q.Columns[i] == @"ID") {row.ID = reader.GetInt32(i); i++; }
+                            else if(i < count && q.Columns[i] == @"Name") {row.Name = reader.GetString(i); i++; }
+                            else if(i < count && q.Columns[i] == @"CreateTime") {row.CreateTime = reader.GetDateTime(i); i++; }
                         }
                         rows.Add(row);
                     }
@@ -340,8 +340,8 @@ namespace DAL.Database.Tables.dbo
                     while(reader.Read()) {
                         var row = new tree();
                         for(int i = 0; i < count; i++) {
-                            if(q.Columns[i] == @"Parent") {row.Parent = reader.GetString(0); i++; }
-                            else if(i < count && q.Columns[i] == @"Children") {row.Children = reader.IsDBNull(1) ? null : reader.GetString(1); i++; }
+                            if(q.Columns[i] == @"Parent") {row.Parent = reader.GetString(i); i++; }
+                            else if(i < count && q.Columns[i] == @"Children") {row.Children = reader.IsDBNull(i) ? null : reader.GetString(i); i++; }
                         }
                         rows.Add(row);
                     }
@@ -396,9 +396,9 @@ namespace DAL.Database.Tables.MySchema
                     while(reader.Read()) {
                         var row = new FS();
                         for(int i = 0; i < count; i++) {
-                            if(q.Columns[i] == @"dbo_FSID") {row.dbo_FSID = reader.GetGuid(0); i++; }
-                            else if(i < count && q.Columns[i] == @"asdf") {row.asdf = reader.IsDBNull(1) ? null : reader.GetString(1); i++; }
-                            else if(i < count && q.Columns[i] == @"ID") {row.ID = reader.GetInt32(2); i++; }
+                            if(q.Columns[i] == @"dbo_FSID") {row.dbo_FSID = reader.GetGuid(i); i++; }
+                            else if(i < count && q.Columns[i] == @"asdf") {row.asdf = reader.IsDBNull(i) ? null : reader.GetString(i); i++; }
+                            else if(i < count && q.Columns[i] == @"ID") {row.ID = reader.GetInt32(i); i++; }
                         }
                         rows.Add(row);
                     }
@@ -454,8 +454,8 @@ namespace DAL.Database.Tables.Schema1
                     while(reader.Read()) {
                         var row = new T1();
                         for(int i = 0; i < count; i++) {
-                            if(q.Columns[i] == @"ID") {row.ID = reader.GetInt32(0); i++; }
-                            else if(i < count && q.Columns[i] == @"PID") {row.PID = reader.IsDBNull(1) ? null : new int?(reader.GetInt32(1)); i++; }
+                            if(q.Columns[i] == @"ID") {row.ID = reader.GetInt32(i); i++; }
+                            else if(i < count && q.Columns[i] == @"PID") {row.PID = reader.IsDBNull(i) ? null : new int?(reader.GetInt32(i)); i++; }
                         }
                         rows.Add(row);
                     }

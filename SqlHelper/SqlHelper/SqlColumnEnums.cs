@@ -25,7 +25,7 @@
 
         public string this[int i] {
             get {
-                return GetColumnName(i);
+                return GetColumnName(__columns[i]);
             }
         }
         public int Count() {
