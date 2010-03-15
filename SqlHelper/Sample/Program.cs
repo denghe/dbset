@@ -19,11 +19,11 @@
         public static void Main() {
             // init connect string
             SqlHelper.InitConnectString(server: "data,14333", username: "admin");
-            // dump all dbo.t2 data
-            SqlHelper.ExecuteDbSet(query.t2.New().ToString()).Dump();
+            // dump dbo.t2 data (only contain ID column)
+            SqlHelper.ExecuteDbSet(query.t2.New(columns: o => o.ID).ToString()).Dump();
 
             // select method test
-            var row = db.t2.Select(5, o => o.ID);               // return t2(id=5)
+            var row = db.t2.Select(5, o => o.ID.Name.CreateTime);               // return t2(id=5)
             var row2 = db.t2.Select(6);                         // return null
 
             var q = query.t2.New(o => o.Name >= "a"             // where

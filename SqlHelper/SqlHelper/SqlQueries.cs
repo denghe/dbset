@@ -17,14 +17,14 @@
             , Orientations.LogicalNode<O>.Handler orderby = null
             , int pageSize = 0
             , int pageIndex = 0
-            , ColumnList<CS>.Handler cols = null
+            , ColumnList<CS>.Handler columns = null
             ) {
             return new Q {
                 PageIndex = pageIndex,
                 PageSize = pageSize,
                 Where = where == null ? new W() : where.Invoke(new W()),
                 OrderBy = orderby == null ? new O() : orderby.Invoke(new O()),
-                Columns = cols == null ? new CS() : cols.Invoke(new CS())
+                Columns = columns == null ? new CS() : columns.Invoke(new CS())
             };
         }
 
