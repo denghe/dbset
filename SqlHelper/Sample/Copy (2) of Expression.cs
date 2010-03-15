@@ -80,8 +80,6 @@ namespace DAL.ColumnEnums {
     using System.Collections.Generic;
     using System.Text;
 
-    using SqlLib.Queries;
-
     namespace Tables {
         namespace dbo {
             public partial class t2 : ColumnList<t2> {

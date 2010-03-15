@@ -5,9 +5,9 @@
 
 
     public partial class LogicalNode {
-        public LogicalNode First;
-        public LogicalNode Second;
-        public ExpNode Expression;
+        public LogicalNode First__;
+        public LogicalNode Second__;
+        public ExpNode Expression__;
     }
 
     public partial class ExpNode {
@@ -24,9 +24,9 @@
 
     partial class LogicalNode {
         public void CopyTo(LogicalNode o) {
-            o.First = this.First;
-            o.Second = this.Second;
-            o.Expression = this.Expression;
+            o.First__ = this.First__;
+            o.Second__ = this.Second__;
+            o.Expression__ = this.Expression__;
         }
 
         public override string ToString() {
@@ -36,12 +36,12 @@
         public virtual string ToSqlString(string schema = null, string name = null) {
             schema = SqlUtils.EscapeSqlObjectName(schema);
             name = SqlUtils.EscapeSqlObjectName(name);
-            if(this.Expression == null) {
-                if(this.Second == null) return "";
-                var s = this.Second.ToSqlString(schema, name);
-                return this.First.ToSqlString(schema, name) + (s.Length > 0 ? ", " : "") + s;
+            if(this.Expression__ == null) {
+                if(this.Second__ == null) return "";
+                var s = this.Second__.ToSqlString(schema, name);
+                return this.First__.ToSqlString(schema, name) + (s.Length > 0 ? ", " : "") + s;
             }
-            return this.Expression.ToSqlString(schema, name);
+            return this.Expression__.ToSqlString(schema, name);
         }
 
     }
@@ -51,25 +51,25 @@
         public static T New(Handler eh) { return eh.Invoke(new T()); }
         public static T New() { return new T(); }
 
-        public T And(T L) { return new T { First = this, Second = L }; }
+        public T And(T L) { return new T { First__ = this, Second__ = L }; }
 
         public void And(Handler eh) {
-            if(this.First == null && this.Expression == null) {
+            if(this.First__ == null && this.Expression__ == null) {
                 New(eh).CopyTo(this);
             } else {
                 var child = new T();
                 this.CopyTo(child);
 
-                this.First = eh.Invoke(new T());
-                this.Second = child;
-                this.Expression = null;
+                this.First__ = eh.Invoke(new T());
+                this.Second__ = child;
+                this.Expression__ = null;
             }
         }
 
-        public static T operator &(LogicalNode<T> a, LogicalNode<T> b) { return new T { First = a, Second = b }; }
+        public static T operator &(LogicalNode<T> a, LogicalNode<T> b) { return new T { First__ = a, Second__ = b }; }
 
         protected void Check() {
-            if(this.Expression != null)
+            if(this.Expression__ != null)
                 throw new Exception("do not support column.operate().column.operate().....");
         }
 
@@ -78,7 +78,7 @@
             Check();
             var L = new T();
             var e = new ExpNode<T> { Parent = L, ColumnName = column };
-            L.Expression = e;
+            L.Expression__ = e;
             return e;
         }
 
