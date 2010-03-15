@@ -1,9 +1,10 @@
+using System;
+using System.Collections.Generic;
+using UDTT = DAL.Database.UserDefinedTableTypes;
+using SqlLib;
+
 namespace DAL.Database.StoredProcedures.dbo
 {
-    using System;
-    using System.Collections.Generic;
-    using UDTT = DAL.Database.UserDefinedTableTypes;
-    using SqlLib;
 
 	/// <summary>
 	/// asdfsadf
@@ -629,12 +630,9 @@ namespace DAL.Database.StoredProcedures.dbo
             #endregion
         }
     }
-}namespace DAL.Database.StoredProcedures.Schema1
+}
+namespace DAL.Database.StoredProcedures.Schema1
 {
-    using System;
-    using System.Collections.Generic;
-    using UDTT = DAL.Database.UserDefinedTableTypes;
-    using SqlLib;
 
 	/// <summary>
 	/// 

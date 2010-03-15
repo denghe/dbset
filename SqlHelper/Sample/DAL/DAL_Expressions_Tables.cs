@@ -1,13 +1,13 @@
+using System;
+using System.Collections.Generic;
+using SqlLib.Expressions;
+
 namespace DAL.Expressions.Tables.dbo
 {
-    using System;
-    using System.Collections.Generic;
-
-    using SqlLib.Expressions;
 
     public partial class Formula_890 : LogicalNode<Formula_890>
     {
-        public ExpNode_String<Formula_890> Name { get { return base.New_String(@"Name"); } }
+        public ExpNode_String<Formula_890> Name { get { return this.New_String(@"Name"); } }
         public ExpNode_Nullable_String<Formula_890> Expression { get { return this.New_Nullable_String(@"Expression"); } }
         public ExpNode_Nullable_String<Formula_890> Value { get { return this.New_Nullable_String(@"Value"); } }
         public ExpNode_Nullable_Boolean<Formula_890> IsGenerator { get { return this.New_Nullable_Boolean(@"IsGenerator"); } }
@@ -46,12 +46,9 @@ namespace DAL.Expressions.Tables.dbo
         public ExpNode_String<tree> Parent { get { return this.New_String(@"Parent"); } }
         public ExpNode_Nullable_String<tree> Children { get { return this.New_Nullable_String(@"Children"); } }
     }
-}namespace DAL.Expressions.Tables.MySchema
+}
+namespace DAL.Expressions.Tables.MySchema
 {
-    using System;
-    using System.Collections.Generic;
-
-    using SqlLib.Expressions;
 
     public partial class FS : LogicalNode<FS>
     {
@@ -59,12 +56,9 @@ namespace DAL.Expressions.Tables.dbo
         public ExpNode_Nullable_String<FS> asdf { get { return this.New_Nullable_String(@"asdf"); } }
         public ExpNode_Int32<FS> ID { get { return this.New_Int32(@"ID"); } }
     }
-}namespace DAL.Expressions.Tables.Schema1
+}
+namespace DAL.Expressions.Tables.Schema1
 {
-    using System;
-    using System.Collections.Generic;
-
-    using SqlLib.Expressions;
 
     public partial class T1 : LogicalNode<T1>
     {

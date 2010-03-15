@@ -1,7 +1,8 @@
+using System;
+using System.Collections.Generic;
+
 namespace DAL.Database.Tables.dbo
 {
-    using System;
-    using System.Collections.Generic;
 
 	/// <summary>
 	/// aaa
@@ -125,10 +126,9 @@ namespace DAL.Database.Tables.dbo
 		/// </summary>
         public string     Children { get; set; }
     }
-}namespace DAL.Database.Tables.MySchema
+}
+namespace DAL.Database.Tables.MySchema
 {
-    using System;
-    using System.Collections.Generic;
 
 	/// <summary>
 	/// 
@@ -148,10 +148,9 @@ namespace DAL.Database.Tables.dbo
 		/// </summary>
         public int        ID       { get; set; }
     }
-}namespace DAL.Database.Tables.Schema1
+}
+namespace DAL.Database.Tables.Schema1
 {
-    using System;
-    using System.Collections.Generic;
 
 	/// <summary>
 	/// 树表

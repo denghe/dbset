@@ -1,8 +1,8 @@
+using System;
+using System.Collections.Generic;
+
 namespace DAL.Database.UserDefinedTableTypes.dbo
 {
-    using System;
-    using System.Collections.Generic;
-
 
 	/// <summary>
 	/// aeeeffffffffffff
