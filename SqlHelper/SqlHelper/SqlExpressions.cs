@@ -6,10 +6,10 @@
     #region base
 
     public partial class LogicalNode {
-        public Logicals Logical = Logicals.And;
-        public LogicalNode First;
-        public LogicalNode Second;
-        public ExpNode Expression;
+        public Logicals Logical__ = Logicals.And;
+        public LogicalNode First__;
+        public LogicalNode Second__;
+        public ExpNode Exp__;
     }
 
     public partial class ExpNode {
@@ -61,10 +61,10 @@
 
     partial class LogicalNode {
         public void CopyTo(LogicalNode o) {
-            o.First = this.First;
-            o.Second = this.Second;
-            o.Expression = this.Expression;
-            o.Logical = this.Logical;
+            o.First__ = this.First__;
+            o.Second__ = this.Second__;
+            o.Exp__ = this.Exp__;
+            o.Logical__ = this.Logical__;
         }
 
         /// <summary>
@@ -86,24 +86,24 @@
         public virtual string ToSqlString(string schema = null, string name = null) {
             schema = SqlUtils.EscapeSqlObjectName(schema);
             name = SqlUtils.EscapeSqlObjectName(name);
-            if(this.Expression == null) {
-                if(this.First == null) return "";
-                if(this.Logical == Logicals.Not) {
-                    var firstQuote = this.First.Logical != Logicals.Not;
+            if(this.Exp__ == null) {
+                if(this.First__ == null) return "";
+                if(this.Logical__ == Logicals.Not) {
+                    var firstQuote = this.First__.Logical__ != Logicals.Not;
                     var s1 = firstQuote ? " ( " : " ";
                     var s2 = firstQuote ? " )" : "";
-                    return GetSqlOperater(this.Logical) + s1 + this.First.ToSqlString(schema, name) + s2;
+                    return GetSqlOperater(this.Logical__) + s1 + this.First__.ToSqlString(schema, name) + s2;
                 } else {
-                    var firstQuote = this.First.Logical == Logicals.Or && this.Logical == Logicals.And;
-                    var secondQuote = this.Second.Logical == Logicals.Or && this.Logical == Logicals.And;
+                    var firstQuote = this.First__.Logical__ == Logicals.Or && this.Logical__ == Logicals.And;
+                    var secondQuote = this.Second__.Logical__ == Logicals.Or && this.Logical__ == Logicals.And;
                     var s1 = firstQuote ? "( " : "";
                     var s2 = firstQuote ? " ) " : " ";
                     var s3 = secondQuote ? " ( " : " ";
                     var s4 = secondQuote ? " )" : "";
-                    return s1 + this.First.ToSqlString(schema, name) + s2 + GetSqlOperater(this.Logical) + s3 + this.Second.ToSqlString(schema, name) + s4;
+                    return s1 + this.First__.ToSqlString(schema, name) + s2 + GetSqlOperater(this.Logical__) + s3 + this.Second__.ToSqlString(schema, name) + s4;
                 }
             }
-            return this.Expression.ToSqlString(schema, name);
+            return this.Exp__.ToSqlString(schema, name);
         }
 
     }
@@ -113,42 +113,42 @@
         public static T New(Handler eh) { return eh.Invoke(new T()); }
         public static T New() { return new T(); }
 
-        public T And(T L) { return new T { First = this, Logical = Logicals.And, Second = L }; }
-        public T Or(T L) { return new T { First = this, Logical = Logicals.Or, Second = L }; }
-        public T Not() { return new T { First = this, Logical = Logicals.Not }; }
+        public T And(T L) { return new T { First__ = this, Logical__ = Logicals.And, Second__ = L }; }
+        public T Or(T L) { return new T { First__ = this, Logical__ = Logicals.Or, Second__ = L }; }
+        public T Not() { return new T { First__ = this, Logical__ = Logicals.Not }; }
 
         public void And(Handler eh) {
-            if(this.First == null && this.Expression == null) {
+            if(this.First__ == null && this.Exp__ == null) {
                 New(eh).CopyTo(this);
             } else {
                 var child = new T();
                 this.CopyTo(child);
 
-                this.First = eh.Invoke(new T());
-                this.Logical = Logicals.And;
-                this.Second = child;
-                this.Expression = null;
+                this.First__ = eh.Invoke(new T());
+                this.Logical__ = Logicals.And;
+                this.Second__ = child;
+                this.Exp__ = null;
             }
         }
         public void Or(Handler eh) {
-            if(this.First == null && this.Expression == null) {
+            if(this.First__ == null && this.Exp__ == null) {
                 New(eh).CopyTo(this);
             } else {
                 var child = new T();
                 this.CopyTo(child);
 
-                this.First = eh.Invoke(new T());
-                this.Logical = Logicals.Or;
-                this.Second = child;
-                this.Expression = null;
+                this.First__ = eh.Invoke(new T());
+                this.Logical__ = Logicals.Or;
+                this.Second__ = child;
+                this.Exp__ = null;
             }
         }
 
-        public static T operator &(LogicalNode<T> a, LogicalNode<T> b) { return new T { First = a, Logical = Logicals.And, Second = b }; }
-        public static T operator |(LogicalNode<T> a, LogicalNode<T> b) { return new T { First = a, Logical = Logicals.Or, Second = b }; }
+        public static T operator &(LogicalNode<T> a, LogicalNode<T> b) { return new T { First__ = a, Logical__ = Logicals.And, Second__ = b }; }
+        public static T operator |(LogicalNode<T> a, LogicalNode<T> b) { return new T { First__ = a, Logical__ = Logicals.Or, Second__ = b }; }
 
         protected void Check() {
-            if(this.Expression != null)
+            if(this.Exp__ != null)
                 throw new Exception("do not support column.operate(value).column.operate(value).....");
         }
 
@@ -158,14 +158,14 @@
             Check();
             var L = new T();
             var e = new ExpNode_Nullable_Boolean<T> { Parent = L, ColumnName = column };
-            L.Expression = e;
+            L.Exp__ = e;
             return e;
         }
         protected ExpNode_Boolean<T> New_Boolean(string column) {
             Check();
             var L = new T();
             var e = new ExpNode_Boolean<T> { Parent = L, ColumnName = column };
-            L.Expression = e;
+            L.Exp__ = e;
             return e;
         }
 
@@ -173,14 +173,14 @@
             Check();
             var L = new T();
             var e = new ExpNode_Nullable_Byte<T> { Parent = L, ColumnName = column };
-            L.Expression = e;
+            L.Exp__ = e;
             return e;
         }
         protected ExpNode_Byte<T> New_Byte(string column) {
             Check();
             var L = new T();
             var e = new ExpNode_Byte<T> { Parent = L, ColumnName = column };
-            L.Expression = e;
+            L.Exp__ = e;
             return e;
         }
 
@@ -188,14 +188,14 @@
             Check();
             var L = new T();
             var e = new ExpNode_Nullable_Bytes<T> { Parent = L, ColumnName = column };
-            L.Expression = e;
+            L.Exp__ = e;
             return e;
         }
         protected ExpNode_Bytes<T> New_Bytes(string column) {
             Check();
             var L = new T();
             var e = new ExpNode_Bytes<T> { Parent = L, ColumnName = column };
-            L.Expression = e;
+            L.Exp__ = e;
             return e;
         }
 
@@ -203,14 +203,14 @@
             Check();
             var L = new T();
             var e = new ExpNode_Nullable_Int16<T> { Parent = L, ColumnName = column };
-            L.Expression = e;
+            L.Exp__ = e;
             return e;
         }
         protected ExpNode_Int16<T> New_Int16(string column) {
             Check();
             var L = new T();
             var e = new ExpNode_Int16<T> { Parent = L, ColumnName = column };
-            L.Expression = e;
+            L.Exp__ = e;
             return e;
         }
 
@@ -218,14 +218,14 @@
             Check();
             var L = new T();
             var e = new ExpNode_Nullable_Int32<T> { Parent = L, ColumnName = column };
-            L.Expression = e;
+            L.Exp__ = e;
             return e;
         }
         protected ExpNode_Int32<T> New_Int32(string column) {
             Check();
             var L = new T();
             var e = new ExpNode_Int32<T> { Parent = L, ColumnName = column };
-            L.Expression = e;
+            L.Exp__ = e;
             return e;
         }
 
@@ -233,14 +233,14 @@
             Check();
             var L = new T();
             var e = new ExpNode_Nullable_Int64<T> { Parent = L, ColumnName = column };
-            L.Expression = e;
+            L.Exp__ = e;
             return e;
         }
         protected ExpNode_Int64<T> New_Int64(string column) {
             Check();
             var L = new T();
             var e = new ExpNode_Int64<T> { Parent = L, ColumnName = column };
-            L.Expression = e;
+            L.Exp__ = e;
             return e;
         }
 
@@ -248,14 +248,14 @@
             Check();
             var L = new T();
             var e = new ExpNode_Nullable_Decimal<T> { Parent = L, ColumnName = column };
-            L.Expression = e;
+            L.Exp__ = e;
             return e;
         }
         protected ExpNode_Decimal<T> New_Decimal(string column) {
             Check();
             var L = new T();
             var e = new ExpNode_Decimal<T> { Parent = L, ColumnName = column };
-            L.Expression = e;
+            L.Exp__ = e;
             return e;
         }
 
@@ -263,14 +263,14 @@
             Check();
             var L = new T();
             var e = new ExpNode_Nullable_Double<T> { Parent = L, ColumnName = column };
-            L.Expression = e;
+            L.Exp__ = e;
             return e;
         }
         protected ExpNode_Double<T> New_Double(string column) {
             Check();
             var L = new T();
             var e = new ExpNode_Double<T> { Parent = L, ColumnName = column };
-            L.Expression = e;
+            L.Exp__ = e;
             return e;
         }
 
@@ -278,14 +278,14 @@
             Check();
             var L = new T();
             var e = new ExpNode_Nullable_DateTime<T> { Parent = L, ColumnName = column };
-            L.Expression = e;
+            L.Exp__ = e;
             return e;
         }
         protected ExpNode_DateTime<T> New_DateTime(string column) {
             Check();
             var L = new T();
             var e = new ExpNode_DateTime<T> { Parent = L, ColumnName = column };
-            L.Expression = e;
+            L.Exp__ = e;
             return e;
         }
 
@@ -293,14 +293,14 @@
             Check();
             var L = new T();
             var e = new ExpNode_Nullable_Float<T> { Parent = L, ColumnName = column };
-            L.Expression = e;
+            L.Exp__ = e;
             return e;
         }
         protected ExpNode_Float<T> New_Float(string column) {
             Check();
             var L = new T();
             var e = new ExpNode_Float<T> { Parent = L, ColumnName = column };
-            L.Expression = e;
+            L.Exp__ = e;
             return e;
         }
 
@@ -308,14 +308,14 @@
             Check();
             var L = new T();
             var e = new ExpNode_Nullable_String<T> { Parent = L, ColumnName = column };
-            L.Expression = e;
+            L.Exp__ = e;
             return e;
         }
         protected ExpNode_String<T> New_String(string column) {
             Check();
             var L = new T();
             var e = new ExpNode_String<T> { Parent = L, ColumnName = column };
-            L.Expression = e;
+            L.Exp__ = e;
             return e;
         }
 
@@ -323,14 +323,29 @@
             Check();
             var L = new T();
             var e = new ExpNode_Nullable_Guid<T> { Parent = L, ColumnName = column };
-            L.Expression = e;
+            L.Exp__ = e;
             return e;
         }
         protected ExpNode_Guid<T> New_Guid(string column) {
             Check();
             var L = new T();
             var e = new ExpNode_Guid<T> { Parent = L, ColumnName = column };
-            L.Expression = e;
+            L.Exp__ = e;
+            return e;
+        }
+
+        protected ExpNode_Nullable_Object<T> New_Nullable_Object(string column) {
+            Check();
+            var L = new T();
+            var e = new ExpNode_Nullable_Object<T> { Parent = L, ColumnName = column };
+            L.Exp__ = e;
+            return e;
+        }
+        protected ExpNode_Object<T> New_Object(string column) {
+            Check();
+            var L = new T();
+            var e = new ExpNode_Object<T> { Parent = L, ColumnName = column };
+            L.Exp__ = e;
             return e;
         }
 
@@ -1683,6 +1698,48 @@
 
         public static T operator ==(ExpNode_Nullable_Guid<T> a, Guid? b) { return a.Equal(b); }
         public static T operator !=(ExpNode_Nullable_Guid<T> a, Guid? b) { return a.NotEqual(b); }
+    }
+
+    #endregion
+
+    #region Object
+
+    public partial class ExpNode_Object<T> : ExpNode where T : LogicalNode, new() {
+        protected override string GetValueString() {
+            // todo: check type & + ''
+            return "'" + this.Value.ToString() + "'";
+        }
+
+        protected override string GetValue2String() {
+            // todo: check type & + ''
+            return "'" + this.Value2.ToString() + "'";
+        }
+
+        public T Action(Operators operate, Object value) {
+            this.Operate = operate;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+    }
+
+    public partial class ExpNode_Nullable_Object<T> : ExpNode_Nullable<T> where T : LogicalNode, new() {
+        protected override string GetValueString() {
+            if(this.Value == null || this.Value == DBNull.Value) return "NULL";
+            // todo: check type & + ''
+            return "'" + this.Value.ToString() + "'";
+        }
+
+        protected override string GetValue2String() {
+            if(this.Value2 == null || this.Value2 == DBNull.Value) return "NULL";
+            // todo: check type & + ''
+            return "'" + this.Value2.ToString() + "'";
+        }
+
+        public T Action(Operators operate, Object value) {
+            this.Operate = operate;
+            this.Value = value;
+            return (T)this.Parent;
+        }
     }
 
     #endregion
