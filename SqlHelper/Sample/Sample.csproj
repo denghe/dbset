@@ -45,8 +45,18 @@
   <ItemGroup>
     <None Include="Copy of Program.cs" />
     <None Include="Copy of Expression.cs" />
-    <Compile Include="Expression.cs" />
-    <None Include="Program.cs" />
+    <None Include="Copy %282%29 of Expression.cs" />
+    <Compile Include="DAL\DAL_Database_StoredProcedures.cs" />
+    <Compile Include="DAL\DAL_Database_StoredProcedures_Methods.cs" />
+    <Compile Include="DAL\DAL_Database_Tables.cs" />
+    <Compile Include="DAL\DAL_Database_Tables_Methods.cs" />
+    <Compile Include="DAL\DAL_Database_UserDefinedFunctions_Scalar.cs" />
+    <Compile Include="DAL\DAL_Database_UserDefinedFunctions_Table.cs" />
+    <Compile Include="DAL\DAL_Database_UserDefinedTableTypes.cs" />
+    <Compile Include="DAL\DAL_Database_UserDefinedTableTypes_Methods.cs" />
+    <Compile Include="DAL\DAL_Database_Views.cs" />
+    <Compile Include="DAL\DAL_Expressions_Tables.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
