@@ -53,6 +53,7 @@
     <Compile Include="DAL\DAL_Database_StoredProcedures.cs" />
     <Compile Include="DAL\DAL_Database_StoredProcedures_Methods.cs" />
     <Compile Include="DAL\DAL_Database_Tables.cs" />
+    <Compile Include="DAL\DAL_Database_Tables_Methods.cs" />
     <Compile Include="DAL\DAL_Database_UserDefinedFunctions_Scalar.cs" />
     <Compile Include="DAL\DAL_Database_UserDefinedFunctions_Table.cs" />
     <Compile Include="DAL\DAL_Database_UserDefinedTableTypes.cs" />
