@@ -12,15 +12,35 @@
     using System.IO;
 
     using SqlLib;
+    using db = DAL.Database.Tables.dbo;
+    using query = DAL.Queries.Tables.dbo;
 
     public class Test {
         public static void Main() {
-            Console.SetWindowSize(Console.WindowWidth, 50);
+            // init connect string
+            SqlHelper.InitConnectString(server: "data,14333", username: "admin");
+            // dump all dbo.t2 data
+            SqlHelper.ExecuteDbSet(query.t2.New().ToString()).Dump();
 
-            // int sql connection
-            SqlHelper.InitConnectString("data,14333", username: "admin");
+            //// select method test
+            //var row = db.t2.Select(5);                          // return t2(id=5)
+            //var row2 = db.t2.Select(6);                         // return null
 
+            var q = query.t2.New(o => o.Name >= "a"             // where
+                , o => o.CreateTime.ASC & o.Name.DESC           // order by
+                , 3                                             // pagesize
+                , 1                                             // pageindex
+                , o => o.ID.Name.CreateTime);                   // column list
 
+            //var rows = db.t2.Select(q);                         // return List<t2>
+
+            //Console.WriteLine("\r\n\r\nresult: "
+            //    + (row == null ? 0 : row.ID) + " "
+            //    + (row2 == null ? 0 : row.ID) + " "
+            //    + rows.Count
+            //    );
+
+            Console.WriteLine(q.ToString());
 
             Console.ReadLine();
         }
