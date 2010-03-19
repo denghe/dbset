@@ -31,5 +31,8 @@
         public int Count() {
             return __columns.Count;
         }
+        public virtual bool Contains(int idx) {
+            return __columns.Contains(idx);
+        }
     }
 }
