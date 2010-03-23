@@ -59,6 +59,7 @@
     <Compile Include="DAL\DAL_Database_UserDefinedTableTypes.cs" />
     <Compile Include="DAL\DAL_Database_UserDefinedTableTypes_Methods.cs" />
     <Compile Include="DAL\DAL_Database_Views.cs" />
+    <Compile Include="DAL\DAL_Database_Views_Methods.cs" />
     <Compile Include="DAL\DAL_Expressions_Tables.cs" />
     <Compile Include="DAL\DAL_Expressions_UserDefinedFunctions_Table.cs" />
     <Compile Include="DAL\DAL_Expressions_UserDefinedTableTypes.cs" />
