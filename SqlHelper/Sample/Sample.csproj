@@ -43,10 +43,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Copy of Program.cs" />
+    <Compile Include="Copy of Program.cs" />
     <None Include="Copy of Expression.cs" />
     <None Include="Copy %282%29 of Expression.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="DAL\DAL_ColumnEnums_Tables.cs" />
+    <Compile Include="DAL\DAL_ColumnEnums_UserDefinedFunctions_Table.cs" />
+    <Compile Include="DAL\DAL_ColumnEnums_UserDefinedTableTypes.cs" />
+    <Compile Include="DAL\DAL_ColumnEnums_Views.cs" />
+    <Compile Include="DAL\DAL_Database_StoredProcedures.cs" />
+    <Compile Include="DAL\DAL_Database_StoredProcedures_Methods.cs" />
+    <Compile Include="DAL\DAL_Database_Tables.cs" />
+    <Compile Include="DAL\DAL_Database_Tables_Methods.cs" />
+    <Compile Include="DAL\DAL_Database_UserDefinedFunctions_Scalar.cs" />
+    <Compile Include="DAL\DAL_Database_UserDefinedFunctions_Table.cs" />
+    <Compile Include="DAL\DAL_Database_UserDefinedTableTypes.cs" />
+    <Compile Include="DAL\DAL_Database_UserDefinedTableTypes_Methods.cs" />
+    <Compile Include="DAL\DAL_Database_Views.cs" />
+    <Compile Include="DAL\DAL_Database_Views_Methods.cs" />
+    <Compile Include="DAL\DAL_Expressions_Tables.cs" />
+    <Compile Include="DAL\DAL_Expressions_UserDefinedFunctions_Table.cs" />
+    <Compile Include="DAL\DAL_Expressions_UserDefinedTableTypes.cs" />
+    <Compile Include="DAL\DAL_Expressions_Views.cs" />
+    <Compile Include="DAL\DAL_Orientations_Tables.cs" />
+    <Compile Include="DAL\DAL_Orientations_UserDefinedFunctions_Table.cs" />
+    <Compile Include="DAL\DAL_Orientations_UserDefinedTableTypes.cs" />
+    <Compile Include="DAL\DAL_Orientations_Views.cs" />
+    <Compile Include="DAL\DAL_Queries_Tables.cs" />
+    <Compile Include="DAL\DAL_Queries_UserDefinedFunctions_Table.cs" />
+    <Compile Include="DAL\DAL_Queries_UserDefinedTableTypes.cs" />
+    <Compile Include="DAL\DAL_Queries_Views.cs" />
+    <None Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -58,9 +84,7 @@
   <ItemGroup>
     <Content Include="todo.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DAL\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
