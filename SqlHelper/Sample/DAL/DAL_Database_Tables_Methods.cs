@@ -71,47 +71,60 @@ namespace DAL.Database.Tables.dbo
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
-			var sb = new StringBuilder("INSERT INTO [dbo].[Child] (");
+			var sb = new StringBuilder(@"
+INSERT INTO [dbo].[Child] (");
 			var sb2 = new StringBuilder();
             var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.Child());
 			if (ch == null || cols.Contains(0))
 			{
 				cmd.AddParameter("TreeID", o.TreeID);
-				sb.Append((isFirst ? "" : ", ") + "[TreeID]");
-				sb2.Append((isFirst ? "" : ", ") + "@TreeID");
+				sb.Append((isFirst ? "" : @"
+     , ") + "[TreeID]");
+				sb2.Append((isFirst ? "" : @"
+     , ") + "@TreeID");
 				isFirst = false;
 			}
 			if (ch == null || cols.Contains(1))
 			{
 				cmd.AddParameter("ChildID", o.ChildID);
-				sb.Append((isFirst ? "" : ", ") + "[ChildID]");
-				sb2.Append((isFirst ? "" : ", ") + "@ChildID");
+				sb.Append((isFirst ? "" : @"
+     , ") + "[ChildID]");
+				sb2.Append((isFirst ? "" : @"
+     , ") + "@ChildID");
 				isFirst = false;
 			}
 			if (ch == null || cols.Contains(2))
 			{
 				cmd.AddParameter("Name", o.Name);
-				sb.Append((isFirst ? "" : ", ") + "[Name]");
-				sb2.Append((isFirst ? "" : ", ") + "@Name");
+				sb.Append((isFirst ? "" : @"
+     , ") + "[Name]");
+				sb2.Append((isFirst ? "" : @"
+     , ") + "@Name");
 				isFirst = false;
 			}
 			if (ch == null || cols.Contains(3))
 			{
 				cmd.AddParameter("CreateTime", o.CreateTime);
-				sb.Append((isFirst ? "" : ", ") + "[CreateTime]");
-				sb2.Append((isFirst ? "" : ", ") + "@CreateTime");
+				sb.Append((isFirst ? "" : @"
+     , ") + "[CreateTime]");
+				sb2.Append((isFirst ? "" : @"
+     , ") + "@CreateTime");
 				isFirst = false;
 			}
 			if (ch == null || cols.Contains(4))
 			{
 				cmd.AddParameter("Memo", o.Memo);
-				sb.Append((isFirst ? "" : ", ") + "[Memo]");
-				sb2.Append((isFirst ? "" : ", ") + "@Memo");
+				sb.Append((isFirst ? "" : @"
+     , ") + "[Memo]");
+				sb2.Append((isFirst ? "" : @"
+     , ") + "@Memo");
 				isFirst = false;
 			}
-			sb.Append(") OUTPUT INSERTED.* VALUES (");
+			sb.Append(@"
+) OUTPUT INSERTED.* VALUES (");
 			sb.Append(sb2);
-			sb.Append(@");");
+			sb.Append(@"
+);");
 			cmd.CommandText = sb.ToString();
 			return SqlHelper.ExecuteNonQuery(cmd);
 		}
@@ -242,33 +255,42 @@ DELETE FROM [dbo].[Child]";
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
-			var sb = new StringBuilder("INSERT INTO [dbo].[ChildLog] (");
+			var sb = new StringBuilder(@"
+INSERT INTO [dbo].[ChildLog] (");
 			var sb2 = new StringBuilder();
             var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.ChildLog());
 			if (ch == null || cols.Contains(0))
 			{
 				cmd.AddParameter("ChildID", o.ChildID);
-				sb.Append((isFirst ? "" : ", ") + "[ChildID]");
-				sb2.Append((isFirst ? "" : ", ") + "@ChildID");
+				sb.Append((isFirst ? "" : @"
+     , ") + "[ChildID]");
+				sb2.Append((isFirst ? "" : @"
+     , ") + "@ChildID");
 				isFirst = false;
 			}
 			if (ch == null || cols.Contains(2))
 			{
 				cmd.AddParameter("CreateTime", o.CreateTime);
-				sb.Append((isFirst ? "" : ", ") + "[CreateTime]");
-				sb2.Append((isFirst ? "" : ", ") + "@CreateTime");
+				sb.Append((isFirst ? "" : @"
+     , ") + "[CreateTime]");
+				sb2.Append((isFirst ? "" : @"
+     , ") + "@CreateTime");
 				isFirst = false;
 			}
 			if (ch == null || cols.Contains(3))
 			{
 				cmd.AddParameter("LogContent", o.LogContent);
-				sb.Append((isFirst ? "" : ", ") + "[LogContent]");
-				sb2.Append((isFirst ? "" : ", ") + "@LogContent");
+				sb.Append((isFirst ? "" : @"
+     , ") + "[LogContent]");
+				sb2.Append((isFirst ? "" : @"
+     , ") + "@LogContent");
 				isFirst = false;
 			}
-			sb.Append(") OUTPUT INSERTED.* VALUES (");
+			sb.Append(@"
+) OUTPUT INSERTED.* VALUES (");
 			sb.Append(sb2);
-			sb.Append(@");");
+			sb.Append(@"
+);");
 			cmd.CommandText = sb.ToString();
 			return SqlHelper.ExecuteNonQuery(cmd);
 		}
@@ -381,26 +403,33 @@ DELETE FROM [dbo].[ChildLog]";
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
-			var sb = new StringBuilder("INSERT INTO [dbo].[DoublePK] (");
+			var sb = new StringBuilder(@"
+INSERT INTO [dbo].[DoublePK] (");
 			var sb2 = new StringBuilder();
             var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.DoublePK());
 			if (ch == null || cols.Contains(0))
 			{
 				cmd.AddParameter("ID1", o.ID1);
-				sb.Append((isFirst ? "" : ", ") + "[ID1]");
-				sb2.Append((isFirst ? "" : ", ") + "@ID1");
+				sb.Append((isFirst ? "" : @"
+     , ") + "[ID1]");
+				sb2.Append((isFirst ? "" : @"
+     , ") + "@ID1");
 				isFirst = false;
 			}
 			if (ch == null || cols.Contains(1))
 			{
 				cmd.AddParameter("ID2", o.ID2);
-				sb.Append((isFirst ? "" : ", ") + "[ID2]");
-				sb2.Append((isFirst ? "" : ", ") + "@ID2");
+				sb.Append((isFirst ? "" : @"
+     , ") + "[ID2]");
+				sb2.Append((isFirst ? "" : @"
+     , ") + "@ID2");
 				isFirst = false;
 			}
-			sb.Append(") OUTPUT INSERTED.* VALUES (");
+			sb.Append(@"
+) OUTPUT INSERTED.* VALUES (");
 			sb.Append(sb2);
-			sb.Append(@");");
+			sb.Append(@"
+);");
 			cmd.CommandText = sb.ToString();
 			return SqlHelper.ExecuteNonQuery(cmd);
 		}
@@ -508,26 +537,33 @@ DELETE FROM [dbo].[DoublePK]";
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
-			var sb = new StringBuilder("INSERT INTO [dbo].[Orders] (");
+			var sb = new StringBuilder(@"
+INSERT INTO [dbo].[Orders] (");
 			var sb2 = new StringBuilder();
             var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.Orders());
 			if (ch == null || cols.Contains(1))
 			{
 				cmd.AddParameter("memberID", o.memberID);
-				sb.Append((isFirst ? "" : ", ") + "[memberID]");
-				sb2.Append((isFirst ? "" : ", ") + "@memberID");
+				sb.Append((isFirst ? "" : @"
+     , ") + "[memberID]");
+				sb2.Append((isFirst ? "" : @"
+     , ") + "@memberID");
 				isFirst = false;
 			}
 			if (ch == null || cols.Contains(2))
 			{
 				cmd.AddParameter("orderDate", o.orderDate);
-				sb.Append((isFirst ? "" : ", ") + "[orderDate]");
-				sb2.Append((isFirst ? "" : ", ") + "@orderDate");
+				sb.Append((isFirst ? "" : @"
+     , ") + "[orderDate]");
+				sb2.Append((isFirst ? "" : @"
+     , ") + "@orderDate");
 				isFirst = false;
 			}
-			sb.Append(") OUTPUT INSERTED.* VALUES (");
+			sb.Append(@"
+) OUTPUT INSERTED.* VALUES (");
 			sb.Append(sb2);
-			sb.Append(@");");
+			sb.Append(@"
+);");
 			cmd.CommandText = sb.ToString();
 			return SqlHelper.ExecuteNonQuery(cmd);
 		}
@@ -635,26 +671,33 @@ DELETE FROM [dbo].[Orders]";
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
-			var sb = new StringBuilder("INSERT INTO [dbo].[t1] (");
+			var sb = new StringBuilder(@"
+INSERT INTO [dbo].[t1] (");
 			var sb2 = new StringBuilder();
             var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.t1());
 			if (ch == null || cols.Contains(1))
 			{
 				cmd.AddParameter("Name", o.Name);
-				sb.Append((isFirst ? "" : ", ") + "[Name]");
-				sb2.Append((isFirst ? "" : ", ") + "@Name");
+				sb.Append((isFirst ? "" : @"
+     , ") + "[Name]");
+				sb2.Append((isFirst ? "" : @"
+     , ") + "@Name");
 				isFirst = false;
 			}
 			if (ch == null || cols.Contains(2))
 			{
 				cmd.AddParameter("XML", o.XML);
-				sb.Append((isFirst ? "" : ", ") + "[XML]");
-				sb2.Append((isFirst ? "" : ", ") + "@XML");
+				sb.Append((isFirst ? "" : @"
+     , ") + "[XML]");
+				sb2.Append((isFirst ? "" : @"
+     , ") + "@XML");
 				isFirst = false;
 			}
-			sb.Append(") OUTPUT INSERTED.* VALUES (");
+			sb.Append(@"
+) OUTPUT INSERTED.* VALUES (");
 			sb.Append(sb2);
-			sb.Append(@");");
+			sb.Append(@"
+);");
 			cmd.CommandText = sb.ToString();
 			return SqlHelper.ExecuteNonQuery(cmd);
 		}
@@ -755,26 +798,33 @@ DELETE FROM [dbo].[t1]";
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
-			var sb = new StringBuilder("INSERT INTO [dbo].[TA] (");
+			var sb = new StringBuilder(@"
+INSERT INTO [dbo].[TA] (");
 			var sb2 = new StringBuilder();
             var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.TA());
 			if (ch == null || cols.Contains(0))
 			{
 				cmd.AddParameter("AID", o.AID);
-				sb.Append((isFirst ? "" : ", ") + "[AID]");
-				sb2.Append((isFirst ? "" : ", ") + "@AID");
+				sb.Append((isFirst ? "" : @"
+     , ") + "[AID]");
+				sb2.Append((isFirst ? "" : @"
+     , ") + "@AID");
 				isFirst = false;
 			}
 			if (ch == null || cols.Contains(1))
 			{
 				cmd.AddParameter("AData", o.AData);
-				sb.Append((isFirst ? "" : ", ") + "[AData]");
-				sb2.Append((isFirst ? "" : ", ") + "@AData");
+				sb.Append((isFirst ? "" : @"
+     , ") + "[AData]");
+				sb2.Append((isFirst ? "" : @"
+     , ") + "@AData");
 				isFirst = false;
 			}
-			sb.Append(") OUTPUT INSERTED.* VALUES (");
+			sb.Append(@"
+) OUTPUT INSERTED.* VALUES (");
 			sb.Append(sb2);
-			sb.Append(@");");
+			sb.Append(@"
+);");
 			cmd.CommandText = sb.ToString();
 			return SqlHelper.ExecuteNonQuery(cmd);
 		}
@@ -875,26 +925,33 @@ DELETE FROM [dbo].[TA]";
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
-			var sb = new StringBuilder("INSERT INTO [dbo].[TB] (");
+			var sb = new StringBuilder(@"
+INSERT INTO [dbo].[TB] (");
 			var sb2 = new StringBuilder();
             var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.TB());
 			if (ch == null || cols.Contains(0))
 			{
 				cmd.AddParameter("BID", o.BID);
-				sb.Append((isFirst ? "" : ", ") + "[BID]");
-				sb2.Append((isFirst ? "" : ", ") + "@BID");
+				sb.Append((isFirst ? "" : @"
+     , ") + "[BID]");
+				sb2.Append((isFirst ? "" : @"
+     , ") + "@BID");
 				isFirst = false;
 			}
 			if (ch == null || cols.Contains(1))
 			{
 				cmd.AddParameter("BData", o.BData);
-				sb.Append((isFirst ? "" : ", ") + "[BData]");
-				sb2.Append((isFirst ? "" : ", ") + "@BData");
+				sb.Append((isFirst ? "" : @"
+     , ") + "[BData]");
+				sb2.Append((isFirst ? "" : @"
+     , ") + "@BData");
 				isFirst = false;
 			}
-			sb.Append(") OUTPUT INSERTED.* VALUES (");
+			sb.Append(@"
+) OUTPUT INSERTED.* VALUES (");
 			sb.Append(sb2);
-			sb.Append(@");");
+			sb.Append(@"
+);");
 			cmd.CommandText = sb.ToString();
 			return SqlHelper.ExecuteNonQuery(cmd);
 		}
@@ -1004,40 +1061,51 @@ DELETE FROM [dbo].[TB]";
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
-			var sb = new StringBuilder("INSERT INTO [dbo].[Tree] (");
+			var sb = new StringBuilder(@"
+INSERT INTO [dbo].[Tree] (");
 			var sb2 = new StringBuilder();
             var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.Tree());
 			if (ch == null || cols.Contains(0))
 			{
 				cmd.AddParameter("TreeID", o.TreeID);
-				sb.Append((isFirst ? "" : ", ") + "[TreeID]");
-				sb2.Append((isFirst ? "" : ", ") + "@TreeID");
+				sb.Append((isFirst ? "" : @"
+     , ") + "[TreeID]");
+				sb2.Append((isFirst ? "" : @"
+     , ") + "@TreeID");
 				isFirst = false;
 			}
 			if (ch == null || cols.Contains(1))
 			{
 				cmd.AddParameter("TreePID", o.TreePID);
-				sb.Append((isFirst ? "" : ", ") + "[TreePID]");
-				sb2.Append((isFirst ? "" : ", ") + "@TreePID");
+				sb.Append((isFirst ? "" : @"
+     , ") + "[TreePID]");
+				sb2.Append((isFirst ? "" : @"
+     , ") + "@TreePID");
 				isFirst = false;
 			}
 			if (ch == null || cols.Contains(2))
 			{
 				cmd.AddParameter("Name", o.Name);
-				sb.Append((isFirst ? "" : ", ") + "[Name]");
-				sb2.Append((isFirst ? "" : ", ") + "@Name");
+				sb.Append((isFirst ? "" : @"
+     , ") + "[Name]");
+				sb2.Append((isFirst ? "" : @"
+     , ") + "@Name");
 				isFirst = false;
 			}
 			if (ch == null || cols.Contains(3))
 			{
 				cmd.AddParameter("Memo", o.Memo);
-				sb.Append((isFirst ? "" : ", ") + "[Memo]");
-				sb2.Append((isFirst ? "" : ", ") + "@Memo");
+				sb.Append((isFirst ? "" : @"
+     , ") + "[Memo]");
+				sb2.Append((isFirst ? "" : @"
+     , ") + "@Memo");
 				isFirst = false;
 			}
-			sb.Append(") OUTPUT INSERTED.* VALUES (");
+			sb.Append(@"
+) OUTPUT INSERTED.* VALUES (");
 			sb.Append(sb2);
-			sb.Append(@");");
+			sb.Append(@"
+);");
 			cmd.CommandText = sb.ToString();
 			return SqlHelper.ExecuteNonQuery(cmd);
 		}
