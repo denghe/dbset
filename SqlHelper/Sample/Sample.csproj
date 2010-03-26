@@ -43,7 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Copy of Program.cs" />
+    <None Include="Copy %282%29 of Program.cs" />
+    <None Include="Copy of Program.cs" />
     <None Include="Copy of Expression.cs" />
     <None Include="Copy %282%29 of Expression.cs" />
     <Compile Include="DAL\DAL_ColumnEnums_Tables.cs" />
@@ -72,7 +73,7 @@
     <Compile Include="DAL\DAL_Queries_UserDefinedFunctions_Table.cs" />
     <Compile Include="DAL\DAL_Queries_UserDefinedTableTypes.cs" />
     <Compile Include="DAL\DAL_Queries_Views.cs" />
-    <None Include="Program.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
