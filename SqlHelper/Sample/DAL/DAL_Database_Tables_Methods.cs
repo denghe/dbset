@@ -11,7 +11,7 @@ namespace DAL.Database.Tables.dbo
     partial class Child
     {
 
-        public static List<Child> Select(Queries.Tables.dbo.Child q)
+        public static List<Child> Select(Queries.Tables.dbo.Child q) 
         {
             var tsql = q.ToSqlString();
             var rows = new List<Child>();
@@ -67,42 +67,42 @@ namespace DAL.Database.Tables.dbo
             return Select(o => o.ChildID.Equal(c0), columns: columns).FirstOrDefault();
         }
 
-		public static int Insert(Child o, ColumnEnums.Tables.dbo.Child.Handler h = null)
+		public static int Insert(Child o, ColumnEnums.Tables.dbo.Child.Handler ch = null)
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder("INSERT INTO [dbo].[Child] (");
 			var sb2 = new StringBuilder();
-            var cols = h.Invoke(new ColumnEnums.Tables.dbo.Child());
-			if (cols.Contains(0))
+            var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.Child());
+			if (ch == null || cols.Contains(0))
 			{
 				cmd.AddParameter("TreeID", o.TreeID);
 				sb.Append((isFirst ? "" : ", ") + "[TreeID]");
 				sb2.Append((isFirst ? "" : ", ") + "@TreeID");
 				isFirst = false;
 			}
-			if (cols.Contains(1))
+			if (ch == null || cols.Contains(1))
 			{
 				cmd.AddParameter("ChildID", o.ChildID);
 				sb.Append((isFirst ? "" : ", ") + "[ChildID]");
 				sb2.Append((isFirst ? "" : ", ") + "@ChildID");
 				isFirst = false;
 			}
-			if (cols.Contains(2))
+			if (ch == null || cols.Contains(2))
 			{
 				cmd.AddParameter("Name", o.Name);
 				sb.Append((isFirst ? "" : ", ") + "[Name]");
 				sb2.Append((isFirst ? "" : ", ") + "@Name");
 				isFirst = false;
 			}
-			if (cols.Contains(3))
+			if (ch == null || cols.Contains(3))
 			{
 				cmd.AddParameter("CreateTime", o.CreateTime);
 				sb.Append((isFirst ? "" : ", ") + "[CreateTime]");
 				sb2.Append((isFirst ? "" : ", ") + "@CreateTime");
 				isFirst = false;
 			}
-			if (cols.Contains(4))
+			if (ch == null || cols.Contains(4))
 			{
 				cmd.AddParameter("Memo", o.Memo);
 				sb.Append((isFirst ? "" : ", ") + "[Memo]");
@@ -122,36 +122,36 @@ namespace DAL.Database.Tables.dbo
 			var sb = new StringBuilder(@"
 UPDATE [dbo].[Child]
    SET ");
-            var cols = ch.Invoke(new ColumnEnums.Tables.dbo.Child());
-			if (cols.Contains(0))
+            var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.Child());
+			if (ch == null || cols.Contains(0))
 			{
 				cmd.AddParameter("TreeID", o.TreeID);
 				sb.Append((isFirst ? "" : @"
      , ") + "[TreeID] = @TreeID");
 				isFirst = false;
 			}
-			if (cols.Contains(1))
+			if (ch == null || cols.Contains(1))
 			{
 				cmd.AddParameter("ChildID", o.ChildID);
 				sb.Append((isFirst ? "" : @"
      , ") + "[ChildID] = @ChildID");
 				isFirst = false;
 			}
-			if (cols.Contains(2))
+			if (ch == null || cols.Contains(2))
 			{
 				cmd.AddParameter("Name", o.Name);
 				sb.Append((isFirst ? "" : @"
      , ") + "[Name] = @Name");
 				isFirst = false;
 			}
-			if (cols.Contains(3))
+			if (ch == null || cols.Contains(3))
 			{
 				cmd.AddParameter("CreateTime", o.CreateTime);
 				sb.Append((isFirst ? "" : @"
      , ") + "[CreateTime] = @CreateTime");
 				isFirst = false;
 			}
-			if (cols.Contains(4))
+			if (ch == null || cols.Contains(4))
 			{
 				cmd.AddParameter("Memo", o.Memo);
 				sb.Append((isFirst ? "" : @"
@@ -226,28 +226,28 @@ UPDATE [dbo].[Child]
             return Select(o => o.ChildLogID.Equal(c0), columns: columns).FirstOrDefault();
         }
 
-		public static int Insert(ChildLog o, ColumnEnums.Tables.dbo.ChildLog.Handler h = null)
+		public static int Insert(ChildLog o, ColumnEnums.Tables.dbo.ChildLog.Handler ch = null)
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder("INSERT INTO [dbo].[ChildLog] (");
 			var sb2 = new StringBuilder();
-            var cols = h.Invoke(new ColumnEnums.Tables.dbo.ChildLog());
-			if (cols.Contains(0))
+            var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.ChildLog());
+			if (ch == null || cols.Contains(0))
 			{
 				cmd.AddParameter("ChildID", o.ChildID);
 				sb.Append((isFirst ? "" : ", ") + "[ChildID]");
 				sb2.Append((isFirst ? "" : ", ") + "@ChildID");
 				isFirst = false;
 			}
-			if (cols.Contains(2))
+			if (ch == null || cols.Contains(2))
 			{
 				cmd.AddParameter("CreateTime", o.CreateTime);
 				sb.Append((isFirst ? "" : ", ") + "[CreateTime]");
 				sb2.Append((isFirst ? "" : ", ") + "@CreateTime");
 				isFirst = false;
 			}
-			if (cols.Contains(3))
+			if (ch == null || cols.Contains(3))
 			{
 				cmd.AddParameter("LogContent", o.LogContent);
 				sb.Append((isFirst ? "" : ", ") + "[LogContent]");
@@ -267,22 +267,22 @@ UPDATE [dbo].[Child]
 			var sb = new StringBuilder(@"
 UPDATE [dbo].[ChildLog]
    SET ");
-            var cols = ch.Invoke(new ColumnEnums.Tables.dbo.ChildLog());
-			if (cols.Contains(0))
+            var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.ChildLog());
+			if (ch == null || cols.Contains(0))
 			{
 				cmd.AddParameter("ChildID", o.ChildID);
 				sb.Append((isFirst ? "" : @"
      , ") + "[ChildID] = @ChildID");
 				isFirst = false;
 			}
-			if (cols.Contains(2))
+			if (ch == null || cols.Contains(2))
 			{
 				cmd.AddParameter("CreateTime", o.CreateTime);
 				sb.Append((isFirst ? "" : @"
      , ") + "[CreateTime] = @CreateTime");
 				isFirst = false;
 			}
-			if (cols.Contains(3))
+			if (ch == null || cols.Contains(3))
 			{
 				cmd.AddParameter("LogContent", o.LogContent);
 				sb.Append((isFirst ? "" : @"
@@ -353,21 +353,21 @@ UPDATE [dbo].[ChildLog]
             return Select(o => o.ID1.Equal(c0) & o.ID2.Equal(c1), columns: columns).FirstOrDefault();
         }
 
-		public static int Insert(DoublePK o, ColumnEnums.Tables.dbo.DoublePK.Handler h = null)
+		public static int Insert(DoublePK o, ColumnEnums.Tables.dbo.DoublePK.Handler ch = null)
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder("INSERT INTO [dbo].[DoublePK] (");
 			var sb2 = new StringBuilder();
-            var cols = h.Invoke(new ColumnEnums.Tables.dbo.DoublePK());
-			if (cols.Contains(0))
+            var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.DoublePK());
+			if (ch == null || cols.Contains(0))
 			{
 				cmd.AddParameter("ID1", o.ID1);
 				sb.Append((isFirst ? "" : ", ") + "[ID1]");
 				sb2.Append((isFirst ? "" : ", ") + "@ID1");
 				isFirst = false;
 			}
-			if (cols.Contains(1))
+			if (ch == null || cols.Contains(1))
 			{
 				cmd.AddParameter("ID2", o.ID2);
 				sb.Append((isFirst ? "" : ", ") + "[ID2]");
@@ -387,15 +387,15 @@ UPDATE [dbo].[ChildLog]
 			var sb = new StringBuilder(@"
 UPDATE [dbo].[DoublePK]
    SET ");
-            var cols = ch.Invoke(new ColumnEnums.Tables.dbo.DoublePK());
-			if (cols.Contains(0))
+            var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.DoublePK());
+			if (ch == null || cols.Contains(0))
 			{
 				cmd.AddParameter("ID1", o.ID1);
 				sb.Append((isFirst ? "" : @"
      , ") + "[ID1] = @ID1");
 				isFirst = false;
 			}
-			if (cols.Contains(1))
+			if (ch == null || cols.Contains(1))
 			{
 				cmd.AddParameter("ID2", o.ID2);
 				sb.Append((isFirst ? "" : @"
@@ -468,21 +468,21 @@ UPDATE [dbo].[DoublePK]
             return Select(o => o.OrderID.Equal(c0), columns: columns).FirstOrDefault();
         }
 
-		public static int Insert(Orders o, ColumnEnums.Tables.dbo.Orders.Handler h = null)
+		public static int Insert(Orders o, ColumnEnums.Tables.dbo.Orders.Handler ch = null)
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder("INSERT INTO [dbo].[Orders] (");
 			var sb2 = new StringBuilder();
-            var cols = h.Invoke(new ColumnEnums.Tables.dbo.Orders());
-			if (cols.Contains(1))
+            var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.Orders());
+			if (ch == null || cols.Contains(1))
 			{
 				cmd.AddParameter("memberID", o.memberID);
 				sb.Append((isFirst ? "" : ", ") + "[memberID]");
 				sb2.Append((isFirst ? "" : ", ") + "@memberID");
 				isFirst = false;
 			}
-			if (cols.Contains(2))
+			if (ch == null || cols.Contains(2))
 			{
 				cmd.AddParameter("orderDate", o.orderDate);
 				sb.Append((isFirst ? "" : ", ") + "[orderDate]");
@@ -502,15 +502,15 @@ UPDATE [dbo].[DoublePK]
 			var sb = new StringBuilder(@"
 UPDATE [dbo].[Orders]
    SET ");
-            var cols = ch.Invoke(new ColumnEnums.Tables.dbo.Orders());
-			if (cols.Contains(1))
+            var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.Orders());
+			if (ch == null || cols.Contains(1))
 			{
 				cmd.AddParameter("memberID", o.memberID);
 				sb.Append((isFirst ? "" : @"
      , ") + "[memberID] = @memberID");
 				isFirst = false;
 			}
-			if (cols.Contains(2))
+			if (ch == null || cols.Contains(2))
 			{
 				cmd.AddParameter("orderDate", o.orderDate);
 				sb.Append((isFirst ? "" : @"
@@ -583,21 +583,21 @@ UPDATE [dbo].[Orders]
             return Select(o => o.ID.Equal(c0), columns: columns).FirstOrDefault();
         }
 
-		public static int Insert(t1 o, ColumnEnums.Tables.dbo.t1.Handler h = null)
+		public static int Insert(t1 o, ColumnEnums.Tables.dbo.t1.Handler ch = null)
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder("INSERT INTO [dbo].[t1] (");
 			var sb2 = new StringBuilder();
-            var cols = h.Invoke(new ColumnEnums.Tables.dbo.t1());
-			if (cols.Contains(1))
+            var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.t1());
+			if (ch == null || cols.Contains(1))
 			{
 				cmd.AddParameter("Name", o.Name);
 				sb.Append((isFirst ? "" : ", ") + "[Name]");
 				sb2.Append((isFirst ? "" : ", ") + "@Name");
 				isFirst = false;
 			}
-			if (cols.Contains(2))
+			if (ch == null || cols.Contains(2))
 			{
 				cmd.AddParameter("XML", o.XML);
 				sb.Append((isFirst ? "" : ", ") + "[XML]");
@@ -617,15 +617,15 @@ UPDATE [dbo].[Orders]
 			var sb = new StringBuilder(@"
 UPDATE [dbo].[t1]
    SET ");
-            var cols = ch.Invoke(new ColumnEnums.Tables.dbo.t1());
-			if (cols.Contains(1))
+            var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.t1());
+			if (ch == null || cols.Contains(1))
 			{
 				cmd.AddParameter("Name", o.Name);
 				sb.Append((isFirst ? "" : @"
      , ") + "[Name] = @Name");
 				isFirst = false;
 			}
-			if (cols.Contains(2))
+			if (ch == null || cols.Contains(2))
 			{
 				cmd.AddParameter("XML", o.XML);
 				sb.Append((isFirst ? "" : @"
@@ -691,21 +691,21 @@ UPDATE [dbo].[t1]
             return Select(Queries.Tables.dbo.TA.New(where, orderby, pageSize, pageIndex, columns));
         }
 
-		public static int Insert(TA o, ColumnEnums.Tables.dbo.TA.Handler h = null)
+		public static int Insert(TA o, ColumnEnums.Tables.dbo.TA.Handler ch = null)
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder("INSERT INTO [dbo].[TA] (");
 			var sb2 = new StringBuilder();
-            var cols = h.Invoke(new ColumnEnums.Tables.dbo.TA());
-			if (cols.Contains(0))
+            var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.TA());
+			if (ch == null || cols.Contains(0))
 			{
 				cmd.AddParameter("AID", o.AID);
 				sb.Append((isFirst ? "" : ", ") + "[AID]");
 				sb2.Append((isFirst ? "" : ", ") + "@AID");
 				isFirst = false;
 			}
-			if (cols.Contains(1))
+			if (ch == null || cols.Contains(1))
 			{
 				cmd.AddParameter("AData", o.AData);
 				sb.Append((isFirst ? "" : ", ") + "[AData]");
@@ -725,15 +725,15 @@ UPDATE [dbo].[t1]
 			var sb = new StringBuilder(@"
 UPDATE [dbo].[TA]
    SET ");
-            var cols = ch.Invoke(new ColumnEnums.Tables.dbo.TA());
-			if (cols.Contains(0))
+            var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.TA());
+			if (ch == null || cols.Contains(0))
 			{
 				cmd.AddParameter("AID", o.AID);
 				sb.Append((isFirst ? "" : @"
      , ") + "[AID] = @AID");
 				isFirst = false;
 			}
-			if (cols.Contains(1))
+			if (ch == null || cols.Contains(1))
 			{
 				cmd.AddParameter("AData", o.AData);
 				sb.Append((isFirst ? "" : @"
@@ -799,21 +799,21 @@ UPDATE [dbo].[TA]
             return Select(Queries.Tables.dbo.TB.New(where, orderby, pageSize, pageIndex, columns));
         }
 
-		public static int Insert(TB o, ColumnEnums.Tables.dbo.TB.Handler h = null)
+		public static int Insert(TB o, ColumnEnums.Tables.dbo.TB.Handler ch = null)
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder("INSERT INTO [dbo].[TB] (");
 			var sb2 = new StringBuilder();
-            var cols = h.Invoke(new ColumnEnums.Tables.dbo.TB());
-			if (cols.Contains(0))
+            var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.TB());
+			if (ch == null || cols.Contains(0))
 			{
 				cmd.AddParameter("BID", o.BID);
 				sb.Append((isFirst ? "" : ", ") + "[BID]");
 				sb2.Append((isFirst ? "" : ", ") + "@BID");
 				isFirst = false;
 			}
-			if (cols.Contains(1))
+			if (ch == null || cols.Contains(1))
 			{
 				cmd.AddParameter("BData", o.BData);
 				sb.Append((isFirst ? "" : ", ") + "[BData]");
@@ -833,15 +833,15 @@ UPDATE [dbo].[TA]
 			var sb = new StringBuilder(@"
 UPDATE [dbo].[TB]
    SET ");
-            var cols = ch.Invoke(new ColumnEnums.Tables.dbo.TB());
-			if (cols.Contains(0))
+            var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.TB());
+			if (ch == null || cols.Contains(0))
 			{
 				cmd.AddParameter("BID", o.BID);
 				sb.Append((isFirst ? "" : @"
      , ") + "[BID] = @BID");
 				isFirst = false;
 			}
-			if (cols.Contains(1))
+			if (ch == null || cols.Contains(1))
 			{
 				cmd.AddParameter("BData", o.BData);
 				sb.Append((isFirst ? "" : @"
@@ -916,35 +916,35 @@ UPDATE [dbo].[TB]
             return Select(o => o.TreeID.Equal(c0), columns: columns).FirstOrDefault();
         }
 
-		public static int Insert(Tree o, ColumnEnums.Tables.dbo.Tree.Handler h = null)
+		public static int Insert(Tree o, ColumnEnums.Tables.dbo.Tree.Handler ch = null)
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder("INSERT INTO [dbo].[Tree] (");
 			var sb2 = new StringBuilder();
-            var cols = h.Invoke(new ColumnEnums.Tables.dbo.Tree());
-			if (cols.Contains(0))
+            var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.Tree());
+			if (ch == null || cols.Contains(0))
 			{
 				cmd.AddParameter("TreeID", o.TreeID);
 				sb.Append((isFirst ? "" : ", ") + "[TreeID]");
 				sb2.Append((isFirst ? "" : ", ") + "@TreeID");
 				isFirst = false;
 			}
-			if (cols.Contains(1))
+			if (ch == null || cols.Contains(1))
 			{
 				cmd.AddParameter("TreePID", o.TreePID);
 				sb.Append((isFirst ? "" : ", ") + "[TreePID]");
 				sb2.Append((isFirst ? "" : ", ") + "@TreePID");
 				isFirst = false;
 			}
-			if (cols.Contains(2))
+			if (ch == null || cols.Contains(2))
 			{
 				cmd.AddParameter("Name", o.Name);
 				sb.Append((isFirst ? "" : ", ") + "[Name]");
 				sb2.Append((isFirst ? "" : ", ") + "@Name");
 				isFirst = false;
 			}
-			if (cols.Contains(3))
+			if (ch == null || cols.Contains(3))
 			{
 				cmd.AddParameter("Memo", o.Memo);
 				sb.Append((isFirst ? "" : ", ") + "[Memo]");
@@ -964,29 +964,29 @@ UPDATE [dbo].[TB]
 			var sb = new StringBuilder(@"
 UPDATE [dbo].[Tree]
    SET ");
-            var cols = ch.Invoke(new ColumnEnums.Tables.dbo.Tree());
-			if (cols.Contains(0))
+            var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.Tree());
+			if (ch == null || cols.Contains(0))
 			{
 				cmd.AddParameter("TreeID", o.TreeID);
 				sb.Append((isFirst ? "" : @"
      , ") + "[TreeID] = @TreeID");
 				isFirst = false;
 			}
-			if (cols.Contains(1))
+			if (ch == null || cols.Contains(1))
 			{
 				cmd.AddParameter("TreePID", o.TreePID);
 				sb.Append((isFirst ? "" : @"
      , ") + "[TreePID] = @TreePID");
 				isFirst = false;
 			}
-			if (cols.Contains(2))
+			if (ch == null || cols.Contains(2))
 			{
 				cmd.AddParameter("Name", o.Name);
 				sb.Append((isFirst ? "" : @"
      , ") + "[Name] = @Name");
 				isFirst = false;
 			}
-			if (cols.Contains(3))
+			if (ch == null || cols.Contains(3))
 			{
 				cmd.AddParameter("Memo", o.Memo);
 				sb.Append((isFirst ? "" : @"
