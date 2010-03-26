@@ -11,7 +11,7 @@ namespace DAL.Database.Tables.dbo
     partial class Child
     {
 
-        public static List<Child> Select(Queries.Tables.dbo.Child q) 
+        public static List<Child> Select(Queries.Tables.dbo.Child q)
         {
             var tsql = q.ToSqlString();
             var rows = new List<Child>();
@@ -168,6 +168,18 @@ UPDATE [dbo].[Child]
 			cmd.CommandText = sb.ToString();
 			return SqlHelper.ExecuteNonQuery(cmd);
 		}
+		public static int Delete(Expressions.Tables.dbo.Child.Handler eh = null)
+		{
+			var s = @"
+DELETE FROM [dbo].[Child]";
+            if (eh != null)
+            {
+                var ws = eh.Invoke(new Expressions.Tables.dbo.Child()).ToString();
+    			s += @"
+ WHERE " + ws;
+            }
+			return SqlHelper.ExecuteNonQuery(s);
+		}
     }
     partial class ChildLog
     {
@@ -299,6 +311,18 @@ UPDATE [dbo].[ChildLog]
 			cmd.CommandText = sb.ToString();
 			return SqlHelper.ExecuteNonQuery(cmd);
 		}
+		public static int Delete(Expressions.Tables.dbo.ChildLog.Handler eh = null)
+		{
+			var s = @"
+DELETE FROM [dbo].[ChildLog]";
+            if (eh != null)
+            {
+                var ws = eh.Invoke(new Expressions.Tables.dbo.ChildLog()).ToString();
+    			s += @"
+ WHERE " + ws;
+            }
+			return SqlHelper.ExecuteNonQuery(s);
+		}
     }
     partial class DoublePK
     {
@@ -411,6 +435,18 @@ UPDATE [dbo].[DoublePK]
 			sb.Append(@";");
 			cmd.CommandText = sb.ToString();
 			return SqlHelper.ExecuteNonQuery(cmd);
+		}
+		public static int Delete(Expressions.Tables.dbo.DoublePK.Handler eh = null)
+		{
+			var s = @"
+DELETE FROM [dbo].[DoublePK]";
+            if (eh != null)
+            {
+                var ws = eh.Invoke(new Expressions.Tables.dbo.DoublePK()).ToString();
+    			s += @"
+ WHERE " + ws;
+            }
+			return SqlHelper.ExecuteNonQuery(s);
 		}
     }
     partial class Orders
@@ -527,6 +563,18 @@ UPDATE [dbo].[Orders]
 			cmd.CommandText = sb.ToString();
 			return SqlHelper.ExecuteNonQuery(cmd);
 		}
+		public static int Delete(Expressions.Tables.dbo.Orders.Handler eh = null)
+		{
+			var s = @"
+DELETE FROM [dbo].[Orders]";
+            if (eh != null)
+            {
+                var ws = eh.Invoke(new Expressions.Tables.dbo.Orders()).ToString();
+    			s += @"
+ WHERE " + ws;
+            }
+			return SqlHelper.ExecuteNonQuery(s);
+		}
     }
     partial class t1
     {
@@ -642,6 +690,18 @@ UPDATE [dbo].[t1]
 			cmd.CommandText = sb.ToString();
 			return SqlHelper.ExecuteNonQuery(cmd);
 		}
+		public static int Delete(Expressions.Tables.dbo.t1.Handler eh = null)
+		{
+			var s = @"
+DELETE FROM [dbo].[t1]";
+            if (eh != null)
+            {
+                var ws = eh.Invoke(new Expressions.Tables.dbo.t1()).ToString();
+    			s += @"
+ WHERE " + ws;
+            }
+			return SqlHelper.ExecuteNonQuery(s);
+		}
     }
     partial class TA
     {
@@ -750,6 +810,18 @@ UPDATE [dbo].[TA]
 			cmd.CommandText = sb.ToString();
 			return SqlHelper.ExecuteNonQuery(cmd);
 		}
+		public static int Delete(Expressions.Tables.dbo.TA.Handler eh = null)
+		{
+			var s = @"
+DELETE FROM [dbo].[TA]";
+            if (eh != null)
+            {
+                var ws = eh.Invoke(new Expressions.Tables.dbo.TA()).ToString();
+    			s += @"
+ WHERE " + ws;
+            }
+			return SqlHelper.ExecuteNonQuery(s);
+		}
     }
     partial class TB
     {
@@ -857,6 +929,18 @@ UPDATE [dbo].[TB]
 			sb.Append(@";");
 			cmd.CommandText = sb.ToString();
 			return SqlHelper.ExecuteNonQuery(cmd);
+		}
+		public static int Delete(Expressions.Tables.dbo.TB.Handler eh = null)
+		{
+			var s = @"
+DELETE FROM [dbo].[TB]";
+            if (eh != null)
+            {
+                var ws = eh.Invoke(new Expressions.Tables.dbo.TB()).ToString();
+    			s += @"
+ WHERE " + ws;
+            }
+			return SqlHelper.ExecuteNonQuery(s);
 		}
     }
     partial class Tree
@@ -1002,6 +1086,18 @@ UPDATE [dbo].[Tree]
 			sb.Append(@";");
 			cmd.CommandText = sb.ToString();
 			return SqlHelper.ExecuteNonQuery(cmd);
+		}
+		public static int Delete(Expressions.Tables.dbo.Tree.Handler eh = null)
+		{
+			var s = @"
+DELETE FROM [dbo].[Tree]";
+            if (eh != null)
+            {
+                var ws = eh.Invoke(new Expressions.Tables.dbo.Tree()).ToString();
+    			s += @"
+ WHERE " + ws;
+            }
+			return SqlHelper.ExecuteNonQuery(s);
 		}
     }
 }
