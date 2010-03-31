@@ -12,6 +12,8 @@ namespace DAL.Database.Tables.dbo
     partial class Formula_890
     {
 
+        #region Select
+
         public static List<Formula_890> Select(Queries.Tables.dbo.Formula_890 q)
         {
             var tsql = q.ToSqlString();
@@ -65,6 +67,10 @@ namespace DAL.Database.Tables.dbo
         {
             return Select(o => o.Name.Equal(c0), columns: columns).FirstOrDefault();
         }
+
+        #endregion
+
+        #region Insert
 
 		public static int Insert(Formula_890 o, ColumnEnums.Tables.dbo.Formula_890.Handler insertCols = null, bool isFillAfterInsert = true, ColumnEnums.Tables.dbo.Formula_890.Handler fillCols = null)
 		{
@@ -126,6 +132,10 @@ INSERT INTO [dbo].[Formula_890] (");
 
             // todo: if (isFillAfterInsert) 
 		}
+        #endregion
+
+        #region Update
+
 		public static int Update(Formula_890 o, Expressions.Tables.dbo.Formula_890.Handler eh = null, ColumnEnums.Tables.dbo.Formula_890.Handler updateCols = null, bool isFillAfterUpdate = true, ColumnEnums.Tables.dbo.Formula_890.Handler fillCols = null)
 		{
 			var isFirst = true;
@@ -182,6 +192,10 @@ OUTPUT INSERTED.*");
 
             // todo: if (isFillAfterUpdate)
 		}
+        #endregion
+
+        #region Delete
+
 		public static int Delete(Expressions.Tables.dbo.Formula_890.Handler eh = null)
 		{
 			var s = @"
@@ -194,9 +208,13 @@ DELETE FROM [dbo].[Formula_890]";
             }
 			return SqlHelper.ExecuteNonQuery(s);
 		}
+        #endregion
+
     }
     partial class FS
     {
+
+        #region Select
 
         public static List<FS> Select(Queries.Tables.dbo.FS q)
         {
@@ -250,6 +268,10 @@ DELETE FROM [dbo].[Formula_890]";
             return Select(o => o.ID.Equal(c0), columns: columns).FirstOrDefault();
         }
 
+        #endregion
+
+        #region Insert
+
 		public static int Insert(FS o, ColumnEnums.Tables.dbo.FS.Handler insertCols = null, bool isFillAfterInsert = true, ColumnEnums.Tables.dbo.FS.Handler fillCols = null)
 		{
 			var isFirst = true;
@@ -297,6 +319,10 @@ INSERT INTO [dbo].[FS] (");
 
             // todo: if (isFillAfterInsert) 
 		}
+        #endregion
+
+        #region Update
+
 		public static int Update(FS o, Expressions.Tables.dbo.FS.Handler eh = null, ColumnEnums.Tables.dbo.FS.Handler updateCols = null, bool isFillAfterUpdate = true, ColumnEnums.Tables.dbo.FS.Handler fillCols = null)
 		{
 			var isFirst = true;
@@ -342,6 +368,10 @@ OUTPUT INSERTED.*");
 
             // todo: if (isFillAfterUpdate)
 		}
+        #endregion
+
+        #region Delete
+
 		public static int Delete(Expressions.Tables.dbo.FS.Handler eh = null)
 		{
 			var s = @"
@@ -354,9 +384,13 @@ DELETE FROM [dbo].[FS]";
             }
 			return SqlHelper.ExecuteNonQuery(s);
 		}
+        #endregion
+
     }
     partial class ParentChildOrg
     {
+
+        #region Select
 
         public static List<ParentChildOrg> Select(Queries.Tables.dbo.ParentChildOrg q)
         {
@@ -410,6 +444,10 @@ DELETE FROM [dbo].[FS]";
             return Select(o => o.EmployeeID.Equal(c0), columns: columns).FirstOrDefault();
         }
 
+        #endregion
+
+        #region Insert
+
 		public static int Insert(ParentChildOrg o, ColumnEnums.Tables.dbo.ParentChildOrg.Handler insertCols = null, bool isFillAfterInsert = true, ColumnEnums.Tables.dbo.ParentChildOrg.Handler fillCols = null)
 		{
 			var isFirst = true;
@@ -459,6 +497,10 @@ INSERT INTO [dbo].[ParentChildOrg] (");
 
             // todo: if (isFillAfterInsert) 
 		}
+        #endregion
+
+        #region Update
+
 		public static int Update(ParentChildOrg o, Expressions.Tables.dbo.ParentChildOrg.Handler eh = null, ColumnEnums.Tables.dbo.ParentChildOrg.Handler updateCols = null, bool isFillAfterUpdate = true, ColumnEnums.Tables.dbo.ParentChildOrg.Handler fillCols = null)
 		{
 			var isFirst = true;
@@ -506,6 +548,10 @@ OUTPUT INSERTED.*");
 
             // todo: if (isFillAfterUpdate)
 		}
+        #endregion
+
+        #region Delete
+
 		public static int Delete(Expressions.Tables.dbo.ParentChildOrg.Handler eh = null)
 		{
 			var s = @"
@@ -518,9 +564,13 @@ DELETE FROM [dbo].[ParentChildOrg]";
             }
 			return SqlHelper.ExecuteNonQuery(s);
 		}
+        #endregion
+
     }
     partial class t
     {
+
+        #region Select
 
         public static List<t> Select(Queries.Tables.dbo.t q)
         {
@@ -569,6 +619,10 @@ DELETE FROM [dbo].[ParentChildOrg]";
             return Select(Queries.Tables.dbo.t.New(where, orderby, pageSize, pageIndex, columns));
         }
 
+        #endregion
+
+        #region Insert
+
 		public static int Insert(t o, ColumnEnums.Tables.dbo.t.Handler insertCols = null, bool isFillAfterInsert = true, ColumnEnums.Tables.dbo.t.Handler fillCols = null)
 		{
 			var isFirst = true;
@@ -614,6 +668,10 @@ INSERT INTO [dbo].[t] (");
 
             // todo: if (isFillAfterInsert) 
 		}
+        #endregion
+
+        #region Update
+
 		public static int Update(t o, Expressions.Tables.dbo.t.Handler eh = null, ColumnEnums.Tables.dbo.t.Handler updateCols = null, bool isFillAfterUpdate = true, ColumnEnums.Tables.dbo.t.Handler fillCols = null)
 		{
 			var isFirst = true;
@@ -657,6 +715,10 @@ OUTPUT INSERTED.*");
 
             // todo: if (isFillAfterUpdate)
 		}
+        #endregion
+
+        #region Delete
+
 		public static int Delete(Expressions.Tables.dbo.t.Handler eh = null)
 		{
 			var s = @"
@@ -669,9 +731,13 @@ DELETE FROM [dbo].[t]";
             }
 			return SqlHelper.ExecuteNonQuery(s);
 		}
+        #endregion
+
     }
     partial class t1
     {
+
+        #region Select
 
         public static List<t1> Select(Queries.Tables.dbo.t1 q)
         {
@@ -723,6 +789,10 @@ DELETE FROM [dbo].[t]";
             return Select(o => o.ID.Equal(c0), columns: columns).FirstOrDefault();
         }
 
+        #endregion
+
+        #region Insert
+
 		public static int Insert(t1 o, ColumnEnums.Tables.dbo.t1.Handler insertCols = null, bool isFillAfterInsert = true, ColumnEnums.Tables.dbo.t1.Handler fillCols = null)
 		{
 			var isFirst = true;
@@ -761,6 +831,10 @@ INSERT INTO [dbo].[t1] (");
 
             // todo: if (isFillAfterInsert) 
 		}
+        #endregion
+
+        #region Update
+
 		public static int Update(t1 o, Expressions.Tables.dbo.t1.Handler eh = null, ColumnEnums.Tables.dbo.t1.Handler updateCols = null, bool isFillAfterUpdate = true, ColumnEnums.Tables.dbo.t1.Handler fillCols = null)
 		{
 			var isFirst = true;
@@ -799,6 +873,10 @@ OUTPUT INSERTED.*");
 
             // todo: if (isFillAfterUpdate)
 		}
+        #endregion
+
+        #region Delete
+
 		public static int Delete(Expressions.Tables.dbo.t1.Handler eh = null)
 		{
 			var s = @"
@@ -811,9 +889,13 @@ DELETE FROM [dbo].[t1]";
             }
 			return SqlHelper.ExecuteNonQuery(s);
 		}
+        #endregion
+
     }
     partial class t2
     {
+
+        #region Select
 
         public static List<t2> Select(Queries.Tables.dbo.t2 q)
         {
@@ -867,6 +949,10 @@ DELETE FROM [dbo].[t1]";
             return Select(o => o.ID.Equal(c0), columns: columns).FirstOrDefault();
         }
 
+        #endregion
+
+        #region Insert
+
 		public static int Insert(t2 o, ColumnEnums.Tables.dbo.t2.Handler insertCols = null, bool isFillAfterInsert = true, ColumnEnums.Tables.dbo.t2.Handler fillCols = null)
 		{
 			var isFirst = true;
@@ -903,6 +989,10 @@ INSERT INTO [dbo].[t2] (");
 
             // todo: if (isFillAfterInsert) 
 		}
+        #endregion
+
+        #region Update
+
 		public static int Update(t2 o, Expressions.Tables.dbo.t2.Handler eh = null, ColumnEnums.Tables.dbo.t2.Handler updateCols = null, bool isFillAfterUpdate = true, ColumnEnums.Tables.dbo.t2.Handler fillCols = null)
 		{
 			var isFirst = true;
@@ -939,6 +1029,10 @@ OUTPUT INSERTED.*");
 
             // todo: if (isFillAfterUpdate)
 		}
+        #endregion
+
+        #region Delete
+
 		public static int Delete(Expressions.Tables.dbo.t2.Handler eh = null)
 		{
 			var s = @"
@@ -951,9 +1045,13 @@ DELETE FROM [dbo].[t2]";
             }
 			return SqlHelper.ExecuteNonQuery(s);
 		}
+        #endregion
+
     }
     partial class tree
     {
+
+        #region Select
 
         public static List<tree> Select(Queries.Tables.dbo.tree q)
         {
@@ -1005,6 +1103,10 @@ DELETE FROM [dbo].[t2]";
             return Select(o => o.Parent.Equal(c0), columns: columns).FirstOrDefault();
         }
 
+        #endregion
+
+        #region Insert
+
 		public static int Insert(tree o, ColumnEnums.Tables.dbo.tree.Handler insertCols = null, bool isFillAfterInsert = true, ColumnEnums.Tables.dbo.tree.Handler fillCols = null)
 		{
 			var isFirst = true;
@@ -1043,6 +1145,10 @@ INSERT INTO [dbo].[tree] (");
 
             // todo: if (isFillAfterInsert) 
 		}
+        #endregion
+
+        #region Update
+
 		public static int Update(tree o, Expressions.Tables.dbo.tree.Handler eh = null, ColumnEnums.Tables.dbo.tree.Handler updateCols = null, bool isFillAfterUpdate = true, ColumnEnums.Tables.dbo.tree.Handler fillCols = null)
 		{
 			var isFirst = true;
@@ -1081,6 +1187,10 @@ OUTPUT INSERTED.*");
 
             // todo: if (isFillAfterUpdate)
 		}
+        #endregion
+
+        #region Delete
+
 		public static int Delete(Expressions.Tables.dbo.tree.Handler eh = null)
 		{
 			var s = @"
@@ -1093,6 +1203,8 @@ DELETE FROM [dbo].[tree]";
             }
 			return SqlHelper.ExecuteNonQuery(s);
 		}
+        #endregion
+
     }
 }
 namespace DAL.Database.Tables.MySchema
@@ -1100,6 +1212,8 @@ namespace DAL.Database.Tables.MySchema
 
     partial class FS
     {
+
+        #region Select
 
         public static List<FS> Select(Queries.Tables.MySchema.FS q)
         {
@@ -1153,6 +1267,10 @@ namespace DAL.Database.Tables.MySchema
             return Select(o => o.ID.Equal(c0), columns: columns).FirstOrDefault();
         }
 
+        #endregion
+
+        #region Insert
+
 		public static int Insert(FS o, ColumnEnums.Tables.MySchema.FS.Handler insertCols = null, bool isFillAfterInsert = true, ColumnEnums.Tables.MySchema.FS.Handler fillCols = null)
 		{
 			var isFirst = true;
@@ -1191,6 +1309,10 @@ INSERT INTO [MySchema].[FS] (");
 
             // todo: if (isFillAfterInsert) 
 		}
+        #endregion
+
+        #region Update
+
 		public static int Update(FS o, Expressions.Tables.MySchema.FS.Handler eh = null, ColumnEnums.Tables.MySchema.FS.Handler updateCols = null, bool isFillAfterUpdate = true, ColumnEnums.Tables.MySchema.FS.Handler fillCols = null)
 		{
 			var isFirst = true;
@@ -1229,6 +1351,10 @@ OUTPUT INSERTED.*");
 
             // todo: if (isFillAfterUpdate)
 		}
+        #endregion
+
+        #region Delete
+
 		public static int Delete(Expressions.Tables.MySchema.FS.Handler eh = null)
 		{
 			var s = @"
@@ -1241,6 +1367,8 @@ DELETE FROM [MySchema].[FS]";
             }
 			return SqlHelper.ExecuteNonQuery(s);
 		}
+        #endregion
+
     }
 }
 namespace DAL.Database.Tables.Schema1
@@ -1248,6 +1376,8 @@ namespace DAL.Database.Tables.Schema1
 
     partial class T1
     {
+
+        #region Select
 
         public static List<T1> Select(Queries.Tables.Schema1.T1 q)
         {
@@ -1299,6 +1429,10 @@ namespace DAL.Database.Tables.Schema1
             return Select(o => o.ID.Equal(c0), columns: columns).FirstOrDefault();
         }
 
+        #endregion
+
+        #region Insert
+
 		public static int Insert(T1 o, ColumnEnums.Tables.Schema1.T1.Handler insertCols = null, bool isFillAfterInsert = true, ColumnEnums.Tables.Schema1.T1.Handler fillCols = null)
 		{
 			var isFirst = true;
@@ -1337,6 +1471,10 @@ INSERT INTO [Schema1].[T1] (");
 
             // todo: if (isFillAfterInsert) 
 		}
+        #endregion
+
+        #region Update
+
 		public static int Update(T1 o, Expressions.Tables.Schema1.T1.Handler eh = null, ColumnEnums.Tables.Schema1.T1.Handler updateCols = null, bool isFillAfterUpdate = true, ColumnEnums.Tables.Schema1.T1.Handler fillCols = null)
 		{
 			var isFirst = true;
@@ -1375,6 +1513,10 @@ OUTPUT INSERTED.*");
 
             // todo: if (isFillAfterUpdate)
 		}
+        #endregion
+
+        #region Delete
+
 		public static int Delete(Expressions.Tables.Schema1.T1.Handler eh = null)
 		{
 			var s = @"
@@ -1387,5 +1529,7 @@ DELETE FROM [Schema1].[T1]";
             }
 			return SqlHelper.ExecuteNonQuery(s);
 		}
+        #endregion
+
     }
 }
