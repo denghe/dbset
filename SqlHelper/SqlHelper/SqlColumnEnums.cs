@@ -35,15 +35,15 @@
         public virtual bool Contains(int idx) {
             return __columns.Contains(idx);
         }
-        public virtual IEnumerable<string> ColumnNames {
-            get {
-                foreach(var i in __columns) yield return GetColumnName(i);
-            }
-        }
-        public virtual IEnumerable<int> ColumnNumbers {
-            get {
-                foreach(var i in __columns) yield return i;
-            }
-        }
+        //public virtual IEnumerable<string> ColumnNames {
+        //    get {
+        //        foreach(var i in __columns) yield return GetColumnName(i);
+        //    }
+        //}
+        //public virtual IEnumerable<int> ColumnNumbers {
+        //    get {
+        //        foreach(var i in __columns) yield return i;
+        //    }
+        //}
     }
 }

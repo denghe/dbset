@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using SqlLib;
@@ -65,94 +66,110 @@ namespace DAL.Database.Tables.dbo
             return Select(o => o.Name.Equal(c0), columns: columns).FirstOrDefault();
         }
 
-		public static int Insert(Formula_890 o, ColumnEnums.Tables.dbo.Formula_890.Handler ch = null)
+		public static int Insert(Formula_890 o, ColumnEnums.Tables.dbo.Formula_890.Handler insertCols = null, bool isFillAfterInsert = true, ColumnEnums.Tables.dbo.Formula_890.Handler fillCols = null)
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 INSERT INTO [dbo].[Formula_890] (");
 			var sb2 = new StringBuilder();
-            var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.Formula_890());
-			if (ch == null || cols.Contains(0))
+            var cols = insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables.dbo.Formula_890());
+			if (insertCols == null || cols.Contains(0))
 			{
-				cmd.AddParameter("Name", o.Name);
+                cmd.Parameters.Add(new SqlParameter("Name", SqlDbType.NVarChar, 400, ParameterDirection.Input, false, 0, 0, "Name", DataRowVersion.Current, o.Name));
 				sb.Append((isFirst ? "" : @"
      , ") + "[Name]");
 				sb2.Append((isFirst ? "" : @"
      , ") + "@Name");
 				isFirst = false;
 			}
-			if (ch == null || cols.Contains(1))
+			if (insertCols == null || cols.Contains(1))
 			{
-				cmd.AddParameter("Expression", o.Expression);
+                var p = new SqlParameter("Expression", SqlDbType.NVarChar, 4000, ParameterDirection.Input, false, 0, 0, "Expression", DataRowVersion.Current, null);
+                if (o.Expression == null) p.Value = DBNull.Value; else p.Value = o.Expression;
+                cmd.Parameters.Add(p);
 				sb.Append((isFirst ? "" : @"
      , ") + "[Expression]");
 				sb2.Append((isFirst ? "" : @"
      , ") + "@Expression");
 				isFirst = false;
 			}
-			if (ch == null || cols.Contains(2))
+			if (insertCols == null || cols.Contains(2))
 			{
-				cmd.AddParameter("Value", o.Value);
+                var p = new SqlParameter("Value", SqlDbType.NVarChar, 400, ParameterDirection.Input, false, 0, 0, "Value", DataRowVersion.Current, null);
+                if (o.Value == null) p.Value = DBNull.Value; else p.Value = o.Value;
+                cmd.Parameters.Add(p);
 				sb.Append((isFirst ? "" : @"
      , ") + "[Value]");
 				sb2.Append((isFirst ? "" : @"
      , ") + "@Value");
 				isFirst = false;
 			}
-			if (ch == null || cols.Contains(3))
+			if (insertCols == null || cols.Contains(3))
 			{
-				cmd.AddParameter("IsGenerator", o.IsGenerator);
+                var p = new SqlParameter("IsGenerator", SqlDbType.Bit, 1, ParameterDirection.Input, false, 1, 0, "IsGenerator", DataRowVersion.Current, null);
+                if (o.IsGenerator == null) p.Value = DBNull.Value; else p.Value = o.IsGenerator;
+                cmd.Parameters.Add(p);
 				sb.Append((isFirst ? "" : @"
      , ") + "[IsGenerator]");
 				sb2.Append((isFirst ? "" : @"
      , ") + "@IsGenerator");
 				isFirst = false;
 			}
-			sb.Append(@"
+			if (isFillAfterInsert) sb.Append(@"
 ) OUTPUT INSERTED.* VALUES (");
 			sb.Append(sb2);
 			sb.Append(@"
 );");
 			cmd.CommandText = sb.ToString();
 			return SqlHelper.ExecuteNonQuery(cmd);
+
+            // todo: if (isFillAfterInsert) 
 		}
-		public static int Update(Formula_890 o, Expressions.Tables.dbo.Formula_890.Handler eh = null, ColumnEnums.Tables.dbo.Formula_890.Handler ch = null)
+		public static int Update(Formula_890 o, Expressions.Tables.dbo.Formula_890.Handler eh = null, ColumnEnums.Tables.dbo.Formula_890.Handler updateCols = null, bool isFillAfterUpdate = true, ColumnEnums.Tables.dbo.Formula_890.Handler fillCols = null)
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 UPDATE [dbo].[Formula_890]
    SET ");
-            var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.Formula_890());
-			if (ch == null || cols.Contains(0))
+            var cols = updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables.dbo.Formula_890());
+			if (updateCols == null || cols.Contains(0))
 			{
-				cmd.AddParameter("Name", o.Name);
+                cmd.Parameters.Add(new SqlParameter("Name", SqlDbType.NVarChar, 400, ParameterDirection.Input, false, 0, 0, "Name", DataRowVersion.Current, o.Name));
 				sb.Append((isFirst ? "" : @"
      , ") + "[Name] = @Name");
 				isFirst = false;
 			}
-			if (ch == null || cols.Contains(1))
+			if (updateCols == null || cols.Contains(1))
 			{
-				cmd.AddParameter("Expression", o.Expression);
+                var p = new SqlParameter("Expression", SqlDbType.NVarChar, 4000, ParameterDirection.Input, false, 0, 0, "Expression", DataRowVersion.Current, null);
+                if (o.Expression == null) p.Value = DBNull.Value; else p.Value = o.Expression;
+                cmd.Parameters.Add(p);
 				sb.Append((isFirst ? "" : @"
      , ") + "[Expression] = @Expression");
 				isFirst = false;
 			}
-			if (ch == null || cols.Contains(2))
+			if (updateCols == null || cols.Contains(2))
 			{
-				cmd.AddParameter("Value", o.Value);
+                var p = new SqlParameter("Value", SqlDbType.NVarChar, 400, ParameterDirection.Input, false, 0, 0, "Value", DataRowVersion.Current, null);
+                if (o.Value == null) p.Value = DBNull.Value; else p.Value = o.Value;
+                cmd.Parameters.Add(p);
 				sb.Append((isFirst ? "" : @"
      , ") + "[Value] = @Value");
 				isFirst = false;
 			}
-			if (ch == null || cols.Contains(3))
+			if (updateCols == null || cols.Contains(3))
 			{
-				cmd.AddParameter("IsGenerator", o.IsGenerator);
+                var p = new SqlParameter("IsGenerator", SqlDbType.Bit, 1, ParameterDirection.Input, false, 1, 0, "IsGenerator", DataRowVersion.Current, null);
+                if (o.IsGenerator == null) p.Value = DBNull.Value; else p.Value = o.IsGenerator;
+                cmd.Parameters.Add(p);
 				sb.Append((isFirst ? "" : @"
      , ") + "[IsGenerator] = @IsGenerator");
 				isFirst = false;
 			}
+			if (isFillAfterUpdate) sb.Append(@"
+OUTPUT INSERTED.*");
             if (eh != null)
             {
                 var ws = eh.Invoke(new Expressions.Tables.dbo.Formula_890()).ToString();
@@ -162,6 +179,8 @@ UPDATE [dbo].[Formula_890]
 			sb.Append(@";");
 			cmd.CommandText = sb.ToString();
 			return SqlHelper.ExecuteNonQuery(cmd);
+
+            // todo: if (isFillAfterUpdate)
 		}
 		public static int Delete(Expressions.Tables.dbo.Formula_890.Handler eh = null)
 		{
@@ -231,78 +250,86 @@ DELETE FROM [dbo].[Formula_890]";
             return Select(o => o.ID.Equal(c0), columns: columns).FirstOrDefault();
         }
 
-		public static int Insert(FS o, ColumnEnums.Tables.dbo.FS.Handler ch = null)
+		public static int Insert(FS o, ColumnEnums.Tables.dbo.FS.Handler insertCols = null, bool isFillAfterInsert = true, ColumnEnums.Tables.dbo.FS.Handler fillCols = null)
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 INSERT INTO [dbo].[FS] (");
 			var sb2 = new StringBuilder();
-            var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.FS());
-			if (ch == null || cols.Contains(0))
+            var cols = insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables.dbo.FS());
+			if (insertCols == null || cols.Contains(0))
 			{
-				cmd.AddParameter("ID", o.ID);
+                cmd.Parameters.Add(new SqlParameter("ID", SqlDbType.UniqueIdentifier, 16, ParameterDirection.Input, false, 0, 0, "ID", DataRowVersion.Current, o.ID));
 				sb.Append((isFirst ? "" : @"
      , ") + "[ID]");
 				sb2.Append((isFirst ? "" : @"
      , ") + "@ID");
 				isFirst = false;
 			}
-			if (ch == null || cols.Contains(1))
+			if (insertCols == null || cols.Contains(1))
 			{
-				cmd.AddParameter("Category", o.Category);
+                cmd.Parameters.Add(new SqlParameter("Category", SqlDbType.Variant, 892, ParameterDirection.Input, false, 0, 0, "Category", DataRowVersion.Current, o.Category));
 				sb.Append((isFirst ? "" : @"
      , ") + "[Category]");
 				sb2.Append((isFirst ? "" : @"
      , ") + "@Category");
 				isFirst = false;
 			}
-			if (ch == null || cols.Contains(2))
+			if (insertCols == null || cols.Contains(2))
 			{
-				cmd.AddParameter("Stream", o.Stream);
+                var p = new SqlParameter("Stream", SqlDbType.VarBinary, -1, ParameterDirection.Input, false, 0, 0, "Stream", DataRowVersion.Current, null);
+                if (o.Stream == null) p.Value = DBNull.Value; else p.Value = o.Stream;
+                cmd.Parameters.Add(p);
 				sb.Append((isFirst ? "" : @"
      , ") + "[Stream]");
 				sb2.Append((isFirst ? "" : @"
      , ") + "@Stream");
 				isFirst = false;
 			}
-			sb.Append(@"
+			if (isFillAfterInsert) sb.Append(@"
 ) OUTPUT INSERTED.* VALUES (");
 			sb.Append(sb2);
 			sb.Append(@"
 );");
 			cmd.CommandText = sb.ToString();
 			return SqlHelper.ExecuteNonQuery(cmd);
+
+            // todo: if (isFillAfterInsert) 
 		}
-		public static int Update(FS o, Expressions.Tables.dbo.FS.Handler eh = null, ColumnEnums.Tables.dbo.FS.Handler ch = null)
+		public static int Update(FS o, Expressions.Tables.dbo.FS.Handler eh = null, ColumnEnums.Tables.dbo.FS.Handler updateCols = null, bool isFillAfterUpdate = true, ColumnEnums.Tables.dbo.FS.Handler fillCols = null)
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 UPDATE [dbo].[FS]
    SET ");
-            var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.FS());
-			if (ch == null || cols.Contains(0))
+            var cols = updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables.dbo.FS());
+			if (updateCols == null || cols.Contains(0))
 			{
-				cmd.AddParameter("ID", o.ID);
+                cmd.Parameters.Add(new SqlParameter("ID", SqlDbType.UniqueIdentifier, 16, ParameterDirection.Input, false, 0, 0, "ID", DataRowVersion.Current, o.ID));
 				sb.Append((isFirst ? "" : @"
      , ") + "[ID] = @ID");
 				isFirst = false;
 			}
-			if (ch == null || cols.Contains(1))
+			if (updateCols == null || cols.Contains(1))
 			{
-				cmd.AddParameter("Category", o.Category);
+                cmd.Parameters.Add(new SqlParameter("Category", SqlDbType.Variant, 892, ParameterDirection.Input, false, 0, 0, "Category", DataRowVersion.Current, o.Category));
 				sb.Append((isFirst ? "" : @"
      , ") + "[Category] = @Category");
 				isFirst = false;
 			}
-			if (ch == null || cols.Contains(2))
+			if (updateCols == null || cols.Contains(2))
 			{
-				cmd.AddParameter("Stream", o.Stream);
+                var p = new SqlParameter("Stream", SqlDbType.VarBinary, -1, ParameterDirection.Input, false, 0, 0, "Stream", DataRowVersion.Current, null);
+                if (o.Stream == null) p.Value = DBNull.Value; else p.Value = o.Stream;
+                cmd.Parameters.Add(p);
 				sb.Append((isFirst ? "" : @"
      , ") + "[Stream] = @Stream");
 				isFirst = false;
 			}
+			if (isFillAfterUpdate) sb.Append(@"
+OUTPUT INSERTED.*");
             if (eh != null)
             {
                 var ws = eh.Invoke(new Expressions.Tables.dbo.FS()).ToString();
@@ -312,6 +339,8 @@ UPDATE [dbo].[FS]
 			sb.Append(@";");
 			cmd.CommandText = sb.ToString();
 			return SqlHelper.ExecuteNonQuery(cmd);
+
+            // todo: if (isFillAfterUpdate)
 		}
 		public static int Delete(Expressions.Tables.dbo.FS.Handler eh = null)
 		{
@@ -381,78 +410,90 @@ DELETE FROM [dbo].[FS]";
             return Select(o => o.EmployeeID.Equal(c0), columns: columns).FirstOrDefault();
         }
 
-		public static int Insert(ParentChildOrg o, ColumnEnums.Tables.dbo.ParentChildOrg.Handler ch = null)
+		public static int Insert(ParentChildOrg o, ColumnEnums.Tables.dbo.ParentChildOrg.Handler insertCols = null, bool isFillAfterInsert = true, ColumnEnums.Tables.dbo.ParentChildOrg.Handler fillCols = null)
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 INSERT INTO [dbo].[ParentChildOrg] (");
 			var sb2 = new StringBuilder();
-            var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.ParentChildOrg());
-			if (ch == null || cols.Contains(0))
+            var cols = insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables.dbo.ParentChildOrg());
+			if (insertCols == null || cols.Contains(0))
 			{
-				cmd.AddParameter("EmployeeID", o.EmployeeID);
+                cmd.Parameters.Add(new SqlParameter("EmployeeID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "EmployeeID", DataRowVersion.Current, o.EmployeeID));
 				sb.Append((isFirst ? "" : @"
      , ") + "[EmployeeID]");
 				sb2.Append((isFirst ? "" : @"
      , ") + "@EmployeeID");
 				isFirst = false;
 			}
-			if (ch == null || cols.Contains(1))
+			if (insertCols == null || cols.Contains(1))
 			{
-				cmd.AddParameter("ManagerId", o.ManagerId);
+                var p = new SqlParameter("ManagerId", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "ManagerId", DataRowVersion.Current, null);
+                if (o.ManagerId == null) p.Value = DBNull.Value; else p.Value = o.ManagerId;
+                cmd.Parameters.Add(p);
 				sb.Append((isFirst ? "" : @"
      , ") + "[ManagerId]");
 				sb2.Append((isFirst ? "" : @"
      , ") + "@ManagerId");
 				isFirst = false;
 			}
-			if (ch == null || cols.Contains(2))
+			if (insertCols == null || cols.Contains(2))
 			{
-				cmd.AddParameter("EmployeeName", o.EmployeeName);
+                var p = new SqlParameter("EmployeeName", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "EmployeeName", DataRowVersion.Current, null);
+                if (o.EmployeeName == null) p.Value = DBNull.Value; else p.Value = o.EmployeeName;
+                cmd.Parameters.Add(p);
 				sb.Append((isFirst ? "" : @"
      , ") + "[EmployeeName]");
 				sb2.Append((isFirst ? "" : @"
      , ") + "@EmployeeName");
 				isFirst = false;
 			}
-			sb.Append(@"
+			if (isFillAfterInsert) sb.Append(@"
 ) OUTPUT INSERTED.* VALUES (");
 			sb.Append(sb2);
 			sb.Append(@"
 );");
 			cmd.CommandText = sb.ToString();
 			return SqlHelper.ExecuteNonQuery(cmd);
+
+            // todo: if (isFillAfterInsert) 
 		}
-		public static int Update(ParentChildOrg o, Expressions.Tables.dbo.ParentChildOrg.Handler eh = null, ColumnEnums.Tables.dbo.ParentChildOrg.Handler ch = null)
+		public static int Update(ParentChildOrg o, Expressions.Tables.dbo.ParentChildOrg.Handler eh = null, ColumnEnums.Tables.dbo.ParentChildOrg.Handler updateCols = null, bool isFillAfterUpdate = true, ColumnEnums.Tables.dbo.ParentChildOrg.Handler fillCols = null)
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 UPDATE [dbo].[ParentChildOrg]
    SET ");
-            var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.ParentChildOrg());
-			if (ch == null || cols.Contains(0))
+            var cols = updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables.dbo.ParentChildOrg());
+			if (updateCols == null || cols.Contains(0))
 			{
-				cmd.AddParameter("EmployeeID", o.EmployeeID);
+                cmd.Parameters.Add(new SqlParameter("EmployeeID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "EmployeeID", DataRowVersion.Current, o.EmployeeID));
 				sb.Append((isFirst ? "" : @"
      , ") + "[EmployeeID] = @EmployeeID");
 				isFirst = false;
 			}
-			if (ch == null || cols.Contains(1))
+			if (updateCols == null || cols.Contains(1))
 			{
-				cmd.AddParameter("ManagerId", o.ManagerId);
+                var p = new SqlParameter("ManagerId", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "ManagerId", DataRowVersion.Current, null);
+                if (o.ManagerId == null) p.Value = DBNull.Value; else p.Value = o.ManagerId;
+                cmd.Parameters.Add(p);
 				sb.Append((isFirst ? "" : @"
      , ") + "[ManagerId] = @ManagerId");
 				isFirst = false;
 			}
-			if (ch == null || cols.Contains(2))
+			if (updateCols == null || cols.Contains(2))
 			{
-				cmd.AddParameter("EmployeeName", o.EmployeeName);
+                var p = new SqlParameter("EmployeeName", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "EmployeeName", DataRowVersion.Current, null);
+                if (o.EmployeeName == null) p.Value = DBNull.Value; else p.Value = o.EmployeeName;
+                cmd.Parameters.Add(p);
 				sb.Append((isFirst ? "" : @"
      , ") + "[EmployeeName] = @EmployeeName");
 				isFirst = false;
 			}
+			if (isFillAfterUpdate) sb.Append(@"
+OUTPUT INSERTED.*");
             if (eh != null)
             {
                 var ws = eh.Invoke(new Expressions.Tables.dbo.ParentChildOrg()).ToString();
@@ -462,6 +503,8 @@ UPDATE [dbo].[ParentChildOrg]
 			sb.Append(@";");
 			cmd.CommandText = sb.ToString();
 			return SqlHelper.ExecuteNonQuery(cmd);
+
+            // todo: if (isFillAfterUpdate)
 		}
 		public static int Delete(Expressions.Tables.dbo.ParentChildOrg.Handler eh = null)
 		{
@@ -526,78 +569,82 @@ DELETE FROM [dbo].[ParentChildOrg]";
             return Select(Queries.Tables.dbo.t.New(where, orderby, pageSize, pageIndex, columns));
         }
 
-		public static int Insert(t o, ColumnEnums.Tables.dbo.t.Handler ch = null)
+		public static int Insert(t o, ColumnEnums.Tables.dbo.t.Handler insertCols = null, bool isFillAfterInsert = true, ColumnEnums.Tables.dbo.t.Handler fillCols = null)
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 INSERT INTO [dbo].[t] (");
 			var sb2 = new StringBuilder();
-            var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.t());
-			if (ch == null || cols.Contains(0))
+            var cols = insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables.dbo.t());
+			if (insertCols == null || cols.Contains(0))
 			{
-				cmd.AddParameter("a", o.a);
+                cmd.Parameters.Add(new SqlParameter("a", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "a", DataRowVersion.Current, o.a));
 				sb.Append((isFirst ? "" : @"
      , ") + "[a]");
 				sb2.Append((isFirst ? "" : @"
      , ") + "@a");
 				isFirst = false;
 			}
-			if (ch == null || cols.Contains(1))
+			if (insertCols == null || cols.Contains(1))
 			{
-				cmd.AddParameter("b", o.b);
+                cmd.Parameters.Add(new SqlParameter("b", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "b", DataRowVersion.Current, o.b));
 				sb.Append((isFirst ? "" : @"
      , ") + "[b]");
 				sb2.Append((isFirst ? "" : @"
      , ") + "@b");
 				isFirst = false;
 			}
-			if (ch == null || cols.Contains(2))
+			if (insertCols == null || cols.Contains(2))
 			{
-				cmd.AddParameter("c", o.c);
+                cmd.Parameters.Add(new SqlParameter("c", SqlDbType.Binary, 50, ParameterDirection.Input, false, 0, 0, "c", DataRowVersion.Current, o.c));
 				sb.Append((isFirst ? "" : @"
      , ") + "[c]");
 				sb2.Append((isFirst ? "" : @"
      , ") + "@c");
 				isFirst = false;
 			}
-			sb.Append(@"
+			if (isFillAfterInsert) sb.Append(@"
 ) OUTPUT INSERTED.* VALUES (");
 			sb.Append(sb2);
 			sb.Append(@"
 );");
 			cmd.CommandText = sb.ToString();
 			return SqlHelper.ExecuteNonQuery(cmd);
+
+            // todo: if (isFillAfterInsert) 
 		}
-		public static int Update(t o, Expressions.Tables.dbo.t.Handler eh = null, ColumnEnums.Tables.dbo.t.Handler ch = null)
+		public static int Update(t o, Expressions.Tables.dbo.t.Handler eh = null, ColumnEnums.Tables.dbo.t.Handler updateCols = null, bool isFillAfterUpdate = true, ColumnEnums.Tables.dbo.t.Handler fillCols = null)
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 UPDATE [dbo].[t]
    SET ");
-            var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.t());
-			if (ch == null || cols.Contains(0))
+            var cols = updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables.dbo.t());
+			if (updateCols == null || cols.Contains(0))
 			{
-				cmd.AddParameter("a", o.a);
+                cmd.Parameters.Add(new SqlParameter("a", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "a", DataRowVersion.Current, o.a));
 				sb.Append((isFirst ? "" : @"
      , ") + "[a] = @a");
 				isFirst = false;
 			}
-			if (ch == null || cols.Contains(1))
+			if (updateCols == null || cols.Contains(1))
 			{
-				cmd.AddParameter("b", o.b);
+                cmd.Parameters.Add(new SqlParameter("b", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "b", DataRowVersion.Current, o.b));
 				sb.Append((isFirst ? "" : @"
      , ") + "[b] = @b");
 				isFirst = false;
 			}
-			if (ch == null || cols.Contains(2))
+			if (updateCols == null || cols.Contains(2))
 			{
-				cmd.AddParameter("c", o.c);
+                cmd.Parameters.Add(new SqlParameter("c", SqlDbType.Binary, 50, ParameterDirection.Input, false, 0, 0, "c", DataRowVersion.Current, o.c));
 				sb.Append((isFirst ? "" : @"
      , ") + "[c] = @c");
 				isFirst = false;
 			}
+			if (isFillAfterUpdate) sb.Append(@"
+OUTPUT INSERTED.*");
             if (eh != null)
             {
                 var ws = eh.Invoke(new Expressions.Tables.dbo.t()).ToString();
@@ -607,6 +654,8 @@ UPDATE [dbo].[t]
 			sb.Append(@";");
 			cmd.CommandText = sb.ToString();
 			return SqlHelper.ExecuteNonQuery(cmd);
+
+            // todo: if (isFillAfterUpdate)
 		}
 		public static int Delete(Expressions.Tables.dbo.t.Handler eh = null)
 		{
@@ -674,62 +723,70 @@ DELETE FROM [dbo].[t]";
             return Select(o => o.ID.Equal(c0), columns: columns).FirstOrDefault();
         }
 
-		public static int Insert(t1 o, ColumnEnums.Tables.dbo.t1.Handler ch = null)
+		public static int Insert(t1 o, ColumnEnums.Tables.dbo.t1.Handler insertCols = null, bool isFillAfterInsert = true, ColumnEnums.Tables.dbo.t1.Handler fillCols = null)
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 INSERT INTO [dbo].[t1] (");
 			var sb2 = new StringBuilder();
-            var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.t1());
-			if (ch == null || cols.Contains(0))
+            var cols = insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables.dbo.t1());
+			if (insertCols == null || cols.Contains(0))
 			{
-				cmd.AddParameter("ID", o.ID);
+                cmd.Parameters.Add(new SqlParameter("ID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "ID", DataRowVersion.Current, o.ID));
 				sb.Append((isFirst ? "" : @"
      , ") + "[ID]");
 				sb2.Append((isFirst ? "" : @"
      , ") + "@ID");
 				isFirst = false;
 			}
-			if (ch == null || cols.Contains(1))
+			if (insertCols == null || cols.Contains(1))
 			{
-				cmd.AddParameter("PID", o.PID);
+                var p = new SqlParameter("PID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "PID", DataRowVersion.Current, null);
+                if (o.PID == null) p.Value = DBNull.Value; else p.Value = o.PID;
+                cmd.Parameters.Add(p);
 				sb.Append((isFirst ? "" : @"
      , ") + "[PID]");
 				sb2.Append((isFirst ? "" : @"
      , ") + "@PID");
 				isFirst = false;
 			}
-			sb.Append(@"
+			if (isFillAfterInsert) sb.Append(@"
 ) OUTPUT INSERTED.* VALUES (");
 			sb.Append(sb2);
 			sb.Append(@"
 );");
 			cmd.CommandText = sb.ToString();
 			return SqlHelper.ExecuteNonQuery(cmd);
+
+            // todo: if (isFillAfterInsert) 
 		}
-		public static int Update(t1 o, Expressions.Tables.dbo.t1.Handler eh = null, ColumnEnums.Tables.dbo.t1.Handler ch = null)
+		public static int Update(t1 o, Expressions.Tables.dbo.t1.Handler eh = null, ColumnEnums.Tables.dbo.t1.Handler updateCols = null, bool isFillAfterUpdate = true, ColumnEnums.Tables.dbo.t1.Handler fillCols = null)
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 UPDATE [dbo].[t1]
    SET ");
-            var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.t1());
-			if (ch == null || cols.Contains(0))
+            var cols = updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables.dbo.t1());
+			if (updateCols == null || cols.Contains(0))
 			{
-				cmd.AddParameter("ID", o.ID);
+                cmd.Parameters.Add(new SqlParameter("ID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "ID", DataRowVersion.Current, o.ID));
 				sb.Append((isFirst ? "" : @"
      , ") + "[ID] = @ID");
 				isFirst = false;
 			}
-			if (ch == null || cols.Contains(1))
+			if (updateCols == null || cols.Contains(1))
 			{
-				cmd.AddParameter("PID", o.PID);
+                var p = new SqlParameter("PID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "PID", DataRowVersion.Current, null);
+                if (o.PID == null) p.Value = DBNull.Value; else p.Value = o.PID;
+                cmd.Parameters.Add(p);
 				sb.Append((isFirst ? "" : @"
      , ") + "[PID] = @PID");
 				isFirst = false;
 			}
+			if (isFillAfterUpdate) sb.Append(@"
+OUTPUT INSERTED.*");
             if (eh != null)
             {
                 var ws = eh.Invoke(new Expressions.Tables.dbo.t1()).ToString();
@@ -739,6 +796,8 @@ UPDATE [dbo].[t1]
 			sb.Append(@";");
 			cmd.CommandText = sb.ToString();
 			return SqlHelper.ExecuteNonQuery(cmd);
+
+            // todo: if (isFillAfterUpdate)
 		}
 		public static int Delete(Expressions.Tables.dbo.t1.Handler eh = null)
 		{
@@ -808,62 +867,66 @@ DELETE FROM [dbo].[t1]";
             return Select(o => o.ID.Equal(c0), columns: columns).FirstOrDefault();
         }
 
-		public static int Insert(t2 o, ColumnEnums.Tables.dbo.t2.Handler ch = null)
+		public static int Insert(t2 o, ColumnEnums.Tables.dbo.t2.Handler insertCols = null, bool isFillAfterInsert = true, ColumnEnums.Tables.dbo.t2.Handler fillCols = null)
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 INSERT INTO [dbo].[t2] (");
 			var sb2 = new StringBuilder();
-            var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.t2());
-			if (ch == null || cols.Contains(1))
+            var cols = insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables.dbo.t2());
+			if (insertCols == null || cols.Contains(1))
 			{
-				cmd.AddParameter("Name", o.Name);
+                cmd.Parameters.Add(new SqlParameter("Name", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "Name", DataRowVersion.Current, o.Name));
 				sb.Append((isFirst ? "" : @"
      , ") + "[Name]");
 				sb2.Append((isFirst ? "" : @"
      , ") + "@Name");
 				isFirst = false;
 			}
-			if (ch == null || cols.Contains(2))
+			if (insertCols == null || cols.Contains(2))
 			{
-				cmd.AddParameter("CreateTime", o.CreateTime);
+                cmd.Parameters.Add(new SqlParameter("CreateTime", SqlDbType.DateTime, 8, ParameterDirection.Input, false, 23, 3, "CreateTime", DataRowVersion.Current, o.CreateTime));
 				sb.Append((isFirst ? "" : @"
      , ") + "[CreateTime]");
 				sb2.Append((isFirst ? "" : @"
      , ") + "@CreateTime");
 				isFirst = false;
 			}
-			sb.Append(@"
+			if (isFillAfterInsert) sb.Append(@"
 ) OUTPUT INSERTED.* VALUES (");
 			sb.Append(sb2);
 			sb.Append(@"
 );");
 			cmd.CommandText = sb.ToString();
 			return SqlHelper.ExecuteNonQuery(cmd);
+
+            // todo: if (isFillAfterInsert) 
 		}
-		public static int Update(t2 o, Expressions.Tables.dbo.t2.Handler eh = null, ColumnEnums.Tables.dbo.t2.Handler ch = null)
+		public static int Update(t2 o, Expressions.Tables.dbo.t2.Handler eh = null, ColumnEnums.Tables.dbo.t2.Handler updateCols = null, bool isFillAfterUpdate = true, ColumnEnums.Tables.dbo.t2.Handler fillCols = null)
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 UPDATE [dbo].[t2]
    SET ");
-            var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.t2());
-			if (ch == null || cols.Contains(1))
+            var cols = updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables.dbo.t2());
+			if (updateCols == null || cols.Contains(1))
 			{
-				cmd.AddParameter("Name", o.Name);
+                cmd.Parameters.Add(new SqlParameter("Name", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "Name", DataRowVersion.Current, o.Name));
 				sb.Append((isFirst ? "" : @"
      , ") + "[Name] = @Name");
 				isFirst = false;
 			}
-			if (ch == null || cols.Contains(2))
+			if (updateCols == null || cols.Contains(2))
 			{
-				cmd.AddParameter("CreateTime", o.CreateTime);
+                cmd.Parameters.Add(new SqlParameter("CreateTime", SqlDbType.DateTime, 8, ParameterDirection.Input, false, 23, 3, "CreateTime", DataRowVersion.Current, o.CreateTime));
 				sb.Append((isFirst ? "" : @"
      , ") + "[CreateTime] = @CreateTime");
 				isFirst = false;
 			}
+			if (isFillAfterUpdate) sb.Append(@"
+OUTPUT INSERTED.*");
             if (eh != null)
             {
                 var ws = eh.Invoke(new Expressions.Tables.dbo.t2()).ToString();
@@ -873,6 +936,8 @@ UPDATE [dbo].[t2]
 			sb.Append(@";");
 			cmd.CommandText = sb.ToString();
 			return SqlHelper.ExecuteNonQuery(cmd);
+
+            // todo: if (isFillAfterUpdate)
 		}
 		public static int Delete(Expressions.Tables.dbo.t2.Handler eh = null)
 		{
@@ -940,62 +1005,70 @@ DELETE FROM [dbo].[t2]";
             return Select(o => o.Parent.Equal(c0), columns: columns).FirstOrDefault();
         }
 
-		public static int Insert(tree o, ColumnEnums.Tables.dbo.tree.Handler ch = null)
+		public static int Insert(tree o, ColumnEnums.Tables.dbo.tree.Handler insertCols = null, bool isFillAfterInsert = true, ColumnEnums.Tables.dbo.tree.Handler fillCols = null)
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 INSERT INTO [dbo].[tree] (");
 			var sb2 = new StringBuilder();
-            var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.tree());
-			if (ch == null || cols.Contains(0))
+            var cols = insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables.dbo.tree());
+			if (insertCols == null || cols.Contains(0))
 			{
-				cmd.AddParameter("Parent", o.Parent);
+                cmd.Parameters.Add(new SqlParameter("Parent", SqlDbType.NChar, 10, ParameterDirection.Input, false, 0, 0, "Parent", DataRowVersion.Current, o.Parent));
 				sb.Append((isFirst ? "" : @"
      , ") + "[Parent]");
 				sb2.Append((isFirst ? "" : @"
      , ") + "@Parent");
 				isFirst = false;
 			}
-			if (ch == null || cols.Contains(1))
+			if (insertCols == null || cols.Contains(1))
 			{
-				cmd.AddParameter("Children", o.Children);
+                var p = new SqlParameter("Children", SqlDbType.NChar, 10, ParameterDirection.Input, false, 0, 0, "Children", DataRowVersion.Current, null);
+                if (o.Children == null) p.Value = DBNull.Value; else p.Value = o.Children;
+                cmd.Parameters.Add(p);
 				sb.Append((isFirst ? "" : @"
      , ") + "[Children]");
 				sb2.Append((isFirst ? "" : @"
      , ") + "@Children");
 				isFirst = false;
 			}
-			sb.Append(@"
+			if (isFillAfterInsert) sb.Append(@"
 ) OUTPUT INSERTED.* VALUES (");
 			sb.Append(sb2);
 			sb.Append(@"
 );");
 			cmd.CommandText = sb.ToString();
 			return SqlHelper.ExecuteNonQuery(cmd);
+
+            // todo: if (isFillAfterInsert) 
 		}
-		public static int Update(tree o, Expressions.Tables.dbo.tree.Handler eh = null, ColumnEnums.Tables.dbo.tree.Handler ch = null)
+		public static int Update(tree o, Expressions.Tables.dbo.tree.Handler eh = null, ColumnEnums.Tables.dbo.tree.Handler updateCols = null, bool isFillAfterUpdate = true, ColumnEnums.Tables.dbo.tree.Handler fillCols = null)
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 UPDATE [dbo].[tree]
    SET ");
-            var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.dbo.tree());
-			if (ch == null || cols.Contains(0))
+            var cols = updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables.dbo.tree());
+			if (updateCols == null || cols.Contains(0))
 			{
-				cmd.AddParameter("Parent", o.Parent);
+                cmd.Parameters.Add(new SqlParameter("Parent", SqlDbType.NChar, 10, ParameterDirection.Input, false, 0, 0, "Parent", DataRowVersion.Current, o.Parent));
 				sb.Append((isFirst ? "" : @"
      , ") + "[Parent] = @Parent");
 				isFirst = false;
 			}
-			if (ch == null || cols.Contains(1))
+			if (updateCols == null || cols.Contains(1))
 			{
-				cmd.AddParameter("Children", o.Children);
+                var p = new SqlParameter("Children", SqlDbType.NChar, 10, ParameterDirection.Input, false, 0, 0, "Children", DataRowVersion.Current, null);
+                if (o.Children == null) p.Value = DBNull.Value; else p.Value = o.Children;
+                cmd.Parameters.Add(p);
 				sb.Append((isFirst ? "" : @"
      , ") + "[Children] = @Children");
 				isFirst = false;
 			}
+			if (isFillAfterUpdate) sb.Append(@"
+OUTPUT INSERTED.*");
             if (eh != null)
             {
                 var ws = eh.Invoke(new Expressions.Tables.dbo.tree()).ToString();
@@ -1005,6 +1078,8 @@ UPDATE [dbo].[tree]
 			sb.Append(@";");
 			cmd.CommandText = sb.ToString();
 			return SqlHelper.ExecuteNonQuery(cmd);
+
+            // todo: if (isFillAfterUpdate)
 		}
 		public static int Delete(Expressions.Tables.dbo.tree.Handler eh = null)
 		{
@@ -1078,62 +1153,70 @@ namespace DAL.Database.Tables.MySchema
             return Select(o => o.ID.Equal(c0), columns: columns).FirstOrDefault();
         }
 
-		public static int Insert(FS o, ColumnEnums.Tables.MySchema.FS.Handler ch = null)
+		public static int Insert(FS o, ColumnEnums.Tables.MySchema.FS.Handler insertCols = null, bool isFillAfterInsert = true, ColumnEnums.Tables.MySchema.FS.Handler fillCols = null)
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 INSERT INTO [MySchema].[FS] (");
 			var sb2 = new StringBuilder();
-            var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.MySchema.FS());
-			if (ch == null || cols.Contains(0))
+            var cols = insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables.MySchema.FS());
+			if (insertCols == null || cols.Contains(0))
 			{
-				cmd.AddParameter("dbo_FSID", o.dbo_FSID);
+                cmd.Parameters.Add(new SqlParameter("dbo_FSID", SqlDbType.UniqueIdentifier, 16, ParameterDirection.Input, false, 0, 0, "dbo_FSID", DataRowVersion.Current, o.dbo_FSID));
 				sb.Append((isFirst ? "" : @"
      , ") + "[dbo_FSID]");
 				sb2.Append((isFirst ? "" : @"
      , ") + "@dbo_FSID");
 				isFirst = false;
 			}
-			if (ch == null || cols.Contains(1))
+			if (insertCols == null || cols.Contains(1))
 			{
-				cmd.AddParameter("asdf", o.asdf);
+                var p = new SqlParameter("asdf", SqlDbType.NChar, 10, ParameterDirection.Input, false, 0, 0, "asdf", DataRowVersion.Current, null);
+                if (o.asdf == null) p.Value = DBNull.Value; else p.Value = o.asdf;
+                cmd.Parameters.Add(p);
 				sb.Append((isFirst ? "" : @"
      , ") + "[asdf]");
 				sb2.Append((isFirst ? "" : @"
      , ") + "@asdf");
 				isFirst = false;
 			}
-			sb.Append(@"
+			if (isFillAfterInsert) sb.Append(@"
 ) OUTPUT INSERTED.* VALUES (");
 			sb.Append(sb2);
 			sb.Append(@"
 );");
 			cmd.CommandText = sb.ToString();
 			return SqlHelper.ExecuteNonQuery(cmd);
+
+            // todo: if (isFillAfterInsert) 
 		}
-		public static int Update(FS o, Expressions.Tables.MySchema.FS.Handler eh = null, ColumnEnums.Tables.MySchema.FS.Handler ch = null)
+		public static int Update(FS o, Expressions.Tables.MySchema.FS.Handler eh = null, ColumnEnums.Tables.MySchema.FS.Handler updateCols = null, bool isFillAfterUpdate = true, ColumnEnums.Tables.MySchema.FS.Handler fillCols = null)
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 UPDATE [MySchema].[FS]
    SET ");
-            var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.MySchema.FS());
-			if (ch == null || cols.Contains(0))
+            var cols = updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables.MySchema.FS());
+			if (updateCols == null || cols.Contains(0))
 			{
-				cmd.AddParameter("dbo_FSID", o.dbo_FSID);
+                cmd.Parameters.Add(new SqlParameter("dbo_FSID", SqlDbType.UniqueIdentifier, 16, ParameterDirection.Input, false, 0, 0, "dbo_FSID", DataRowVersion.Current, o.dbo_FSID));
 				sb.Append((isFirst ? "" : @"
      , ") + "[dbo_FSID] = @dbo_FSID");
 				isFirst = false;
 			}
-			if (ch == null || cols.Contains(1))
+			if (updateCols == null || cols.Contains(1))
 			{
-				cmd.AddParameter("asdf", o.asdf);
+                var p = new SqlParameter("asdf", SqlDbType.NChar, 10, ParameterDirection.Input, false, 0, 0, "asdf", DataRowVersion.Current, null);
+                if (o.asdf == null) p.Value = DBNull.Value; else p.Value = o.asdf;
+                cmd.Parameters.Add(p);
 				sb.Append((isFirst ? "" : @"
      , ") + "[asdf] = @asdf");
 				isFirst = false;
 			}
+			if (isFillAfterUpdate) sb.Append(@"
+OUTPUT INSERTED.*");
             if (eh != null)
             {
                 var ws = eh.Invoke(new Expressions.Tables.MySchema.FS()).ToString();
@@ -1143,6 +1226,8 @@ UPDATE [MySchema].[FS]
 			sb.Append(@";");
 			cmd.CommandText = sb.ToString();
 			return SqlHelper.ExecuteNonQuery(cmd);
+
+            // todo: if (isFillAfterUpdate)
 		}
 		public static int Delete(Expressions.Tables.MySchema.FS.Handler eh = null)
 		{
@@ -1214,62 +1299,70 @@ namespace DAL.Database.Tables.Schema1
             return Select(o => o.ID.Equal(c0), columns: columns).FirstOrDefault();
         }
 
-		public static int Insert(T1 o, ColumnEnums.Tables.Schema1.T1.Handler ch = null)
+		public static int Insert(T1 o, ColumnEnums.Tables.Schema1.T1.Handler insertCols = null, bool isFillAfterInsert = true, ColumnEnums.Tables.Schema1.T1.Handler fillCols = null)
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 INSERT INTO [Schema1].[T1] (");
 			var sb2 = new StringBuilder();
-            var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.Schema1.T1());
-			if (ch == null || cols.Contains(0))
+            var cols = insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables.Schema1.T1());
+			if (insertCols == null || cols.Contains(0))
 			{
-				cmd.AddParameter("ID", o.ID);
+                cmd.Parameters.Add(new SqlParameter("ID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "ID", DataRowVersion.Current, o.ID));
 				sb.Append((isFirst ? "" : @"
      , ") + "[ID]");
 				sb2.Append((isFirst ? "" : @"
      , ") + "@ID");
 				isFirst = false;
 			}
-			if (ch == null || cols.Contains(1))
+			if (insertCols == null || cols.Contains(1))
 			{
-				cmd.AddParameter("PID", o.PID);
+                var p = new SqlParameter("PID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "PID", DataRowVersion.Current, null);
+                if (o.PID == null) p.Value = DBNull.Value; else p.Value = o.PID;
+                cmd.Parameters.Add(p);
 				sb.Append((isFirst ? "" : @"
      , ") + "[PID]");
 				sb2.Append((isFirst ? "" : @"
      , ") + "@PID");
 				isFirst = false;
 			}
-			sb.Append(@"
+			if (isFillAfterInsert) sb.Append(@"
 ) OUTPUT INSERTED.* VALUES (");
 			sb.Append(sb2);
 			sb.Append(@"
 );");
 			cmd.CommandText = sb.ToString();
 			return SqlHelper.ExecuteNonQuery(cmd);
+
+            // todo: if (isFillAfterInsert) 
 		}
-		public static int Update(T1 o, Expressions.Tables.Schema1.T1.Handler eh = null, ColumnEnums.Tables.Schema1.T1.Handler ch = null)
+		public static int Update(T1 o, Expressions.Tables.Schema1.T1.Handler eh = null, ColumnEnums.Tables.Schema1.T1.Handler updateCols = null, bool isFillAfterUpdate = true, ColumnEnums.Tables.Schema1.T1.Handler fillCols = null)
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 UPDATE [Schema1].[T1]
    SET ");
-            var cols = ch == null ? null : ch.Invoke(new ColumnEnums.Tables.Schema1.T1());
-			if (ch == null || cols.Contains(0))
+            var cols = updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables.Schema1.T1());
+			if (updateCols == null || cols.Contains(0))
 			{
-				cmd.AddParameter("ID", o.ID);
+                cmd.Parameters.Add(new SqlParameter("ID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "ID", DataRowVersion.Current, o.ID));
 				sb.Append((isFirst ? "" : @"
      , ") + "[ID] = @ID");
 				isFirst = false;
 			}
-			if (ch == null || cols.Contains(1))
+			if (updateCols == null || cols.Contains(1))
 			{
-				cmd.AddParameter("PID", o.PID);
+                var p = new SqlParameter("PID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "PID", DataRowVersion.Current, null);
+                if (o.PID == null) p.Value = DBNull.Value; else p.Value = o.PID;
+                cmd.Parameters.Add(p);
 				sb.Append((isFirst ? "" : @"
      , ") + "[PID] = @PID");
 				isFirst = false;
 			}
+			if (isFillAfterUpdate) sb.Append(@"
+OUTPUT INSERTED.*");
             if (eh != null)
             {
                 var ws = eh.Invoke(new Expressions.Tables.Schema1.T1()).ToString();
@@ -1279,6 +1372,8 @@ UPDATE [Schema1].[T1]
 			sb.Append(@";");
 			cmd.CommandText = sb.ToString();
 			return SqlHelper.ExecuteNonQuery(cmd);
+
+            // todo: if (isFillAfterUpdate)
 		}
 		public static int Delete(Expressions.Tables.Schema1.T1.Handler eh = null)
 		{

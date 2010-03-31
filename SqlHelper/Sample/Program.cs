@@ -12,7 +12,7 @@
     using System.IO;
 
     using SqlLib;
-    using db = DAL.Database.Tables.dbo;
+    using dbo = DAL.Database.Tables.dbo;
     using query = DAL.Queries.Tables.dbo;
 
     public class Test {
@@ -20,7 +20,23 @@
             // init connect string
             SqlHelper.InitConnectString(server: "data,14333", username: "admin");
 
+            Console.WriteLine(dbo.t1.Select().Count);
 
+            var row = new dbo.t1 { ID = 20, PID = null };
+
+            dbo.t1.Insert(row, o => o.PID.ID);
+
+            Console.WriteLine(dbo.t1.Select().Count);
+
+            row.ID = 21; row.PID = 1;
+
+            dbo.t1.Update(row, o => o.ID == 20, o => o.ID.PID);
+
+            Console.WriteLine(dbo.t1.Select(o => o.ID == row.ID).Count);
+
+            dbo.t1.Delete(o => o.ID == row.ID);
+
+            Console.WriteLine(dbo.t1.Select().Count);
 
             Console.ReadLine();
         }
