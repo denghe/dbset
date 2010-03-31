@@ -793,7 +793,7 @@ DELETE FROM [dbo].[t]";
 
         #region Insert
 
-		public static int Insert(t1 o, ColumnEnums.Tables.dbo.t1.Handler insertCols = null, bool isFillAfterInsert = true, ColumnEnums.Tables.dbo.t1.Handler fillCols = null)
+        public static int Insert(t1 o, ColumnEnums.Tables.dbo.t1.Handler insertCols = null, ColumnEnums.Tables.dbo.t1.Handler fillCols = null, bool isFillAfterInsert = true)
 		{
 			var isFirst = true;
 			var cmd = new SqlCommand();
