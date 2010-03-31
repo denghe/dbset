@@ -85,9 +85,11 @@ INSERT INTO [dbo].[Formula_890] (");
 			if (insertCols == null || ics.Contains(0))
 			{
                 cmd.Parameters.Add(new SqlParameter("Name", SqlDbType.NVarChar, 400, ParameterDirection.Input, false, 0, 0, "Name", DataRowVersion.Current, o.Name));
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"
+       " : @"
      , ") + "[Name]");
-				sb2.Append((isFirst ? "" : @"
+				sb2.Append((isFirst ? @"
+       " : @"
      , ") + "@Name");
 				isFirst = false;
 			}
@@ -96,9 +98,11 @@ INSERT INTO [dbo].[Formula_890] (");
                 var p = new SqlParameter("Expression", SqlDbType.NVarChar, 4000, ParameterDirection.Input, false, 0, 0, "Expression", DataRowVersion.Current, null);
                 if (o.Expression == null) p.Value = DBNull.Value; else p.Value = o.Expression;
                 cmd.Parameters.Add(p);
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"
+       " : @"
      , ") + "[Expression]");
-				sb2.Append((isFirst ? "" : @"
+				sb2.Append((isFirst ? @"
+       " : @"
      , ") + "@Expression");
 				isFirst = false;
 			}
@@ -107,9 +111,11 @@ INSERT INTO [dbo].[Formula_890] (");
                 var p = new SqlParameter("Value", SqlDbType.NVarChar, 400, ParameterDirection.Input, false, 0, 0, "Value", DataRowVersion.Current, null);
                 if (o.Value == null) p.Value = DBNull.Value; else p.Value = o.Value;
                 cmd.Parameters.Add(p);
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"
+       " : @"
      , ") + "[Value]");
-				sb2.Append((isFirst ? "" : @"
+				sb2.Append((isFirst ? @"
+       " : @"
      , ") + "@Value");
 				isFirst = false;
 			}
@@ -118,20 +124,24 @@ INSERT INTO [dbo].[Formula_890] (");
                 var p = new SqlParameter("IsGenerator", SqlDbType.Bit, 1, ParameterDirection.Input, false, 1, 0, "IsGenerator", DataRowVersion.Current, null);
                 if (o.IsGenerator == null) p.Value = DBNull.Value; else p.Value = o.IsGenerator;
                 cmd.Parameters.Add(p);
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"
+       " : @"
      , ") + "[IsGenerator]");
-				sb2.Append((isFirst ? "" : @"
+				sb2.Append((isFirst ? @"
+       " : @"
      , ") + "@IsGenerator");
 				isFirst = false;
 			}
             if(isFillAfterInsert) {
                 if(fillCols == null) {
                     sb.Append(@"
-) OUTPUT INSERTED.* VALUES (");
+) 
+OUTPUT INSERTED.* VALUES (");
                 }
                 else {
                     sb.Append(@"
-) OUTPUT ");
+) 
+OUTPUT ");
                     for(int i = 0; i < fccount; i++) {
                         if(i > 0) sb.Append(@", ");
                         sb.Append(@"INSERTED.[" + fcs.GetColumnName(i).Replace("]", "]]") + "]");
@@ -140,7 +150,8 @@ INSERT INTO [dbo].[Formula_890] (");
                 }
             }
             else sb.Append(@"
-) VALUES (");
+) 
+VALUES (");
 			sb.Append(sb2);
 			sb.Append(@"
 );");
@@ -193,7 +204,7 @@ UPDATE [dbo].[Formula_890]
 			if (updateCols == null || ucs.Contains(0))
 			{
                 cmd.Parameters.Add(new SqlParameter("Name", SqlDbType.NVarChar, 400, ParameterDirection.Input, false, 0, 0, "Name", DataRowVersion.Current, o.Name));
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"" : @"
      , ") + "[Name] = @Name");
 				isFirst = false;
 			}
@@ -202,7 +213,7 @@ UPDATE [dbo].[Formula_890]
                 var p = new SqlParameter("Expression", SqlDbType.NVarChar, 4000, ParameterDirection.Input, false, 0, 0, "Expression", DataRowVersion.Current, null);
                 if (o.Expression == null) p.Value = DBNull.Value; else p.Value = o.Expression;
                 cmd.Parameters.Add(p);
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"" : @"
      , ") + "[Expression] = @Expression");
 				isFirst = false;
 			}
@@ -211,7 +222,7 @@ UPDATE [dbo].[Formula_890]
                 var p = new SqlParameter("Value", SqlDbType.NVarChar, 400, ParameterDirection.Input, false, 0, 0, "Value", DataRowVersion.Current, null);
                 if (o.Value == null) p.Value = DBNull.Value; else p.Value = o.Value;
                 cmd.Parameters.Add(p);
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"" : @"
      , ") + "[Value] = @Value");
 				isFirst = false;
 			}
@@ -220,12 +231,10 @@ UPDATE [dbo].[Formula_890]
                 var p = new SqlParameter("IsGenerator", SqlDbType.Bit, 1, ParameterDirection.Input, false, 1, 0, "IsGenerator", DataRowVersion.Current, null);
                 if (o.IsGenerator == null) p.Value = DBNull.Value; else p.Value = o.IsGenerator;
                 cmd.Parameters.Add(p);
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"" : @"
      , ") + "[IsGenerator] = @IsGenerator");
 				isFirst = false;
 			}
-			if (isFillAfterUpdate) sb.Append(@"
-OUTPUT INSERTED.*");
             if(isFillAfterUpdate) {
                 if(fillCols == null) {
                     sb.Append(@"
@@ -373,18 +382,22 @@ INSERT INTO [dbo].[FS] (");
 			if (insertCols == null || ics.Contains(0))
 			{
                 cmd.Parameters.Add(new SqlParameter("ID", SqlDbType.UniqueIdentifier, 16, ParameterDirection.Input, false, 0, 0, "ID", DataRowVersion.Current, o.ID));
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"
+       " : @"
      , ") + "[ID]");
-				sb2.Append((isFirst ? "" : @"
+				sb2.Append((isFirst ? @"
+       " : @"
      , ") + "@ID");
 				isFirst = false;
 			}
 			if (insertCols == null || ics.Contains(1))
 			{
                 cmd.Parameters.Add(new SqlParameter("Category", SqlDbType.Variant, 892, ParameterDirection.Input, false, 0, 0, "Category", DataRowVersion.Current, o.Category));
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"
+       " : @"
      , ") + "[Category]");
-				sb2.Append((isFirst ? "" : @"
+				sb2.Append((isFirst ? @"
+       " : @"
      , ") + "@Category");
 				isFirst = false;
 			}
@@ -393,20 +406,24 @@ INSERT INTO [dbo].[FS] (");
                 var p = new SqlParameter("Stream", SqlDbType.VarBinary, -1, ParameterDirection.Input, false, 0, 0, "Stream", DataRowVersion.Current, null);
                 if (o.Stream == null) p.Value = DBNull.Value; else p.Value = o.Stream;
                 cmd.Parameters.Add(p);
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"
+       " : @"
      , ") + "[Stream]");
-				sb2.Append((isFirst ? "" : @"
+				sb2.Append((isFirst ? @"
+       " : @"
      , ") + "@Stream");
 				isFirst = false;
 			}
             if(isFillAfterInsert) {
                 if(fillCols == null) {
                     sb.Append(@"
-) OUTPUT INSERTED.* VALUES (");
+) 
+OUTPUT INSERTED.* VALUES (");
                 }
                 else {
                     sb.Append(@"
-) OUTPUT ");
+) 
+OUTPUT ");
                     for(int i = 0; i < fccount; i++) {
                         if(i > 0) sb.Append(@", ");
                         sb.Append(@"INSERTED.[" + fcs.GetColumnName(i).Replace("]", "]]") + "]");
@@ -415,7 +432,8 @@ INSERT INTO [dbo].[FS] (");
                 }
             }
             else sb.Append(@"
-) VALUES (");
+) 
+VALUES (");
 			sb.Append(sb2);
 			sb.Append(@"
 );");
@@ -466,14 +484,14 @@ UPDATE [dbo].[FS]
 			if (updateCols == null || ucs.Contains(0))
 			{
                 cmd.Parameters.Add(new SqlParameter("ID", SqlDbType.UniqueIdentifier, 16, ParameterDirection.Input, false, 0, 0, "ID", DataRowVersion.Current, o.ID));
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"" : @"
      , ") + "[ID] = @ID");
 				isFirst = false;
 			}
 			if (updateCols == null || ucs.Contains(1))
 			{
                 cmd.Parameters.Add(new SqlParameter("Category", SqlDbType.Variant, 892, ParameterDirection.Input, false, 0, 0, "Category", DataRowVersion.Current, o.Category));
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"" : @"
      , ") + "[Category] = @Category");
 				isFirst = false;
 			}
@@ -482,12 +500,10 @@ UPDATE [dbo].[FS]
                 var p = new SqlParameter("Stream", SqlDbType.VarBinary, -1, ParameterDirection.Input, false, 0, 0, "Stream", DataRowVersion.Current, null);
                 if (o.Stream == null) p.Value = DBNull.Value; else p.Value = o.Stream;
                 cmd.Parameters.Add(p);
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"" : @"
      , ") + "[Stream] = @Stream");
 				isFirst = false;
 			}
-			if (isFillAfterUpdate) sb.Append(@"
-OUTPUT INSERTED.*");
             if(isFillAfterUpdate) {
                 if(fillCols == null) {
                     sb.Append(@"
@@ -633,9 +649,11 @@ INSERT INTO [dbo].[ParentChildOrg] (");
 			if (insertCols == null || ics.Contains(0))
 			{
                 cmd.Parameters.Add(new SqlParameter("EmployeeID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "EmployeeID", DataRowVersion.Current, o.EmployeeID));
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"
+       " : @"
      , ") + "[EmployeeID]");
-				sb2.Append((isFirst ? "" : @"
+				sb2.Append((isFirst ? @"
+       " : @"
      , ") + "@EmployeeID");
 				isFirst = false;
 			}
@@ -644,9 +662,11 @@ INSERT INTO [dbo].[ParentChildOrg] (");
                 var p = new SqlParameter("ManagerId", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "ManagerId", DataRowVersion.Current, null);
                 if (o.ManagerId == null) p.Value = DBNull.Value; else p.Value = o.ManagerId;
                 cmd.Parameters.Add(p);
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"
+       " : @"
      , ") + "[ManagerId]");
-				sb2.Append((isFirst ? "" : @"
+				sb2.Append((isFirst ? @"
+       " : @"
      , ") + "@ManagerId");
 				isFirst = false;
 			}
@@ -655,20 +675,24 @@ INSERT INTO [dbo].[ParentChildOrg] (");
                 var p = new SqlParameter("EmployeeName", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "EmployeeName", DataRowVersion.Current, null);
                 if (o.EmployeeName == null) p.Value = DBNull.Value; else p.Value = o.EmployeeName;
                 cmd.Parameters.Add(p);
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"
+       " : @"
      , ") + "[EmployeeName]");
-				sb2.Append((isFirst ? "" : @"
+				sb2.Append((isFirst ? @"
+       " : @"
      , ") + "@EmployeeName");
 				isFirst = false;
 			}
             if(isFillAfterInsert) {
                 if(fillCols == null) {
                     sb.Append(@"
-) OUTPUT INSERTED.* VALUES (");
+) 
+OUTPUT INSERTED.* VALUES (");
                 }
                 else {
                     sb.Append(@"
-) OUTPUT ");
+) 
+OUTPUT ");
                     for(int i = 0; i < fccount; i++) {
                         if(i > 0) sb.Append(@", ");
                         sb.Append(@"INSERTED.[" + fcs.GetColumnName(i).Replace("]", "]]") + "]");
@@ -677,7 +701,8 @@ INSERT INTO [dbo].[ParentChildOrg] (");
                 }
             }
             else sb.Append(@"
-) VALUES (");
+) 
+VALUES (");
 			sb.Append(sb2);
 			sb.Append(@"
 );");
@@ -728,7 +753,7 @@ UPDATE [dbo].[ParentChildOrg]
 			if (updateCols == null || ucs.Contains(0))
 			{
                 cmd.Parameters.Add(new SqlParameter("EmployeeID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "EmployeeID", DataRowVersion.Current, o.EmployeeID));
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"" : @"
      , ") + "[EmployeeID] = @EmployeeID");
 				isFirst = false;
 			}
@@ -737,7 +762,7 @@ UPDATE [dbo].[ParentChildOrg]
                 var p = new SqlParameter("ManagerId", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "ManagerId", DataRowVersion.Current, null);
                 if (o.ManagerId == null) p.Value = DBNull.Value; else p.Value = o.ManagerId;
                 cmd.Parameters.Add(p);
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"" : @"
      , ") + "[ManagerId] = @ManagerId");
 				isFirst = false;
 			}
@@ -746,12 +771,10 @@ UPDATE [dbo].[ParentChildOrg]
                 var p = new SqlParameter("EmployeeName", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "EmployeeName", DataRowVersion.Current, null);
                 if (o.EmployeeName == null) p.Value = DBNull.Value; else p.Value = o.EmployeeName;
                 cmd.Parameters.Add(p);
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"" : @"
      , ") + "[EmployeeName] = @EmployeeName");
 				isFirst = false;
 			}
-			if (isFillAfterUpdate) sb.Append(@"
-OUTPUT INSERTED.*");
             if(isFillAfterUpdate) {
                 if(fillCols == null) {
                     sb.Append(@"
@@ -892,38 +915,46 @@ INSERT INTO [dbo].[t] (");
 			if (insertCols == null || ics.Contains(0))
 			{
                 cmd.Parameters.Add(new SqlParameter("a", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "a", DataRowVersion.Current, o.a));
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"
+       " : @"
      , ") + "[a]");
-				sb2.Append((isFirst ? "" : @"
+				sb2.Append((isFirst ? @"
+       " : @"
      , ") + "@a");
 				isFirst = false;
 			}
 			if (insertCols == null || ics.Contains(1))
 			{
                 cmd.Parameters.Add(new SqlParameter("b", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "b", DataRowVersion.Current, o.b));
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"
+       " : @"
      , ") + "[b]");
-				sb2.Append((isFirst ? "" : @"
+				sb2.Append((isFirst ? @"
+       " : @"
      , ") + "@b");
 				isFirst = false;
 			}
 			if (insertCols == null || ics.Contains(2))
 			{
                 cmd.Parameters.Add(new SqlParameter("c", SqlDbType.Binary, 50, ParameterDirection.Input, false, 0, 0, "c", DataRowVersion.Current, o.c));
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"
+       " : @"
      , ") + "[c]");
-				sb2.Append((isFirst ? "" : @"
+				sb2.Append((isFirst ? @"
+       " : @"
      , ") + "@c");
 				isFirst = false;
 			}
             if(isFillAfterInsert) {
                 if(fillCols == null) {
                     sb.Append(@"
-) OUTPUT INSERTED.* VALUES (");
+) 
+OUTPUT INSERTED.* VALUES (");
                 }
                 else {
                     sb.Append(@"
-) OUTPUT ");
+) 
+OUTPUT ");
                     for(int i = 0; i < fccount; i++) {
                         if(i > 0) sb.Append(@", ");
                         sb.Append(@"INSERTED.[" + fcs.GetColumnName(i).Replace("]", "]]") + "]");
@@ -932,7 +963,8 @@ INSERT INTO [dbo].[t] (");
                 }
             }
             else sb.Append(@"
-) VALUES (");
+) 
+VALUES (");
 			sb.Append(sb2);
 			sb.Append(@"
 );");
@@ -983,26 +1015,24 @@ UPDATE [dbo].[t]
 			if (updateCols == null || ucs.Contains(0))
 			{
                 cmd.Parameters.Add(new SqlParameter("a", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "a", DataRowVersion.Current, o.a));
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"" : @"
      , ") + "[a] = @a");
 				isFirst = false;
 			}
 			if (updateCols == null || ucs.Contains(1))
 			{
                 cmd.Parameters.Add(new SqlParameter("b", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "b", DataRowVersion.Current, o.b));
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"" : @"
      , ") + "[b] = @b");
 				isFirst = false;
 			}
 			if (updateCols == null || ucs.Contains(2))
 			{
                 cmd.Parameters.Add(new SqlParameter("c", SqlDbType.Binary, 50, ParameterDirection.Input, false, 0, 0, "c", DataRowVersion.Current, o.c));
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"" : @"
      , ") + "[c] = @c");
 				isFirst = false;
 			}
-			if (isFillAfterUpdate) sb.Append(@"
-OUTPUT INSERTED.*");
             if(isFillAfterUpdate) {
                 if(fillCols == null) {
                     sb.Append(@"
@@ -1146,9 +1176,11 @@ INSERT INTO [dbo].[t1] (");
 			if (insertCols == null || ics.Contains(0))
 			{
                 cmd.Parameters.Add(new SqlParameter("ID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "ID", DataRowVersion.Current, o.ID));
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"
+       " : @"
      , ") + "[ID]");
-				sb2.Append((isFirst ? "" : @"
+				sb2.Append((isFirst ? @"
+       " : @"
      , ") + "@ID");
 				isFirst = false;
 			}
@@ -1157,20 +1189,24 @@ INSERT INTO [dbo].[t1] (");
                 var p = new SqlParameter("PID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "PID", DataRowVersion.Current, null);
                 if (o.PID == null) p.Value = DBNull.Value; else p.Value = o.PID;
                 cmd.Parameters.Add(p);
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"
+       " : @"
      , ") + "[PID]");
-				sb2.Append((isFirst ? "" : @"
+				sb2.Append((isFirst ? @"
+       " : @"
      , ") + "@PID");
 				isFirst = false;
 			}
             if(isFillAfterInsert) {
                 if(fillCols == null) {
                     sb.Append(@"
-) OUTPUT INSERTED.* VALUES (");
+) 
+OUTPUT INSERTED.* VALUES (");
                 }
                 else {
                     sb.Append(@"
-) OUTPUT ");
+) 
+OUTPUT ");
                     for(int i = 0; i < fccount; i++) {
                         if(i > 0) sb.Append(@", ");
                         sb.Append(@"INSERTED.[" + fcs.GetColumnName(i).Replace("]", "]]") + "]");
@@ -1179,7 +1215,8 @@ INSERT INTO [dbo].[t1] (");
                 }
             }
             else sb.Append(@"
-) VALUES (");
+) 
+VALUES (");
 			sb.Append(sb2);
 			sb.Append(@"
 );");
@@ -1228,7 +1265,7 @@ UPDATE [dbo].[t1]
 			if (updateCols == null || ucs.Contains(0))
 			{
                 cmd.Parameters.Add(new SqlParameter("ID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "ID", DataRowVersion.Current, o.ID));
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"" : @"
      , ") + "[ID] = @ID");
 				isFirst = false;
 			}
@@ -1237,12 +1274,10 @@ UPDATE [dbo].[t1]
                 var p = new SqlParameter("PID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "PID", DataRowVersion.Current, null);
                 if (o.PID == null) p.Value = DBNull.Value; else p.Value = o.PID;
                 cmd.Parameters.Add(p);
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"" : @"
      , ") + "[PID] = @PID");
 				isFirst = false;
 			}
-			if (isFillAfterUpdate) sb.Append(@"
-OUTPUT INSERTED.*");
             if(isFillAfterUpdate) {
                 if(fillCols == null) {
                     sb.Append(@"
@@ -1386,29 +1421,35 @@ INSERT INTO [dbo].[t2] (");
 			if (insertCols == null || ics.Contains(1))
 			{
                 cmd.Parameters.Add(new SqlParameter("Name", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "Name", DataRowVersion.Current, o.Name));
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"
+       " : @"
      , ") + "[Name]");
-				sb2.Append((isFirst ? "" : @"
+				sb2.Append((isFirst ? @"
+       " : @"
      , ") + "@Name");
 				isFirst = false;
 			}
 			if (insertCols == null || ics.Contains(2))
 			{
                 cmd.Parameters.Add(new SqlParameter("CreateTime", SqlDbType.DateTime, 8, ParameterDirection.Input, false, 23, 3, "CreateTime", DataRowVersion.Current, o.CreateTime));
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"
+       " : @"
      , ") + "[CreateTime]");
-				sb2.Append((isFirst ? "" : @"
+				sb2.Append((isFirst ? @"
+       " : @"
      , ") + "@CreateTime");
 				isFirst = false;
 			}
             if(isFillAfterInsert) {
                 if(fillCols == null) {
                     sb.Append(@"
-) OUTPUT INSERTED.* VALUES (");
+) 
+OUTPUT INSERTED.* VALUES (");
                 }
                 else {
                     sb.Append(@"
-) OUTPUT ");
+) 
+OUTPUT ");
                     for(int i = 0; i < fccount; i++) {
                         if(i > 0) sb.Append(@", ");
                         sb.Append(@"INSERTED.[" + fcs.GetColumnName(i).Replace("]", "]]") + "]");
@@ -1417,7 +1458,8 @@ INSERT INTO [dbo].[t2] (");
                 }
             }
             else sb.Append(@"
-) VALUES (");
+) 
+VALUES (");
 			sb.Append(sb2);
 			sb.Append(@"
 );");
@@ -1468,19 +1510,17 @@ UPDATE [dbo].[t2]
 			if (updateCols == null || ucs.Contains(1))
 			{
                 cmd.Parameters.Add(new SqlParameter("Name", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "Name", DataRowVersion.Current, o.Name));
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"" : @"
      , ") + "[Name] = @Name");
 				isFirst = false;
 			}
 			if (updateCols == null || ucs.Contains(2))
 			{
                 cmd.Parameters.Add(new SqlParameter("CreateTime", SqlDbType.DateTime, 8, ParameterDirection.Input, false, 23, 3, "CreateTime", DataRowVersion.Current, o.CreateTime));
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"" : @"
      , ") + "[CreateTime] = @CreateTime");
 				isFirst = false;
 			}
-			if (isFillAfterUpdate) sb.Append(@"
-OUTPUT INSERTED.*");
             if(isFillAfterUpdate) {
                 if(fillCols == null) {
                     sb.Append(@"
@@ -1624,9 +1664,11 @@ INSERT INTO [dbo].[tree] (");
 			if (insertCols == null || ics.Contains(0))
 			{
                 cmd.Parameters.Add(new SqlParameter("Parent", SqlDbType.NChar, 10, ParameterDirection.Input, false, 0, 0, "Parent", DataRowVersion.Current, o.Parent));
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"
+       " : @"
      , ") + "[Parent]");
-				sb2.Append((isFirst ? "" : @"
+				sb2.Append((isFirst ? @"
+       " : @"
      , ") + "@Parent");
 				isFirst = false;
 			}
@@ -1635,20 +1677,24 @@ INSERT INTO [dbo].[tree] (");
                 var p = new SqlParameter("Children", SqlDbType.NChar, 10, ParameterDirection.Input, false, 0, 0, "Children", DataRowVersion.Current, null);
                 if (o.Children == null) p.Value = DBNull.Value; else p.Value = o.Children;
                 cmd.Parameters.Add(p);
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"
+       " : @"
      , ") + "[Children]");
-				sb2.Append((isFirst ? "" : @"
+				sb2.Append((isFirst ? @"
+       " : @"
      , ") + "@Children");
 				isFirst = false;
 			}
             if(isFillAfterInsert) {
                 if(fillCols == null) {
                     sb.Append(@"
-) OUTPUT INSERTED.* VALUES (");
+) 
+OUTPUT INSERTED.* VALUES (");
                 }
                 else {
                     sb.Append(@"
-) OUTPUT ");
+) 
+OUTPUT ");
                     for(int i = 0; i < fccount; i++) {
                         if(i > 0) sb.Append(@", ");
                         sb.Append(@"INSERTED.[" + fcs.GetColumnName(i).Replace("]", "]]") + "]");
@@ -1657,7 +1703,8 @@ INSERT INTO [dbo].[tree] (");
                 }
             }
             else sb.Append(@"
-) VALUES (");
+) 
+VALUES (");
 			sb.Append(sb2);
 			sb.Append(@"
 );");
@@ -1706,7 +1753,7 @@ UPDATE [dbo].[tree]
 			if (updateCols == null || ucs.Contains(0))
 			{
                 cmd.Parameters.Add(new SqlParameter("Parent", SqlDbType.NChar, 10, ParameterDirection.Input, false, 0, 0, "Parent", DataRowVersion.Current, o.Parent));
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"" : @"
      , ") + "[Parent] = @Parent");
 				isFirst = false;
 			}
@@ -1715,12 +1762,10 @@ UPDATE [dbo].[tree]
                 var p = new SqlParameter("Children", SqlDbType.NChar, 10, ParameterDirection.Input, false, 0, 0, "Children", DataRowVersion.Current, null);
                 if (o.Children == null) p.Value = DBNull.Value; else p.Value = o.Children;
                 cmd.Parameters.Add(p);
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"" : @"
      , ") + "[Children] = @Children");
 				isFirst = false;
 			}
-			if (isFillAfterUpdate) sb.Append(@"
-OUTPUT INSERTED.*");
             if(isFillAfterUpdate) {
                 if(fillCols == null) {
                     sb.Append(@"
@@ -1868,9 +1913,11 @@ INSERT INTO [MySchema].[FS] (");
 			if (insertCols == null || ics.Contains(0))
 			{
                 cmd.Parameters.Add(new SqlParameter("dbo_FSID", SqlDbType.UniqueIdentifier, 16, ParameterDirection.Input, false, 0, 0, "dbo_FSID", DataRowVersion.Current, o.dbo_FSID));
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"
+       " : @"
      , ") + "[dbo_FSID]");
-				sb2.Append((isFirst ? "" : @"
+				sb2.Append((isFirst ? @"
+       " : @"
      , ") + "@dbo_FSID");
 				isFirst = false;
 			}
@@ -1879,20 +1926,24 @@ INSERT INTO [MySchema].[FS] (");
                 var p = new SqlParameter("asdf", SqlDbType.NChar, 10, ParameterDirection.Input, false, 0, 0, "asdf", DataRowVersion.Current, null);
                 if (o.asdf == null) p.Value = DBNull.Value; else p.Value = o.asdf;
                 cmd.Parameters.Add(p);
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"
+       " : @"
      , ") + "[asdf]");
-				sb2.Append((isFirst ? "" : @"
+				sb2.Append((isFirst ? @"
+       " : @"
      , ") + "@asdf");
 				isFirst = false;
 			}
             if(isFillAfterInsert) {
                 if(fillCols == null) {
                     sb.Append(@"
-) OUTPUT INSERTED.* VALUES (");
+) 
+OUTPUT INSERTED.* VALUES (");
                 }
                 else {
                     sb.Append(@"
-) OUTPUT ");
+) 
+OUTPUT ");
                     for(int i = 0; i < fccount; i++) {
                         if(i > 0) sb.Append(@", ");
                         sb.Append(@"INSERTED.[" + fcs.GetColumnName(i).Replace("]", "]]") + "]");
@@ -1901,7 +1952,8 @@ INSERT INTO [MySchema].[FS] (");
                 }
             }
             else sb.Append(@"
-) VALUES (");
+) 
+VALUES (");
 			sb.Append(sb2);
 			sb.Append(@"
 );");
@@ -1952,7 +2004,7 @@ UPDATE [MySchema].[FS]
 			if (updateCols == null || ucs.Contains(0))
 			{
                 cmd.Parameters.Add(new SqlParameter("dbo_FSID", SqlDbType.UniqueIdentifier, 16, ParameterDirection.Input, false, 0, 0, "dbo_FSID", DataRowVersion.Current, o.dbo_FSID));
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"" : @"
      , ") + "[dbo_FSID] = @dbo_FSID");
 				isFirst = false;
 			}
@@ -1961,12 +2013,10 @@ UPDATE [MySchema].[FS]
                 var p = new SqlParameter("asdf", SqlDbType.NChar, 10, ParameterDirection.Input, false, 0, 0, "asdf", DataRowVersion.Current, null);
                 if (o.asdf == null) p.Value = DBNull.Value; else p.Value = o.asdf;
                 cmd.Parameters.Add(p);
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"" : @"
      , ") + "[asdf] = @asdf");
 				isFirst = false;
 			}
-			if (isFillAfterUpdate) sb.Append(@"
-OUTPUT INSERTED.*");
             if(isFillAfterUpdate) {
                 if(fillCols == null) {
                     sb.Append(@"
@@ -2114,9 +2164,11 @@ INSERT INTO [Schema1].[T1] (");
 			if (insertCols == null || ics.Contains(0))
 			{
                 cmd.Parameters.Add(new SqlParameter("ID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "ID", DataRowVersion.Current, o.ID));
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"
+       " : @"
      , ") + "[ID]");
-				sb2.Append((isFirst ? "" : @"
+				sb2.Append((isFirst ? @"
+       " : @"
      , ") + "@ID");
 				isFirst = false;
 			}
@@ -2125,20 +2177,24 @@ INSERT INTO [Schema1].[T1] (");
                 var p = new SqlParameter("PID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "PID", DataRowVersion.Current, null);
                 if (o.PID == null) p.Value = DBNull.Value; else p.Value = o.PID;
                 cmd.Parameters.Add(p);
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"
+       " : @"
      , ") + "[PID]");
-				sb2.Append((isFirst ? "" : @"
+				sb2.Append((isFirst ? @"
+       " : @"
      , ") + "@PID");
 				isFirst = false;
 			}
             if(isFillAfterInsert) {
                 if(fillCols == null) {
                     sb.Append(@"
-) OUTPUT INSERTED.* VALUES (");
+) 
+OUTPUT INSERTED.* VALUES (");
                 }
                 else {
                     sb.Append(@"
-) OUTPUT ");
+) 
+OUTPUT ");
                     for(int i = 0; i < fccount; i++) {
                         if(i > 0) sb.Append(@", ");
                         sb.Append(@"INSERTED.[" + fcs.GetColumnName(i).Replace("]", "]]") + "]");
@@ -2147,7 +2203,8 @@ INSERT INTO [Schema1].[T1] (");
                 }
             }
             else sb.Append(@"
-) VALUES (");
+) 
+VALUES (");
 			sb.Append(sb2);
 			sb.Append(@"
 );");
@@ -2196,7 +2253,7 @@ UPDATE [Schema1].[T1]
 			if (updateCols == null || ucs.Contains(0))
 			{
                 cmd.Parameters.Add(new SqlParameter("ID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "ID", DataRowVersion.Current, o.ID));
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"" : @"
      , ") + "[ID] = @ID");
 				isFirst = false;
 			}
@@ -2205,12 +2262,10 @@ UPDATE [Schema1].[T1]
                 var p = new SqlParameter("PID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "PID", DataRowVersion.Current, null);
                 if (o.PID == null) p.Value = DBNull.Value; else p.Value = o.PID;
                 cmd.Parameters.Add(p);
-				sb.Append((isFirst ? "" : @"
+				sb.Append((isFirst ? @"" : @"
      , ") + "[PID] = @PID");
 				isFirst = false;
 			}
-			if (isFillAfterUpdate) sb.Append(@"
-OUTPUT INSERTED.*");
             if(isFillAfterUpdate) {
                 if(fillCols == null) {
                     sb.Append(@"
