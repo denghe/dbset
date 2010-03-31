@@ -713,10 +713,10 @@ DELETE FROM [dbo].[t]";
             var sb = new StringBuilder(@"
 INSERT INTO [dbo].[t1] (");
             var sb2 = new StringBuilder();
-            var cols = insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables.dbo.t1());
+            var ics = insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables.dbo.t1());
             var fcs = fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.t1());
             var fccount = fcs == null ? 0 : fcs.Count();
-            if(insertCols == null || cols.Contains(0)) {
+            if(insertCols == null || ics.Contains(0)) {
                 cmd.Parameters.Add(new SqlParameter("ID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "ID", DataRowVersion.Current, o.ID));
                 sb.Append((isFirst ? "" : @"
      , ") + "[ID]");
@@ -724,7 +724,7 @@ INSERT INTO [dbo].[t1] (");
      , ") + "@ID");
                 isFirst = false;
             }
-            if(insertCols == null || cols.Contains(1)) {
+            if(insertCols == null || ics.Contains(1)) {
                 var p = new SqlParameter("PID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "PID", DataRowVersion.Current, null);
                 if(o.PID == null) p.Value = DBNull.Value; else p.Value = o.PID;
                 cmd.Parameters.Add(p);
