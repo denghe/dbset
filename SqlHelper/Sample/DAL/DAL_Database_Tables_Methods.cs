@@ -1841,7 +1841,7 @@ OUTPUT ");
 
         #region Delete
 
-		public static int Delete(Expressions.Tables.dbo.t3.Handler eh = null)
+		public static int Delete(Expressions.Tables.dbo.t3.Handler eh)
 		{
 			var s = @"
 DELETE FROM [dbo].[t3]";

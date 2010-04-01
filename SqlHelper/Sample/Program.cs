@@ -20,29 +20,19 @@
             // init connect string
             SqlHelper.InitConnectString(server: "data,14333", username: "admin");
 
-            //Console.WriteLine(dbo.t1.Select().Count);
-            //var row = new dbo.t1 { ID = 20 };
-            //Console.WriteLine(dbo.t1.Insert(row, o => o.ID, o => o.PID));
-            //Console.WriteLine(dbo.t1.Select().Count);
-            //row.ID = 21; row.PID = 1;
-            //Console.WriteLine(dbo.t1.Update(row, o => o.ID == 20, o => o.ID, o => o.ID));
-            //Console.WriteLine(dbo.t1.Select(o => o.ID == row.ID).Count);
-            //Console.WriteLine(dbo.t1.Delete(o => o.ID == row.ID));
-            //Console.WriteLine(dbo.t1.Select().Count);
-
-            //SqlHelper.ExecuteDbSet("insert into t1 output inserted.* values (21, null)").Dump();
-
-            // 显示 dbo.t3 的数据
+            // 显示 dbo.t3 整表数据
             var dumpTable = new Action(() => {
                 SqlHelper.ExecuteDbSet(query.t3.New().ToString()).Dump();
             });
+            // 显示 dbo.t3 一行数据
             var dumpRow = new Action<dbo.t3>(o => {
-                Console.WriteLine(o.c1 + ", " + o.c2 + ", " + o.c3 + ", " + o.c4);
+                Console.WriteLine("row data:");
+                Console.WriteLine(o.c1 + "\t" + o.c2 + "\t" + o.c3 + "\t" + o.c4);
             });
 
             // 清空表 dbo.t3 的数据
-            dbo.t3.Delete();
-            dumpTable.Invoke();
+            dbo.t3.Delete(null);
+            dumpTable();
 
             // 插入 c4, 回写 c1 字段到 r1
             var r1 = new dbo.t3 { c4 = "asdf" };
@@ -50,17 +40,20 @@
                 o => o.c4, 
                 o => o.c1
             );
-            dumpRow.Invoke(r1);
-            dumpTable.Invoke();
+            dumpRow(r1);
+            dumpTable();
 
             // 更新刚插入行的 c4 字段，回写所有字段到 r2
             var r2 = new dbo.t3 { c4 = "qwer" };
-            dbo.t3.Update(r2,
+            r2.Update(
                 o => o.c1 == r1.c1, 
                 o => o.c4
             );
-            dumpRow.Invoke(r2);
-            dumpTable.Invoke();
+            dumpRow(r2);
+            dumpTable();
+
+            // 删掉这行数据
+            r1.Delete();
 
             Console.ReadLine();
         }
@@ -69,6 +62,12 @@
     public static class Ext {
         public static int Insert(this dbo.t3 o, DAL.ColumnEnums.Tables.dbo.t3.Handler insertCols = null, DAL.ColumnEnums.Tables.dbo.t3.Handler fillCols = null, bool isFillAfterInsert = true) {
             return dbo.t3.Insert(o, insertCols, fillCols, isFillAfterInsert);
+        }
+        public static int Update(this dbo.t3 o, DAL.Expressions.Tables.dbo.t3.Handler eh = null, DAL.ColumnEnums.Tables.dbo.t3.Handler updateCols = null, DAL.ColumnEnums.Tables.dbo.t3.Handler fillCols = null, bool isFillAfterUpdate = true) {
+            return dbo.t3.Update(o, eh, updateCols, fillCols, isFillAfterUpdate);
+        }
+        public static int Delete(this dbo.t3 o) {
+            return dbo.t3.Delete(f => f.c1 == o.c1);
         }
     }
 }
