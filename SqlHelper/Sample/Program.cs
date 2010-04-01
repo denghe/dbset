@@ -32,10 +32,36 @@
 
             //SqlHelper.ExecuteDbSet("insert into t1 output inserted.* values (21, null)").Dump();
 
+            // 显示 dbo.t3 的数据
+            var dumpTable = new Action(() => {
+                SqlHelper.ExecuteDbSet(query.t3.New().ToString()).Dump();
+            });
+            var dumpRow = new Action<dbo.t3>(o => {
+                Console.WriteLine(o.c1 + ", " + o.c2 + ", " + o.c3 + ", " + o.c4);
+            });
 
-            var row = new dbo.t3 { c4 = "asdf" };
-            row.Insert(o => o.c4, o => o.c1);
-            Console.WriteLine(row.c1 + ", " + row.c2 + ", " + row.c3 + ", " + row.c4);
+            // 清空表 dbo.t3 的数据
+            dbo.t3.Delete();
+            dumpTable.Invoke();
+
+            // 插入 c4, 回写 c1 字段到 r1
+            var r1 = new dbo.t3 { c4 = "asdf" };
+            r1.Insert(
+                o => o.c4, 
+                o => o.c1
+            );
+            dumpRow.Invoke(r1);
+            dumpTable.Invoke();
+
+            // 更新刚插入行的 c4 字段，回写所有字段到 r2
+            var r2 = new dbo.t3 { c4 = "qwer" };
+            dbo.t3.Update(r2,
+                o => o.c1 == r1.c1, 
+                o => o.c4
+            );
+            dumpRow.Invoke(r2);
+            dumpTable.Invoke();
+
             Console.ReadLine();
         }
     }

@@ -20,6 +20,7 @@
             }
             if(ds.RecordsAffected >= 0) Console.Write("\r\n\r\nRecords Affected:" + ds.RecordsAffected);
             if(ds.ReturnValue != 0) Console.Write("\r\n\r\nReturn:" + ds.ReturnValue);
+            Console.WriteLine();
             return ds;
         }
         public static DbTable Dump(this DbTable dt) {
