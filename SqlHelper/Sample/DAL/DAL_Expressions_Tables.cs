@@ -41,6 +41,13 @@ namespace DAL.Expressions.Tables.dbo
         public ExpNode_String<t2> Name { get { return this.New_String(@"Name"); } }
         public ExpNode_DateTime<t2> CreateTime { get { return this.New_DateTime(@"CreateTime"); } }
     }
+    public partial class t3 : LogicalNode<t3>
+    {
+        public ExpNode_Int32<t3> c1 { get { return this.New_Int32(@"c1"); } }
+        public ExpNode_Guid<t3> c2 { get { return this.New_Guid(@"c2"); } }
+        public ExpNode_DateTime<t3> c3 { get { return this.New_DateTime(@"c3"); } }
+        public ExpNode_String<t3> c4 { get { return this.New_String(@"c4"); } }
+    }
     public partial class tree : LogicalNode<tree>
     {
         public ExpNode_String<tree> Parent { get { return this.New_String(@"Parent"); } }

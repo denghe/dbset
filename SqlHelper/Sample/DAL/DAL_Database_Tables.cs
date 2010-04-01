@@ -115,6 +115,28 @@ namespace DAL.Database.Tables.dbo
 	/// <summary>
 	/// 
 	/// </summary>
+    public partial class t3
+    {
+		/// <summary>
+		/// 
+		/// </summary>
+        public int        c1 { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+        public Guid       c2 { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+        public DateTime   c3 { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+        public string     c4 { get; set; }
+    }
+	/// <summary>
+	/// 
+	/// </summary>
     public partial class tree
     {
 		/// <summary>

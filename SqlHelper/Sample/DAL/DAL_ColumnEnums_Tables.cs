@@ -95,6 +95,23 @@ namespace DAL.ColumnEnums.Tables.dbo
             return __cns[i];
         }
     }
+    public partial class t3 : ColumnList<t3>
+    {
+        public t3 c1 { get { __columns.Add(0); return this; } }
+        public t3 c2 { get { __columns.Add(1); return this; } }
+        public t3 c3 { get { __columns.Add(2); return this; } }
+        public t3 c4 { get { __columns.Add(3); return this; } }
+        protected static string[] __cns = new string[]
+        {
+            @"c1",
+            @"c2",
+            @"c3",
+            @"c4"
+        };
+        public override string GetColumnName(int i) {
+            return __cns[i];
+        }
+    }
     public partial class tree : ColumnList<tree>
     {
         public tree Parent { get { __columns.Add(0); return this; } }

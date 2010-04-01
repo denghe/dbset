@@ -1592,6 +1592,270 @@ DELETE FROM [dbo].[t2]";
         #endregion
 
     }
+    partial class t3
+    {
+
+        #region Select
+
+        public static List<t3> Select(Queries.Tables.dbo.t3 q)
+        {
+            var tsql = q.ToSqlString();
+            var rows = new List<t3>();
+            using(var reader = SqlHelper.ExecuteDataReader(tsql))
+            {
+                var count = q.Columns == null ? 0 : q.Columns.Count();
+                if(count > 0) {
+                    while(reader.Read()) {
+                        var row = new t3();
+                        var cols = q.Columns;
+                        for(int i = 0; i < count; i++) {
+                            if(cols.Contains(0)) {row.c1 = reader.GetInt32(i); i++; }
+                            else if(i < count && cols.Contains(1)) {row.c2 = reader.GetGuid(i); i++; }
+                            else if(i < count && cols.Contains(2)) {row.c3 = reader.GetDateTime(i); i++; }
+                            else if(i < count && cols.Contains(3)) {row.c4 = reader.GetString(i); i++; }
+                        }
+                        rows.Add(row);
+                    }
+                }
+                else
+                {
+                    while(reader.Read())
+                    {
+                        rows.Add(new t3
+                        {
+                            c1 = reader.GetInt32(0),
+                            c2 = reader.GetGuid(1),
+                            c3 = reader.GetDateTime(2),
+                            c4 = reader.GetString(3)
+                        });
+                    }
+                }
+
+            }
+            return rows;
+        }
+
+        public static List<t3> Select(
+            Expressions.Tables.dbo.t3.Handler where = null
+            , Orientations.Tables.dbo.t3.Handler orderby = null
+            , int pageSize = 0
+            , int pageIndex = 0
+            , ColumnEnums.Tables.dbo.t3.Handler columns = null
+            )
+        {
+            return Select(Queries.Tables.dbo.t3.New(where, orderby, pageSize, pageIndex, columns));
+        }
+
+        #endregion
+
+        #region Insert
+
+		public static int Insert(t3 o, ColumnEnums.Tables.dbo.t3.Handler insertCols = null, ColumnEnums.Tables.dbo.t3.Handler fillCols = null, bool isFillAfterInsert = true)
+		{
+			var isFirst = true;
+			var cmd = new SqlCommand();
+			var sb = new StringBuilder(@"
+INSERT INTO [dbo].[t3] (");
+			var sb2 = new StringBuilder();
+            var ics = insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables.dbo.t3());
+            var fcs = fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.t3());
+            var fccount = fcs == null ? 0 : fcs.Count();
+			if (insertCols == null || ics.Contains(1))
+			{
+                cmd.Parameters.Add(new SqlParameter("c2", SqlDbType.UniqueIdentifier, 16, ParameterDirection.Input, false, 0, 0, "c2", DataRowVersion.Current, o.c2));
+				sb.Append((isFirst ? @"
+       " : @"
+     , ") + "[c2]");
+				sb2.Append((isFirst ? @"
+       " : @"
+     , ") + "@c2");
+				isFirst = false;
+			}
+			if (insertCols == null || ics.Contains(2))
+			{
+                cmd.Parameters.Add(new SqlParameter("c3", SqlDbType.DateTime, 8, ParameterDirection.Input, false, 23, 3, "c3", DataRowVersion.Current, o.c3));
+				sb.Append((isFirst ? @"
+       " : @"
+     , ") + "[c3]");
+				sb2.Append((isFirst ? @"
+       " : @"
+     , ") + "@c3");
+				isFirst = false;
+			}
+			if (insertCols == null || ics.Contains(3))
+			{
+                cmd.Parameters.Add(new SqlParameter("c4", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "c4", DataRowVersion.Current, o.c4));
+				sb.Append((isFirst ? @"
+       " : @"
+     , ") + "[c4]");
+				sb2.Append((isFirst ? @"
+       " : @"
+     , ") + "@c4");
+				isFirst = false;
+			}
+            if(isFillAfterInsert) {
+                if(fillCols == null) {
+                    sb.Append(@"
+) 
+OUTPUT INSERTED.* VALUES (");
+                }
+                else {
+                    sb.Append(@"
+) 
+OUTPUT ");
+                    for(int i = 0; i < fccount; i++) {
+                        if(i > 0) sb.Append(@", ");
+                        sb.Append(@"INSERTED.[" + fcs.GetColumnName(i).Replace("]", "]]") + "]");
+                    }
+                    sb.Append(@" VALUES (");
+                }
+            }
+            else sb.Append(@"
+) 
+VALUES (");
+			sb.Append(sb2);
+			sb.Append(@"
+);");
+			cmd.CommandText = sb.ToString();
+            if(!isFillAfterInsert)
+                return SqlHelper.ExecuteNonQuery(cmd);
+
+            using(var reader = SqlHelper.ExecuteDataReader(cmd))
+            {
+                if(fccount == 0)
+                {
+                    while(reader.Read())
+                    {
+                        o.c1 = reader.GetInt32(0);
+                        o.c2 = reader.GetGuid(1);
+                        o.c3 = reader.GetDateTime(2);
+                        o.c4 = reader.GetString(3);
+                    }
+                }
+                else
+                {
+                    while(reader.Read())
+                    {
+                        for(int i = 0; i < fccount; i++)
+                        {
+                            if(fcs.Contains(0)) {o.c1 = reader.GetInt32(i); i++; }
+                            else if(i < fccount && fcs.Contains(1)) {o.c2 = reader.GetGuid(i); i++; }
+                            else if(i < fccount && fcs.Contains(2)) {o.c3 = reader.GetDateTime(i); i++; }
+                            else if(i < fccount && fcs.Contains(3)) {o.c4 = reader.GetString(i); i++; }
+                        }
+                    }
+                }
+                return reader.RecordsAffected;
+            }
+		}
+        #endregion
+
+        #region Update
+
+		public static int Update(t3 o, Expressions.Tables.dbo.t3.Handler eh = null, ColumnEnums.Tables.dbo.t3.Handler updateCols = null, ColumnEnums.Tables.dbo.t3.Handler fillCols = null, bool isFillAfterUpdate = true)
+		{
+			var isFirst = true;
+			var cmd = new SqlCommand();
+			var sb = new StringBuilder(@"
+UPDATE [dbo].[t3]
+   SET ");
+            var ucs = updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables.dbo.t3());
+            var fcs = fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.t3());
+            var fccount = fcs == null ? 0 : fcs.Count();
+			if (updateCols == null || ucs.Contains(1))
+			{
+                cmd.Parameters.Add(new SqlParameter("c2", SqlDbType.UniqueIdentifier, 16, ParameterDirection.Input, false, 0, 0, "c2", DataRowVersion.Current, o.c2));
+				sb.Append((isFirst ? @"" : @"
+     , ") + "[c2] = @c2");
+				isFirst = false;
+			}
+			if (updateCols == null || ucs.Contains(2))
+			{
+                cmd.Parameters.Add(new SqlParameter("c3", SqlDbType.DateTime, 8, ParameterDirection.Input, false, 23, 3, "c3", DataRowVersion.Current, o.c3));
+				sb.Append((isFirst ? @"" : @"
+     , ") + "[c3] = @c3");
+				isFirst = false;
+			}
+			if (updateCols == null || ucs.Contains(3))
+			{
+                cmd.Parameters.Add(new SqlParameter("c4", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "c4", DataRowVersion.Current, o.c4));
+				sb.Append((isFirst ? @"" : @"
+     , ") + "[c4] = @c4");
+				isFirst = false;
+			}
+            if(isFillAfterUpdate) {
+                if(fillCols == null) {
+                    sb.Append(@"
+OUTPUT INSERTED.*");
+                }
+                else {
+                    sb.Append(@"
+OUTPUT ");
+                    for(int i = 0; i < fccount; i++) {
+                        if(i > 0) sb.Append(@", ");
+                        sb.Append(@"INSERTED.[" + fcs.GetColumnName(i).Replace("]", "]]") + "]");
+                    }
+                }
+            }
+
+            if (eh != null)
+            {
+                var ws = eh.Invoke(new Expressions.Tables.dbo.t3()).ToString();
+    			sb.Append(@"
+ WHERE " + ws);
+            }
+			cmd.CommandText = sb.ToString();
+			if (!isFillAfterUpdate)
+                return SqlHelper.ExecuteNonQuery(cmd);
+
+            using(var reader = SqlHelper.ExecuteDataReader(cmd))
+            {
+                if(fccount == 0)
+                {
+                    while(reader.Read())
+                    {
+                        o.c1 = reader.GetInt32(0);
+                        o.c2 = reader.GetGuid(1);
+                        o.c3 = reader.GetDateTime(2);
+                        o.c4 = reader.GetString(3);
+                    }
+                }
+                else
+                {
+                    while(reader.Read())
+                    {
+                        for(int i = 0; i < fccount; i++)
+                        {
+                            if(fcs.Contains(0)) {o.c1 = reader.GetInt32(i); i++; }
+                            else if(i < fccount && fcs.Contains(1)) {o.c2 = reader.GetGuid(i); i++; }
+                            else if(i < fccount && fcs.Contains(2)) {o.c3 = reader.GetDateTime(i); i++; }
+                            else if(i < fccount && fcs.Contains(3)) {o.c4 = reader.GetString(i); i++; }
+                        }
+                    }
+                }
+                return reader.RecordsAffected;
+            }
+            
+		}
+        #endregion
+
+        #region Delete
+
+		public static int Delete(Expressions.Tables.dbo.t3.Handler eh = null)
+		{
+			var s = @"
+DELETE FROM [dbo].[t3]";
+            if (eh != null)
+            {
+                var ws = eh.Invoke(new Expressions.Tables.dbo.t3()).ToString();
+    			s += @"
+ WHERE " + ws;
+            }
+			return SqlHelper.ExecuteNonQuery(s);
+		}
+        #endregion
+
+    }
     partial class tree
     {
 

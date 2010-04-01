@@ -47,6 +47,13 @@ namespace DAL.Queries.Tables.dbo
             return base.ToSqlString(schema ?? @"dbo", name ?? @"t2", columns);
         }
     }
+    public partial class t3 : Query<t3, Expressions.Tables.dbo.t3, Orientations.Tables.dbo.t3, ColumnEnums.Tables.dbo.t3>
+    {
+        public override string ToSqlString(string schema = null, string name = null, List<string> columns = null)
+        {
+            return base.ToSqlString(schema ?? @"dbo", name ?? @"t3", columns);
+        }
+    }
     public partial class tree : Query<tree, Expressions.Tables.dbo.tree, Orientations.Tables.dbo.tree, ColumnEnums.Tables.dbo.tree>
     {
         public override string ToSqlString(string schema = null, string name = null, List<string> columns = null)

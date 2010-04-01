@@ -41,6 +41,13 @@ namespace DAL.Orientations.Tables.dbo
         public ExpNode<t2> Name { get { return this.New_Column(@"Name"); } }
         public ExpNode<t2> CreateTime { get { return this.New_Column(@"CreateTime"); } }
     }
+    public partial class t3 : LogicalNode<t3>
+    {
+        public ExpNode<t3> c1 { get { return this.New_Column(@"c1"); } }
+        public ExpNode<t3> c2 { get { return this.New_Column(@"c2"); } }
+        public ExpNode<t3> c3 { get { return this.New_Column(@"c3"); } }
+        public ExpNode<t3> c4 { get { return this.New_Column(@"c4"); } }
+    }
     public partial class tree : LogicalNode<tree>
     {
         public ExpNode<tree> Parent { get { return this.New_Column(@"Parent"); } }
