@@ -12,6 +12,7 @@
     using System.IO;
 
     using SqlLib;
+    using DAL.Database.Tables.dbo;
     using dbo = DAL.Database.Tables.dbo;
     using query = DAL.Queries.Tables.dbo;
 
@@ -31,13 +32,13 @@
             });
 
             // 清空表 dbo.t3 的数据
-            dbo.t3.Delete(null);
+            dbo.t3.Delete(o => o);
             dumpTable();
 
             // 插入 c4, 回写 c1 字段到 r1
             var r1 = new dbo.t3 { c4 = "asdf" };
             r1.Insert(
-                o => o.c4, 
+                o => o.c4,
                 o => o.c1
             );
             dumpRow(r1);
@@ -46,28 +47,17 @@
             // 更新刚插入行的 c4 字段，回写所有字段到 r2
             var r2 = new dbo.t3 { c4 = "qwer" };
             r2.Update(
-                o => o.c1 == r1.c1, 
+                o => o.c1 == r1.c1,
                 o => o.c4
             );
             dumpRow(r2);
             dumpTable();
 
-            // 删掉这行数据
-            r1.Delete();
+            // 根据字段 c1 删掉数据
+            r1.Delete(o => o.c1);
 
             Console.ReadLine();
         }
     }
 
-    public static class Ext {
-        public static int Insert(this dbo.t3 o, DAL.ColumnEnums.Tables.dbo.t3.Handler insertCols = null, DAL.ColumnEnums.Tables.dbo.t3.Handler fillCols = null, bool isFillAfterInsert = true) {
-            return dbo.t3.Insert(o, insertCols, fillCols, isFillAfterInsert);
-        }
-        public static int Update(this dbo.t3 o, DAL.Expressions.Tables.dbo.t3.Handler eh = null, DAL.ColumnEnums.Tables.dbo.t3.Handler updateCols = null, DAL.ColumnEnums.Tables.dbo.t3.Handler fillCols = null, bool isFillAfterUpdate = true) {
-            return dbo.t3.Update(o, eh, updateCols, fillCols, isFillAfterUpdate);
-        }
-        public static int Delete(this dbo.t3 o) {
-            return dbo.t3.Delete(f => f.c1 == o.c1);
-        }
-    }
 }

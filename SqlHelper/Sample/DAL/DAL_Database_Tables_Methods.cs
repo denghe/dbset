@@ -72,17 +72,15 @@ namespace DAL.Database.Tables.dbo
 
         #region Insert
 
-		public static int Insert(Formula_890 o, ColumnEnums.Tables.dbo.Formula_890.Handler insertCols = null, ColumnEnums.Tables.dbo.Formula_890.Handler fillCols = null, bool isFillAfterInsert = true)
+		public static int Insert(Formula_890 o, ColumnEnums.Tables.dbo.Formula_890 ics = null, ColumnEnums.Tables.dbo.Formula_890 fcs = null, bool isFillAfterInsert = true)
 		{
-			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 INSERT INTO [dbo].[Formula_890] (");
 			var sb2 = new StringBuilder();
-            var ics = insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables.dbo.Formula_890());
-            var fcs = fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.Formula_890());
+			var isFirst = true;
             var fccount = fcs == null ? 0 : fcs.Count();
-			if (insertCols == null || ics.Contains(0))
+			if (ics == null || ics.Contains(0))
 			{
                 cmd.Parameters.Add(new SqlParameter("Name", SqlDbType.NVarChar, 400, ParameterDirection.Input, false, 0, 0, "Name", DataRowVersion.Current, o.Name));
 				sb.Append((isFirst ? @"
@@ -93,7 +91,7 @@ INSERT INTO [dbo].[Formula_890] (");
      , ") + "@Name");
 				isFirst = false;
 			}
-			if (insertCols == null || ics.Contains(1))
+			if (ics == null || ics.Contains(1))
 			{
                 var p = new SqlParameter("Expression", SqlDbType.NVarChar, 4000, ParameterDirection.Input, false, 0, 0, "Expression", DataRowVersion.Current, null);
                 if (o.Expression == null) p.Value = DBNull.Value; else p.Value = o.Expression;
@@ -106,7 +104,7 @@ INSERT INTO [dbo].[Formula_890] (");
      , ") + "@Expression");
 				isFirst = false;
 			}
-			if (insertCols == null || ics.Contains(2))
+			if (ics == null || ics.Contains(2))
 			{
                 var p = new SqlParameter("Value", SqlDbType.NVarChar, 400, ParameterDirection.Input, false, 0, 0, "Value", DataRowVersion.Current, null);
                 if (o.Value == null) p.Value = DBNull.Value; else p.Value = o.Value;
@@ -119,7 +117,7 @@ INSERT INTO [dbo].[Formula_890] (");
      , ") + "@Value");
 				isFirst = false;
 			}
-			if (insertCols == null || ics.Contains(3))
+			if (ics == null || ics.Contains(3))
 			{
                 var p = new SqlParameter("IsGenerator", SqlDbType.Bit, 1, ParameterDirection.Input, false, 1, 0, "IsGenerator", DataRowVersion.Current, null);
                 if (o.IsGenerator == null) p.Value = DBNull.Value; else p.Value = o.IsGenerator;
@@ -133,7 +131,7 @@ INSERT INTO [dbo].[Formula_890] (");
 				isFirst = false;
 			}
             if(isFillAfterInsert) {
-                if(fillCols == null) {
+                if(fcs == null) {
                     sb.Append(@"
 ) 
 OUTPUT INSERTED.* VALUES (");
@@ -187,28 +185,36 @@ VALUES (");
                 return reader.RecordsAffected;
             }
 		}
+
+		public static int Insert(Formula_890 o, ColumnEnums.Tables.dbo.Formula_890.Handler insertCols = null, ColumnEnums.Tables.dbo.Formula_890.Handler fillCols = null, bool isFillAfterInsert = true)
+		{
+            return Insert(o,
+                insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables.dbo.Formula_890()),
+                fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.Formula_890()),
+                isFillAfterInsert
+            );
+        }
+
         #endregion
 
         #region Update
 
-		public static int Update(Formula_890 o, Expressions.Tables.dbo.Formula_890.Handler eh = null, ColumnEnums.Tables.dbo.Formula_890.Handler updateCols = null, ColumnEnums.Tables.dbo.Formula_890.Handler fillCols = null, bool isFillAfterUpdate = true)
+		public static int Update(Formula_890 o, Expressions.Tables.dbo.Formula_890 eh = null, ColumnEnums.Tables.dbo.Formula_890 ucs = null, ColumnEnums.Tables.dbo.Formula_890 fcs = null, bool isFillAfterUpdate = true)
 		{
-			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 UPDATE [dbo].[Formula_890]
    SET ");
-            var ucs = updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables.dbo.Formula_890());
-            var fcs = fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.Formula_890());
+			var isFirst = true;
             var fccount = fcs == null ? 0 : fcs.Count();
-			if (updateCols == null || ucs.Contains(0))
+			if (ucs == null || ucs.Contains(0))
 			{
                 cmd.Parameters.Add(new SqlParameter("Name", SqlDbType.NVarChar, 400, ParameterDirection.Input, false, 0, 0, "Name", DataRowVersion.Current, o.Name));
 				sb.Append((isFirst ? @"" : @"
      , ") + "[Name] = @Name");
 				isFirst = false;
 			}
-			if (updateCols == null || ucs.Contains(1))
+			if (ucs == null || ucs.Contains(1))
 			{
                 var p = new SqlParameter("Expression", SqlDbType.NVarChar, 4000, ParameterDirection.Input, false, 0, 0, "Expression", DataRowVersion.Current, null);
                 if (o.Expression == null) p.Value = DBNull.Value; else p.Value = o.Expression;
@@ -217,7 +223,7 @@ UPDATE [dbo].[Formula_890]
      , ") + "[Expression] = @Expression");
 				isFirst = false;
 			}
-			if (updateCols == null || ucs.Contains(2))
+			if (ucs == null || ucs.Contains(2))
 			{
                 var p = new SqlParameter("Value", SqlDbType.NVarChar, 400, ParameterDirection.Input, false, 0, 0, "Value", DataRowVersion.Current, null);
                 if (o.Value == null) p.Value = DBNull.Value; else p.Value = o.Value;
@@ -226,7 +232,7 @@ UPDATE [dbo].[Formula_890]
      , ") + "[Value] = @Value");
 				isFirst = false;
 			}
-			if (updateCols == null || ucs.Contains(3))
+			if (ucs == null || ucs.Contains(3))
 			{
                 var p = new SqlParameter("IsGenerator", SqlDbType.Bit, 1, ParameterDirection.Input, false, 1, 0, "IsGenerator", DataRowVersion.Current, null);
                 if (o.IsGenerator == null) p.Value = DBNull.Value; else p.Value = o.IsGenerator;
@@ -236,7 +242,7 @@ UPDATE [dbo].[Formula_890]
 				isFirst = false;
 			}
             if(isFillAfterUpdate) {
-                if(fillCols == null) {
+                if(fcs == null) {
                     sb.Append(@"
 OUTPUT INSERTED.*");
                 }
@@ -252,8 +258,9 @@ OUTPUT ");
 
             if (eh != null)
             {
-                var ws = eh.Invoke(new Expressions.Tables.dbo.Formula_890()).ToString();
-    			sb.Append(@"
+                var ws = eh.ToString();
+                if(ws.Length > 0)
+    			    sb.Append(@"
  WHERE " + ws);
             }
 			cmd.CommandText = sb.ToString();
@@ -289,22 +296,36 @@ OUTPUT ");
             }
             
 		}
+        public static int Update(Formula_890 o, Expressions.Tables.dbo.Formula_890.Handler eh = null, ColumnEnums.Tables.dbo.Formula_890.Handler updateCols = null, ColumnEnums.Tables.dbo.Formula_890.Handler fillCols = null, bool isFillAfterUpdate = true)
+        {
+            return Update(o,
+                eh == null ? null : eh.Invoke(new Expressions.Tables.dbo.Formula_890()),
+                updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables.dbo.Formula_890()),
+                fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.Formula_890()),
+                isFillAfterUpdate
+            );
+        }
         #endregion
 
         #region Delete
 
-		public static int Delete(Expressions.Tables.dbo.Formula_890.Handler eh = null)
+		public static int Delete(Expressions.Tables.dbo.Formula_890 eh)
 		{
 			var s = @"
 DELETE FROM [dbo].[Formula_890]";
             if (eh != null)
             {
-                var ws = eh.Invoke(new Expressions.Tables.dbo.Formula_890()).ToString();
-    			s += @"
+                var ws = eh.ToString();
+                if(ws.Length > 0)
+    			    s += @"
  WHERE " + ws;
             }
 			return SqlHelper.ExecuteNonQuery(s);
 		}
+        public static int Delete(Expressions.Tables.dbo.Formula_890.Handler eh)
+        {
+            return Delete(eh.Invoke(new Expressions.Tables.dbo.Formula_890()));
+        }
         #endregion
 
     }
@@ -369,17 +390,15 @@ DELETE FROM [dbo].[Formula_890]";
 
         #region Insert
 
-		public static int Insert(FS o, ColumnEnums.Tables.dbo.FS.Handler insertCols = null, ColumnEnums.Tables.dbo.FS.Handler fillCols = null, bool isFillAfterInsert = true)
+		public static int Insert(FS o, ColumnEnums.Tables.dbo.FS ics = null, ColumnEnums.Tables.dbo.FS fcs = null, bool isFillAfterInsert = true)
 		{
-			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 INSERT INTO [dbo].[FS] (");
 			var sb2 = new StringBuilder();
-            var ics = insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables.dbo.FS());
-            var fcs = fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.FS());
+			var isFirst = true;
             var fccount = fcs == null ? 0 : fcs.Count();
-			if (insertCols == null || ics.Contains(0))
+			if (ics == null || ics.Contains(0))
 			{
                 cmd.Parameters.Add(new SqlParameter("ID", SqlDbType.UniqueIdentifier, 16, ParameterDirection.Input, false, 0, 0, "ID", DataRowVersion.Current, o.ID));
 				sb.Append((isFirst ? @"
@@ -390,7 +409,7 @@ INSERT INTO [dbo].[FS] (");
      , ") + "@ID");
 				isFirst = false;
 			}
-			if (insertCols == null || ics.Contains(1))
+			if (ics == null || ics.Contains(1))
 			{
                 cmd.Parameters.Add(new SqlParameter("Category", SqlDbType.Variant, 892, ParameterDirection.Input, false, 0, 0, "Category", DataRowVersion.Current, o.Category));
 				sb.Append((isFirst ? @"
@@ -401,7 +420,7 @@ INSERT INTO [dbo].[FS] (");
      , ") + "@Category");
 				isFirst = false;
 			}
-			if (insertCols == null || ics.Contains(2))
+			if (ics == null || ics.Contains(2))
 			{
                 var p = new SqlParameter("Stream", SqlDbType.VarBinary, -1, ParameterDirection.Input, false, 0, 0, "Stream", DataRowVersion.Current, null);
                 if (o.Stream == null) p.Value = DBNull.Value; else p.Value = o.Stream;
@@ -415,7 +434,7 @@ INSERT INTO [dbo].[FS] (");
 				isFirst = false;
 			}
             if(isFillAfterInsert) {
-                if(fillCols == null) {
+                if(fcs == null) {
                     sb.Append(@"
 ) 
 OUTPUT INSERTED.* VALUES (");
@@ -467,35 +486,43 @@ VALUES (");
                 return reader.RecordsAffected;
             }
 		}
+
+		public static int Insert(FS o, ColumnEnums.Tables.dbo.FS.Handler insertCols = null, ColumnEnums.Tables.dbo.FS.Handler fillCols = null, bool isFillAfterInsert = true)
+		{
+            return Insert(o,
+                insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables.dbo.FS()),
+                fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.FS()),
+                isFillAfterInsert
+            );
+        }
+
         #endregion
 
         #region Update
 
-		public static int Update(FS o, Expressions.Tables.dbo.FS.Handler eh = null, ColumnEnums.Tables.dbo.FS.Handler updateCols = null, ColumnEnums.Tables.dbo.FS.Handler fillCols = null, bool isFillAfterUpdate = true)
+		public static int Update(FS o, Expressions.Tables.dbo.FS eh = null, ColumnEnums.Tables.dbo.FS ucs = null, ColumnEnums.Tables.dbo.FS fcs = null, bool isFillAfterUpdate = true)
 		{
-			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 UPDATE [dbo].[FS]
    SET ");
-            var ucs = updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables.dbo.FS());
-            var fcs = fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.FS());
+			var isFirst = true;
             var fccount = fcs == null ? 0 : fcs.Count();
-			if (updateCols == null || ucs.Contains(0))
+			if (ucs == null || ucs.Contains(0))
 			{
                 cmd.Parameters.Add(new SqlParameter("ID", SqlDbType.UniqueIdentifier, 16, ParameterDirection.Input, false, 0, 0, "ID", DataRowVersion.Current, o.ID));
 				sb.Append((isFirst ? @"" : @"
      , ") + "[ID] = @ID");
 				isFirst = false;
 			}
-			if (updateCols == null || ucs.Contains(1))
+			if (ucs == null || ucs.Contains(1))
 			{
                 cmd.Parameters.Add(new SqlParameter("Category", SqlDbType.Variant, 892, ParameterDirection.Input, false, 0, 0, "Category", DataRowVersion.Current, o.Category));
 				sb.Append((isFirst ? @"" : @"
      , ") + "[Category] = @Category");
 				isFirst = false;
 			}
-			if (updateCols == null || ucs.Contains(2))
+			if (ucs == null || ucs.Contains(2))
 			{
                 var p = new SqlParameter("Stream", SqlDbType.VarBinary, -1, ParameterDirection.Input, false, 0, 0, "Stream", DataRowVersion.Current, null);
                 if (o.Stream == null) p.Value = DBNull.Value; else p.Value = o.Stream;
@@ -505,7 +532,7 @@ UPDATE [dbo].[FS]
 				isFirst = false;
 			}
             if(isFillAfterUpdate) {
-                if(fillCols == null) {
+                if(fcs == null) {
                     sb.Append(@"
 OUTPUT INSERTED.*");
                 }
@@ -521,8 +548,9 @@ OUTPUT ");
 
             if (eh != null)
             {
-                var ws = eh.Invoke(new Expressions.Tables.dbo.FS()).ToString();
-    			sb.Append(@"
+                var ws = eh.ToString();
+                if(ws.Length > 0)
+    			    sb.Append(@"
  WHERE " + ws);
             }
 			cmd.CommandText = sb.ToString();
@@ -556,22 +584,36 @@ OUTPUT ");
             }
             
 		}
+        public static int Update(FS o, Expressions.Tables.dbo.FS.Handler eh = null, ColumnEnums.Tables.dbo.FS.Handler updateCols = null, ColumnEnums.Tables.dbo.FS.Handler fillCols = null, bool isFillAfterUpdate = true)
+        {
+            return Update(o,
+                eh == null ? null : eh.Invoke(new Expressions.Tables.dbo.FS()),
+                updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables.dbo.FS()),
+                fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.FS()),
+                isFillAfterUpdate
+            );
+        }
         #endregion
 
         #region Delete
 
-		public static int Delete(Expressions.Tables.dbo.FS.Handler eh = null)
+		public static int Delete(Expressions.Tables.dbo.FS eh)
 		{
 			var s = @"
 DELETE FROM [dbo].[FS]";
             if (eh != null)
             {
-                var ws = eh.Invoke(new Expressions.Tables.dbo.FS()).ToString();
-    			s += @"
+                var ws = eh.ToString();
+                if(ws.Length > 0)
+    			    s += @"
  WHERE " + ws;
             }
 			return SqlHelper.ExecuteNonQuery(s);
 		}
+        public static int Delete(Expressions.Tables.dbo.FS.Handler eh)
+        {
+            return Delete(eh.Invoke(new Expressions.Tables.dbo.FS()));
+        }
         #endregion
 
     }
@@ -636,17 +678,15 @@ DELETE FROM [dbo].[FS]";
 
         #region Insert
 
-		public static int Insert(ParentChildOrg o, ColumnEnums.Tables.dbo.ParentChildOrg.Handler insertCols = null, ColumnEnums.Tables.dbo.ParentChildOrg.Handler fillCols = null, bool isFillAfterInsert = true)
+		public static int Insert(ParentChildOrg o, ColumnEnums.Tables.dbo.ParentChildOrg ics = null, ColumnEnums.Tables.dbo.ParentChildOrg fcs = null, bool isFillAfterInsert = true)
 		{
-			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 INSERT INTO [dbo].[ParentChildOrg] (");
 			var sb2 = new StringBuilder();
-            var ics = insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables.dbo.ParentChildOrg());
-            var fcs = fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.ParentChildOrg());
+			var isFirst = true;
             var fccount = fcs == null ? 0 : fcs.Count();
-			if (insertCols == null || ics.Contains(0))
+			if (ics == null || ics.Contains(0))
 			{
                 cmd.Parameters.Add(new SqlParameter("EmployeeID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "EmployeeID", DataRowVersion.Current, o.EmployeeID));
 				sb.Append((isFirst ? @"
@@ -657,7 +697,7 @@ INSERT INTO [dbo].[ParentChildOrg] (");
      , ") + "@EmployeeID");
 				isFirst = false;
 			}
-			if (insertCols == null || ics.Contains(1))
+			if (ics == null || ics.Contains(1))
 			{
                 var p = new SqlParameter("ManagerId", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "ManagerId", DataRowVersion.Current, null);
                 if (o.ManagerId == null) p.Value = DBNull.Value; else p.Value = o.ManagerId;
@@ -670,7 +710,7 @@ INSERT INTO [dbo].[ParentChildOrg] (");
      , ") + "@ManagerId");
 				isFirst = false;
 			}
-			if (insertCols == null || ics.Contains(2))
+			if (ics == null || ics.Contains(2))
 			{
                 var p = new SqlParameter("EmployeeName", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "EmployeeName", DataRowVersion.Current, null);
                 if (o.EmployeeName == null) p.Value = DBNull.Value; else p.Value = o.EmployeeName;
@@ -684,7 +724,7 @@ INSERT INTO [dbo].[ParentChildOrg] (");
 				isFirst = false;
 			}
             if(isFillAfterInsert) {
-                if(fillCols == null) {
+                if(fcs == null) {
                     sb.Append(@"
 ) 
 OUTPUT INSERTED.* VALUES (");
@@ -736,28 +776,36 @@ VALUES (");
                 return reader.RecordsAffected;
             }
 		}
+
+		public static int Insert(ParentChildOrg o, ColumnEnums.Tables.dbo.ParentChildOrg.Handler insertCols = null, ColumnEnums.Tables.dbo.ParentChildOrg.Handler fillCols = null, bool isFillAfterInsert = true)
+		{
+            return Insert(o,
+                insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables.dbo.ParentChildOrg()),
+                fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.ParentChildOrg()),
+                isFillAfterInsert
+            );
+        }
+
         #endregion
 
         #region Update
 
-		public static int Update(ParentChildOrg o, Expressions.Tables.dbo.ParentChildOrg.Handler eh = null, ColumnEnums.Tables.dbo.ParentChildOrg.Handler updateCols = null, ColumnEnums.Tables.dbo.ParentChildOrg.Handler fillCols = null, bool isFillAfterUpdate = true)
+		public static int Update(ParentChildOrg o, Expressions.Tables.dbo.ParentChildOrg eh = null, ColumnEnums.Tables.dbo.ParentChildOrg ucs = null, ColumnEnums.Tables.dbo.ParentChildOrg fcs = null, bool isFillAfterUpdate = true)
 		{
-			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 UPDATE [dbo].[ParentChildOrg]
    SET ");
-            var ucs = updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables.dbo.ParentChildOrg());
-            var fcs = fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.ParentChildOrg());
+			var isFirst = true;
             var fccount = fcs == null ? 0 : fcs.Count();
-			if (updateCols == null || ucs.Contains(0))
+			if (ucs == null || ucs.Contains(0))
 			{
                 cmd.Parameters.Add(new SqlParameter("EmployeeID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "EmployeeID", DataRowVersion.Current, o.EmployeeID));
 				sb.Append((isFirst ? @"" : @"
      , ") + "[EmployeeID] = @EmployeeID");
 				isFirst = false;
 			}
-			if (updateCols == null || ucs.Contains(1))
+			if (ucs == null || ucs.Contains(1))
 			{
                 var p = new SqlParameter("ManagerId", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "ManagerId", DataRowVersion.Current, null);
                 if (o.ManagerId == null) p.Value = DBNull.Value; else p.Value = o.ManagerId;
@@ -766,7 +814,7 @@ UPDATE [dbo].[ParentChildOrg]
      , ") + "[ManagerId] = @ManagerId");
 				isFirst = false;
 			}
-			if (updateCols == null || ucs.Contains(2))
+			if (ucs == null || ucs.Contains(2))
 			{
                 var p = new SqlParameter("EmployeeName", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "EmployeeName", DataRowVersion.Current, null);
                 if (o.EmployeeName == null) p.Value = DBNull.Value; else p.Value = o.EmployeeName;
@@ -776,7 +824,7 @@ UPDATE [dbo].[ParentChildOrg]
 				isFirst = false;
 			}
             if(isFillAfterUpdate) {
-                if(fillCols == null) {
+                if(fcs == null) {
                     sb.Append(@"
 OUTPUT INSERTED.*");
                 }
@@ -792,8 +840,9 @@ OUTPUT ");
 
             if (eh != null)
             {
-                var ws = eh.Invoke(new Expressions.Tables.dbo.ParentChildOrg()).ToString();
-    			sb.Append(@"
+                var ws = eh.ToString();
+                if(ws.Length > 0)
+    			    sb.Append(@"
  WHERE " + ws);
             }
 			cmd.CommandText = sb.ToString();
@@ -827,22 +876,36 @@ OUTPUT ");
             }
             
 		}
+        public static int Update(ParentChildOrg o, Expressions.Tables.dbo.ParentChildOrg.Handler eh = null, ColumnEnums.Tables.dbo.ParentChildOrg.Handler updateCols = null, ColumnEnums.Tables.dbo.ParentChildOrg.Handler fillCols = null, bool isFillAfterUpdate = true)
+        {
+            return Update(o,
+                eh == null ? null : eh.Invoke(new Expressions.Tables.dbo.ParentChildOrg()),
+                updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables.dbo.ParentChildOrg()),
+                fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.ParentChildOrg()),
+                isFillAfterUpdate
+            );
+        }
         #endregion
 
         #region Delete
 
-		public static int Delete(Expressions.Tables.dbo.ParentChildOrg.Handler eh = null)
+		public static int Delete(Expressions.Tables.dbo.ParentChildOrg eh)
 		{
 			var s = @"
 DELETE FROM [dbo].[ParentChildOrg]";
             if (eh != null)
             {
-                var ws = eh.Invoke(new Expressions.Tables.dbo.ParentChildOrg()).ToString();
-    			s += @"
+                var ws = eh.ToString();
+                if(ws.Length > 0)
+    			    s += @"
  WHERE " + ws;
             }
 			return SqlHelper.ExecuteNonQuery(s);
 		}
+        public static int Delete(Expressions.Tables.dbo.ParentChildOrg.Handler eh)
+        {
+            return Delete(eh.Invoke(new Expressions.Tables.dbo.ParentChildOrg()));
+        }
         #endregion
 
     }
@@ -902,17 +965,15 @@ DELETE FROM [dbo].[ParentChildOrg]";
 
         #region Insert
 
-		public static int Insert(t o, ColumnEnums.Tables.dbo.t.Handler insertCols = null, ColumnEnums.Tables.dbo.t.Handler fillCols = null, bool isFillAfterInsert = true)
+		public static int Insert(t o, ColumnEnums.Tables.dbo.t ics = null, ColumnEnums.Tables.dbo.t fcs = null, bool isFillAfterInsert = true)
 		{
-			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 INSERT INTO [dbo].[t] (");
 			var sb2 = new StringBuilder();
-            var ics = insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables.dbo.t());
-            var fcs = fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.t());
+			var isFirst = true;
             var fccount = fcs == null ? 0 : fcs.Count();
-			if (insertCols == null || ics.Contains(0))
+			if (ics == null || ics.Contains(0))
 			{
                 cmd.Parameters.Add(new SqlParameter("a", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "a", DataRowVersion.Current, o.a));
 				sb.Append((isFirst ? @"
@@ -923,7 +984,7 @@ INSERT INTO [dbo].[t] (");
      , ") + "@a");
 				isFirst = false;
 			}
-			if (insertCols == null || ics.Contains(1))
+			if (ics == null || ics.Contains(1))
 			{
                 cmd.Parameters.Add(new SqlParameter("b", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "b", DataRowVersion.Current, o.b));
 				sb.Append((isFirst ? @"
@@ -934,7 +995,7 @@ INSERT INTO [dbo].[t] (");
      , ") + "@b");
 				isFirst = false;
 			}
-			if (insertCols == null || ics.Contains(2))
+			if (ics == null || ics.Contains(2))
 			{
                 cmd.Parameters.Add(new SqlParameter("c", SqlDbType.Binary, 50, ParameterDirection.Input, false, 0, 0, "c", DataRowVersion.Current, o.c));
 				sb.Append((isFirst ? @"
@@ -946,7 +1007,7 @@ INSERT INTO [dbo].[t] (");
 				isFirst = false;
 			}
             if(isFillAfterInsert) {
-                if(fillCols == null) {
+                if(fcs == null) {
                     sb.Append(@"
 ) 
 OUTPUT INSERTED.* VALUES (");
@@ -998,35 +1059,43 @@ VALUES (");
                 return reader.RecordsAffected;
             }
 		}
+
+		public static int Insert(t o, ColumnEnums.Tables.dbo.t.Handler insertCols = null, ColumnEnums.Tables.dbo.t.Handler fillCols = null, bool isFillAfterInsert = true)
+		{
+            return Insert(o,
+                insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables.dbo.t()),
+                fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.t()),
+                isFillAfterInsert
+            );
+        }
+
         #endregion
 
         #region Update
 
-		public static int Update(t o, Expressions.Tables.dbo.t.Handler eh = null, ColumnEnums.Tables.dbo.t.Handler updateCols = null, ColumnEnums.Tables.dbo.t.Handler fillCols = null, bool isFillAfterUpdate = true)
+		public static int Update(t o, Expressions.Tables.dbo.t eh = null, ColumnEnums.Tables.dbo.t ucs = null, ColumnEnums.Tables.dbo.t fcs = null, bool isFillAfterUpdate = true)
 		{
-			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 UPDATE [dbo].[t]
    SET ");
-            var ucs = updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables.dbo.t());
-            var fcs = fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.t());
+			var isFirst = true;
             var fccount = fcs == null ? 0 : fcs.Count();
-			if (updateCols == null || ucs.Contains(0))
+			if (ucs == null || ucs.Contains(0))
 			{
                 cmd.Parameters.Add(new SqlParameter("a", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "a", DataRowVersion.Current, o.a));
 				sb.Append((isFirst ? @"" : @"
      , ") + "[a] = @a");
 				isFirst = false;
 			}
-			if (updateCols == null || ucs.Contains(1))
+			if (ucs == null || ucs.Contains(1))
 			{
                 cmd.Parameters.Add(new SqlParameter("b", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "b", DataRowVersion.Current, o.b));
 				sb.Append((isFirst ? @"" : @"
      , ") + "[b] = @b");
 				isFirst = false;
 			}
-			if (updateCols == null || ucs.Contains(2))
+			if (ucs == null || ucs.Contains(2))
 			{
                 cmd.Parameters.Add(new SqlParameter("c", SqlDbType.Binary, 50, ParameterDirection.Input, false, 0, 0, "c", DataRowVersion.Current, o.c));
 				sb.Append((isFirst ? @"" : @"
@@ -1034,7 +1103,7 @@ UPDATE [dbo].[t]
 				isFirst = false;
 			}
             if(isFillAfterUpdate) {
-                if(fillCols == null) {
+                if(fcs == null) {
                     sb.Append(@"
 OUTPUT INSERTED.*");
                 }
@@ -1050,8 +1119,9 @@ OUTPUT ");
 
             if (eh != null)
             {
-                var ws = eh.Invoke(new Expressions.Tables.dbo.t()).ToString();
-    			sb.Append(@"
+                var ws = eh.ToString();
+                if(ws.Length > 0)
+    			    sb.Append(@"
  WHERE " + ws);
             }
 			cmd.CommandText = sb.ToString();
@@ -1085,22 +1155,36 @@ OUTPUT ");
             }
             
 		}
+        public static int Update(t o, Expressions.Tables.dbo.t.Handler eh = null, ColumnEnums.Tables.dbo.t.Handler updateCols = null, ColumnEnums.Tables.dbo.t.Handler fillCols = null, bool isFillAfterUpdate = true)
+        {
+            return Update(o,
+                eh == null ? null : eh.Invoke(new Expressions.Tables.dbo.t()),
+                updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables.dbo.t()),
+                fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.t()),
+                isFillAfterUpdate
+            );
+        }
         #endregion
 
         #region Delete
 
-		public static int Delete(Expressions.Tables.dbo.t.Handler eh = null)
+		public static int Delete(Expressions.Tables.dbo.t eh)
 		{
 			var s = @"
 DELETE FROM [dbo].[t]";
             if (eh != null)
             {
-                var ws = eh.Invoke(new Expressions.Tables.dbo.t()).ToString();
-    			s += @"
+                var ws = eh.ToString();
+                if(ws.Length > 0)
+    			    s += @"
  WHERE " + ws;
             }
 			return SqlHelper.ExecuteNonQuery(s);
 		}
+        public static int Delete(Expressions.Tables.dbo.t.Handler eh)
+        {
+            return Delete(eh.Invoke(new Expressions.Tables.dbo.t()));
+        }
         #endregion
 
     }
@@ -1163,17 +1247,15 @@ DELETE FROM [dbo].[t]";
 
         #region Insert
 
-		public static int Insert(t1 o, ColumnEnums.Tables.dbo.t1.Handler insertCols = null, ColumnEnums.Tables.dbo.t1.Handler fillCols = null, bool isFillAfterInsert = true)
+		public static int Insert(t1 o, ColumnEnums.Tables.dbo.t1 ics = null, ColumnEnums.Tables.dbo.t1 fcs = null, bool isFillAfterInsert = true)
 		{
-			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 INSERT INTO [dbo].[t1] (");
 			var sb2 = new StringBuilder();
-            var ics = insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables.dbo.t1());
-            var fcs = fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.t1());
+			var isFirst = true;
             var fccount = fcs == null ? 0 : fcs.Count();
-			if (insertCols == null || ics.Contains(0))
+			if (ics == null || ics.Contains(0))
 			{
                 cmd.Parameters.Add(new SqlParameter("ID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "ID", DataRowVersion.Current, o.ID));
 				sb.Append((isFirst ? @"
@@ -1184,7 +1266,7 @@ INSERT INTO [dbo].[t1] (");
      , ") + "@ID");
 				isFirst = false;
 			}
-			if (insertCols == null || ics.Contains(1))
+			if (ics == null || ics.Contains(1))
 			{
                 var p = new SqlParameter("PID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "PID", DataRowVersion.Current, null);
                 if (o.PID == null) p.Value = DBNull.Value; else p.Value = o.PID;
@@ -1198,7 +1280,7 @@ INSERT INTO [dbo].[t1] (");
 				isFirst = false;
 			}
             if(isFillAfterInsert) {
-                if(fillCols == null) {
+                if(fcs == null) {
                     sb.Append(@"
 ) 
 OUTPUT INSERTED.* VALUES (");
@@ -1248,28 +1330,36 @@ VALUES (");
                 return reader.RecordsAffected;
             }
 		}
+
+		public static int Insert(t1 o, ColumnEnums.Tables.dbo.t1.Handler insertCols = null, ColumnEnums.Tables.dbo.t1.Handler fillCols = null, bool isFillAfterInsert = true)
+		{
+            return Insert(o,
+                insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables.dbo.t1()),
+                fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.t1()),
+                isFillAfterInsert
+            );
+        }
+
         #endregion
 
         #region Update
 
-		public static int Update(t1 o, Expressions.Tables.dbo.t1.Handler eh = null, ColumnEnums.Tables.dbo.t1.Handler updateCols = null, ColumnEnums.Tables.dbo.t1.Handler fillCols = null, bool isFillAfterUpdate = true)
+		public static int Update(t1 o, Expressions.Tables.dbo.t1 eh = null, ColumnEnums.Tables.dbo.t1 ucs = null, ColumnEnums.Tables.dbo.t1 fcs = null, bool isFillAfterUpdate = true)
 		{
-			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 UPDATE [dbo].[t1]
    SET ");
-            var ucs = updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables.dbo.t1());
-            var fcs = fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.t1());
+			var isFirst = true;
             var fccount = fcs == null ? 0 : fcs.Count();
-			if (updateCols == null || ucs.Contains(0))
+			if (ucs == null || ucs.Contains(0))
 			{
                 cmd.Parameters.Add(new SqlParameter("ID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "ID", DataRowVersion.Current, o.ID));
 				sb.Append((isFirst ? @"" : @"
      , ") + "[ID] = @ID");
 				isFirst = false;
 			}
-			if (updateCols == null || ucs.Contains(1))
+			if (ucs == null || ucs.Contains(1))
 			{
                 var p = new SqlParameter("PID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "PID", DataRowVersion.Current, null);
                 if (o.PID == null) p.Value = DBNull.Value; else p.Value = o.PID;
@@ -1279,7 +1369,7 @@ UPDATE [dbo].[t1]
 				isFirst = false;
 			}
             if(isFillAfterUpdate) {
-                if(fillCols == null) {
+                if(fcs == null) {
                     sb.Append(@"
 OUTPUT INSERTED.*");
                 }
@@ -1295,8 +1385,9 @@ OUTPUT ");
 
             if (eh != null)
             {
-                var ws = eh.Invoke(new Expressions.Tables.dbo.t1()).ToString();
-    			sb.Append(@"
+                var ws = eh.ToString();
+                if(ws.Length > 0)
+    			    sb.Append(@"
  WHERE " + ws);
             }
 			cmd.CommandText = sb.ToString();
@@ -1328,22 +1419,36 @@ OUTPUT ");
             }
             
 		}
+        public static int Update(t1 o, Expressions.Tables.dbo.t1.Handler eh = null, ColumnEnums.Tables.dbo.t1.Handler updateCols = null, ColumnEnums.Tables.dbo.t1.Handler fillCols = null, bool isFillAfterUpdate = true)
+        {
+            return Update(o,
+                eh == null ? null : eh.Invoke(new Expressions.Tables.dbo.t1()),
+                updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables.dbo.t1()),
+                fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.t1()),
+                isFillAfterUpdate
+            );
+        }
         #endregion
 
         #region Delete
 
-		public static int Delete(Expressions.Tables.dbo.t1.Handler eh = null)
+		public static int Delete(Expressions.Tables.dbo.t1 eh)
 		{
 			var s = @"
 DELETE FROM [dbo].[t1]";
             if (eh != null)
             {
-                var ws = eh.Invoke(new Expressions.Tables.dbo.t1()).ToString();
-    			s += @"
+                var ws = eh.ToString();
+                if(ws.Length > 0)
+    			    s += @"
  WHERE " + ws;
             }
 			return SqlHelper.ExecuteNonQuery(s);
 		}
+        public static int Delete(Expressions.Tables.dbo.t1.Handler eh)
+        {
+            return Delete(eh.Invoke(new Expressions.Tables.dbo.t1()));
+        }
         #endregion
 
     }
@@ -1408,17 +1513,15 @@ DELETE FROM [dbo].[t1]";
 
         #region Insert
 
-		public static int Insert(t2 o, ColumnEnums.Tables.dbo.t2.Handler insertCols = null, ColumnEnums.Tables.dbo.t2.Handler fillCols = null, bool isFillAfterInsert = true)
+		public static int Insert(t2 o, ColumnEnums.Tables.dbo.t2 ics = null, ColumnEnums.Tables.dbo.t2 fcs = null, bool isFillAfterInsert = true)
 		{
-			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 INSERT INTO [dbo].[t2] (");
 			var sb2 = new StringBuilder();
-            var ics = insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables.dbo.t2());
-            var fcs = fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.t2());
+			var isFirst = true;
             var fccount = fcs == null ? 0 : fcs.Count();
-			if (insertCols == null || ics.Contains(1))
+			if (ics == null || ics.Contains(1))
 			{
                 cmd.Parameters.Add(new SqlParameter("Name", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "Name", DataRowVersion.Current, o.Name));
 				sb.Append((isFirst ? @"
@@ -1429,7 +1532,7 @@ INSERT INTO [dbo].[t2] (");
      , ") + "@Name");
 				isFirst = false;
 			}
-			if (insertCols == null || ics.Contains(2))
+			if (ics == null || ics.Contains(2))
 			{
                 cmd.Parameters.Add(new SqlParameter("CreateTime", SqlDbType.DateTime, 8, ParameterDirection.Input, false, 23, 3, "CreateTime", DataRowVersion.Current, o.CreateTime));
 				sb.Append((isFirst ? @"
@@ -1441,7 +1544,7 @@ INSERT INTO [dbo].[t2] (");
 				isFirst = false;
 			}
             if(isFillAfterInsert) {
-                if(fillCols == null) {
+                if(fcs == null) {
                     sb.Append(@"
 ) 
 OUTPUT INSERTED.* VALUES (");
@@ -1493,28 +1596,36 @@ VALUES (");
                 return reader.RecordsAffected;
             }
 		}
+
+		public static int Insert(t2 o, ColumnEnums.Tables.dbo.t2.Handler insertCols = null, ColumnEnums.Tables.dbo.t2.Handler fillCols = null, bool isFillAfterInsert = true)
+		{
+            return Insert(o,
+                insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables.dbo.t2()),
+                fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.t2()),
+                isFillAfterInsert
+            );
+        }
+
         #endregion
 
         #region Update
 
-		public static int Update(t2 o, Expressions.Tables.dbo.t2.Handler eh = null, ColumnEnums.Tables.dbo.t2.Handler updateCols = null, ColumnEnums.Tables.dbo.t2.Handler fillCols = null, bool isFillAfterUpdate = true)
+		public static int Update(t2 o, Expressions.Tables.dbo.t2 eh = null, ColumnEnums.Tables.dbo.t2 ucs = null, ColumnEnums.Tables.dbo.t2 fcs = null, bool isFillAfterUpdate = true)
 		{
-			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 UPDATE [dbo].[t2]
    SET ");
-            var ucs = updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables.dbo.t2());
-            var fcs = fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.t2());
+			var isFirst = true;
             var fccount = fcs == null ? 0 : fcs.Count();
-			if (updateCols == null || ucs.Contains(1))
+			if (ucs == null || ucs.Contains(1))
 			{
                 cmd.Parameters.Add(new SqlParameter("Name", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "Name", DataRowVersion.Current, o.Name));
 				sb.Append((isFirst ? @"" : @"
      , ") + "[Name] = @Name");
 				isFirst = false;
 			}
-			if (updateCols == null || ucs.Contains(2))
+			if (ucs == null || ucs.Contains(2))
 			{
                 cmd.Parameters.Add(new SqlParameter("CreateTime", SqlDbType.DateTime, 8, ParameterDirection.Input, false, 23, 3, "CreateTime", DataRowVersion.Current, o.CreateTime));
 				sb.Append((isFirst ? @"" : @"
@@ -1522,7 +1633,7 @@ UPDATE [dbo].[t2]
 				isFirst = false;
 			}
             if(isFillAfterUpdate) {
-                if(fillCols == null) {
+                if(fcs == null) {
                     sb.Append(@"
 OUTPUT INSERTED.*");
                 }
@@ -1538,8 +1649,9 @@ OUTPUT ");
 
             if (eh != null)
             {
-                var ws = eh.Invoke(new Expressions.Tables.dbo.t2()).ToString();
-    			sb.Append(@"
+                var ws = eh.ToString();
+                if(ws.Length > 0)
+    			    sb.Append(@"
  WHERE " + ws);
             }
 			cmd.CommandText = sb.ToString();
@@ -1573,22 +1685,36 @@ OUTPUT ");
             }
             
 		}
+        public static int Update(t2 o, Expressions.Tables.dbo.t2.Handler eh = null, ColumnEnums.Tables.dbo.t2.Handler updateCols = null, ColumnEnums.Tables.dbo.t2.Handler fillCols = null, bool isFillAfterUpdate = true)
+        {
+            return Update(o,
+                eh == null ? null : eh.Invoke(new Expressions.Tables.dbo.t2()),
+                updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables.dbo.t2()),
+                fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.t2()),
+                isFillAfterUpdate
+            );
+        }
         #endregion
 
         #region Delete
 
-		public static int Delete(Expressions.Tables.dbo.t2.Handler eh = null)
+		public static int Delete(Expressions.Tables.dbo.t2 eh)
 		{
 			var s = @"
 DELETE FROM [dbo].[t2]";
             if (eh != null)
             {
-                var ws = eh.Invoke(new Expressions.Tables.dbo.t2()).ToString();
-    			s += @"
+                var ws = eh.ToString();
+                if(ws.Length > 0)
+    			    s += @"
  WHERE " + ws;
             }
 			return SqlHelper.ExecuteNonQuery(s);
 		}
+        public static int Delete(Expressions.Tables.dbo.t2.Handler eh)
+        {
+            return Delete(eh.Invoke(new Expressions.Tables.dbo.t2()));
+        }
         #endregion
 
     }
@@ -1650,17 +1776,15 @@ DELETE FROM [dbo].[t2]";
 
         #region Insert
 
-		public static int Insert(t3 o, ColumnEnums.Tables.dbo.t3.Handler insertCols = null, ColumnEnums.Tables.dbo.t3.Handler fillCols = null, bool isFillAfterInsert = true)
+		public static int Insert(t3 o, ColumnEnums.Tables.dbo.t3 ics = null, ColumnEnums.Tables.dbo.t3 fcs = null, bool isFillAfterInsert = true)
 		{
-			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 INSERT INTO [dbo].[t3] (");
 			var sb2 = new StringBuilder();
-            var ics = insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables.dbo.t3());
-            var fcs = fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.t3());
+			var isFirst = true;
             var fccount = fcs == null ? 0 : fcs.Count();
-			if (insertCols == null || ics.Contains(1))
+			if (ics == null || ics.Contains(1))
 			{
                 cmd.Parameters.Add(new SqlParameter("c2", SqlDbType.UniqueIdentifier, 16, ParameterDirection.Input, false, 0, 0, "c2", DataRowVersion.Current, o.c2));
 				sb.Append((isFirst ? @"
@@ -1671,7 +1795,7 @@ INSERT INTO [dbo].[t3] (");
      , ") + "@c2");
 				isFirst = false;
 			}
-			if (insertCols == null || ics.Contains(2))
+			if (ics == null || ics.Contains(2))
 			{
                 cmd.Parameters.Add(new SqlParameter("c3", SqlDbType.DateTime, 8, ParameterDirection.Input, false, 23, 3, "c3", DataRowVersion.Current, o.c3));
 				sb.Append((isFirst ? @"
@@ -1682,7 +1806,7 @@ INSERT INTO [dbo].[t3] (");
      , ") + "@c3");
 				isFirst = false;
 			}
-			if (insertCols == null || ics.Contains(3))
+			if (ics == null || ics.Contains(3))
 			{
                 cmd.Parameters.Add(new SqlParameter("c4", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "c4", DataRowVersion.Current, o.c4));
 				sb.Append((isFirst ? @"
@@ -1694,7 +1818,7 @@ INSERT INTO [dbo].[t3] (");
 				isFirst = false;
 			}
             if(isFillAfterInsert) {
-                if(fillCols == null) {
+                if(fcs == null) {
                     sb.Append(@"
 ) 
 OUTPUT INSERTED.* VALUES (");
@@ -1748,35 +1872,43 @@ VALUES (");
                 return reader.RecordsAffected;
             }
 		}
+
+		public static int Insert(t3 o, ColumnEnums.Tables.dbo.t3.Handler insertCols = null, ColumnEnums.Tables.dbo.t3.Handler fillCols = null, bool isFillAfterInsert = true)
+		{
+            return Insert(o,
+                insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables.dbo.t3()),
+                fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.t3()),
+                isFillAfterInsert
+            );
+        }
+
         #endregion
 
         #region Update
 
-		public static int Update(t3 o, Expressions.Tables.dbo.t3.Handler eh = null, ColumnEnums.Tables.dbo.t3.Handler updateCols = null, ColumnEnums.Tables.dbo.t3.Handler fillCols = null, bool isFillAfterUpdate = true)
+		public static int Update(t3 o, Expressions.Tables.dbo.t3 eh = null, ColumnEnums.Tables.dbo.t3 ucs = null, ColumnEnums.Tables.dbo.t3 fcs = null, bool isFillAfterUpdate = true)
 		{
-			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 UPDATE [dbo].[t3]
    SET ");
-            var ucs = updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables.dbo.t3());
-            var fcs = fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.t3());
+			var isFirst = true;
             var fccount = fcs == null ? 0 : fcs.Count();
-			if (updateCols == null || ucs.Contains(1))
+			if (ucs == null || ucs.Contains(1))
 			{
                 cmd.Parameters.Add(new SqlParameter("c2", SqlDbType.UniqueIdentifier, 16, ParameterDirection.Input, false, 0, 0, "c2", DataRowVersion.Current, o.c2));
 				sb.Append((isFirst ? @"" : @"
      , ") + "[c2] = @c2");
 				isFirst = false;
 			}
-			if (updateCols == null || ucs.Contains(2))
+			if (ucs == null || ucs.Contains(2))
 			{
                 cmd.Parameters.Add(new SqlParameter("c3", SqlDbType.DateTime, 8, ParameterDirection.Input, false, 23, 3, "c3", DataRowVersion.Current, o.c3));
 				sb.Append((isFirst ? @"" : @"
      , ") + "[c3] = @c3");
 				isFirst = false;
 			}
-			if (updateCols == null || ucs.Contains(3))
+			if (ucs == null || ucs.Contains(3))
 			{
                 cmd.Parameters.Add(new SqlParameter("c4", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "c4", DataRowVersion.Current, o.c4));
 				sb.Append((isFirst ? @"" : @"
@@ -1784,7 +1916,7 @@ UPDATE [dbo].[t3]
 				isFirst = false;
 			}
             if(isFillAfterUpdate) {
-                if(fillCols == null) {
+                if(fcs == null) {
                     sb.Append(@"
 OUTPUT INSERTED.*");
                 }
@@ -1800,8 +1932,9 @@ OUTPUT ");
 
             if (eh != null)
             {
-                var ws = eh.Invoke(new Expressions.Tables.dbo.t3()).ToString();
-    			sb.Append(@"
+                var ws = eh.ToString();
+                if(ws.Length > 0)
+    			    sb.Append(@"
  WHERE " + ws);
             }
 			cmd.CommandText = sb.ToString();
@@ -1837,22 +1970,36 @@ OUTPUT ");
             }
             
 		}
+        public static int Update(t3 o, Expressions.Tables.dbo.t3.Handler eh = null, ColumnEnums.Tables.dbo.t3.Handler updateCols = null, ColumnEnums.Tables.dbo.t3.Handler fillCols = null, bool isFillAfterUpdate = true)
+        {
+            return Update(o,
+                eh == null ? null : eh.Invoke(new Expressions.Tables.dbo.t3()),
+                updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables.dbo.t3()),
+                fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.t3()),
+                isFillAfterUpdate
+            );
+        }
         #endregion
 
         #region Delete
 
-		public static int Delete(Expressions.Tables.dbo.t3.Handler eh)
+		public static int Delete(Expressions.Tables.dbo.t3 eh)
 		{
 			var s = @"
 DELETE FROM [dbo].[t3]";
             if (eh != null)
             {
-                var ws = eh.Invoke(new Expressions.Tables.dbo.t3()).ToString();
-    			s += @"
+                var ws = eh.ToString();
+                if(ws.Length > 0)
+    			    s += @"
  WHERE " + ws;
             }
 			return SqlHelper.ExecuteNonQuery(s);
 		}
+        public static int Delete(Expressions.Tables.dbo.t3.Handler eh)
+        {
+            return Delete(eh.Invoke(new Expressions.Tables.dbo.t3()));
+        }
         #endregion
 
     }
@@ -1915,17 +2062,15 @@ DELETE FROM [dbo].[t3]";
 
         #region Insert
 
-		public static int Insert(tree o, ColumnEnums.Tables.dbo.tree.Handler insertCols = null, ColumnEnums.Tables.dbo.tree.Handler fillCols = null, bool isFillAfterInsert = true)
+		public static int Insert(tree o, ColumnEnums.Tables.dbo.tree ics = null, ColumnEnums.Tables.dbo.tree fcs = null, bool isFillAfterInsert = true)
 		{
-			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 INSERT INTO [dbo].[tree] (");
 			var sb2 = new StringBuilder();
-            var ics = insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables.dbo.tree());
-            var fcs = fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.tree());
+			var isFirst = true;
             var fccount = fcs == null ? 0 : fcs.Count();
-			if (insertCols == null || ics.Contains(0))
+			if (ics == null || ics.Contains(0))
 			{
                 cmd.Parameters.Add(new SqlParameter("Parent", SqlDbType.NChar, 10, ParameterDirection.Input, false, 0, 0, "Parent", DataRowVersion.Current, o.Parent));
 				sb.Append((isFirst ? @"
@@ -1936,7 +2081,7 @@ INSERT INTO [dbo].[tree] (");
      , ") + "@Parent");
 				isFirst = false;
 			}
-			if (insertCols == null || ics.Contains(1))
+			if (ics == null || ics.Contains(1))
 			{
                 var p = new SqlParameter("Children", SqlDbType.NChar, 10, ParameterDirection.Input, false, 0, 0, "Children", DataRowVersion.Current, null);
                 if (o.Children == null) p.Value = DBNull.Value; else p.Value = o.Children;
@@ -1950,7 +2095,7 @@ INSERT INTO [dbo].[tree] (");
 				isFirst = false;
 			}
             if(isFillAfterInsert) {
-                if(fillCols == null) {
+                if(fcs == null) {
                     sb.Append(@"
 ) 
 OUTPUT INSERTED.* VALUES (");
@@ -2000,28 +2145,36 @@ VALUES (");
                 return reader.RecordsAffected;
             }
 		}
+
+		public static int Insert(tree o, ColumnEnums.Tables.dbo.tree.Handler insertCols = null, ColumnEnums.Tables.dbo.tree.Handler fillCols = null, bool isFillAfterInsert = true)
+		{
+            return Insert(o,
+                insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables.dbo.tree()),
+                fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.tree()),
+                isFillAfterInsert
+            );
+        }
+
         #endregion
 
         #region Update
 
-		public static int Update(tree o, Expressions.Tables.dbo.tree.Handler eh = null, ColumnEnums.Tables.dbo.tree.Handler updateCols = null, ColumnEnums.Tables.dbo.tree.Handler fillCols = null, bool isFillAfterUpdate = true)
+		public static int Update(tree o, Expressions.Tables.dbo.tree eh = null, ColumnEnums.Tables.dbo.tree ucs = null, ColumnEnums.Tables.dbo.tree fcs = null, bool isFillAfterUpdate = true)
 		{
-			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 UPDATE [dbo].[tree]
    SET ");
-            var ucs = updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables.dbo.tree());
-            var fcs = fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.tree());
+			var isFirst = true;
             var fccount = fcs == null ? 0 : fcs.Count();
-			if (updateCols == null || ucs.Contains(0))
+			if (ucs == null || ucs.Contains(0))
 			{
                 cmd.Parameters.Add(new SqlParameter("Parent", SqlDbType.NChar, 10, ParameterDirection.Input, false, 0, 0, "Parent", DataRowVersion.Current, o.Parent));
 				sb.Append((isFirst ? @"" : @"
      , ") + "[Parent] = @Parent");
 				isFirst = false;
 			}
-			if (updateCols == null || ucs.Contains(1))
+			if (ucs == null || ucs.Contains(1))
 			{
                 var p = new SqlParameter("Children", SqlDbType.NChar, 10, ParameterDirection.Input, false, 0, 0, "Children", DataRowVersion.Current, null);
                 if (o.Children == null) p.Value = DBNull.Value; else p.Value = o.Children;
@@ -2031,7 +2184,7 @@ UPDATE [dbo].[tree]
 				isFirst = false;
 			}
             if(isFillAfterUpdate) {
-                if(fillCols == null) {
+                if(fcs == null) {
                     sb.Append(@"
 OUTPUT INSERTED.*");
                 }
@@ -2047,8 +2200,9 @@ OUTPUT ");
 
             if (eh != null)
             {
-                var ws = eh.Invoke(new Expressions.Tables.dbo.tree()).ToString();
-    			sb.Append(@"
+                var ws = eh.ToString();
+                if(ws.Length > 0)
+    			    sb.Append(@"
  WHERE " + ws);
             }
 			cmd.CommandText = sb.ToString();
@@ -2080,22 +2234,36 @@ OUTPUT ");
             }
             
 		}
+        public static int Update(tree o, Expressions.Tables.dbo.tree.Handler eh = null, ColumnEnums.Tables.dbo.tree.Handler updateCols = null, ColumnEnums.Tables.dbo.tree.Handler fillCols = null, bool isFillAfterUpdate = true)
+        {
+            return Update(o,
+                eh == null ? null : eh.Invoke(new Expressions.Tables.dbo.tree()),
+                updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables.dbo.tree()),
+                fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.tree()),
+                isFillAfterUpdate
+            );
+        }
         #endregion
 
         #region Delete
 
-		public static int Delete(Expressions.Tables.dbo.tree.Handler eh = null)
+		public static int Delete(Expressions.Tables.dbo.tree eh)
 		{
 			var s = @"
 DELETE FROM [dbo].[tree]";
             if (eh != null)
             {
-                var ws = eh.Invoke(new Expressions.Tables.dbo.tree()).ToString();
-    			s += @"
+                var ws = eh.ToString();
+                if(ws.Length > 0)
+    			    s += @"
  WHERE " + ws;
             }
 			return SqlHelper.ExecuteNonQuery(s);
 		}
+        public static int Delete(Expressions.Tables.dbo.tree.Handler eh)
+        {
+            return Delete(eh.Invoke(new Expressions.Tables.dbo.tree()));
+        }
         #endregion
 
     }
@@ -2164,17 +2332,15 @@ namespace DAL.Database.Tables.MySchema
 
         #region Insert
 
-		public static int Insert(FS o, ColumnEnums.Tables.MySchema.FS.Handler insertCols = null, ColumnEnums.Tables.MySchema.FS.Handler fillCols = null, bool isFillAfterInsert = true)
+		public static int Insert(FS o, ColumnEnums.Tables.MySchema.FS ics = null, ColumnEnums.Tables.MySchema.FS fcs = null, bool isFillAfterInsert = true)
 		{
-			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 INSERT INTO [MySchema].[FS] (");
 			var sb2 = new StringBuilder();
-            var ics = insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables.MySchema.FS());
-            var fcs = fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.MySchema.FS());
+			var isFirst = true;
             var fccount = fcs == null ? 0 : fcs.Count();
-			if (insertCols == null || ics.Contains(0))
+			if (ics == null || ics.Contains(0))
 			{
                 cmd.Parameters.Add(new SqlParameter("dbo_FSID", SqlDbType.UniqueIdentifier, 16, ParameterDirection.Input, false, 0, 0, "dbo_FSID", DataRowVersion.Current, o.dbo_FSID));
 				sb.Append((isFirst ? @"
@@ -2185,7 +2351,7 @@ INSERT INTO [MySchema].[FS] (");
      , ") + "@dbo_FSID");
 				isFirst = false;
 			}
-			if (insertCols == null || ics.Contains(1))
+			if (ics == null || ics.Contains(1))
 			{
                 var p = new SqlParameter("asdf", SqlDbType.NChar, 10, ParameterDirection.Input, false, 0, 0, "asdf", DataRowVersion.Current, null);
                 if (o.asdf == null) p.Value = DBNull.Value; else p.Value = o.asdf;
@@ -2199,7 +2365,7 @@ INSERT INTO [MySchema].[FS] (");
 				isFirst = false;
 			}
             if(isFillAfterInsert) {
-                if(fillCols == null) {
+                if(fcs == null) {
                     sb.Append(@"
 ) 
 OUTPUT INSERTED.* VALUES (");
@@ -2251,28 +2417,36 @@ VALUES (");
                 return reader.RecordsAffected;
             }
 		}
+
+		public static int Insert(FS o, ColumnEnums.Tables.MySchema.FS.Handler insertCols = null, ColumnEnums.Tables.MySchema.FS.Handler fillCols = null, bool isFillAfterInsert = true)
+		{
+            return Insert(o,
+                insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables.MySchema.FS()),
+                fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.MySchema.FS()),
+                isFillAfterInsert
+            );
+        }
+
         #endregion
 
         #region Update
 
-		public static int Update(FS o, Expressions.Tables.MySchema.FS.Handler eh = null, ColumnEnums.Tables.MySchema.FS.Handler updateCols = null, ColumnEnums.Tables.MySchema.FS.Handler fillCols = null, bool isFillAfterUpdate = true)
+		public static int Update(FS o, Expressions.Tables.MySchema.FS eh = null, ColumnEnums.Tables.MySchema.FS ucs = null, ColumnEnums.Tables.MySchema.FS fcs = null, bool isFillAfterUpdate = true)
 		{
-			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 UPDATE [MySchema].[FS]
    SET ");
-            var ucs = updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables.MySchema.FS());
-            var fcs = fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.MySchema.FS());
+			var isFirst = true;
             var fccount = fcs == null ? 0 : fcs.Count();
-			if (updateCols == null || ucs.Contains(0))
+			if (ucs == null || ucs.Contains(0))
 			{
                 cmd.Parameters.Add(new SqlParameter("dbo_FSID", SqlDbType.UniqueIdentifier, 16, ParameterDirection.Input, false, 0, 0, "dbo_FSID", DataRowVersion.Current, o.dbo_FSID));
 				sb.Append((isFirst ? @"" : @"
      , ") + "[dbo_FSID] = @dbo_FSID");
 				isFirst = false;
 			}
-			if (updateCols == null || ucs.Contains(1))
+			if (ucs == null || ucs.Contains(1))
 			{
                 var p = new SqlParameter("asdf", SqlDbType.NChar, 10, ParameterDirection.Input, false, 0, 0, "asdf", DataRowVersion.Current, null);
                 if (o.asdf == null) p.Value = DBNull.Value; else p.Value = o.asdf;
@@ -2282,7 +2456,7 @@ UPDATE [MySchema].[FS]
 				isFirst = false;
 			}
             if(isFillAfterUpdate) {
-                if(fillCols == null) {
+                if(fcs == null) {
                     sb.Append(@"
 OUTPUT INSERTED.*");
                 }
@@ -2298,8 +2472,9 @@ OUTPUT ");
 
             if (eh != null)
             {
-                var ws = eh.Invoke(new Expressions.Tables.MySchema.FS()).ToString();
-    			sb.Append(@"
+                var ws = eh.ToString();
+                if(ws.Length > 0)
+    			    sb.Append(@"
  WHERE " + ws);
             }
 			cmd.CommandText = sb.ToString();
@@ -2333,22 +2508,36 @@ OUTPUT ");
             }
             
 		}
+        public static int Update(FS o, Expressions.Tables.MySchema.FS.Handler eh = null, ColumnEnums.Tables.MySchema.FS.Handler updateCols = null, ColumnEnums.Tables.MySchema.FS.Handler fillCols = null, bool isFillAfterUpdate = true)
+        {
+            return Update(o,
+                eh == null ? null : eh.Invoke(new Expressions.Tables.MySchema.FS()),
+                updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables.MySchema.FS()),
+                fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.MySchema.FS()),
+                isFillAfterUpdate
+            );
+        }
         #endregion
 
         #region Delete
 
-		public static int Delete(Expressions.Tables.MySchema.FS.Handler eh = null)
+		public static int Delete(Expressions.Tables.MySchema.FS eh)
 		{
 			var s = @"
 DELETE FROM [MySchema].[FS]";
             if (eh != null)
             {
-                var ws = eh.Invoke(new Expressions.Tables.MySchema.FS()).ToString();
-    			s += @"
+                var ws = eh.ToString();
+                if(ws.Length > 0)
+    			    s += @"
  WHERE " + ws;
             }
 			return SqlHelper.ExecuteNonQuery(s);
 		}
+        public static int Delete(Expressions.Tables.MySchema.FS.Handler eh)
+        {
+            return Delete(eh.Invoke(new Expressions.Tables.MySchema.FS()));
+        }
         #endregion
 
     }
@@ -2415,17 +2604,15 @@ namespace DAL.Database.Tables.Schema1
 
         #region Insert
 
-		public static int Insert(T1 o, ColumnEnums.Tables.Schema1.T1.Handler insertCols = null, ColumnEnums.Tables.Schema1.T1.Handler fillCols = null, bool isFillAfterInsert = true)
+		public static int Insert(T1 o, ColumnEnums.Tables.Schema1.T1 ics = null, ColumnEnums.Tables.Schema1.T1 fcs = null, bool isFillAfterInsert = true)
 		{
-			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 INSERT INTO [Schema1].[T1] (");
 			var sb2 = new StringBuilder();
-            var ics = insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables.Schema1.T1());
-            var fcs = fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.Schema1.T1());
+			var isFirst = true;
             var fccount = fcs == null ? 0 : fcs.Count();
-			if (insertCols == null || ics.Contains(0))
+			if (ics == null || ics.Contains(0))
 			{
                 cmd.Parameters.Add(new SqlParameter("ID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "ID", DataRowVersion.Current, o.ID));
 				sb.Append((isFirst ? @"
@@ -2436,7 +2623,7 @@ INSERT INTO [Schema1].[T1] (");
      , ") + "@ID");
 				isFirst = false;
 			}
-			if (insertCols == null || ics.Contains(1))
+			if (ics == null || ics.Contains(1))
 			{
                 var p = new SqlParameter("PID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "PID", DataRowVersion.Current, null);
                 if (o.PID == null) p.Value = DBNull.Value; else p.Value = o.PID;
@@ -2450,7 +2637,7 @@ INSERT INTO [Schema1].[T1] (");
 				isFirst = false;
 			}
             if(isFillAfterInsert) {
-                if(fillCols == null) {
+                if(fcs == null) {
                     sb.Append(@"
 ) 
 OUTPUT INSERTED.* VALUES (");
@@ -2500,28 +2687,36 @@ VALUES (");
                 return reader.RecordsAffected;
             }
 		}
+
+		public static int Insert(T1 o, ColumnEnums.Tables.Schema1.T1.Handler insertCols = null, ColumnEnums.Tables.Schema1.T1.Handler fillCols = null, bool isFillAfterInsert = true)
+		{
+            return Insert(o,
+                insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables.Schema1.T1()),
+                fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.Schema1.T1()),
+                isFillAfterInsert
+            );
+        }
+
         #endregion
 
         #region Update
 
-		public static int Update(T1 o, Expressions.Tables.Schema1.T1.Handler eh = null, ColumnEnums.Tables.Schema1.T1.Handler updateCols = null, ColumnEnums.Tables.Schema1.T1.Handler fillCols = null, bool isFillAfterUpdate = true)
+		public static int Update(T1 o, Expressions.Tables.Schema1.T1 eh = null, ColumnEnums.Tables.Schema1.T1 ucs = null, ColumnEnums.Tables.Schema1.T1 fcs = null, bool isFillAfterUpdate = true)
 		{
-			var isFirst = true;
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
 UPDATE [Schema1].[T1]
    SET ");
-            var ucs = updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables.Schema1.T1());
-            var fcs = fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.Schema1.T1());
+			var isFirst = true;
             var fccount = fcs == null ? 0 : fcs.Count();
-			if (updateCols == null || ucs.Contains(0))
+			if (ucs == null || ucs.Contains(0))
 			{
                 cmd.Parameters.Add(new SqlParameter("ID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "ID", DataRowVersion.Current, o.ID));
 				sb.Append((isFirst ? @"" : @"
      , ") + "[ID] = @ID");
 				isFirst = false;
 			}
-			if (updateCols == null || ucs.Contains(1))
+			if (ucs == null || ucs.Contains(1))
 			{
                 var p = new SqlParameter("PID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "PID", DataRowVersion.Current, null);
                 if (o.PID == null) p.Value = DBNull.Value; else p.Value = o.PID;
@@ -2531,7 +2726,7 @@ UPDATE [Schema1].[T1]
 				isFirst = false;
 			}
             if(isFillAfterUpdate) {
-                if(fillCols == null) {
+                if(fcs == null) {
                     sb.Append(@"
 OUTPUT INSERTED.*");
                 }
@@ -2547,8 +2742,9 @@ OUTPUT ");
 
             if (eh != null)
             {
-                var ws = eh.Invoke(new Expressions.Tables.Schema1.T1()).ToString();
-    			sb.Append(@"
+                var ws = eh.ToString();
+                if(ws.Length > 0)
+    			    sb.Append(@"
  WHERE " + ws);
             }
 			cmd.CommandText = sb.ToString();
@@ -2580,22 +2776,36 @@ OUTPUT ");
             }
             
 		}
+        public static int Update(T1 o, Expressions.Tables.Schema1.T1.Handler eh = null, ColumnEnums.Tables.Schema1.T1.Handler updateCols = null, ColumnEnums.Tables.Schema1.T1.Handler fillCols = null, bool isFillAfterUpdate = true)
+        {
+            return Update(o,
+                eh == null ? null : eh.Invoke(new Expressions.Tables.Schema1.T1()),
+                updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables.Schema1.T1()),
+                fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.Schema1.T1()),
+                isFillAfterUpdate
+            );
+        }
         #endregion
 
         #region Delete
 
-		public static int Delete(Expressions.Tables.Schema1.T1.Handler eh = null)
+		public static int Delete(Expressions.Tables.Schema1.T1 eh)
 		{
 			var s = @"
 DELETE FROM [Schema1].[T1]";
             if (eh != null)
             {
-                var ws = eh.Invoke(new Expressions.Tables.Schema1.T1()).ToString();
-    			s += @"
+                var ws = eh.ToString();
+                if(ws.Length > 0)
+    			    s += @"
  WHERE " + ws;
             }
 			return SqlHelper.ExecuteNonQuery(s);
 		}
+        public static int Delete(Expressions.Tables.Schema1.T1.Handler eh)
+        {
+            return Delete(eh.Invoke(new Expressions.Tables.Schema1.T1()));
+        }
         #endregion
 
     }

@@ -29,6 +29,12 @@
                 return GetColumnName(__columns[i]);
             }
         }
+        public int this[string n] {
+            get {
+                foreach(var i in __columns) if(GetColumnName(i) == n) return i;
+                return -1;
+            }
+        }
         public int Count() {
             return __columns.Count;
         }
