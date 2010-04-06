@@ -5,6 +5,30 @@ namespace DAL.Database.Tables.dbo
 {
 
 	/// <summary>
+	/// 
+	/// </summary>
+    public partial class A
+    {
+		/// <summary>
+		/// 
+		/// </summary>
+        public int        AID { get; set; }
+    }
+	/// <summary>
+	/// 
+	/// </summary>
+    public partial class B
+    {
+		/// <summary>
+		/// 
+		/// </summary>
+        public int        BID { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+        public int        AID { get; set; }
+    }
+	/// <summary>
 	/// aaa
 	/// </summary>
     public partial class Formula_890

@@ -9,6 +9,77 @@ using SqlLib;
 namespace DAL.Database.Tables.dbo
 {
 
+    public static partial class A_Extend
+    {
+
+        #region Insert
+
+		public static int Insert(this A o, ColumnEnums.Tables.dbo.A.Handler insertCols = null, ColumnEnums.Tables.dbo.A.Handler fillCols = null, bool isFillAfterInsert = true)
+		{
+            return A.Insert(o, insertCols, fillCols, isFillAfterInsert);
+		}
+        #endregion
+
+        #region Update
+
+		public static int Update(this A o, Expressions.Tables.dbo.A.Handler eh = null, ColumnEnums.Tables.dbo.A.Handler updateCols = null, ColumnEnums.Tables.dbo.A.Handler fillCols = null, bool isFillAfterUpdate = true)
+		{
+            return A.Update(o, eh, updateCols, fillCols, isFillAfterUpdate);
+		}
+        #endregion
+
+        #region Delete
+
+		public static int Delete(this A o, ColumnEnums.Tables.dbo.A.Handler conditionCols = null)
+		{
+            if(conditionCols == null) return dbo.A.Delete(t =>
+                t.AID == o.AID
+            );
+            var cols = conditionCols.Invoke(new DAL.ColumnEnums.Tables.dbo.A());
+            var exp = new DAL.Expressions.Tables.dbo.A();
+            if(cols.Contains(0)) exp.And(t => t.AID == o.AID);
+            return dbo.A.Delete(exp);
+		}
+
+        #endregion
+
+    }
+    public static partial class B_Extend
+    {
+
+        #region Insert
+
+		public static int Insert(this B o, ColumnEnums.Tables.dbo.B.Handler insertCols = null, ColumnEnums.Tables.dbo.B.Handler fillCols = null, bool isFillAfterInsert = true)
+		{
+            return B.Insert(o, insertCols, fillCols, isFillAfterInsert);
+		}
+        #endregion
+
+        #region Update
+
+		public static int Update(this B o, Expressions.Tables.dbo.B.Handler eh = null, ColumnEnums.Tables.dbo.B.Handler updateCols = null, ColumnEnums.Tables.dbo.B.Handler fillCols = null, bool isFillAfterUpdate = true)
+		{
+            return B.Update(o, eh, updateCols, fillCols, isFillAfterUpdate);
+		}
+        #endregion
+
+        #region Delete
+
+		public static int Delete(this B o, ColumnEnums.Tables.dbo.B.Handler conditionCols = null)
+		{
+            if(conditionCols == null) return dbo.B.Delete(t =>
+                t.BID == o.BID
+            );
+            var cols = conditionCols.Invoke(new DAL.ColumnEnums.Tables.dbo.B());
+            var exp = new DAL.Expressions.Tables.dbo.B();
+            if(cols.Contains(0)) exp.And(t => t.BID == o.BID);
+            if(cols.Contains(1)) exp.And(t => t.AID == o.AID);
+            return dbo.B.Delete(exp);
+		}
+
+        #endregion
+
+    }
     public static partial class Formula_890_Extend
     {
 

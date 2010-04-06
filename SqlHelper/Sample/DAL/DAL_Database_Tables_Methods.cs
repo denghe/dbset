@@ -9,6 +9,502 @@ using SqlLib;
 namespace DAL.Database.Tables.dbo
 {
 
+    partial class A
+    {
+
+        #region Select
+
+        public static List<A> Select(Queries.Tables.dbo.A q)
+        {
+            var tsql = q.ToSqlString();
+            var rows = new List<A>();
+            using(var reader = SqlHelper.ExecuteDataReader(tsql))
+            {
+                var count = q.Columns == null ? 0 : q.Columns.Count();
+                if(count > 0) {
+                    while(reader.Read()) {
+                        var row = new A();
+                        var cols = q.Columns;
+                        for(int i = 0; i < count; i++) {
+                            if(cols.Contains(0)) {row.AID = reader.GetInt32(i); i++; }
+                        }
+                        rows.Add(row);
+                    }
+                }
+                else
+                {
+                    while(reader.Read())
+                    {
+                        rows.Add(new A
+                        {
+                            AID = reader.GetInt32(0)
+                        });
+                    }
+                }
+
+            }
+            return rows;
+        }
+
+        public static List<A> Select(
+            Expressions.Tables.dbo.A.Handler where = null
+            , Orientations.Tables.dbo.A.Handler orderby = null
+            , int pageSize = 0
+            , int pageIndex = 0
+            , ColumnEnums.Tables.dbo.A.Handler columns = null
+            )
+        {
+            return Select(Queries.Tables.dbo.A.New(where, orderby, pageSize, pageIndex, columns));
+        }
+
+        public static A Select(int c0, ColumnEnums.Tables.dbo.A.Handler columns = null)
+        {
+            return Select(o => o.AID.Equal(c0), columns: columns).FirstOrDefault();
+        }
+
+        #endregion
+
+        #region Insert
+
+		public static int Insert(A o, ColumnEnums.Tables.dbo.A ics = null, ColumnEnums.Tables.dbo.A fcs = null, bool isFillAfterInsert = true)
+		{
+			var cmd = new SqlCommand();
+			var sb = new StringBuilder(@"
+INSERT INTO [dbo].[A] (");
+			var sb2 = new StringBuilder();
+			var isFirst = true;
+            var fccount = fcs == null ? 0 : fcs.Count();
+			if (ics == null || ics.Contains(0))
+			{
+                cmd.Parameters.Add(new SqlParameter("AID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "AID", DataRowVersion.Current, o.AID));
+				sb.Append((isFirst ? @"
+       " : @"
+     , ") + "[AID]");
+				sb2.Append((isFirst ? @"
+       " : @"
+     , ") + "@AID");
+				isFirst = false;
+			}
+            if(isFillAfterInsert) {
+                if(fcs == null) {
+                    sb.Append(@"
+) 
+OUTPUT INSERTED.* VALUES (");
+                }
+                else {
+                    sb.Append(@"
+) 
+OUTPUT ");
+                    for(int i = 0; i < fccount; i++) {
+                        if(i > 0) sb.Append(@", ");
+                        sb.Append(@"INSERTED.[" + fcs.GetColumnName(i).Replace("]", "]]") + "]");
+                    }
+                    sb.Append(@" VALUES (");
+                }
+            }
+            else sb.Append(@"
+) 
+VALUES (");
+			sb.Append(sb2);
+			sb.Append(@"
+);");
+			cmd.CommandText = sb.ToString();
+            if(!isFillAfterInsert)
+                return SqlHelper.ExecuteNonQuery(cmd);
+
+            using(var reader = SqlHelper.ExecuteDataReader(cmd))
+            {
+                if(fccount == 0)
+                {
+                    while(reader.Read())
+                    {
+                        o.AID = reader.GetInt32(0);
+                    }
+                }
+                else
+                {
+                    while(reader.Read())
+                    {
+                        for(int i = 0; i < fccount; i++)
+                        {
+                            if(fcs.Contains(0)) {o.AID = reader.GetInt32(i); i++; }
+                        }
+                    }
+                }
+                return reader.RecordsAffected;
+            }
+		}
+
+		public static int Insert(A o, ColumnEnums.Tables.dbo.A.Handler insertCols = null, ColumnEnums.Tables.dbo.A.Handler fillCols = null, bool isFillAfterInsert = true)
+		{
+            return Insert(o,
+                insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables.dbo.A()),
+                fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.A()),
+                isFillAfterInsert
+            );
+        }
+
+        #endregion
+
+        #region Update
+
+		public static int Update(A o, Expressions.Tables.dbo.A eh = null, ColumnEnums.Tables.dbo.A ucs = null, ColumnEnums.Tables.dbo.A fcs = null, bool isFillAfterUpdate = true)
+		{
+			var cmd = new SqlCommand();
+			var sb = new StringBuilder(@"
+UPDATE [dbo].[A]
+   SET ");
+			var isFirst = true;
+            var fccount = fcs == null ? 0 : fcs.Count();
+			if (ucs == null || ucs.Contains(0))
+			{
+                cmd.Parameters.Add(new SqlParameter("AID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "AID", DataRowVersion.Current, o.AID));
+				sb.Append((isFirst ? @"" : @"
+     , ") + "[AID] = @AID");
+				isFirst = false;
+			}
+            if(isFillAfterUpdate) {
+                if(fcs == null) {
+                    sb.Append(@"
+OUTPUT INSERTED.*");
+                }
+                else {
+                    sb.Append(@"
+OUTPUT ");
+                    for(int i = 0; i < fccount; i++) {
+                        if(i > 0) sb.Append(@", ");
+                        sb.Append(@"INSERTED.[" + fcs.GetColumnName(i).Replace("]", "]]") + "]");
+                    }
+                }
+            }
+
+            if (eh != null)
+            {
+                var ws = eh.ToString();
+                if(ws.Length > 0)
+    			    sb.Append(@"
+ WHERE " + ws);
+            }
+			cmd.CommandText = sb.ToString();
+			if (!isFillAfterUpdate)
+                return SqlHelper.ExecuteNonQuery(cmd);
+
+            using(var reader = SqlHelper.ExecuteDataReader(cmd))
+            {
+                if(fccount == 0)
+                {
+                    while(reader.Read())
+                    {
+                        o.AID = reader.GetInt32(0);
+                    }
+                }
+                else
+                {
+                    while(reader.Read())
+                    {
+                        for(int i = 0; i < fccount; i++)
+                        {
+                            if(fcs.Contains(0)) {o.AID = reader.GetInt32(i); i++; }
+                        }
+                    }
+                }
+                return reader.RecordsAffected;
+            }
+            
+		}
+        public static int Update(A o, Expressions.Tables.dbo.A.Handler eh = null, ColumnEnums.Tables.dbo.A.Handler updateCols = null, ColumnEnums.Tables.dbo.A.Handler fillCols = null, bool isFillAfterUpdate = true)
+        {
+            return Update(o,
+                eh == null ? null : eh.Invoke(new Expressions.Tables.dbo.A()),
+                updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables.dbo.A()),
+                fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.A()),
+                isFillAfterUpdate
+            );
+        }
+        #endregion
+
+        #region Delete
+
+		public static int Delete(Expressions.Tables.dbo.A eh)
+		{
+			var s = @"
+DELETE FROM [dbo].[A]";
+            if (eh != null)
+            {
+                var ws = eh.ToString();
+                if(ws.Length > 0)
+    			    s += @"
+ WHERE " + ws;
+            }
+			return SqlHelper.ExecuteNonQuery(s);
+		}
+        public static int Delete(Expressions.Tables.dbo.A.Handler eh)
+        {
+            return Delete(eh.Invoke(new Expressions.Tables.dbo.A()));
+        }
+        #endregion
+
+    }
+    partial class B
+    {
+
+        #region Select
+
+        public static List<B> Select(Queries.Tables.dbo.B q)
+        {
+            var tsql = q.ToSqlString();
+            var rows = new List<B>();
+            using(var reader = SqlHelper.ExecuteDataReader(tsql))
+            {
+                var count = q.Columns == null ? 0 : q.Columns.Count();
+                if(count > 0) {
+                    while(reader.Read()) {
+                        var row = new B();
+                        var cols = q.Columns;
+                        for(int i = 0; i < count; i++) {
+                            if(cols.Contains(0)) {row.BID = reader.GetInt32(i); i++; }
+                            else if(i < count && cols.Contains(1)) {row.AID = reader.GetInt32(i); i++; }
+                        }
+                        rows.Add(row);
+                    }
+                }
+                else
+                {
+                    while(reader.Read())
+                    {
+                        rows.Add(new B
+                        {
+                            BID = reader.GetInt32(0),
+                            AID = reader.GetInt32(1)
+                        });
+                    }
+                }
+
+            }
+            return rows;
+        }
+
+        public static List<B> Select(
+            Expressions.Tables.dbo.B.Handler where = null
+            , Orientations.Tables.dbo.B.Handler orderby = null
+            , int pageSize = 0
+            , int pageIndex = 0
+            , ColumnEnums.Tables.dbo.B.Handler columns = null
+            )
+        {
+            return Select(Queries.Tables.dbo.B.New(where, orderby, pageSize, pageIndex, columns));
+        }
+
+        public static B Select(int c0, ColumnEnums.Tables.dbo.B.Handler columns = null)
+        {
+            return Select(o => o.BID.Equal(c0), columns: columns).FirstOrDefault();
+        }
+
+        #endregion
+
+        #region Insert
+
+		public static int Insert(B o, ColumnEnums.Tables.dbo.B ics = null, ColumnEnums.Tables.dbo.B fcs = null, bool isFillAfterInsert = true)
+		{
+			var cmd = new SqlCommand();
+			var sb = new StringBuilder(@"
+INSERT INTO [dbo].[B] (");
+			var sb2 = new StringBuilder();
+			var isFirst = true;
+            var fccount = fcs == null ? 0 : fcs.Count();
+			if (ics == null || ics.Contains(0))
+			{
+                cmd.Parameters.Add(new SqlParameter("BID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "BID", DataRowVersion.Current, o.BID));
+				sb.Append((isFirst ? @"
+       " : @"
+     , ") + "[BID]");
+				sb2.Append((isFirst ? @"
+       " : @"
+     , ") + "@BID");
+				isFirst = false;
+			}
+			if (ics == null || ics.Contains(1))
+			{
+                cmd.Parameters.Add(new SqlParameter("AID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "AID", DataRowVersion.Current, o.AID));
+				sb.Append((isFirst ? @"
+       " : @"
+     , ") + "[AID]");
+				sb2.Append((isFirst ? @"
+       " : @"
+     , ") + "@AID");
+				isFirst = false;
+			}
+            if(isFillAfterInsert) {
+                if(fcs == null) {
+                    sb.Append(@"
+) 
+OUTPUT INSERTED.* VALUES (");
+                }
+                else {
+                    sb.Append(@"
+) 
+OUTPUT ");
+                    for(int i = 0; i < fccount; i++) {
+                        if(i > 0) sb.Append(@", ");
+                        sb.Append(@"INSERTED.[" + fcs.GetColumnName(i).Replace("]", "]]") + "]");
+                    }
+                    sb.Append(@" VALUES (");
+                }
+            }
+            else sb.Append(@"
+) 
+VALUES (");
+			sb.Append(sb2);
+			sb.Append(@"
+);");
+			cmd.CommandText = sb.ToString();
+            if(!isFillAfterInsert)
+                return SqlHelper.ExecuteNonQuery(cmd);
+
+            using(var reader = SqlHelper.ExecuteDataReader(cmd))
+            {
+                if(fccount == 0)
+                {
+                    while(reader.Read())
+                    {
+                        o.BID = reader.GetInt32(0);
+                        o.AID = reader.GetInt32(1);
+                    }
+                }
+                else
+                {
+                    while(reader.Read())
+                    {
+                        for(int i = 0; i < fccount; i++)
+                        {
+                            if(fcs.Contains(0)) {o.BID = reader.GetInt32(i); i++; }
+                            else if(i < fccount && fcs.Contains(1)) {o.AID = reader.GetInt32(i); i++; }
+                        }
+                    }
+                }
+                return reader.RecordsAffected;
+            }
+		}
+
+		public static int Insert(B o, ColumnEnums.Tables.dbo.B.Handler insertCols = null, ColumnEnums.Tables.dbo.B.Handler fillCols = null, bool isFillAfterInsert = true)
+		{
+            return Insert(o,
+                insertCols == null ? null : insertCols.Invoke(new ColumnEnums.Tables.dbo.B()),
+                fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.B()),
+                isFillAfterInsert
+            );
+        }
+
+        #endregion
+
+        #region Update
+
+		public static int Update(B o, Expressions.Tables.dbo.B eh = null, ColumnEnums.Tables.dbo.B ucs = null, ColumnEnums.Tables.dbo.B fcs = null, bool isFillAfterUpdate = true)
+		{
+			var cmd = new SqlCommand();
+			var sb = new StringBuilder(@"
+UPDATE [dbo].[B]
+   SET ");
+			var isFirst = true;
+            var fccount = fcs == null ? 0 : fcs.Count();
+			if (ucs == null || ucs.Contains(0))
+			{
+                cmd.Parameters.Add(new SqlParameter("BID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "BID", DataRowVersion.Current, o.BID));
+				sb.Append((isFirst ? @"" : @"
+     , ") + "[BID] = @BID");
+				isFirst = false;
+			}
+			if (ucs == null || ucs.Contains(1))
+			{
+                cmd.Parameters.Add(new SqlParameter("AID", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "AID", DataRowVersion.Current, o.AID));
+				sb.Append((isFirst ? @"" : @"
+     , ") + "[AID] = @AID");
+				isFirst = false;
+			}
+            if(isFillAfterUpdate) {
+                if(fcs == null) {
+                    sb.Append(@"
+OUTPUT INSERTED.*");
+                }
+                else {
+                    sb.Append(@"
+OUTPUT ");
+                    for(int i = 0; i < fccount; i++) {
+                        if(i > 0) sb.Append(@", ");
+                        sb.Append(@"INSERTED.[" + fcs.GetColumnName(i).Replace("]", "]]") + "]");
+                    }
+                }
+            }
+
+            if (eh != null)
+            {
+                var ws = eh.ToString();
+                if(ws.Length > 0)
+    			    sb.Append(@"
+ WHERE " + ws);
+            }
+			cmd.CommandText = sb.ToString();
+			if (!isFillAfterUpdate)
+                return SqlHelper.ExecuteNonQuery(cmd);
+
+            using(var reader = SqlHelper.ExecuteDataReader(cmd))
+            {
+                if(fccount == 0)
+                {
+                    while(reader.Read())
+                    {
+                        o.BID = reader.GetInt32(0);
+                        o.AID = reader.GetInt32(1);
+                    }
+                }
+                else
+                {
+                    while(reader.Read())
+                    {
+                        for(int i = 0; i < fccount; i++)
+                        {
+                            if(fcs.Contains(0)) {o.BID = reader.GetInt32(i); i++; }
+                            else if(i < fccount && fcs.Contains(1)) {o.AID = reader.GetInt32(i); i++; }
+                        }
+                    }
+                }
+                return reader.RecordsAffected;
+            }
+            
+		}
+        public static int Update(B o, Expressions.Tables.dbo.B.Handler eh = null, ColumnEnums.Tables.dbo.B.Handler updateCols = null, ColumnEnums.Tables.dbo.B.Handler fillCols = null, bool isFillAfterUpdate = true)
+        {
+            return Update(o,
+                eh == null ? null : eh.Invoke(new Expressions.Tables.dbo.B()),
+                updateCols == null ? null : updateCols.Invoke(new ColumnEnums.Tables.dbo.B()),
+                fillCols == null ? null : fillCols.Invoke(new ColumnEnums.Tables.dbo.B()),
+                isFillAfterUpdate
+            );
+        }
+        #endregion
+
+        #region Delete
+
+		public static int Delete(Expressions.Tables.dbo.B eh)
+		{
+			var s = @"
+DELETE FROM [dbo].[B]";
+            if (eh != null)
+            {
+                var ws = eh.ToString();
+                if(ws.Length > 0)
+    			    s += @"
+ WHERE " + ws;
+            }
+			return SqlHelper.ExecuteNonQuery(s);
+		}
+        public static int Delete(Expressions.Tables.dbo.B.Handler eh)
+        {
+            return Delete(eh.Invoke(new Expressions.Tables.dbo.B()));
+        }
+        #endregion
+
+    }
     partial class Formula_890
     {
 

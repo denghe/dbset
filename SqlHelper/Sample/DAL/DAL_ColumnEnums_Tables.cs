@@ -5,6 +5,30 @@ using SqlLib.ColumnEnums;
 namespace DAL.ColumnEnums.Tables.dbo
 {
 
+    public partial class A : ColumnList<A>
+    {
+        public A AID { get { __columns.Add(0); return this; } }
+        protected static string[] __cns = new string[]
+        {
+            @"AID"
+        };
+        public override string GetColumnName(int i) {
+            return __cns[i];
+        }
+    }
+    public partial class B : ColumnList<B>
+    {
+        public B BID { get { __columns.Add(0); return this; } }
+        public B AID { get { __columns.Add(1); return this; } }
+        protected static string[] __cns = new string[]
+        {
+            @"BID",
+            @"AID"
+        };
+        public override string GetColumnName(int i) {
+            return __cns[i];
+        }
+    }
     public partial class Formula_890 : ColumnList<Formula_890>
     {
         public Formula_890 Name { get { __columns.Add(0); return this; } }

@@ -5,6 +5,15 @@ using SqlLib.Expressions;
 namespace DAL.Expressions.Tables.dbo
 {
 
+    public partial class A : LogicalNode<A>
+    {
+        public ExpNode_Int32<A> AID { get { return this.New_Int32(@"AID"); } }
+    }
+    public partial class B : LogicalNode<B>
+    {
+        public ExpNode_Int32<B> BID { get { return this.New_Int32(@"BID"); } }
+        public ExpNode_Int32<B> AID { get { return this.New_Int32(@"AID"); } }
+    }
     public partial class Formula_890 : LogicalNode<Formula_890>
     {
         public ExpNode_String<Formula_890> Name { get { return this.New_String(@"Name"); } }

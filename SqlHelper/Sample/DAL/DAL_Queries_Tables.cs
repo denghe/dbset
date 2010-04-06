@@ -5,6 +5,20 @@ using SqlLib.Queries;
 namespace DAL.Queries.Tables.dbo
 {
 
+    public partial class A : Query<A, Expressions.Tables.dbo.A, Orientations.Tables.dbo.A, ColumnEnums.Tables.dbo.A>
+    {
+        public override string ToSqlString(string schema = null, string name = null, List<string> columns = null)
+        {
+            return base.ToSqlString(schema ?? @"dbo", name ?? @"A", columns);
+        }
+    }
+    public partial class B : Query<B, Expressions.Tables.dbo.B, Orientations.Tables.dbo.B, ColumnEnums.Tables.dbo.B>
+    {
+        public override string ToSqlString(string schema = null, string name = null, List<string> columns = null)
+        {
+            return base.ToSqlString(schema ?? @"dbo", name ?? @"B", columns);
+        }
+    }
     public partial class Formula_890 : Query<Formula_890, Expressions.Tables.dbo.Formula_890, Orientations.Tables.dbo.Formula_890, ColumnEnums.Tables.dbo.Formula_890>
     {
         public override string ToSqlString(string schema = null, string name = null, List<string> columns = null)
