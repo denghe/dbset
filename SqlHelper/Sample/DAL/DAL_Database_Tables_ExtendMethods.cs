@@ -41,19 +41,6 @@ namespace DAL.Database.Tables.dbo {
     }
     public static partial class B_Extend {
 
-        #region Select
-        public static List<B> Select(this A parent, Queries.Tables.dbo.B.Handler query) {
-            if(query == null) return B.Select(
-                Queries.Tables.dbo.B.New(where: o => o.AID == parent.AID)
-            );
-            return B.Select(
-                query.Invoke(
-                    Queries.Tables.dbo.B.New(where: o => o.AID == parent.AID)
-                )
-            );
-        }
-        #endregion
-
         #region Insert
 
         public static int Insert(this B o, ColumnEnums.Tables.dbo.B.Handler insertCols = null, ColumnEnums.Tables.dbo.B.Handler fillCols = null, bool isFillAfterInsert = true) {
