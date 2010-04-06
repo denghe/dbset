@@ -13,9 +13,24 @@
 
 
 
- todo:
+todo:
 
- 为表现外键关系。添加　子表的 Select(父对象, Query) 方法
+为表现外键关系。添加　子表的 Select(父对象, Query) 方法
+
+
+
+todo:
+
+Merge
+Distinct
+Count
+Exists
+Sum
+Avg
+...
+
+
+
 
 
 
@@ -31,3 +46,11 @@ todo:
 
 todo:
 为 数据结构->类 的属性 增加 #DEBUG 检查属性在读取的时候是否已填充的功能
+
+
+
+
+
+todo:
+
+生成对象限定过滤（这会导致外键关系断裂，或SP等返回类型定位不能）
