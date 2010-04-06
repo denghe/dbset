@@ -300,7 +300,7 @@ DELETE FROM [dbo].[A]";
             return Select(o => o.BID.Equal(c0), columns: columns).FirstOrDefault();
         }
 
-        public static List<B> Select(A parent, Queries.Tables.dbo.B.Handler query) {
+        public static List<B> Select(A parent, Queries.Tables.dbo.B.Handler query = null) {
             if(query == null) return B.Select(where: o => o.AID == parent.AID);
             var q = query.Invoke(new Queries.Tables.dbo.B());
             if(q.Where == null) q.SetWhere(o => o.AID == parent.AID);

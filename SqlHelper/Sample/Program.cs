@@ -21,40 +21,22 @@
             // init connect string
             SqlHelper.InitConnectString(server: "data,14333", username: "admin");
 
-            // 显示 dbo.t3 整表数据
-            var dumpTable = new Action(() => {
-                SqlHelper.ExecuteDbSet(query.t3.New().ToString()).Dump();
-            });
-            // 显示 dbo.t3 一行数据
-            var dumpRow = new Action<dbo.t3>(o => {
-                Console.WriteLine("row data:");
-                Console.WriteLine(o.c1 + "\t" + o.c2 + "\t" + o.c3 + "\t" + o.c4);
-            });
+            var a = new dbo.A { AID = 1 };
+            a.Insert();
 
-            // 清空表 dbo.t3 的数据
-            dbo.t3.Delete(o => o);
-            dumpTable();
+            var b = new dbo.B { AID = 1, BID = 1 };
+            b.Insert();
 
-            // 插入 c4, 回写 c1 字段到 r1
-            var r1 = new dbo.t3 { c4 = "asdf" };
-            r1.Insert(
-                o => o.c4,
-                o => o.c1
-            );
-            dumpRow(r1);
-            dumpTable();
+            b.BID = 2;
+            b.Insert();
 
-            // 更新刚插入行的 c4 字段，回写所有字段到 r2
-            var r2 = new dbo.t3 { c4 = "qwer" };
-            r2.Update(
-                o => o.c1 == r1.c1,
-                o => o.c4
-            );
-            dumpRow(r2);
-            dumpTable();
+            var bs = dbo.B.Select(a);
 
-            // 根据字段 c1 删掉数据
-            r1.Delete(o => o.c1);
+            Console.WriteLine(bs.Count);
+
+            dbo.B.Delete(o => o);
+            dbo.A.Delete(o => o);
+
 
             Console.ReadLine();
         }
