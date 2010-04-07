@@ -21,6 +21,21 @@
             // init connect string
             SqlHelper.InitConnectString(server: "data,14333", username: "admin");
 
+            var a = new dbo.A { AID = 1 };
+            a.Insert();
+
+            var b = new dbo.B { AID = 1, BID = 1 };
+            b.Insert();
+
+            b.BID = 2;
+            b.Insert();
+
+            var bs = dbo.B.Select(a);
+
+            Console.WriteLine(bs.Count);
+
+            dbo.B.Delete(o => o);
+            dbo.A.Delete(o => o);
 
 
             Console.ReadLine();
