@@ -21,7 +21,24 @@
             // init connect string
             SqlHelper.InitConnectString(server: "data,14333", username: "admin");
 
+            //var a1 = new dbo.A { AID = 1 };
+            //var buff = a1.GetBytes();
+            //Console.WriteLine(buff.ToHexString());
 
+            //var a2 = new dbo.A(buff);
+            //Console.WriteLine(a2.AID);
+
+            //var t11 = new dbo.t1 { ID = 1, PID = null };
+            //buff = t11.GetBytes();
+            //Console.WriteLine(buff.ToHexString());
+
+            //var t12 = new dbo.t1(buff);
+            //Console.WriteLine(t12.ID + ", " + (t12.PID == null ? "NULL" : t12.PID.ToString()));
+
+            var t3 = new dbo.t3 { c4 = "asdf" };
+            t3.Insert(o => o.c4);
+            var buff = t3.GetBytes();   Console.WriteLine(buff.ToHexString());
+            t3 = new dbo.t3(buff);      Console.WriteLine(t3.c1 + "\t" + t3.c2 + "\t" + t3.c3 + "\t" + t3.c4);
 
             Console.ReadLine();
         }
