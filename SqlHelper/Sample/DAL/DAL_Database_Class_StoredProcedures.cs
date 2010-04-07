@@ -609,12 +609,12 @@ namespace DAL.Database.StoredProcedures.dbo
 			/// </summary>
             private bool       _f_T;
 
-            private List<UDTT.dbo.G_INT> _v_T;
+            private List<UDTT.dbo.G_INT_STR> _v_T;
 
 			/// <summary>
 			/// 
 			/// </summary>
-            public List<UDTT.dbo.G_INT> T
+            public List<UDTT.dbo.G_INT_STR> T
             {
                 get
                 {
