@@ -2472,7 +2472,7 @@ DELETE FROM [dbo].[t2]";
         #endregion
 
     }
-    partial class t3
+    partial class t3 : ISerial
     {
 
         #region Select

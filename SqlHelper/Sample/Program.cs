@@ -35,10 +35,17 @@
             //var t12 = new dbo.t1(buff);
             //Console.WriteLine(t12.ID + ", " + (t12.PID == null ? "NULL" : t12.PID.ToString()));
 
-            var t3 = new dbo.t3 { c4 = "asdf" };
-            t3.Insert(o => o.c4);
-            var buff = t3.GetBytes();   Console.WriteLine(buff.ToHexString());
-            t3 = new dbo.t3(buff);      Console.WriteLine(t3.c1 + "\t" + t3.c2 + "\t" + t3.c3 + "\t" + t3.c4);
+            //var t3 = new dbo.t3 { c4 = "asdf" };
+            //t3.Insert(o => o.c4);
+            //var buff = t3.GetBytes(); Console.WriteLine(buff.ToHexString());
+            //t3 = new dbo.t3(buff); Console.WriteLine(t3.c1 + "\t" + t3.c2 + "\t" + t3.c3 + "\t" + t3.c4);
+
+            var rows = dbo.t3.Select();
+            var buff = rows.GetBytes();
+            Console.WriteLine(buff.ToHexString());
+            rows = buff.ToList<dbo.t3>();
+            foreach(var row in rows) 
+                Console.WriteLine(row.c1 + "\t" + row.c2 + "\t" + row.c3 + "\t" + row.c4);
 
             Console.ReadLine();
         }
