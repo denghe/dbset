@@ -17,7 +17,7 @@ namespace DAL.Database.UserDefinedTableTypes.dbo
             dt.Columns.Add("1");
             dt.Columns.Add("2");
             foreach(var o in os) {
-                var rowdata = new object[1];
+                var rowdata = new object[3];
                 rowdata[0] = o.Col1;
                 rowdata[1] = o.Col2;
                 if(o.Col3 == null) rowdata[2] = DBNull.Value;
@@ -55,7 +55,7 @@ namespace DAL.Database.UserDefinedTableTypes.dbo
             dt.Columns.Add("0");
             dt.Columns.Add("1");
             foreach(var o in os) {
-                var rowdata = new object[1];
+                var rowdata = new object[2];
                 if(o.c1 == null) rowdata[0] = DBNull.Value;
                 else rowdata[0] = o.c1.Value;
                 if(o.c2 == null) rowdata[1] = DBNull.Value;
@@ -76,7 +76,7 @@ namespace DAL.Database.UserDefinedTableTypes.dbo
             dt.Columns.Add("0");
             dt.Columns.Add("1");
             foreach(var o in os) {
-                var rowdata = new object[1];
+                var rowdata = new object[2];
                 rowdata[0] = o.Str;
                 if(o.Num == null) rowdata[1] = DBNull.Value;
                 else rowdata[1] = o.Num.Value;
@@ -97,7 +97,7 @@ namespace DAL.Database.UserDefinedTableTypes.dbo
             dt.Columns.Add("1");
             dt.Columns.Add("2");
             foreach(var o in os) {
-                var rowdata = new object[1];
+                var rowdata = new object[3];
                 rowdata[0] = o.EmployeeID;
                 if(o.ManagerId == null) rowdata[1] = DBNull.Value;
                 else rowdata[1] = o.ManagerId.Value;

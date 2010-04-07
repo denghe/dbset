@@ -224,7 +224,7 @@ namespace DAL.Database.StoredProcedures.dbo
         public static DbSet ExecuteDbSet(Parameters ps)
         {
             var cmd = SqlHelper.NewCommand("TestTableType");
-            if( ps.Exists_T() ) cmd.AddParameter("T", ps.T, SqlDbType.Structured, false);
+            if( ps.Exists_T() ) cmd.AddParameter("T", UDTT.dbo.G_INT_STR_Extensions.ToDataTable(ps.T), SqlDbType.Structured, false);
             return SqlHelper.ExecuteDbSet(cmd);
         }
 
@@ -247,7 +247,7 @@ namespace DAL.Database.StoredProcedures.dbo
         public static DbSet ExecuteDbSet(Parameters ps)
         {
             var cmd = SqlHelper.NewCommand("usp_NeedMyType1");
-            if( ps.Exists_MyType1() ) cmd.AddParameter("MyType1", ps.MyType1, SqlDbType.Structured, false);
+            if( ps.Exists_MyType1() ) cmd.AddParameter("MyType1", UDTT.dbo.MyType1_Extensions.ToDataTable(ps.MyType1), SqlDbType.Structured, false);
             return SqlHelper.ExecuteDbSet(cmd);
         }
 
@@ -270,7 +270,7 @@ namespace DAL.Database.StoredProcedures.dbo
         public static DbSet ExecuteDbSet(Parameters ps)
         {
             var cmd = SqlHelper.NewCommand("usp_SelectP1");
-            if( ps.Exists_P1() ) cmd.AddParameter("P1", ps.P1, SqlDbType.Structured, false);
+            if( ps.Exists_P1() ) cmd.AddParameter("P1", UDTT.dbo.FS_Extensions.ToDataTable(ps.P1), SqlDbType.Structured, false);
             return SqlHelper.ExecuteDbSet(cmd);
         }
 
@@ -319,7 +319,7 @@ namespace DAL.Database.StoredProcedures.dbo
         public static DbSet ExecuteDbSet(Parameters ps)
         {
             var cmd = SqlHelper.NewCommand("需要传个表参");
-            if( ps.Exists_T() ) cmd.AddParameter("T", ps.T, SqlDbType.Structured, false);
+            if( ps.Exists_T() ) cmd.AddParameter("T", UDTT.dbo.G_INT_STR_Extensions.ToDataTable(ps.T), SqlDbType.Structured, false);
             return SqlHelper.ExecuteDbSet(cmd);
         }
 
