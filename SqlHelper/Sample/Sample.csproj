@@ -61,8 +61,10 @@
     <Compile Include="DAL\DAL_Database_Methods_DB_StoredProcedures.cs" />
     <Compile Include="DAL\DAL_Database_Methods_DB_Tables.cs" />
     <Compile Include="DAL\DAL_Database_Methods_DB_UserDefinedTableTypes.cs" />
+    <Compile Include="DAL\DAL_Database_Methods_DB_UserDefinedTableTypes_Extensions.cs" />
     <Compile Include="DAL\DAL_Database_Methods_DB_Views.cs" />
     <Compile Include="DAL\DAL_Database_Methods_Serial_Tables.cs" />
+    <Compile Include="DAL\DAL_Database_Methods_Serial_UserDefinedTableTypes.cs" />
     <Compile Include="DAL\DAL_Database_Methods_Serial_Views.cs" />
     <Compile Include="DAL\DAL_Expressions_Tables.cs" />
     <Compile Include="DAL\DAL_Expressions_UserDefinedFunctions_Table.cs" />

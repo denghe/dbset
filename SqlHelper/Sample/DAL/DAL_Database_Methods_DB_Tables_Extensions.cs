@@ -9,7 +9,7 @@ using SqlLib;
 namespace DAL.Database.Tables.dbo
 {
 
-    public static partial class A_Extend
+    public static partial class A_Extensions
     {
 
         #region Insert
@@ -44,7 +44,7 @@ namespace DAL.Database.Tables.dbo
         #endregion
 
     }
-    public static partial class B_Extend
+    public static partial class B_Extensions
     {
 
         #region Insert
@@ -80,7 +80,7 @@ namespace DAL.Database.Tables.dbo
         #endregion
 
     }
-    public static partial class Formula_890_Extend
+    public static partial class Formula_890_Extensions
     {
 
         #region Insert
@@ -118,7 +118,7 @@ namespace DAL.Database.Tables.dbo
         #endregion
 
     }
-    public static partial class FS_Extend
+    public static partial class FS_Extensions
     {
 
         #region Insert
@@ -154,7 +154,7 @@ namespace DAL.Database.Tables.dbo
         #endregion
 
     }
-    public static partial class ParentChildOrg_Extend
+    public static partial class ParentChildOrg_Extensions
     {
 
         #region Insert
@@ -191,7 +191,7 @@ namespace DAL.Database.Tables.dbo
         #endregion
 
     }
-    public static partial class t_Extend
+    public static partial class t_Extensions
     {
 
         #region Insert
@@ -230,7 +230,7 @@ namespace DAL.Database.Tables.dbo
         #endregion
 
     }
-    public static partial class t1_Extend
+    public static partial class t1_Extensions
     {
 
         #region Insert
@@ -266,7 +266,7 @@ namespace DAL.Database.Tables.dbo
         #endregion
 
     }
-    public static partial class t2_Extend
+    public static partial class t2_Extensions
     {
 
         #region Insert
@@ -303,7 +303,7 @@ namespace DAL.Database.Tables.dbo
         #endregion
 
     }
-    public static partial class t3_Extend
+    public static partial class t3_Extensions
     {
 
         #region Insert
@@ -344,7 +344,7 @@ namespace DAL.Database.Tables.dbo
         #endregion
 
     }
-    public static partial class tree_Extend
+    public static partial class tree_Extensions
     {
 
         #region Insert
@@ -384,7 +384,7 @@ namespace DAL.Database.Tables.dbo
 namespace DAL.Database.Tables.MySchema
 {
 
-    public static partial class FS_Extend
+    public static partial class FS_Extensions
     {
 
         #region Insert
@@ -425,7 +425,7 @@ namespace DAL.Database.Tables.MySchema
 namespace DAL.Database.Tables.Schema1
 {
 
-    public static partial class T1_Extend
+    public static partial class T1_Extensions
     {
 
         #region Insert
