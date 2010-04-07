@@ -45,8 +45,6 @@
   <ItemGroup>
     <None Include="Copy %282%29 of Program.cs" />
     <None Include="Copy of Program.cs" />
-    <None Include="Copy of Expression.cs" />
-    <None Include="Copy %282%29 of Expression.cs" />
     <None Include="Copy %283%29 of Program.cs" />
     <None Include="Copy %284%29 of Program.cs" />
     <Compile Include="DAL\DAL_ColumnEnums_Tables.cs" />
