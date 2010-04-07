@@ -245,6 +245,7 @@ DELETE FROM [dbo].[A]";
         #endregion
 
         #region Constructor
+
         public A() {
         }
         public A(byte[] buffer, ref int startIndex)
@@ -256,6 +257,7 @@ DELETE FROM [dbo].[A]";
             var startIndex = 0;
             Fill(buffer, ref startIndex);
         }
+
         #endregion
 
         #region Serial
@@ -534,6 +536,35 @@ DELETE FROM [dbo].[B]";
         public static int Delete(Expressions.Tables.dbo.B.Handler eh)
         {
             return Delete(eh.Invoke(new Expressions.Tables.dbo.B()));
+        }
+        #endregion
+
+        #region Constructor
+
+        public B() {
+        }
+        public B(byte[] buffer, ref int startIndex)
+            : this() {
+            Fill(buffer, ref startIndex);
+        }
+        public B(byte[] buffer)
+            : this() {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
+        #endregion
+
+        #region Serial
+        public byte[] GetBytes() {
+            var buffers = new List<byte[]>();
+            buffers.Add(this.BID.GetBytes());
+            buffers.Add(this.AID.GetBytes());
+            return buffers.Combine();
+        }
+        public void Fill(byte[] buffer, ref int startIndex) {
+            this.BID = buffer.ToInt32(ref startIndex);
+            this.AID = buffer.ToInt32(ref startIndex);
         }
         #endregion
 
@@ -857,6 +888,39 @@ DELETE FROM [dbo].[Formula_890]";
         }
         #endregion
 
+        #region Constructor
+
+        public Formula_890() {
+        }
+        public Formula_890(byte[] buffer, ref int startIndex)
+            : this() {
+            Fill(buffer, ref startIndex);
+        }
+        public Formula_890(byte[] buffer)
+            : this() {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
+        #endregion
+
+        #region Serial
+        public byte[] GetBytes() {
+            var buffers = new List<byte[]>();
+            buffers.Add(this.Name.GetBytes());
+            buffers.Add(this.Expression.GetBytes());
+            buffers.Add(this.Value.GetBytes());
+            buffers.Add(this.IsGenerator.GetBytes());
+            return buffers.Combine();
+        }
+        public void Fill(byte[] buffer, ref int startIndex) {
+            this.Name = buffer.ToString(ref startIndex);
+            this.Expression = buffer.ToString(ref startIndex);
+            this.Value = buffer.ToString(ref startIndex);
+            this.IsGenerator = buffer.ToNullableBoolean(ref startIndex);
+        }
+        #endregion
+
     }
     partial class FS
     {
@@ -876,7 +940,7 @@ DELETE FROM [dbo].[Formula_890]";
                         var cols = q.Columns;
                         for(int i = 0; i < count; i++) {
                             if(cols.Contains(0)) {row.ID = reader.GetGuid(i); i++; }
-                            else if(i < count && cols.Contains(1)) {row.Category = reader.GetValue(i); i++; }
+                            else if(i < count && cols.Contains(1)) {row.Category = reader.GetSqlBinary(i).Value; i++; }
                             else if(i < count && cols.Contains(2)) {row.Stream = reader.IsDBNull(i) ? null : reader.GetSqlBinary(i).Value; i++; }
                         }
                         rows.Add(row);
@@ -889,7 +953,7 @@ DELETE FROM [dbo].[Formula_890]";
                         rows.Add(new FS
                         {
                             ID = reader.GetGuid(0),
-                            Category = reader.GetValue(1),
+                            Category = reader.GetSqlBinary(1).Value,
                             Stream = reader.IsDBNull(2) ? null : reader.GetSqlBinary(2).Value
                         });
                     }
@@ -940,7 +1004,7 @@ INSERT INTO [dbo].[FS] (");
 			}
 			if (ics == null || ics.Contains(1))
 			{
-                cmd.Parameters.Add(new SqlParameter("Category", SqlDbType.Variant, 892, ParameterDirection.Input, false, 0, 0, "Category", DataRowVersion.Current, o.Category));
+                cmd.Parameters.Add(new SqlParameter("Category", SqlDbType.VarBinary, 892, ParameterDirection.Input, false, 0, 0, "Category", DataRowVersion.Current, o.Category));
 				sb.Append((isFirst ? @"
        " : @"
      , ") + "[Category]");
@@ -996,7 +1060,7 @@ VALUES (");
                     while(reader.Read())
                     {
                         o.ID = reader.GetGuid(0);
-                        o.Category = reader.GetValue(1);
+                        o.Category = reader.GetSqlBinary(1).Value;
                         o.Stream = reader.IsDBNull(2) ? null : reader.GetSqlBinary(2).Value;
                     }
                 }
@@ -1007,7 +1071,7 @@ VALUES (");
                         for(int i = 0; i < fccount; i++)
                         {
                             if(fcs.Contains(0)) {o.ID = reader.GetGuid(i); i++; }
-                            else if(i < fccount && fcs.Contains(1)) {o.Category = reader.GetValue(i); i++; }
+                            else if(i < fccount && fcs.Contains(1)) {o.Category = reader.GetSqlBinary(i).Value; i++; }
                             else if(i < fccount && fcs.Contains(2)) {o.Stream = reader.IsDBNull(i) ? null : reader.GetSqlBinary(i).Value; i++; }
                         }
                     }
@@ -1046,7 +1110,7 @@ UPDATE [dbo].[FS]
 			}
 			if (ucs == null || ucs.Contains(1))
 			{
-                cmd.Parameters.Add(new SqlParameter("Category", SqlDbType.Variant, 892, ParameterDirection.Input, false, 0, 0, "Category", DataRowVersion.Current, o.Category));
+                cmd.Parameters.Add(new SqlParameter("Category", SqlDbType.VarBinary, 892, ParameterDirection.Input, false, 0, 0, "Category", DataRowVersion.Current, o.Category));
 				sb.Append((isFirst ? @"" : @"
      , ") + "[Category] = @Category");
 				isFirst = false;
@@ -1093,7 +1157,7 @@ OUTPUT ");
                     while(reader.Read())
                     {
                         o.ID = reader.GetGuid(0);
-                        o.Category = reader.GetValue(1);
+                        o.Category = reader.GetSqlBinary(1).Value;
                         o.Stream = reader.IsDBNull(2) ? null : reader.GetSqlBinary(2).Value;
                     }
                 }
@@ -1104,7 +1168,7 @@ OUTPUT ");
                         for(int i = 0; i < fccount; i++)
                         {
                             if(fcs.Contains(0)) {o.ID = reader.GetGuid(i); i++; }
-                            else if(i < fccount && fcs.Contains(1)) {o.Category = reader.GetValue(i); i++; }
+                            else if(i < fccount && fcs.Contains(1)) {o.Category = reader.GetSqlBinary(i).Value; i++; }
                             else if(i < fccount && fcs.Contains(2)) {o.Stream = reader.IsDBNull(i) ? null : reader.GetSqlBinary(i).Value; i++; }
                         }
                     }
@@ -1142,6 +1206,37 @@ DELETE FROM [dbo].[FS]";
         public static int Delete(Expressions.Tables.dbo.FS.Handler eh)
         {
             return Delete(eh.Invoke(new Expressions.Tables.dbo.FS()));
+        }
+        #endregion
+
+        #region Constructor
+
+        public FS() {
+        }
+        public FS(byte[] buffer, ref int startIndex)
+            : this() {
+            Fill(buffer, ref startIndex);
+        }
+        public FS(byte[] buffer)
+            : this() {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
+        #endregion
+
+        #region Serial
+        public byte[] GetBytes() {
+            var buffers = new List<byte[]>();
+            buffers.Add(this.ID.GetBytes());
+            buffers.Add(this.Category.GetBytes());
+            buffers.Add(this.Stream.GetBytes());
+            return buffers.Combine();
+        }
+        public void Fill(byte[] buffer, ref int startIndex) {
+            this.ID = buffer.ToGuid(ref startIndex);
+            this.Category = buffer.ToBytes(ref startIndex);
+            this.Stream = buffer.ToBytes(ref startIndex);
         }
         #endregion
 
@@ -1445,6 +1540,37 @@ DELETE FROM [dbo].[ParentChildOrg]";
         }
         #endregion
 
+        #region Constructor
+
+        public ParentChildOrg() {
+        }
+        public ParentChildOrg(byte[] buffer, ref int startIndex)
+            : this() {
+            Fill(buffer, ref startIndex);
+        }
+        public ParentChildOrg(byte[] buffer)
+            : this() {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
+        #endregion
+
+        #region Serial
+        public byte[] GetBytes() {
+            var buffers = new List<byte[]>();
+            buffers.Add(this.EmployeeID.GetBytes());
+            buffers.Add(this.ManagerId.GetBytes());
+            buffers.Add(this.EmployeeName.GetBytes());
+            return buffers.Combine();
+        }
+        public void Fill(byte[] buffer, ref int startIndex) {
+            this.EmployeeID = buffer.ToInt32(ref startIndex);
+            this.ManagerId = buffer.ToNullableInt32(ref startIndex);
+            this.EmployeeName = buffer.ToString(ref startIndex);
+        }
+        #endregion
+
     }
     partial class t
     {
@@ -1724,6 +1850,37 @@ DELETE FROM [dbo].[t]";
         }
         #endregion
 
+        #region Constructor
+
+        public t() {
+        }
+        public t(byte[] buffer, ref int startIndex)
+            : this() {
+            Fill(buffer, ref startIndex);
+        }
+        public t(byte[] buffer)
+            : this() {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
+        #endregion
+
+        #region Serial
+        public byte[] GetBytes() {
+            var buffers = new List<byte[]>();
+            buffers.Add(this.a.GetBytes());
+            buffers.Add(this.b.GetBytes());
+            buffers.Add(this.c.GetBytes());
+            return buffers.Combine();
+        }
+        public void Fill(byte[] buffer, ref int startIndex) {
+            this.a = buffer.ToInt32(ref startIndex);
+            this.b = buffer.ToInt32(ref startIndex);
+            this.c = buffer.ToBytes(ref startIndex);
+        }
+        #endregion
+
     }
     partial class t1
     {
@@ -1985,6 +2142,35 @@ DELETE FROM [dbo].[t1]";
         public static int Delete(Expressions.Tables.dbo.t1.Handler eh)
         {
             return Delete(eh.Invoke(new Expressions.Tables.dbo.t1()));
+        }
+        #endregion
+
+        #region Constructor
+
+        public t1() {
+        }
+        public t1(byte[] buffer, ref int startIndex)
+            : this() {
+            Fill(buffer, ref startIndex);
+        }
+        public t1(byte[] buffer)
+            : this() {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
+        #endregion
+
+        #region Serial
+        public byte[] GetBytes() {
+            var buffers = new List<byte[]>();
+            buffers.Add(this.ID.GetBytes());
+            buffers.Add(this.PID.GetBytes());
+            return buffers.Combine();
+        }
+        public void Fill(byte[] buffer, ref int startIndex) {
+            this.ID = buffer.ToInt32(ref startIndex);
+            this.PID = buffer.ToNullableInt32(ref startIndex);
         }
         #endregion
 
@@ -2251,6 +2437,37 @@ DELETE FROM [dbo].[t2]";
         public static int Delete(Expressions.Tables.dbo.t2.Handler eh)
         {
             return Delete(eh.Invoke(new Expressions.Tables.dbo.t2()));
+        }
+        #endregion
+
+        #region Constructor
+
+        public t2() {
+        }
+        public t2(byte[] buffer, ref int startIndex)
+            : this() {
+            Fill(buffer, ref startIndex);
+        }
+        public t2(byte[] buffer)
+            : this() {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
+        #endregion
+
+        #region Serial
+        public byte[] GetBytes() {
+            var buffers = new List<byte[]>();
+            buffers.Add(this.ID.GetBytes());
+            buffers.Add(this.Name.GetBytes());
+            buffers.Add(this.CreateTime.GetBytes());
+            return buffers.Combine();
+        }
+        public void Fill(byte[] buffer, ref int startIndex) {
+            this.ID = buffer.ToInt32(ref startIndex);
+            this.Name = buffer.ToString(ref startIndex);
+            this.CreateTime = buffer.ToDateTime(ref startIndex);
         }
         #endregion
 
@@ -2539,6 +2756,39 @@ DELETE FROM [dbo].[t3]";
         }
         #endregion
 
+        #region Constructor
+
+        public t3() {
+        }
+        public t3(byte[] buffer, ref int startIndex)
+            : this() {
+            Fill(buffer, ref startIndex);
+        }
+        public t3(byte[] buffer)
+            : this() {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
+        #endregion
+
+        #region Serial
+        public byte[] GetBytes() {
+            var buffers = new List<byte[]>();
+            buffers.Add(this.c1.GetBytes());
+            buffers.Add(this.c2.GetBytes());
+            buffers.Add(this.c3.GetBytes());
+            buffers.Add(this.c4.GetBytes());
+            return buffers.Combine();
+        }
+        public void Fill(byte[] buffer, ref int startIndex) {
+            this.c1 = buffer.ToInt32(ref startIndex);
+            this.c2 = buffer.ToGuid(ref startIndex);
+            this.c3 = buffer.ToDateTime(ref startIndex);
+            this.c4 = buffer.ToString(ref startIndex);
+        }
+        #endregion
+
     }
     partial class tree
     {
@@ -2800,6 +3050,35 @@ DELETE FROM [dbo].[tree]";
         public static int Delete(Expressions.Tables.dbo.tree.Handler eh)
         {
             return Delete(eh.Invoke(new Expressions.Tables.dbo.tree()));
+        }
+        #endregion
+
+        #region Constructor
+
+        public tree() {
+        }
+        public tree(byte[] buffer, ref int startIndex)
+            : this() {
+            Fill(buffer, ref startIndex);
+        }
+        public tree(byte[] buffer)
+            : this() {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
+        #endregion
+
+        #region Serial
+        public byte[] GetBytes() {
+            var buffers = new List<byte[]>();
+            buffers.Add(this.Parent.GetBytes());
+            buffers.Add(this.Children.GetBytes());
+            return buffers.Combine();
+        }
+        public void Fill(byte[] buffer, ref int startIndex) {
+            this.Parent = buffer.ToString(ref startIndex);
+            this.Children = buffer.ToString(ref startIndex);
         }
         #endregion
 
@@ -3077,6 +3356,37 @@ DELETE FROM [MySchema].[FS]";
         }
         #endregion
 
+        #region Constructor
+
+        public FS() {
+        }
+        public FS(byte[] buffer, ref int startIndex)
+            : this() {
+            Fill(buffer, ref startIndex);
+        }
+        public FS(byte[] buffer)
+            : this() {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
+        #endregion
+
+        #region Serial
+        public byte[] GetBytes() {
+            var buffers = new List<byte[]>();
+            buffers.Add(this.dbo_FSID.GetBytes());
+            buffers.Add(this.asdf.GetBytes());
+            buffers.Add(this.ID.GetBytes());
+            return buffers.Combine();
+        }
+        public void Fill(byte[] buffer, ref int startIndex) {
+            this.dbo_FSID = buffer.ToGuid(ref startIndex);
+            this.asdf = buffer.ToString(ref startIndex);
+            this.ID = buffer.ToInt32(ref startIndex);
+        }
+        #endregion
+
     }
 }
 namespace DAL.Database.Tables.Schema1
@@ -3350,6 +3660,35 @@ DELETE FROM [Schema1].[T1]";
         public static int Delete(Expressions.Tables.Schema1.T1.Handler eh)
         {
             return Delete(eh.Invoke(new Expressions.Tables.Schema1.T1()));
+        }
+        #endregion
+
+        #region Constructor
+
+        public T1() {
+        }
+        public T1(byte[] buffer, ref int startIndex)
+            : this() {
+            Fill(buffer, ref startIndex);
+        }
+        public T1(byte[] buffer)
+            : this() {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
+        #endregion
+
+        #region Serial
+        public byte[] GetBytes() {
+            var buffers = new List<byte[]>();
+            buffers.Add(this.ID.GetBytes());
+            buffers.Add(this.PID.GetBytes());
+            return buffers.Combine();
+        }
+        public void Fill(byte[] buffer, ref int startIndex) {
+            this.ID = buffer.ToInt32(ref startIndex);
+            this.PID = buffer.ToNullableInt32(ref startIndex);
         }
         #endregion
 

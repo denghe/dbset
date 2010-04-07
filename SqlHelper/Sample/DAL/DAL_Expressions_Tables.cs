@@ -24,7 +24,7 @@ namespace DAL.Expressions.Tables.dbo
     public partial class FS : LogicalNode<FS>
     {
         public ExpNode_Guid<FS> ID { get { return this.New_Guid(@"ID"); } }
-        public ExpNode_Object<FS> Category { get { return this.New_Object(@"Category"); } }
+        public ExpNode_Bytes<FS> Category { get { return this.New_Bytes(@"Category"); } }
         public ExpNode_Nullable_Bytes<FS> Stream { get { return this.New_Nullable_Bytes(@"Stream"); } }
     }
     public partial class ParentChildOrg : LogicalNode<ParentChildOrg>

@@ -62,7 +62,7 @@ namespace DAL.Database.Tables.dbo
 		/// <summary>
 		/// fdfd
 		/// </summary>
-        public object     Category { get; set; }
+        public byte[]     Category { get; set; }
 		/// <summary>
 		/// dfaffffw
 		/// </summary>

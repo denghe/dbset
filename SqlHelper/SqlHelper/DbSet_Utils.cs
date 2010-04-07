@@ -83,6 +83,69 @@
             return o.FullName.GetBytes();
         }
 
+
+
+        public static byte[] GetBytes(this bool? o) {
+            if(o == null) return new byte[] { 0 };
+            return new byte[][] { new byte[] { 1 }, GetBytes(o.Value) }.Combine();
+        }
+        public static byte[] GetBytes(this byte? o) {
+            if(o == null) return new byte[] { 0 };
+            return new byte[][] { new byte[] { 1 }, GetBytes(o.Value) }.Combine();
+        }
+        public static byte[] GetBytes(this char? o) {
+            if(o == null) return new byte[] { 0 };
+            return new byte[][] { new byte[] { 1 }, GetBytes(o.Value) }.Combine();
+        }
+        public static byte[] GetBytes(this DateTime? o) {
+            if(o == null) return new byte[] { 0 };
+            return new byte[][] { new byte[] { 1 }, GetBytes(o.Value) }.Combine();
+        }
+        public static byte[] GetBytes(this decimal? o) {
+            if(o == null) return new byte[] { 0 };
+            return new byte[][] { new byte[] { 1 }, GetBytes(o.Value) }.Combine();
+        }
+        public static byte[] GetBytes(this double? o) {
+            if(o == null) return new byte[] { 0 };
+            return new byte[][] { new byte[] { 1 }, GetBytes(o.Value) }.Combine();
+        }
+        public static byte[] GetBytes(this Guid? o) {
+            if(o == null) return new byte[] { 0 };
+            return new byte[][] { new byte[] { 1 }, GetBytes(o.Value) }.Combine();
+        }
+        public static byte[] GetBytes(this short? o) {
+            if(o == null) return new byte[] { 0 };
+            return new byte[][] { new byte[] { 1 }, GetBytes(o.Value) }.Combine();
+        }
+        public static byte[] GetBytes(this int? o) {
+            if(o == null) return new byte[] { 0 };
+            return new byte[][] { new byte[] { 1 }, GetBytes(o.Value) }.Combine();
+        }
+        public static byte[] GetBytes(this long? o) {
+            if(o == null) return new byte[] { 0 };
+            return new byte[][] { new byte[] { 1 }, GetBytes(o.Value) }.Combine();
+        }
+        public static byte[] GetBytes(this sbyte? o) {
+            if(o == null) return new byte[] { 0 };
+            return new byte[][] { new byte[] { 1 }, GetBytes(o.Value) }.Combine();
+        }
+        public static byte[] GetBytes(this float? o) {
+            if(o == null) return new byte[] { 0 };
+            return new byte[][] { new byte[] { 1 }, GetBytes(o.Value) }.Combine();
+        }
+        public static byte[] GetBytes(this ushort? o) {
+            if(o == null) return new byte[] { 0 };
+            return new byte[][] { new byte[] { 1 }, GetBytes(o.Value) }.Combine();
+        }
+        public static byte[] GetBytes(this uint? o) {
+            if(o == null) return new byte[] { 0 };
+            return new byte[][] { new byte[] { 1 }, GetBytes(o.Value) }.Combine();
+        }
+        public static byte[] GetBytes(this ulong? o) {
+            if(o == null) return new byte[] { 0 };
+            return new byte[][] { new byte[] { 1 }, GetBytes(o.Value) }.Combine();
+        }
+
         #endregion
 
         #region byte[] to Type (ToXxxxxx)
@@ -184,6 +247,116 @@
         public static Type ToType(this byte[] buffer, ref int startIndex) {
             return Type.GetType(buffer.ToString(ref startIndex));
         }
+
+
+
+        public static bool? ToNullableBoolean(this byte[] buffer, ref int startIndex) {
+            if(buffer[startIndex] == 0) {
+                ++startIndex;
+                return null;
+            }
+            return ToBoolean(buffer, ref startIndex);
+        }
+        public static byte? ToNullableByte(this byte[] buffer, ref int startIndex) {
+            if(buffer[startIndex] == 0) {
+                ++startIndex;
+                return null;
+            }
+            return ToByte(buffer, ref startIndex);
+        }
+        public static char? ToNullableChar(this byte[] buffer, ref int startIndex) {
+            if(buffer[startIndex] == 0) {
+                ++startIndex;
+                return null;
+            }
+            return ToChar(buffer, ref startIndex);
+        }
+        public static DateTime? ToNullableDateTime(this byte[] buffer, ref int startIndex) {
+            if(buffer[startIndex] == 0) {
+                ++startIndex;
+                return null;
+            }
+            return ToDateTime(buffer, ref startIndex);
+        }
+        public static decimal? ToNullableDecimal(this byte[] buffer, ref int startIndex) {
+            if(buffer[startIndex] == 0) {
+                ++startIndex;
+                return null;
+            }
+            return ToDecimal(buffer, ref startIndex);
+        }
+        public static double? ToNullableDouble(this byte[] buffer, ref int startIndex) {
+            if(buffer[startIndex] == 0) {
+                ++startIndex;
+                return null;
+            }
+            return ToDouble(buffer, ref startIndex);
+        }
+        public static Guid? ToNullableGuid(this byte[] buffer, ref int startIndex) {
+            if(buffer[startIndex] == 0) {
+                ++startIndex;
+                return null;
+            }
+            return ToGuid(buffer, ref startIndex);
+        }
+        public static short? ToNullableInt16(this byte[] buffer, ref int startIndex) {
+            if(buffer[startIndex] == 0) {
+                ++startIndex;
+                return null;
+            }
+            return ToInt16(buffer, ref startIndex);
+        }
+        public static int? ToNullableInt32(this byte[] buffer, ref int startIndex) {
+            if(buffer[startIndex] == 0) {
+                ++startIndex;
+                return null;
+            }
+            return ToInt32(buffer, ref startIndex);
+        }
+        public static long? ToNullableInt64(this byte[] buffer, ref int startIndex) {
+            if(buffer[startIndex] == 0) {
+                ++startIndex;
+                return null;
+            }
+            return ToInt64(buffer, ref startIndex);
+        }
+        public static sbyte? ToNullableSByte(this byte[] buffer, ref int startIndex) {
+            if(buffer[startIndex] == 0) {
+                ++startIndex;
+                return null;
+            }
+            return ToSByte(buffer, ref startIndex);
+        }
+        public static float? ToNullableSingle(this byte[] buffer, ref int startIndex) {
+            if(buffer[startIndex] == 0) {
+                ++startIndex;
+                return null;
+            }
+            return ToSingle(buffer, ref startIndex);
+        }
+        public static ushort? ToNullableUInt16(this byte[] buffer, ref int startIndex) {
+            if(buffer[startIndex] == 0) {
+                ++startIndex;
+                return null;
+            }
+            return ToUInt16(buffer, ref startIndex);
+        }
+        public static uint? ToNullableUInt32(this byte[] buffer, ref int startIndex) {
+            if(buffer[startIndex] == 0) {
+                ++startIndex;
+                return null;
+            }
+            return ToUInt32(buffer, ref startIndex);
+        }
+        public static ulong? ToNullableUInt64(this byte[] buffer, ref int startIndex) {
+            if(buffer[startIndex] == 0) {
+                ++startIndex;
+                return null;
+            }
+            return ToUInt64(buffer, ref startIndex);
+        }
+
+
         #endregion
 
         #region GetBytes (generic)
@@ -285,6 +458,17 @@
         #region List<byte[]> Combine
 
         public static byte[] Combine(this List<byte[]> byteslist) {
+            var result = new byte[byteslist.Sum(o => o == null ? 0 : o.Length)];
+            var idx = 0;
+            foreach(var bytes in byteslist) {
+                if(bytes == null) continue;
+                var len = bytes.Length;
+                Array.Copy(bytes, 0, result, idx, len);
+                idx += len;
+            }
+            return result;
+        }
+        public static byte[] Combine(this byte[][] byteslist) {
             var result = new byte[byteslist.Sum(o => o == null ? 0 : o.Length)];
             var idx = 0;
             foreach(var bytes in byteslist) {
