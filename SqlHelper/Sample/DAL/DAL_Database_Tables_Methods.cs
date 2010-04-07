@@ -1178,6 +1178,14 @@ DELETE FROM [dbo].[FS]";
             return Select(o => o.EmployeeID.Equal(c0), columns: columns).FirstOrDefault();
         }
 
+        public static List<ParentChildOrg> Select(ParentChildOrg parent, Queries.Tables.dbo.ParentChildOrg.Handler query = null) {
+            if(query == null) return ParentChildOrg.Select(where: o => o.ManagerId == parent.EmployeeID);
+            var q = query.Invoke(new Queries.Tables.dbo.ParentChildOrg());
+            if(q.Where == null) q.SetWhere(o => o.ManagerId == parent.EmployeeID);
+            else q.Where.And(o => o.ManagerId == parent.EmployeeID);
+            return ParentChildOrg.Select(q);
+        }
+
         #endregion
 
         #region Insert
@@ -3102,6 +3110,14 @@ namespace DAL.Database.Tables.Schema1
         public static T1 Select(int c0, ColumnEnums.Tables.Schema1.T1.Handler columns = null)
         {
             return Select(o => o.ID.Equal(c0), columns: columns).FirstOrDefault();
+        }
+
+        public static List<T1> Select(T1 parent, Queries.Tables.Schema1.T1.Handler query = null) {
+            if(query == null) return T1.Select(where: o => o.PID == parent.ID);
+            var q = query.Invoke(new Queries.Tables.Schema1.T1());
+            if(q.Where == null) q.SetWhere(o => o.PID == parent.ID);
+            else q.Where.And(o => o.PID == parent.ID);
+            return T1.Select(q);
         }
 
         #endregion
