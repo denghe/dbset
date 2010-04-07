@@ -122,6 +122,13 @@
             }
         }
 
+        /// <summary>
+        /// 执行一个 SQL 命令对象，返回第一行第一列的强类型内容
+        /// </summary>
+        public static T ExecuteScalar<T>(SqlCommand cmd, SqlInfoMessageEventHandler imHandler = null) {
+            return (T)ExecuteScalar(cmd, imHandler);
+        }
+
 
         /// <summary>
         /// 创建一个新连接（无事务支持），执行一个 SQL 命令对象，返回一个 DataReader（关闭的同时将关闭连接）
@@ -443,7 +450,12 @@
             }
             return r;
         }
-
+        /// <summary>
+        /// 执行一个 SQL 语句，返回第一行第一列的强类型内容
+        /// </summary>
+        public static T ExecuteScalar<T>(string s, SqlInfoMessageEventHandler imHandler = null) {
+            return (T)ExecuteScalar(s, imHandler);
+        }
 
 
 

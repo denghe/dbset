@@ -244,6 +244,31 @@ DELETE FROM [dbo].[A]";
         }
         #endregion
 
+        #region Constructor
+        public A() {
+        }
+        public A(byte[] buffer, ref int startIndex)
+            : this() {
+            Fill(buffer, ref startIndex);
+        }
+        public A(byte[] buffer)
+            : this() {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+        #endregion
+
+        #region Serial
+        public byte[] GetBytes() {
+            var buffers = new List<byte[]>();
+            buffers.Add(this.AID.GetBytes());
+            return buffers.Combine();
+        }
+        public void Fill(byte[] buffer, ref int startIndex) {
+            this.AID = buffer.ToInt32(ref startIndex);
+        }
+        #endregion
+
     }
     partial class B
     {
