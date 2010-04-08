@@ -24,11 +24,23 @@
             // init connect string
             SqlHelper.InitConnectString(server: "sql");
 
-            var e = exp.Tree.New(o => o.TreePID == null);
-            var e2 = new exp.Tree(e.GetBytes());
+            var q = query.Tree.New(
+                o => o.Name.Like("asdf") & o.TreePID == null
+                , o => o.Name.DESC & o.TreeID.ASC
+                , 12, 34
+                , o => o.TreeID.Memo);
 
-            e2.ToString().WL();
-            
+            var buff = q.GetBytes();
+            buff.WL();
+
+            var q2 = new query.Tree(buff);
+
+            q2.PageSize.WL();
+            q2.PageIndex.WL();
+            q2.Where.WL();
+            q2.OrderBy.WL();
+            q2.Columns.WL();
+
             RL();
         }
 
