@@ -107,27 +107,52 @@
             return this.Exp__.ToSqlString(schema, name);
         }
 
+
         public virtual byte[] GetBytes() {
             var buff = new List<byte[]>();
-            buff.Add(new byte[] { (byte)(int)Logical__ });
-            if(First__ == null) buff.Add(new byte[] { 0 });
+            buff.Add(new byte[] { (byte)(int)this.Logical__ });
+            if(this.First__ == null) buff.Add(new byte[] { 0 });
             else {
                 buff.Add(new byte[] { 1 });
-                buff.Add(First__.GetBytes());
+                buff.Add(this.First__.GetBytes());
             }
-            if(Second__ == null) buff.Add(new byte[] { 0 });
+            if(this.Second__ == null) buff.Add(new byte[] { 0 });
             else {
                 buff.Add(new byte[] { 1 });
-                buff.Add(Second__.GetBytes());
+                buff.Add(this.Second__.GetBytes());
             }
-            if(Exp__ == null) buff.Add(new byte[] { 0 });
+            if(this.Exp__ == null) buff.Add(new byte[] { 0 });
             else {
                 buff.Add(new byte[] { 1 });
-                buff.Add(Exp__.GetBytes());
+                buff.Add(this.Exp__.GetBytes());
             }
             return buff.Combine();
         }
 
+        public void Fill(byte[] buffer, ref int startIndex) {
+            this.Logical__ = (Logicals)(int)buffer.ToByte(ref startIndex);
+            if(buffer.ToByte(ref startIndex) == 0) {
+                this.First__ = null;
+            }
+            else {
+                this.First__ = new LogicalNode();
+                this.First__.Fill(buffer, ref startIndex);
+            }
+            if(buffer.ToByte(ref startIndex) == 0) {
+                this.Second__ = null;
+            }
+            else {
+                this.Second__ = new LogicalNode();
+                this.Second__.Fill(buffer, ref startIndex);
+            }
+            if(buffer.ToByte(ref startIndex) == 0) {
+                this.Exp__ = null;
+            }
+            else {
+                this.Exp__ = new ExpNode();
+                this.Exp__.Fill(buffer, ref startIndex, this);
+            }
+        }
     }
 
     public class LogicalNode<T> : LogicalNode where T : LogicalNode, new() {
@@ -418,13 +443,46 @@
         }
 
         public virtual byte[] GetBytes() {
+            int typeNumber = 0;
             var buff = new List<byte[]>();
             // skip parent
             buff.Add(ColumnName.GetBytes());
             buff.Add(new byte[] { (byte)(int)Operate });
-            buff.Add(DbSet_Utils.GetBytes(Value));
-            buff.Add(DbSet_Utils.GetBytes(Value2));
+            if(Value == null || Value == DBNull.Value) {
+                buff.Add(new byte[] { (byte)0 });
+            }
+            else {
+                buff.Add(new byte[] { (byte)1 });
+                var tmp = DbSet_Utils.GetBytes(Value, ref typeNumber);
+                buff.Add(new byte[] { (byte)typeNumber });
+                buff.Add(tmp);
+            }
+            if(Value2 == null || Value2 == DBNull.Value) {
+                buff.Add(new byte[] { (byte)0 });
+            }
+            else {
+                buff.Add(new byte[] { (byte)1 });
+                var tmp = DbSet_Utils.GetBytes(Value2, ref typeNumber);
+                buff.Add(new byte[] { (byte)typeNumber });
+                buff.Add(tmp);
+            }
             return buff.Combine();
+        }
+
+        public void Fill(byte[] buffer, ref int startIndex, LogicalNode parent) {
+            this.Parent = parent;
+            this.ColumnName = buffer.ToString(ref startIndex);
+            this.Operate = (Operators)(int)buffer.ToByte(ref startIndex);
+            if(buffer.ToByte(ref startIndex) == 0) Value = null;
+            else {
+                var typeNumber = (int)buffer.ToByte(ref startIndex);
+                this.Value = DbSet_Utils.ToObject(buffer, typeNumber, ref startIndex);
+            }
+            if(buffer.ToByte(ref startIndex) == 0) Value2 = null;
+            else {
+                var typeNumber = (int)buffer.ToByte(ref startIndex);
+                this.Value2 = DbSet_Utils.ToObject(buffer, typeNumber, ref startIndex);
+            }
         }
 
         protected virtual string GetValueString() {

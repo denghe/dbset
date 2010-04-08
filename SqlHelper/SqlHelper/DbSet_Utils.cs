@@ -404,6 +404,70 @@
                     return null;
             }
         }
+
+        public static byte[] GetBytes(object o, ref int typeNumber) {
+            if(o == null || o == DBNull.Value) return null;
+            var typeName = o.GetType().FullName;
+            switch(typeName) {
+                case "System.Boolean":
+                    typeNumber = 1;
+                    return ((bool)o).GetBytes();
+                case "System.Byte":
+                    typeNumber = 2;
+                    return ((byte)o).GetBytes();
+                case "System.Byte[]":
+                    typeNumber = 3;
+                    return ((byte[])o).GetBytes();
+                case "System.Char":
+                    typeNumber = 4;
+                    return ((char)o).GetBytes();
+                case "System.DateTime":
+                    typeNumber = 5;
+                    return ((DateTime)o).GetBytes();
+                case "System.Decimal":
+                    typeNumber = 6;
+                    return ((decimal)o).GetBytes();
+                case "System.Double":
+                    typeNumber = 7;
+                    return ((double)o).GetBytes();
+                case "System.Guid":
+                    typeNumber = 8;
+                    return ((Guid)o).GetBytes();
+                case "System.Int16":
+                    typeNumber = 9;
+                    return ((short)o).GetBytes();
+                case "System.Int32":
+                    typeNumber = 10;
+                    return ((int)o).GetBytes();
+                case "System.Int64":
+                    typeNumber = 11;
+                    return ((long)o).GetBytes();
+                case "System.SByte":
+                    typeNumber = 12;
+                    return ((sbyte)o).GetBytes();
+                case "System.Single":
+                    typeNumber = 13;
+                    return ((float)o).GetBytes();
+                case "System.String":
+                    typeNumber = 14;
+                    return ((string)o).GetBytes();
+                case "System.UInt16":
+                    typeNumber = 15;
+                    return ((ushort)o).GetBytes();
+                case "System.UInt32":
+                    typeNumber = 16;
+                    return ((uint)o).GetBytes();
+                case "System.UInt64":
+                    typeNumber = 17;
+                    return ((ulong)o).GetBytes();
+                case "System.Type":
+                    typeNumber = 18;
+                    return ((Type)o).GetBytes();
+                default:
+                    return null;
+            }
+        }
+
         #endregion
 
         #region ToObject (generic)
@@ -442,11 +506,54 @@
                     return buffer.ToString(ref startIndex);
                 case "System.UInt16":
                     return buffer.ToUInt16(ref startIndex);
-                case "Systebuffer.m.UInt32":
+                case "System.UInt32":
                     return buffer.ToUInt32(ref startIndex);
                 case "System.UInt64":
                     return buffer.ToUInt64(ref startIndex);
                 case "System.Type":
+                    return buffer.ToType(ref startIndex);
+                default:
+                    return null;
+            }
+        }
+
+        public static object ToObject(byte[] buffer, int typeNumber, ref int startIndex) {
+            switch(typeNumber) {
+                case 1:
+                    return buffer.ToBoolean(ref startIndex);
+                case 2:
+                    return buffer.ToByte(ref startIndex);
+                case 3:
+                    return buffer.ToBytes(ref startIndex);
+                case 4:
+                    return buffer.ToChar(ref startIndex);
+                case 5:
+                    return buffer.ToDateTime(ref startIndex);
+                case 6:
+                    return buffer.ToDecimal(ref startIndex);
+                case 7:
+                    return buffer.ToDouble(ref startIndex);
+                case 8:
+                    return buffer.ToGuid(ref startIndex);
+                case 9:
+                    return buffer.ToInt16(ref startIndex);
+                case 10:
+                    return buffer.ToInt32(ref startIndex);
+                case 11:
+                    return buffer.ToInt64(ref startIndex);
+                case 12:
+                    return buffer.ToSByte(ref startIndex);
+                case 13:
+                    return buffer.ToSingle(ref startIndex);
+                case 14:
+                    return buffer.ToString(ref startIndex);
+                case 15:
+                    return buffer.ToUInt16(ref startIndex);
+                case 16:
+                    return buffer.ToUInt32(ref startIndex);
+                case 17:
+                    return buffer.ToUInt64(ref startIndex);
+                case 18:
                     return buffer.ToType(ref startIndex);
                 default:
                     return null;
