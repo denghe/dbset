@@ -94,5 +94,25 @@ SELECT " + st + scs + @"
  WHERE " : "") + sw + (so.Length > 0 ? @"
  ORDER BY " : "") + so;
         }
+
+        public virtual byte[] GetBytes() {
+            var buff = new List<byte[]>();
+            buff.Add(this.PageIndex.GetBytes());
+            buff.Add(this.PageSize.GetBytes());
+            buff.Add(this.Where.GetBytes());
+            buff.Add(this.OrderBy.GetBytes());
+            buff.Add(this.Columns.GetBytes());
+            return buff.Combine();
+        }
+        public void Fill(byte[] buffer, ref int startIndex) {
+            this.PageIndex = buffer.ToInt32(ref startIndex);
+            this.PageSize = buffer.ToInt32(ref startIndex);
+            this.Where = new W();
+            this.Where.Fill(buffer, ref startIndex);
+            this.OrderBy = new O();
+            this.OrderBy.Fill(buffer, ref startIndex);
+            this.Columns = new CS();
+            this.Columns.Fill(buffer, ref startIndex);
+        }
     }
 }

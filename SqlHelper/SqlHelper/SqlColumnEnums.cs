@@ -51,5 +51,19 @@
         //        foreach(var i in __columns) yield return i;
         //    }
         //}
+
+
+        public virtual byte[] GetBytes() {
+            var buff = new List<byte[]>();
+            buff.Add(__columns.Count.GetBytes());
+            foreach (var c in __columns) buff.Add(c.GetBytes());
+            return buff.Combine();
+        }
+        public void Fill(byte[] buffer, ref int startIndex) {
+            var count = buffer.ToInt32(ref startIndex);
+            for (int i = 0; i < count; i++) {
+                __columns.Add(buffer.ToInt32(ref startIndex));
+            }
+        }
     }
 }
