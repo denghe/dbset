@@ -24,7 +24,10 @@
             // init connect string
             SqlHelper.InitConnectString(server: "sql");
 
+            var e = exp.Tree.New(o => o.TreePID == null);
+            var e2 = new exp.Tree(e.GetBytes());
 
+            e2.ToString().WL();
             
             RL();
         }
