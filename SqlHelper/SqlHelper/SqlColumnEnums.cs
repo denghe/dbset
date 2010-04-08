@@ -4,7 +4,7 @@
     using System.Text;
 
     public partial class ColumnList<T> where T : ColumnList<T>, new() {
-        public static T New(Handler h) { return h.Invoke(new T()); }
+        public static T New(Handler h) { return h(new T()); }
         protected List<int> __columns = new List<int>();
         public virtual string ToSqlString(string schema = null, string name = null) {
             // todo: check schema , name generate [schema].[name].[col]

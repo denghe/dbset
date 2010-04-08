@@ -48,7 +48,7 @@
 
     public class LogicalNode<T> : LogicalNode where T : LogicalNode, new() {
         public delegate T Handler(T eh);
-        public static T New(Handler eh) { return eh.Invoke(new T()); }
+        public static T New(Handler eh) { return eh(new T()); }
         public static T New() { return new T(); }
 
         public T And(T L) { return new T { First__ = this, Second__ = L }; }
@@ -60,7 +60,7 @@
                 var child = new T();
                 this.CopyTo(child);
 
-                this.First__ = eh.Invoke(new T());
+                this.First__ = eh(new T());
                 this.Second__ = child;
                 this.Expression__ = null;
             }

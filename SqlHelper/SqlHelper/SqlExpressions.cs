@@ -132,7 +132,7 @@
 
     public class LogicalNode<T> : LogicalNode where T : LogicalNode, new() {
         public delegate T Handler(T eh);
-        public static T New(Handler eh) { return eh.Invoke(new T()); }
+        public static T New(Handler eh) { return eh(new T()); }
         public static T New() { return new T(); }
 
         public T And(T L) { return new T { First__ = this, Logical__ = Logicals.And, Second__ = L }; }
@@ -147,7 +147,7 @@
                 var child = new T();
                 this.CopyTo(child);
 
-                this.First__ = eh.Invoke(new T());
+                this.First__ = eh(new T());
                 this.Logical__ = Logicals.And;
                 this.Second__ = child;
                 this.Exp__ = null;
@@ -161,7 +161,7 @@
                 var child = new T();
                 this.CopyTo(child);
 
-                this.First__ = eh.Invoke(new T());
+                this.First__ = eh(new T());
                 this.Logical__ = Logicals.Or;
                 this.Second__ = child;
                 this.Exp__ = null;
@@ -419,11 +419,7 @@
 
         public virtual byte[] GetBytes() {
             var buff = new List<byte[]>();
-            if(Parent == null) buff.Add(new byte[] { 0 });
-            else {
-                buff.Add(new byte[] { 1 });
-                buff.Add(Parent.GetBytes());
-            }
+            // skip parent
             buff.Add(ColumnName.GetBytes());
             buff.Add(new byte[] { (byte)(int)Operate });
             buff.Add(DbSet_Utils.GetBytes(Value));

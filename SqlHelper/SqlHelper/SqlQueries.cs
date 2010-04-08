@@ -11,7 +11,7 @@
         where CS : ColumnList<CS>, new() {
 
         public delegate Q Handler(Q h);
-        public static Q New(Handler h) { return h.Invoke(new Q()); }
+        public static Q New(Handler h) { return h(new Q()); }
         public static Q New(
             Expressions.LogicalNode<W>.Handler where = null
             , Orientations.LogicalNode<O>.Handler orderby = null
@@ -22,9 +22,9 @@
             return new Q {
                 PageIndex = pageIndex,
                 PageSize = pageSize,
-                Where = where == null ? new W() : where.Invoke(new W()),
-                OrderBy = orderby == null ? new O() : orderby.Invoke(new O()),
-                Columns = columns == null ? new CS() : columns.Invoke(new CS())
+                Where = where == null ? new W() : where(new W()),
+                OrderBy = orderby == null ? new O() : orderby(new O()),
+                Columns = columns == null ? new CS() : columns(new CS())
             };
         }
 
@@ -43,11 +43,11 @@
             return (Q)this;
         }
         public Q SetWhere(Expressions.LogicalNode<W>.Handler h) {
-            this.Where = h.Invoke(new W());
+            this.Where = h(new W());
             return (Q)this;
         }
         public Q SetOrderBy(Orientations.LogicalNode<O>.Handler h) {
-            this.OrderBy = h.Invoke(new O());
+            this.OrderBy = h(new O());
             return (Q)this;
         }
 
