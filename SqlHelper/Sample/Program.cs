@@ -28,20 +28,21 @@
             //e.GetBytes().ToHexString().WL();
 
             var e = exp.t3.New(o => o.c1 == 12 | o.c2 == Guid.NewGuid());
+
             e.And(o => o.c3 == DateTime.Now | o.c4 == "asdf");
+
             var buff = e.GetBytes();
 
             e.ToSqlString().WL();
 
             buff.WL();
 
-
-            var e2 = new exp.t3();
-            var startIndex = 0;
-            e2.Fill(buff, ref startIndex);
+            var e2 = new exp.t3(buff);
 
             e2.ToSqlString().WL();
 
+
+            
             RL();
         }
 
