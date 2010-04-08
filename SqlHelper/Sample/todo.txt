@@ -8,9 +8,10 @@
 
  含 存储过程方法（返回DbSet）
 
+表达式 相关 序列化和反序列化, 相关构造函数 partial 生成
 
-todo: 表达式 相关 序列化和反序列化, 相关构造函数 partial 生成
 
+todo: 将非 Methods_Sql 字样的文件及依赖文件　　复制到 SilverLight 里测试
 
 
 
