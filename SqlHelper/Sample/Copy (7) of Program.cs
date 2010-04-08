@@ -22,7 +22,24 @@
     public class Test {
         public static void Main() {
             // init connect string
-            SqlHelper.InitConnectString(server: "sql");
+            SqlHelper.InitConnectString(server: "data,14333", username: "admin");
+
+            //var e = exp.B.New(o => o.AID == 1 & o.BID > 3);
+            //e.GetBytes().ToHexString().WL();
+
+            var e = exp.t3.New(o => o.c1 == 12 | o.c2 == Guid.NewGuid());
+
+            e.And(o => o.c3 == DateTime.Now | o.c4 == "asdf");
+
+            var buff = e.GetBytes();
+
+            e.ToSqlString().WL();
+
+            buff.WL();
+
+            var e2 = new exp.t3(buff);
+
+            e2.ToSqlString().WL();
 
 
             
