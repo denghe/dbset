@@ -23,6 +23,15 @@
             // init connect string
             SqlHelper.InitConnectString(server: "data,14333", username: "admin");
 
+            var rows = new List<tt.G_INT_STR>();
+            rows.Add(new tt.G_INT_STR { c1 = 12, c2 = "asdf" });
+            rows.Add(new tt.G_INT_STR { c1 = 23, c2 = "qwer" });
+
+            var result = sp.需要传个表参.ExecuteDbSet(
+                new sp.需要传个表参.Parameters { T = rows }
+            );
+
+            result.Dump();
 
             Console.ReadLine();
         }

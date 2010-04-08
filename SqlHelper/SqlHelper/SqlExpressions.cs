@@ -93,7 +93,8 @@
                     var s1 = firstQuote ? " ( " : " ";
                     var s2 = firstQuote ? " )" : "";
                     return GetSqlOperater(this.Logical__) + s1 + this.First__.ToSqlString(schema, name) + s2;
-                } else {
+                }
+                else {
                     var firstQuote = this.First__.Logical__ == Logicals.Or && this.Logical__ == Logicals.And;
                     var secondQuote = this.Second__.Logical__ == Logicals.Or && this.Logical__ == Logicals.And;
                     var s1 = firstQuote ? "( " : "";
@@ -104,6 +105,27 @@
                 }
             }
             return this.Exp__.ToSqlString(schema, name);
+        }
+
+        public virtual byte[] GetBytes() {
+            var buff = new List<byte[]>();
+            buff.Add(new byte[] { (byte)(int)Logical__ });
+            if(First__ == null) buff.Add(new byte[] { 0 });
+            else {
+                buff.Add(new byte[] { 1 });
+                buff.Add(First__.GetBytes());
+            }
+            if(Second__ == null) buff.Add(new byte[] { 0 });
+            else {
+                buff.Add(new byte[] { 1 });
+                buff.Add(Second__.GetBytes());
+            }
+            if(Exp__ == null) buff.Add(new byte[] { 0 });
+            else {
+                buff.Add(new byte[] { 1 });
+                buff.Add(Exp__.GetBytes());
+            }
+            return buff.Combine();
         }
 
     }
@@ -120,7 +142,8 @@
         public void And(Handler eh) {
             if(this.First__ == null && this.Exp__ == null) {
                 New(eh).CopyTo(this);
-            } else {
+            }
+            else {
                 var child = new T();
                 this.CopyTo(child);
 
@@ -133,7 +156,8 @@
         public void Or(Handler eh) {
             if(this.First__ == null && this.Exp__ == null) {
                 New(eh).CopyTo(this);
-            } else {
+            }
+            else {
                 var child = new T();
                 this.CopyTo(child);
 
@@ -391,6 +415,20 @@
             if(this.Operate == Operators.Between)
                 return string.Format(so, sn, GetValueString(), GetValue2String());
             return string.Format(so, sn, GetValueString());
+        }
+
+        public virtual byte[] GetBytes() {
+            var buff = new List<byte[]>();
+            if(Parent == null) buff.Add(new byte[] { 0 });
+            else {
+                buff.Add(new byte[] { 1 });
+                buff.Add(Parent.GetBytes());
+            }
+            buff.Add(ColumnName.GetBytes());
+            buff.Add(new byte[] { (byte)(int)Operate });
+            buff.Add(DbSet_Utils.GetBytes(Value));
+            buff.Add(DbSet_Utils.GetBytes(Value2));
+            return buff.Combine();
         }
 
         protected virtual string GetValueString() {
