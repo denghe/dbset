@@ -30,7 +30,7 @@
             return bytes;
         }
         public static byte[] GetBytes(this DateTime o) {
-            return BitConverter.GetBytes(o.ToBinary());
+            return BitConverter.GetBytes(o.ToFileTimeUtc());
         }
         public static byte[] GetBytes(this decimal o) {
             var buffers = new List<byte[]>();
@@ -173,7 +173,7 @@
             return result[0];
         }
         public static DateTime ToDateTime(this byte[] buffer, ref int startIndex) {
-            var result = DateTime.FromBinary(BitConverter.ToInt64(buffer, startIndex));
+            var result = DateTime.FromFileTimeUtc(BitConverter.ToInt64(buffer, startIndex));
             startIndex += sizeof(long);
             return result;
         }
