@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using System.Data.SqlClient;
 
     public partial class Pair<T1, T2> {
         public T1 First { get; set; }
