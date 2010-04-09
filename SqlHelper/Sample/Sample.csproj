@@ -52,6 +52,52 @@
     <Compile Include="Copy %287%29 of Program.cs" />
     <None Include="Copy %288%29 of Program.cs" />
     <None Include="Program.cs" />
+    <Compile Include="DAL\DAL_Class_ColumnEnums_Tables.cs" />
+    <Compile Include="DAL\DAL_Class_ColumnEnums_UserDefinedFunctions_Table.cs" />
+    <Compile Include="DAL\DAL_Class_ColumnEnums_UserDefinedTableTypes.cs" />
+    <Compile Include="DAL\DAL_Class_ColumnEnums_Views.cs" />
+    <Compile Include="DAL\DAL_Class_Database_StoredProcedures.cs" />
+    <Compile Include="DAL\DAL_Class_Database_Tables.cs" />
+    <Compile Include="DAL\DAL_Class_Database_UserDefinedFunctions_Scalar.cs" />
+    <Compile Include="DAL\DAL_Class_Database_UserDefinedFunctions_Table.cs" />
+    <Compile Include="DAL\DAL_Class_Database_UserDefinedTableTypes.cs" />
+    <Compile Include="DAL\DAL_Class_Database_Views.cs" />
+    <Compile Include="DAL\DAL_Class_Expressions_Tables.cs" />
+    <Compile Include="DAL\DAL_Class_Expressions_UserDefinedFunctions_Table.cs" />
+    <Compile Include="DAL\DAL_Class_Expressions_UserDefinedTableTypes.cs" />
+    <Compile Include="DAL\DAL_Class_Expressions_Views.cs" />
+    <Compile Include="DAL\DAL_Class_Orientations_Tables.cs" />
+    <Compile Include="DAL\DAL_Class_Orientations_UserDefinedFunctions_Table.cs" />
+    <Compile Include="DAL\DAL_Class_Orientations_Views.cs" />
+    <Compile Include="DAL\DAL_Class_Orientation_UserDefinedTableTypes.cs" />
+    <Compile Include="DAL\DAL_Class_Queries_Tables.cs" />
+    <Compile Include="DAL\DAL_Class_Queries_UserDefinedFunctions_Table.cs" />
+    <Compile Include="DAL\DAL_Class_Queries_UserDefinedTableTypes.cs" />
+    <Compile Include="DAL\DAL_Class_Queries_Views.cs" />
+    <Compile Include="DAL\DAL_Methods_Serial_ColumnEnums_Tables.cs" />
+    <Compile Include="DAL\DAL_Methods_Serial_ColumnEnums_UserDefinedFunctions_Table.cs" />
+    <Compile Include="DAL\DAL_Methods_Serial_ColumnEnums_UserDefinedTableTypes.cs" />
+    <Compile Include="DAL\DAL_Methods_Serial_ColumnEnums_Views.cs" />
+    <Compile Include="DAL\DAL_Methods_Serial_Database_Tables.cs" />
+    <Compile Include="DAL\DAL_Methods_Serial_Database_UserDefinedTableTypes.cs" />
+    <Compile Include="DAL\DAL_Methods_Serial_Database_Views.cs" />
+    <Compile Include="DAL\DAL_Methods_Serial_Expressions_Tables.cs" />
+    <Compile Include="DAL\DAL_Methods_Serial_Expressions_UserDefinedFunctions_Table.cs" />
+    <Compile Include="DAL\DAL_Methods_Serial_Expressions_UserDefinedTableTypes.cs" />
+    <Compile Include="DAL\DAL_Methods_Serial_Expressions_Views.cs" />
+    <Compile Include="DAL\DAL_Methods_Serial_Orientations_Tables.cs" />
+    <Compile Include="DAL\DAL_Methods_Serial_Orientations_UserDefinedFunctions_Table.cs" />
+    <Compile Include="DAL\DAL_Methods_Serial_Orientations_UserDefinedTableTypes.cs" />
+    <Compile Include="DAL\DAL_Methods_Serial_Orientations_Views.cs" />
+    <Compile Include="DAL\DAL_Methods_Serial_QueriesTables.cs" />
+    <Compile Include="DAL\DAL_Methods_Serial_Queries_UserDefinedFunctions_Table.cs" />
+    <Compile Include="DAL\DAL_Methods_Serial_Queries_UserDefinedTableTypes.cs" />
+    <Compile Include="DAL\DAL_Methods_Serial_Queries_Views.cs" />
+    <Compile Include="DAL\DAL_Methods_Sql_Database_StoredProcedures.cs" />
+    <Compile Include="DAL\DAL_Methods_Sql_Database_Tables.cs" />
+    <Compile Include="DAL\DAL_Methods_Sql_Database_Views.cs" />
+    <Compile Include="DAL\DAL_Methods_Sql_Ext_Database_Tables.cs" />
+    <Compile Include="DAL\DAL_Methods_Sql_Ext_Database_UserDefinedTableTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -63,9 +109,7 @@
   <ItemGroup>
     <Content Include="todo.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DAL\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
