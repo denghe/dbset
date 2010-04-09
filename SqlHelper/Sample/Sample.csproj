@@ -50,6 +50,7 @@
     <None Include="Copy %285%29 of Program.cs" />
     <None Include="Copy %286%29 of Program.cs" />
     <None Include="Copy %287%29 of Program.cs" />
+    <None Include="Copy %288%29 of Program.cs" />
     <Compile Include="DAL\DAL_Class_ColumnEnums_Tables.cs" />
     <Compile Include="DAL\DAL_Class_ColumnEnums_UserDefinedFunctions_Table.cs" />
     <Compile Include="DAL\DAL_Class_ColumnEnums_UserDefinedTableTypes.cs" />

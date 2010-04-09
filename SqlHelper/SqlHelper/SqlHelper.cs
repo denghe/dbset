@@ -272,7 +272,7 @@
             var se = CurrentSqlElements;
             var ds = new DbSet();
             var h = new SqlInfoMessageEventHandler((sender, ea) => {
-                foreach(SqlError err in ea.Errors) {
+                foreach(System.Data.SqlClient.SqlError err in ea.Errors) {
                     if(err.Class == 0) {
                         ds.Messages.Add(err.Message);
                         continue;
@@ -675,7 +675,7 @@
             var se = CurrentSqlElements;
             var ds = new DbSet();
             var h = new SqlInfoMessageEventHandler((sender, ea) => {
-                foreach(SqlError err in ea.Errors) {
+                foreach(System.Data.SqlClient.SqlError err in ea.Errors) {
                     if(err.Class == 0) {
                         ds.Messages.Add(err.Message);
                         continue;

@@ -18,8 +18,8 @@
         public int RecordsAffected { get; set; }
 
         public DbTable this[int index] { get { return Tables[index]; } }
-        public DbTable this[string name] { get { return Tables.Find(o => o.Name == name); } }
-        public DbTable this[string name, string schema] { get { return Tables.Find(o => o.Name == name && o.Schema == schema); } }
+        public DbTable this[string name] { get { return Tables.First(o => o.Name == name); } }
+        public DbTable this[string name, string schema] { get { return Tables.First(o => o.Name == name && o.Schema == schema); } }
     }
 
     public partial class Tables : List<DbTable> {
@@ -105,8 +105,8 @@
         public object this[int idx] { get { return this._itemArray[idx]; } set { this._itemArray[idx] = value; } }
         public object this[DbColumn col] { get { return this._itemArray[col.GetOrdinal()]; } set { this._itemArray[col.GetOrdinal()] = value; } }
         public object this[string name] {
-            get { return this._itemArray[this.Table.Columns.Find(o => o.Name == name).GetOrdinal()]; }
-            set { this._itemArray[this.Table.Columns.Find(o => o.Name == name).GetOrdinal()] = value; }
+            get { return this._itemArray[this.Table.Columns.First(o => o.Name == name).GetOrdinal()]; }
+            set { this._itemArray[this.Table.Columns.First(o => o.Name == name).GetOrdinal()] = value; }
         }
         public void SetValues(params object[] data) { this._itemArray = data; }
         internal void Increase() {

@@ -49,11 +49,6 @@ AS BEGIN
     RETURN (SELECT COUNT(*) FROM @T);
 END
              */
-            SqlHelper.ExecuteDbSet(SqlHelper.NewCommand("TestTableType").AddParameter("T",
-                new object[] { 1, "asdf" },
-                new object[] { 2, "qwerg" },
-                new object[] { 3, "zxcvzz" })
-            ).Dump();
 
             Console.ReadLine();
         }
