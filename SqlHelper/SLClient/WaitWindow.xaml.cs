@@ -15,12 +15,23 @@ namespace SLClient {
         public WaitWindow() {
             InitializeComponent();
         }
-
-        private void OKButton_Click(object sender, RoutedEventArgs e) {
-            this.DialogResult = true;
+        private Action _cancelAction = null;
+        public WaitWindow(string title = null, Action cancelAction = null)
+            : this() {
+            if (title != null) this.Title = title;
+            if (cancelAction == null) {
+                this.CancelButton.Visibility = System.Windows.Visibility.Collapsed;
+            } else {
+                _cancelAction = cancelAction;
+            }
         }
 
+        //private void OKButton_Click(object sender, RoutedEventArgs e) {
+        //    this.DialogResult = true;
+        //}
+
         private void CancelButton_Click(object sender, RoutedEventArgs e) {
+            if (_cancelAction != null) _cancelAction();
             this.DialogResult = false;
         }
     }
