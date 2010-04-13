@@ -10,6 +10,7 @@ namespace WCFServer
     {
         static void Main(string[] args)
         {
+            SqlLib.SqlHelper.InitConnectString(server: "sql");
 
             Console.WriteLine("Starting host...");
 
