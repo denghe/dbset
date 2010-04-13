@@ -1,0 +1,18 @@
+﻿<configuration>
+    <system.serviceModel>
+        <bindings>
+            <customBinding>
+                <binding name="NetTcpBinding_IMyService">
+                    <binaryMessageEncoding />
+                    <tcpTransport maxReceivedMessageSize="2147483647" maxBufferSize="2147483647" />
+                </binding>
+            </customBinding>
+        </bindings>
+        <client>
+            <endpoint address="net.tcp://localhost:4503/Calculator" binding="customBinding"
+                bindingConfiguration="NetTcpBinding_IMyService" contract="WCF1.IMyService"
+                name="NetTcpBinding_IMyService" />
+        </client>
+        <extensions />
+    </system.serviceModel>
+</configuration>

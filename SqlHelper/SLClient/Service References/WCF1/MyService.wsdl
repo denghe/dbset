@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="MyService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="NetTcpBinding_IMyService_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1" />
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost/?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost/?xsd=xsd2" namespace="http://schemas.microsoft.com/Message" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IMyService_Get_dbo_t3_Query_TSql_InputMessage">
+    <wsdl:part name="parameters" element="tns:Get_dbo_t3_Query_TSql" />
+  </wsdl:message>
+  <wsdl:message name="IMyService_Get_dbo_t3_Query_TSql_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Get_dbo_t3_Query_TSqlResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMyService_GetData_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetData" />
+  </wsdl:message>
+  <wsdl:message name="IMyService_GetData_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="IClientAccessPolicy_GetClientAccessPolicy_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetClientAccessPolicy" />
+  </wsdl:message>
+  <wsdl:message name="IClientAccessPolicy_GetClientAccessPolicy_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetClientAccessPolicyResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IMyService">
+    <wsdl:operation name="Get_dbo_t3_Query_TSql">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMyService/Get_dbo_t3_Query_TSql" message="tns:IMyService_Get_dbo_t3_Query_TSql_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMyService/Get_dbo_t3_Query_TSqlResponse" message="tns:IMyService_Get_dbo_t3_Query_TSql_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetData">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMyService/GetData" message="tns:IMyService_GetData_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMyService/GetDataResponse" message="tns:IMyService_GetData_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="IClientAccessPolicy">
+    <wsdl:operation name="GetClientAccessPolicy">
+      <wsdl:input wsaw:Action="http://tempuri.org/IClientAccessPolicy/GetClientAccessPolicy" message="tns:IClientAccessPolicy_GetClientAccessPolicy_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IClientAccessPolicy/GetClientAccessPolicyResponse" message="tns:IClientAccessPolicy_GetClientAccessPolicy_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="NetTcpBinding_IMyService" type="tns:IMyService">
+    <wsp:PolicyReference URI="#NetTcpBinding_IMyService_policy" />
+    <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="Get_dbo_t3_Query_TSql">
+      <soap12:operation soapAction="http://tempuri.org/IMyService/Get_dbo_t3_Query_TSql" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetData">
+      <soap12:operation soapAction="http://tempuri.org/IMyService/GetData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MyService">
+    <wsdl:port name="NetTcpBinding_IMyService" binding="tns:NetTcpBinding_IMyService">
+      <soap12:address location="net.tcp://localhost:4503/Calculator" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>net.tcp://localhost:4503/Calculator</wsa10:Address>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
