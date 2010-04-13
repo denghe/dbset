@@ -7,5 +7,8 @@ namespace WCFServer
     {
         [OperationContract]
         int Add(int a, int b);
+
+        [OperationContract]
+        byte[] GetData(byte[] query);
     }
 }

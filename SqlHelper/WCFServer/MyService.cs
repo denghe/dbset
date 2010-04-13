@@ -37,6 +37,11 @@ namespace WCFServer {
             return (a + b);
         }
 
+        public byte[] GetData(byte[] query) {
+
+            return null;
+        }
+
         #endregion
     }
 
