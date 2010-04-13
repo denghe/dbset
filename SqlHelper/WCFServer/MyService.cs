@@ -8,10 +8,7 @@ namespace WCFServer {
 
         #region IClientAccessPolicy Members
 
-        private static Stream _ps = null;
-
-        public MyService() {
-            const string result = @"<?xml version=""1.0"" encoding=""utf-8""?>
+        private static byte[] _buff = Encoding.UTF8.GetBytes(@"<?xml version=""1.0"" encoding=""utf-8""?>
 <access-policy>
     <cross-domain-access>
         <policy>
@@ -23,17 +20,14 @@ namespace WCFServer {
             </grant-to>
         </policy>
     </cross-domain-access>
-</access-policy>";
-            _ps = new MemoryStream(Encoding.UTF8.GetBytes(result));
-        }
+</access-policy>");
 
         [OperationBehavior]
         public Stream GetClientAccessPolicy() {
             if(WebOperationContext.Current != null)
                 WebOperationContext.Current.OutgoingResponse.ContentType = "application/xml";
-            return _ps;
+            return new MemoryStream(_buff);
         }
-
 
         #endregion
 
