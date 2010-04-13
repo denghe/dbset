@@ -1,7 +1,15 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.ServiceModel;
 using System.ServiceModel.Web;
+using System.Collections.Generic;
 using System.Text;
+
+using DAL;
+using SqlLib;
+using db = DAL.Database.Tables.dbo;
+using qu = DAL.Queries.Tables.dbo;
+//using SqlLib;
 
 namespace WCFServer {
     public class MyService : IMyService, IClientAccessPolicy {
@@ -24,7 +32,7 @@ namespace WCFServer {
 
         [OperationBehavior]
         public Stream GetClientAccessPolicy() {
-            if(WebOperationContext.Current != null)
+            if (WebOperationContext.Current != null)
                 WebOperationContext.Current.OutgoingResponse.ContentType = "application/xml";
             return new MemoryStream(_buff);
         }
@@ -33,13 +41,17 @@ namespace WCFServer {
 
         #region IService Members
 
-        public int Add(int a, int b) {
-            return (a + b);
+        public string Get_dbo_t3_Query_TSql(byte[] query) {
+            var q = new qu.t3(query);
+            return q.ToString();
         }
 
         public byte[] GetData(byte[] query) {
-
-            return null;
+            var rows = new List<db.t3>();
+            rows.Add(new db.t3 { c1 = 1, c2 = Guid.NewGuid(), c3 = DateTime.Now, c4 = "asdf" });
+            rows.Add(new db.t3 { c1 = 2, c2 = Guid.NewGuid(), c3 = DateTime.Now, c4 = "qwert" });
+            rows.Add(new db.t3 { c1 = 3, c2 = Guid.NewGuid(), c3 = DateTime.Now, c4 = "zxcvbn" });
+            return rows.GetBytes();
         }
 
         #endregion

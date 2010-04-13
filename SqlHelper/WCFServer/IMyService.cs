@@ -6,7 +6,7 @@ namespace WCFServer
     public interface IMyService
     {
         [OperationContract]
-        int Add(int a, int b);
+        string Get_dbo_t3_Query_TSql(byte[] query);
 
         [OperationContract]
         byte[] GetData(byte[] query);
