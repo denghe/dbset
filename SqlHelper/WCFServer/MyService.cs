@@ -9,7 +9,6 @@ using DAL;
 using SqlLib;
 using db = DAL.Database.Tables.dbo;
 using qu = DAL.Queries.Tables.dbo;
-//using SqlLib;
 
 namespace WCFServer {
     public class MyService : IMyService, IClientAccessPolicy {
