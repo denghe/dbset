@@ -8,38 +8,38 @@
     d:DesignHeight="510" d:DesignWidth="793"
     Loaded="UserControl_Loaded"
     >
-    <Grid x:Name="LayoutRoot" Background="White">
+    <Grid x:Name="_LayoutRoot_Grid" Background="White">
         <Grid.RowDefinitions>
-            <RowDefinition x:Name="_FilterRow" Height="118"/>
-            <RowDefinition x:Name="_ListRow" Height="198*" />
-            <RowDefinition x:Name="_DetailRow" Height="130"/>
+            <RowDefinition x:Name="_Filter_RowDefinition" Height="118"/>
+            <RowDefinition x:Name="_List_RowDefinition" Height="198*" />
+            <RowDefinition x:Name="_Detail_RowDefinition" Height="130"/>
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0" Margin="0,0,0,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
+                <ColumnDefinition x:Name="_Filter_ColumnDefinition"/>
+                <ColumnDefinition x:Name="_Find_ColumnDefinition"/>
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0" Height="23" Margin="12,11,182,0" Name="textBox2" VerticalAlignment="Top" />
-            <Button Grid.Column="0" Content="模糊过滤" Height="23" Margin="0,11,101,0" Name="button1" VerticalAlignment="Top" HorizontalAlignment="Right" Width="75" />
-            <Button Grid.Column="0" Content="高级过滤 V" Height="23" Margin="0,11,7,0" Name="button2" VerticalAlignment="Top" HorizontalAlignment="Right" Width="88" />
-            <Grid Grid.Column="0" Margin="12,40,7,6" Name="grid1" Background="Green" />
+            <TextBox Grid.Column="0" Height="23" Margin="12,11,182,0" x:Name="_Filter_TextBox" VerticalAlignment="Top" />
+            <Button Grid.Column="0" Content="模糊过滤" Height="23" Margin="0,11,101,0" x:Name="_Filter_Button" VerticalAlignment="Top" HorizontalAlignment="Right" Width="75" />
+            <Button Grid.Column="0" Content="高级过滤 V" Height="23" Margin="0,11,7,0" x:Name="_AdvanceFilter_Button" VerticalAlignment="Top" HorizontalAlignment="Right" Width="88" />
+            <Grid Grid.Column="0" Margin="12,40,7,6" x:Name="_Filter_Grid" Background="Green" />
 
-            <TextBox Grid.Column="1" Height="23" Margin="7,11,187,0" Name="textBox21" VerticalAlignment="Top" />
-            <Button Grid.Column="1" Content="模糊查找" Height="23" Margin="0,10,106,0" Name="button11" VerticalAlignment="Top" HorizontalAlignment="Right" Width="75" />
-            <Button Grid.Column="1" Content="高级查找 V" Height="23" Margin="0,10,12,0" Name="button21" VerticalAlignment="Top" HorizontalAlignment="Right" Width="88" />
-            <Grid Grid.Column="1" Margin="7,40,12,6" Name="grid11" Background="Green" />
+            <TextBox Grid.Column="1" Height="23" Margin="7,11,187,0" x:Name="_Find_TextBox" VerticalAlignment="Top" />
+            <Button Grid.Column="1" Content="模糊查找" Height="23" Margin="0,10,106,0" x:Name="_Find_Button" VerticalAlignment="Top" HorizontalAlignment="Right" Width="75" />
+            <Button Grid.Column="1" Content="高级查找 V" Height="23" Margin="0,10,12,0" x:Name="_AdvanceFind_Button" VerticalAlignment="Top" HorizontalAlignment="Right" Width="88" />
+            <Grid Grid.Column="1" Margin="7,40,12,6" x:Name="_Find_Grid" Background="Green" />
         </Grid>
 
         <Grid Grid.Row="1" Margin="0,0,0,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="200"/>
+                <ColumnDefinition x:Name="_List_ColumnDefinition"/>
+                <ColumnDefinition x:Name="_ListAction_ColumnDefinition" Width="185"/>
             </Grid.ColumnDefinitions>
-            <sdk:DataGrid Grid.Column="0" AutoGenerateColumns="True" Margin="12,6,0,6" Name="dataGrid1" />
-            <Grid Grid.Column="1" Margin="7,6,12,6" Name="grid2"  Background="Green" />
+            <sdk:DataGrid Grid.Column="0" AutoGenerateColumns="True" Margin="12,6,0,6" x:Name="_List_GataGrid" />
+            <Grid Grid.Column="1" Margin="7,6,12,6" x:Name="_ListAction_Grid"  Background="Green" />
         </Grid>
 
-        <Grid Grid.Row="2" Height="112" Margin="12,0,12,12" Name="grid3" VerticalAlignment="Bottom" Background="Green" />
+        <Grid Grid.Row="2" Height="112" Margin="12,0,12,12" x:Name="_Detail_Grid" VerticalAlignment="Bottom" Background="Green" />
     </Grid>
 </UserControl>
