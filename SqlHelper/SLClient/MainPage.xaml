@@ -26,8 +26,8 @@
             <Grid Grid.Column="0" Margin="12,40,7,6" Name="grid1" Background="Green" />
 
             <TextBox Grid.Column="1" Height="23" Margin="7,11,187,0" Name="textBox21" VerticalAlignment="Top" />
-            <Button Grid.Column="1" Content="模糊过滤" Height="23" Margin="0,10,106,0" Name="button11" VerticalAlignment="Top" HorizontalAlignment="Right" Width="75" />
-            <Button Grid.Column="1" Content="高级过滤 V" Height="23" Margin="0,10,12,0" Name="button21" VerticalAlignment="Top" HorizontalAlignment="Right" Width="88" />
+            <Button Grid.Column="1" Content="模糊查找" Height="23" Margin="0,10,106,0" Name="button11" VerticalAlignment="Top" HorizontalAlignment="Right" Width="75" />
+            <Button Grid.Column="1" Content="高级查找 V" Height="23" Margin="0,10,12,0" Name="button21" VerticalAlignment="Top" HorizontalAlignment="Right" Width="88" />
             <Grid Grid.Column="1" Margin="7,40,12,6" Name="grid11" Background="Green" />
         </Grid>
 
