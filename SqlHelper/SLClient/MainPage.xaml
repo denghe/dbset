@@ -3,13 +3,43 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
     mc:Ignorable="d"
-    d:DesignHeight="300" d:DesignWidth="400" xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk">
-
+    d:DesignHeight="510" d:DesignWidth="793"
+    Loaded="UserControl_Loaded"
+    >
     <Grid x:Name="LayoutRoot" Background="White">
-        <Button Content="Button" Height="23" HorizontalAlignment="Left" Margin="12,12,0,0" Name="button1" VerticalAlignment="Top" Width="75" Click="button1_Click" />
-        <sdk:DataGrid AutoGenerateColumns="True" Height="175" HorizontalAlignment="Left" Margin="12,113,0,0" Name="dataGrid1" VerticalAlignment="Top" Width="376" />
-        <TextBox AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Height="66" HorizontalAlignment="Left" Margin="12,41,0,0" Name="textBox1" VerticalAlignment="Top" Width="376" />
-        <Button Content="Button" Height="23" HorizontalAlignment="Left" Margin="93,12,0,0" Name="button2" VerticalAlignment="Top" Width="75" Click="button2_Click" />
+        <Grid.RowDefinitions>
+            <RowDefinition x:Name="_FilterRow" Height="118"/>
+            <RowDefinition x:Name="_ListRow" Height="198*" />
+            <RowDefinition x:Name="_DetailRow" Height="130"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="0,0,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" Height="23" Margin="12,11,182,0" Name="textBox2" VerticalAlignment="Top" />
+            <Button Grid.Column="0" Content="模糊过滤" Height="23" Margin="0,11,101,0" Name="button1" VerticalAlignment="Top" HorizontalAlignment="Right" Width="75" />
+            <Button Grid.Column="0" Content="高级过滤 V" Height="23" Margin="0,11,7,0" Name="button2" VerticalAlignment="Top" HorizontalAlignment="Right" Width="88" />
+            <Grid Grid.Column="0" Margin="12,40,7,6" Name="grid1" Background="Green" />
+
+            <TextBox Grid.Column="1" Height="23" Margin="7,11,187,0" Name="textBox21" VerticalAlignment="Top" />
+            <Button Grid.Column="1" Content="模糊过滤" Height="23" Margin="0,10,106,0" Name="button11" VerticalAlignment="Top" HorizontalAlignment="Right" Width="75" />
+            <Button Grid.Column="1" Content="高级过滤 V" Height="23" Margin="0,10,12,0" Name="button21" VerticalAlignment="Top" HorizontalAlignment="Right" Width="88" />
+            <Grid Grid.Column="1" Margin="7,40,12,6" Name="grid11" Background="Green" />
+        </Grid>
+
+        <Grid Grid.Row="1" Margin="0,0,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="200"/>
+            </Grid.ColumnDefinitions>
+            <sdk:DataGrid Grid.Column="0" AutoGenerateColumns="True" Margin="12,6,0,6" Name="dataGrid1" />
+            <Grid Grid.Column="1" Margin="7,6,12,6" Name="grid2"  Background="Green" />
+        </Grid>
+
+        <Grid Grid.Row="2" Height="112" Margin="12,0,12,12" Name="grid3" VerticalAlignment="Bottom" Background="Green" />
     </Grid>
 </UserControl>

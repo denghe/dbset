@@ -3,6 +3,21 @@
              x:Class="SLClient.App"
              >
     <Application.Resources>
-        
+        <Style TargetType="Button">
+            <Setter Property="TextElement.FontFamily" Value="SimSun" />
+            <Setter Property="TextElement.FontSize" Value="12" />
+        </Style>
+        <Style TargetType="CheckBox">
+            <Setter Property="TextElement.FontFamily" Value="SimSun" />
+            <Setter Property="TextElement.FontSize" Value="12" />
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="TextElement.FontFamily" Value="SimSun" />
+            <Setter Property="TextElement.FontSize" Value="12" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="TextElement.FontFamily" Value="SimSun" />
+            <Setter Property="TextElement.FontSize" Value="12" />
+        </Style>
     </Application.Resources>
 </Application>

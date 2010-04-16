@@ -20,35 +20,40 @@ namespace SLClient {
         public MainPage() {
             InitializeComponent();
 
-            _ww = new WaitWindow { ParentLayoutRoot = this.LayoutRoot };
-            _wcf = new WCF1.MyServiceClient();
-            _wcf.Get_dbo_t3_Query_TSqlCompleted += new EventHandler<WCF1.Get_dbo_t3_Query_TSqlCompletedEventArgs>(_wcf_Get_dbo_t3_Query_TSqlCompleted);
-            _wcf.GetDataCompleted += new EventHandler<WCF1.GetDataCompletedEventArgs>(_wcf_GetDataCompleted);
+            //_ww = new WaitWindow { ParentLayoutRoot = this.LayoutRoot };
+            //_wcf = new WCF1.MyServiceClient();
+            //_wcf.Get_dbo_t3_Query_TSqlCompleted += new EventHandler<WCF1.Get_dbo_t3_Query_TSqlCompletedEventArgs>(_wcf_Get_dbo_t3_Query_TSqlCompleted);
+            //_wcf.GetDataCompleted += new EventHandler<WCF1.GetDataCompletedEventArgs>(_wcf_GetDataCompleted);
         }
 
-        void _wcf_GetDataCompleted(object sender, WCF1.GetDataCompletedEventArgs e) {
-            _ww.Close();
-            var rows = e.Result.ToList<db.t3>();
-            dataGrid1.ItemsSource = rows;
-        }
+        //void _wcf_GetDataCompleted(object sender, WCF1.GetDataCompletedEventArgs e) {
+        //    _ww.Close();
+        //    var rows = e.Result.ToList<db.t3>();
+        //    dataGrid1.ItemsSource = rows;
+        //}
 
-        void _wcf_Get_dbo_t3_Query_TSqlCompleted(object sender, WCF1.Get_dbo_t3_Query_TSqlCompletedEventArgs e) {
-            _ww.Close();
-            textBox1.Text = e.Result;
-        }
+        //void _wcf_Get_dbo_t3_Query_TSqlCompleted(object sender, WCF1.Get_dbo_t3_Query_TSqlCompletedEventArgs e) {
+        //    _ww.Close();
+        //    textBox1.Text = e.Result;
+        //}
 
-        private WCF1.MyServiceClient _wcf = null;
-        private WaitWindow _ww = null;
+        //private WCF1.MyServiceClient _wcf = null;
+        //private WaitWindow _ww = null;
 
-        private void button1_Click(object sender, RoutedEventArgs e) {
-            _ww.ShowDialog();
-            var q = qu.t3.New(where: o => o.c1.Equal(1));
-            _wcf.Get_dbo_t3_Query_TSqlAsync(q.GetBytes());
-        }
+        //private void button1_Click(object sender, RoutedEventArgs e) {
+        //    _ww.ShowDialog();
+        //    var q = qu.t3.New(where: o => o.c1.Equal(1));
+        //    _wcf.Get_dbo_t3_Query_TSqlAsync(q.GetBytes());
+        //}
 
-        private void button2_Click(object sender, RoutedEventArgs e) {
-            _ww.ShowDialog();
-            _wcf.GetDataAsync(null);
+        //private void button2_Click(object sender, RoutedEventArgs e) {
+        //    _ww.ShowDialog();
+        //    _wcf.GetDataAsync(null);
+        //}
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
