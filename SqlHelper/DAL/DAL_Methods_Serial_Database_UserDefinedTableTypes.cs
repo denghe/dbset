@@ -27,11 +27,12 @@ namespace DAL.Database.UserDefinedTableTypes.dbo
 
         #region Serial
         public byte[] GetBytes() {
-            var buffers = new List<byte[]>();
-            buffers.Add(this.Col1.GetBytes());
-            buffers.Add(this.Col2.GetBytes());
-            buffers.Add(this.Col3.GetBytes());
-            return buffers.Combine();
+            return new byte[][]
+            {
+                this.Col1.GetBytes(),
+                this.Col2.GetBytes(),
+                this.Col3.GetBytes(),
+            }.Combine();
         }
         public void Fill(byte[] buffer, ref int startIndex) {
             this.Col1 = buffer.ToInt32(ref startIndex);
@@ -61,9 +62,10 @@ namespace DAL.Database.UserDefinedTableTypes.dbo
 
         #region Serial
         public byte[] GetBytes() {
-            var buffers = new List<byte[]>();
-            buffers.Add(this.c1.GetBytes());
-            return buffers.Combine();
+            return new byte[][]
+            {
+                this.c1.GetBytes(),
+            }.Combine();
         }
         public void Fill(byte[] buffer, ref int startIndex) {
             this.c1 = buffer.ToInt32(ref startIndex);
@@ -91,10 +93,11 @@ namespace DAL.Database.UserDefinedTableTypes.dbo
 
         #region Serial
         public byte[] GetBytes() {
-            var buffers = new List<byte[]>();
-            buffers.Add(this.c1.GetBytes());
-            buffers.Add(this.c2.GetBytes());
-            return buffers.Combine();
+            return new byte[][]
+            {
+                this.c1.GetBytes(),
+                this.c2.GetBytes(),
+            }.Combine();
         }
         public void Fill(byte[] buffer, ref int startIndex) {
             this.c1 = buffer.ToNullableInt32(ref startIndex);
@@ -123,10 +126,11 @@ namespace DAL.Database.UserDefinedTableTypes.dbo
 
         #region Serial
         public byte[] GetBytes() {
-            var buffers = new List<byte[]>();
-            buffers.Add(this.Str.GetBytes());
-            buffers.Add(this.Num.GetBytes());
-            return buffers.Combine();
+            return new byte[][]
+            {
+                this.Str.GetBytes(),
+                this.Num.GetBytes(),
+            }.Combine();
         }
         public void Fill(byte[] buffer, ref int startIndex) {
             this.Str = buffer.ToString(ref startIndex);
@@ -155,11 +159,12 @@ namespace DAL.Database.UserDefinedTableTypes.dbo
 
         #region Serial
         public byte[] GetBytes() {
-            var buffers = new List<byte[]>();
-            buffers.Add(this.EmployeeID.GetBytes());
-            buffers.Add(this.ManagerId.GetBytes());
-            buffers.Add(this.EmployeeName.GetBytes());
-            return buffers.Combine();
+            return new byte[][]
+            {
+                this.EmployeeID.GetBytes(),
+                this.ManagerId.GetBytes(),
+                this.EmployeeName.GetBytes(),
+            }.Combine();
         }
         public void Fill(byte[] buffer, ref int startIndex) {
             this.EmployeeID = buffer.ToInt32(ref startIndex);

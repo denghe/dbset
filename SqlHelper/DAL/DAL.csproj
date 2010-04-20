@@ -67,6 +67,7 @@
     <Compile Include="DAL_Methods_Serial_ColumnEnums_UserDefinedTableTypes.cs" />
     <Compile Include="DAL_Methods_Serial_ColumnEnums_Views.cs" />
     <Compile Include="DAL_Methods_Serial_Database_Tables.cs" />
+    <Compile Include="DAL_Methods_Serial_Database_UserDefinedFunctions_Table.cs" />
     <Compile Include="DAL_Methods_Serial_Database_UserDefinedTableTypes.cs" />
     <Compile Include="DAL_Methods_Serial_Database_Views.cs" />
     <Compile Include="DAL_Methods_Serial_Expressions_Tables.cs" />

@@ -66,7 +66,7 @@ namespace DAL.Database.Tables.dbo
 
         #region Insert
 
-		public static int Insert(A o, ColumnEnums.Tables.dbo.A ics = null, ColumnEnums.Tables.dbo.A fcs = null, bool isFillAfterInsert = true)
+		public static int Insert(A o, ColumnEnums.Tables.dbo.A ics, ColumnEnums.Tables.dbo.A fcs = null, bool isFillAfterInsert = true)
 		{
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
@@ -312,7 +312,7 @@ DELETE FROM [dbo].[A]";
 
         #region Insert
 
-		public static int Insert(B o, ColumnEnums.Tables.dbo.B ics = null, ColumnEnums.Tables.dbo.B fcs = null, bool isFillAfterInsert = true)
+		public static int Insert(B o, ColumnEnums.Tables.dbo.B ics, ColumnEnums.Tables.dbo.B fcs = null, bool isFillAfterInsert = true)
 		{
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
@@ -576,7 +576,7 @@ DELETE FROM [dbo].[B]";
 
         #region Insert
 
-		public static int Insert(Formula_890 o, ColumnEnums.Tables.dbo.Formula_890 ics = null, ColumnEnums.Tables.dbo.Formula_890 fcs = null, bool isFillAfterInsert = true)
+		public static int Insert(Formula_890 o, ColumnEnums.Tables.dbo.Formula_890 ics, ColumnEnums.Tables.dbo.Formula_890 fcs = null, bool isFillAfterInsert = true)
 		{
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
@@ -894,7 +894,7 @@ DELETE FROM [dbo].[Formula_890]";
 
         #region Insert
 
-		public static int Insert(FS o, ColumnEnums.Tables.dbo.FS ics = null, ColumnEnums.Tables.dbo.FS fcs = null, bool isFillAfterInsert = true)
+		public static int Insert(FS o, ColumnEnums.Tables.dbo.FS ics, ColumnEnums.Tables.dbo.FS fcs = null, bool isFillAfterInsert = true)
 		{
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
@@ -1190,7 +1190,7 @@ DELETE FROM [dbo].[FS]";
 
         #region Insert
 
-		public static int Insert(ParentChildOrg o, ColumnEnums.Tables.dbo.ParentChildOrg ics = null, ColumnEnums.Tables.dbo.ParentChildOrg fcs = null, bool isFillAfterInsert = true)
+		public static int Insert(ParentChildOrg o, ColumnEnums.Tables.dbo.ParentChildOrg ics, ColumnEnums.Tables.dbo.ParentChildOrg fcs = null, bool isFillAfterInsert = true)
 		{
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
@@ -1477,7 +1477,7 @@ DELETE FROM [dbo].[ParentChildOrg]";
 
         #region Insert
 
-		public static int Insert(t o, ColumnEnums.Tables.dbo.t ics = null, ColumnEnums.Tables.dbo.t fcs = null, bool isFillAfterInsert = true)
+		public static int Insert(t o, ColumnEnums.Tables.dbo.t ics, ColumnEnums.Tables.dbo.t fcs = null, bool isFillAfterInsert = true)
 		{
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
@@ -1759,7 +1759,7 @@ DELETE FROM [dbo].[t]";
 
         #region Insert
 
-		public static int Insert(t1 o, ColumnEnums.Tables.dbo.t1 ics = null, ColumnEnums.Tables.dbo.t1 fcs = null, bool isFillAfterInsert = true)
+		public static int Insert(t1 o, ColumnEnums.Tables.dbo.t1 ics, ColumnEnums.Tables.dbo.t1 fcs = null, bool isFillAfterInsert = true)
 		{
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
@@ -2025,7 +2025,7 @@ DELETE FROM [dbo].[t1]";
 
         #region Insert
 
-		public static int Insert(t2 o, ColumnEnums.Tables.dbo.t2 ics = null, ColumnEnums.Tables.dbo.t2 fcs = null, bool isFillAfterInsert = true)
+		public static int Insert(t2 o, ColumnEnums.Tables.dbo.t2 ics, ColumnEnums.Tables.dbo.t2 fcs = null, bool isFillAfterInsert = true)
 		{
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
@@ -2288,7 +2288,7 @@ DELETE FROM [dbo].[t2]";
 
         #region Insert
 
-		public static int Insert(t3 o, ColumnEnums.Tables.dbo.t3 ics = null, ColumnEnums.Tables.dbo.t3 fcs = null, bool isFillAfterInsert = true)
+		public static int Insert(t3 o, ColumnEnums.Tables.dbo.t3 ics, ColumnEnums.Tables.dbo.t3 fcs = null, bool isFillAfterInsert = true)
 		{
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
@@ -2574,7 +2574,7 @@ DELETE FROM [dbo].[t3]";
 
         #region Insert
 
-		public static int Insert(tree o, ColumnEnums.Tables.dbo.tree ics = null, ColumnEnums.Tables.dbo.tree fcs = null, bool isFillAfterInsert = true)
+		public static int Insert(tree o, ColumnEnums.Tables.dbo.tree ics, ColumnEnums.Tables.dbo.tree fcs = null, bool isFillAfterInsert = true)
 		{
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
@@ -2844,7 +2844,7 @@ namespace DAL.Database.Tables.MySchema
 
         #region Insert
 
-		public static int Insert(FS o, ColumnEnums.Tables.MySchema.FS ics = null, ColumnEnums.Tables.MySchema.FS fcs = null, bool isFillAfterInsert = true)
+		public static int Insert(FS o, ColumnEnums.Tables.MySchema.FS ics, ColumnEnums.Tables.MySchema.FS fcs = null, bool isFillAfterInsert = true)
 		{
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
@@ -3124,7 +3124,7 @@ namespace DAL.Database.Tables.Schema1
 
         #region Insert
 
-		public static int Insert(T1 o, ColumnEnums.Tables.Schema1.T1 ics = null, ColumnEnums.Tables.Schema1.T1 fcs = null, bool isFillAfterInsert = true)
+		public static int Insert(T1 o, ColumnEnums.Tables.Schema1.T1 ics, ColumnEnums.Tables.Schema1.T1 fcs = null, bool isFillAfterInsert = true)
 		{
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
