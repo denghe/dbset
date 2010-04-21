@@ -141,6 +141,19 @@
                 if(Enum.TryParse<Category>(att.Value, out t)) return t;
                 return Category.Unknown;
             }
+
+            // todo: 改为使用下面的方法
+            public static T GetAttribute<T>(this XElement xe, string an, T defaultValue)
+            {
+                var attribute = xe.Attribute(an);
+                if (attribute == null) return defaultValue;
+                return (T)Convert.ChangeType(attribute.Value, typeof(T));
+            }
+
+            public static T GetAttribute<T>(this XElement xe, string an)
+            {
+                return GetAttribute(xe, an, default(T));
+            }
         }
 
     }
