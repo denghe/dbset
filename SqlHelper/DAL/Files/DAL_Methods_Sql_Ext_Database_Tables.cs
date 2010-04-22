@@ -32,7 +32,7 @@ namespace DAL.Database.Tables.产品
 
 		public static int Delete(this 产品 o, ColumnEnums.Tables.产品.产品.Handler conditionCols = null)
 		{
-            if(conditionCols == null) return 产品.产品.Delete(t =>
+            if (conditionCols == null) return Database.Tables.产品.产品.Delete(t =>
                 t.产品编号 == o.产品编号
             );
             var cols = conditionCols(new DAL.ColumnEnums.Tables.产品.产品());
@@ -40,7 +40,7 @@ namespace DAL.Database.Tables.产品
             if(cols.Contains(0)) exp.And(t => t.产品编号 == o.产品编号);
             if(cols.Contains(1)) exp.And(t => t.名称 == o.名称);
             if(cols.Contains(2)) exp.And(t => t.说明 == o.说明);
-            return 产品.产品.Delete(exp);
+            return Database.Tables.产品.产品.Delete(exp);
 		}
 
         #endregion
@@ -73,7 +73,7 @@ namespace DAL.Database.Tables.雇员
 
 		public static int Delete(this 雇员 o, ColumnEnums.Tables.雇员.雇员.Handler conditionCols = null)
 		{
-            if(conditionCols == null) return 雇员.雇员.Delete(t =>
+            if (conditionCols == null) return Database.Tables.雇员.雇员.Delete(t =>
                 t.雇员编号 == o.雇员编号
             );
             var cols = conditionCols(new DAL.ColumnEnums.Tables.雇员.雇员());
@@ -83,7 +83,7 @@ namespace DAL.Database.Tables.雇员
             if(cols.Contains(2)) exp.And(t => t.性别 == o.性别);
             if(cols.Contains(3)) exp.And(t => t.年龄 == o.年龄);
             if(cols.Contains(4)) exp.And(t => t.照片 == o.照片);
-            return 雇员.雇员.Delete(exp);
+            return Database.Tables.雇员.雇员.Delete(exp);
 		}
 
         #endregion
