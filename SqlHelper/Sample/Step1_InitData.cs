@@ -120,6 +120,38 @@
             var o7 = MakeOrder("7", c2, e1);
             var o8 = MakeOrder("8", c2, e2);
 
+            Func<C.订单, P.产品, int, double, C.订单明细> MakeOrderDetail = (o, p, n, m) =>
+            {
+                var tmp = new C.订单明细
+                {
+                    订单编号 = o.订单编号,
+                    产品编号 = p.产品编号,
+                    数量 = n,
+                    单价 = (decimal)m
+                };
+                tmp.Insert();
+                return tmp;
+            };
+
+            var od1_1 = MakeOrderDetail(o1, p1, 1, 1.23);
+
+            var od2_2 = MakeOrderDetail(o1, p2, 3, 2.34);
+
+            var od3_1 = MakeOrderDetail(o1, p1, 45, 1.23);
+            var od3_2 = MakeOrderDetail(o1, p2, 2, 2.34);
+
+            var od4_1 = MakeOrderDetail(o1, p1, 3, 1.23);
+            var od4_2 = MakeOrderDetail(o1, p2, 67, 2.34);
+
+            var od5_1 = MakeOrderDetail(o1, p1, 12, 1.23);
+            var od5_2 = MakeOrderDetail(o1, p2, 27, 2.34);
+
+            var od6_2 = MakeOrderDetail(o1, p2, 23, 2.34);
+
+            var od7_2 = MakeOrderDetail(o1, p2, 25, 2.34);
+
+            var od8_1 = MakeOrderDetail(o1, p1, 11, 1.23);
+
         }
     }
 }
