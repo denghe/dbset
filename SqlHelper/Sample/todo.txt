@@ -14,19 +14,8 @@
 表达式 相关 序列化和反序列化, 相关构造函数 partial 生成
 
 
-todo: 将非 Methods_Sql 字样的文件及依赖文件　　复制到 SilverLight 里测试
 
 
-
-todo:
-
-为表现外键关系。添加　子表的 Select(父对象, Query) 方法 (done)
-
-添加这样的长像的扩展方法
-
-public static List<Tree> Select<Tree>(this Tree o) {
-    return Tree.Select(o);
-}
 
 
 
