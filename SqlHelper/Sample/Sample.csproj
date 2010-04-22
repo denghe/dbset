@@ -101,6 +101,7 @@
     <None Include="Backup\Copy %286%29 of Program.cs" />
     <None Include="Backup\Copy %287%29 of Program.cs" />
     <None Include="Backup\Copy %288%29 of Program.cs" />
+    <Compile Include="Step1_InitData.cs" />
     <Compile Include="Program.cs" />
     <None Include="Backup\Copy %289%29 of Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
