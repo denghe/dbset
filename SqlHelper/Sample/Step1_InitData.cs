@@ -152,6 +152,7 @@
 
             var od8_1 = MakeOrderDetail(o1, p1, 11, 1.23);
 
+            "Step1_InitData Done.".WL();
         }
     }
 }
