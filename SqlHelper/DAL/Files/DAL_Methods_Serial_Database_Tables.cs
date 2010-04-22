@@ -120,6 +120,7 @@ namespace DAL.Database.Tables.客户
                 this.订单编号.GetBytes(),
                 this.客户编号.GetBytes(),
                 this.经办雇员编号.GetBytes(),
+                this.序列号.GetBytes(),
                 this.下单时间.GetBytes(),
             }.Combine();
         }
@@ -127,6 +128,7 @@ namespace DAL.Database.Tables.客户
             this.订单编号 = buffer.ToInt32(ref startIndex);
             this.客户编号 = buffer.ToInt32(ref startIndex);
             this.经办雇员编号 = buffer.ToInt32(ref startIndex);
+            this.序列号 = buffer.ToString(ref startIndex);
             this.下单时间 = buffer.ToDateTime(ref startIndex);
         }
         #endregion

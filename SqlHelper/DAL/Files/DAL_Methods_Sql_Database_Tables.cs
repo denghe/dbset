@@ -625,7 +625,8 @@ namespace DAL.Database.Tables.客户
                             if(cols.Contains(0)) {row.订单编号 = reader.GetInt32(i); i++; }
                             else if(i < count && cols.Contains(1)) {row.客户编号 = reader.GetInt32(i); i++; }
                             else if(i < count && cols.Contains(2)) {row.经办雇员编号 = reader.GetInt32(i); i++; }
-                            else if(i < count && cols.Contains(3)) {row.下单时间 = reader.GetDateTime(i); i++; }
+                            else if(i < count && cols.Contains(3)) {row.序列号 = reader.GetString(i); i++; }
+                            else if(i < count && cols.Contains(4)) {row.下单时间 = reader.GetDateTime(i); i++; }
                         }
                         rows.Add(row);
                     }
@@ -639,7 +640,8 @@ namespace DAL.Database.Tables.客户
                             订单编号 = reader.GetInt32(0),
                             客户编号 = reader.GetInt32(1),
                             经办雇员编号 = reader.GetInt32(2),
-                            下单时间 = reader.GetDateTime(3)
+                            序列号 = reader.GetString(3),
+                            下单时间 = reader.GetDateTime(4)
                         });
                     }
                 }
@@ -716,6 +718,17 @@ INSERT INTO [客户].[订单] (");
 			}
 			if (ics == null || ics.Contains(3))
 			{
+                cmd.Parameters.Add(new SqlParameter("序列号", SqlDbType.NVarChar, 0, ParameterDirection.Input, 0, 0, "序列号", DataRowVersion.Current, false, o.序列号, "", "", ""));
+				sb.Append((isFirst ? @"
+       " : @"
+     , ") + "[序列号]");
+				sb2.Append((isFirst ? @"
+       " : @"
+     , ") + "@序列号");
+				isFirst = false;
+			}
+			if (ics == null || ics.Contains(4))
+			{
                 cmd.Parameters.Add(new SqlParameter("下单时间", SqlDbType.DateTime, 0, ParameterDirection.Input, 0, 0, "下单时间", DataRowVersion.Current, false, o.下单时间, "", "", ""));
 				sb.Append((isFirst ? @"
        " : @"
@@ -765,7 +778,8 @@ VALUES (");
                         o.订单编号 = reader.GetInt32(0);
                         o.客户编号 = reader.GetInt32(1);
                         o.经办雇员编号 = reader.GetInt32(2);
-                        o.下单时间 = reader.GetDateTime(3);
+                        o.序列号 = reader.GetString(3);
+                        o.下单时间 = reader.GetDateTime(4);
                     }
                 }
                 else
@@ -777,7 +791,8 @@ VALUES (");
                             if(fcs.Contains(0)) {o.订单编号 = reader.GetInt32(i); i++; }
                             else if(i < fccount && fcs.Contains(1)) {o.客户编号 = reader.GetInt32(i); i++; }
                             else if(i < fccount && fcs.Contains(2)) {o.经办雇员编号 = reader.GetInt32(i); i++; }
-                            else if(i < fccount && fcs.Contains(3)) {o.下单时间 = reader.GetDateTime(i); i++; }
+                            else if(i < fccount && fcs.Contains(3)) {o.序列号 = reader.GetString(i); i++; }
+                            else if(i < fccount && fcs.Contains(4)) {o.下单时间 = reader.GetDateTime(i); i++; }
                         }
                     }
                 }
@@ -822,6 +837,13 @@ UPDATE [客户].[订单]
 			}
 			if (ucs == null || ucs.Contains(3))
 			{
+                cmd.Parameters.Add(new SqlParameter("序列号", SqlDbType.NVarChar, 0, ParameterDirection.Input, 0, 0, "序列号", DataRowVersion.Current, false, o.序列号, "", "", ""));
+				sb.Append((isFirst ? @"" : @"
+     , ") + "[序列号] = @序列号");
+				isFirst = false;
+			}
+			if (ucs == null || ucs.Contains(4))
+			{
                 cmd.Parameters.Add(new SqlParameter("下单时间", SqlDbType.DateTime, 0, ParameterDirection.Input, 0, 0, "下单时间", DataRowVersion.Current, false, o.下单时间, "", "", ""));
 				sb.Append((isFirst ? @"" : @"
      , ") + "[下单时间] = @下单时间");
@@ -862,7 +884,8 @@ OUTPUT ");
                         o.订单编号 = reader.GetInt32(0);
                         o.客户编号 = reader.GetInt32(1);
                         o.经办雇员编号 = reader.GetInt32(2);
-                        o.下单时间 = reader.GetDateTime(3);
+                        o.序列号 = reader.GetString(3);
+                        o.下单时间 = reader.GetDateTime(4);
                     }
                 }
                 else
@@ -874,7 +897,8 @@ OUTPUT ");
                             if(fcs.Contains(0)) {o.订单编号 = reader.GetInt32(i); i++; }
                             else if(i < fccount && fcs.Contains(1)) {o.客户编号 = reader.GetInt32(i); i++; }
                             else if(i < fccount && fcs.Contains(2)) {o.经办雇员编号 = reader.GetInt32(i); i++; }
-                            else if(i < fccount && fcs.Contains(3)) {o.下单时间 = reader.GetDateTime(i); i++; }
+                            else if(i < fccount && fcs.Contains(3)) {o.序列号 = reader.GetString(i); i++; }
+                            else if(i < fccount && fcs.Contains(4)) {o.下单时间 = reader.GetDateTime(i); i++; }
                         }
                     }
                 }

@@ -76,6 +76,10 @@ namespace DAL.Database.Tables.客户
 		/// <summary>
 		/// 
 		/// </summary>
+        public string     序列号    { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
         public DateTime   下单时间   { get; set; }
     }
 	/// <summary>

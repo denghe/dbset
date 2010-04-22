@@ -32,6 +32,7 @@ namespace DAL.Orientations.Tables.客户
         public ExpNode<订单> 订单编号 { get { return this.New_Column(@"订单编号"); } }
         public ExpNode<订单> 客户编号 { get { return this.New_Column(@"客户编号"); } }
         public ExpNode<订单> 经办雇员编号 { get { return this.New_Column(@"经办雇员编号"); } }
+        public ExpNode<订单> 序列号 { get { return this.New_Column(@"序列号"); } }
         public ExpNode<订单> 下单时间 { get { return this.New_Column(@"下单时间"); } }
     }
     public partial class 订单明细 : LogicalNode<订单明细>

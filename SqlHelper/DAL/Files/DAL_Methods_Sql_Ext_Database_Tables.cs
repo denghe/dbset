@@ -4,33 +4,34 @@ using System.Text;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+
 using SqlLib;
 
-namespace DAL.Database.Tables.产品
+namespace DAL.Database.Tables
 {
-
-    public static partial class 产品_Extensions
+    public static partial class ___Extensions
     {
+        #region 产品.产品
 
         #region Insert
 
-		public static int Insert(this 产品 o, ColumnEnums.Tables.产品.产品.Handler insertCols = null, ColumnEnums.Tables.产品.产品.Handler fillCols = null, bool isFillAfterInsert = true)
+		public static int Insert(this Database.Tables.产品.产品 o, ColumnEnums.Tables.产品.产品.Handler insertCols = null, ColumnEnums.Tables.产品.产品.Handler fillCols = null, bool isFillAfterInsert = true)
 		{
-            return 产品.Insert(o, insertCols, fillCols, isFillAfterInsert);
+            return Database.Tables.产品.产品.Insert(o, insertCols, fillCols, isFillAfterInsert);
 		}
         #endregion
 
         #region Update
 
-		public static int Update(this 产品 o, Expressions.Tables.产品.产品.Handler eh = null, ColumnEnums.Tables.产品.产品.Handler updateCols = null, ColumnEnums.Tables.产品.产品.Handler fillCols = null, bool isFillAfterUpdate = true)
+		public static int Update(this Database.Tables.产品.产品 o, Expressions.Tables.产品.产品.Handler eh = null, ColumnEnums.Tables.产品.产品.Handler updateCols = null, ColumnEnums.Tables.产品.产品.Handler fillCols = null, bool isFillAfterUpdate = true)
 		{
-            return 产品.Update(o, eh, updateCols, fillCols, isFillAfterUpdate);
+            return Database.Tables.产品.产品.Update(o, eh, updateCols, fillCols, isFillAfterUpdate);
 		}
         #endregion
 
         #region Delete
 
-		public static int Delete(this 产品 o, ColumnEnums.Tables.产品.产品.Handler conditionCols = null)
+		public static int Delete(this Database.Tables.产品.产品 o, ColumnEnums.Tables.产品.产品.Handler conditionCols = null)
 		{
             if(conditionCols == null) return Database.Tables.产品.产品.Delete(t =>
                 t.产品编号 == o.产品编号
@@ -45,33 +46,29 @@ namespace DAL.Database.Tables.产品
 
         #endregion
 
-    }
-}
-namespace DAL.Database.Tables.雇员
-{
+        #endregion
 
-    public static partial class 雇员_Extensions
-    {
+        #region 雇员.雇员
 
         #region Insert
 
-		public static int Insert(this 雇员 o, ColumnEnums.Tables.雇员.雇员.Handler insertCols = null, ColumnEnums.Tables.雇员.雇员.Handler fillCols = null, bool isFillAfterInsert = true)
+		public static int Insert(this Database.Tables.雇员.雇员 o, ColumnEnums.Tables.雇员.雇员.Handler insertCols = null, ColumnEnums.Tables.雇员.雇员.Handler fillCols = null, bool isFillAfterInsert = true)
 		{
-            return 雇员.Insert(o, insertCols, fillCols, isFillAfterInsert);
+            return Database.Tables.雇员.雇员.Insert(o, insertCols, fillCols, isFillAfterInsert);
 		}
         #endregion
 
         #region Update
 
-		public static int Update(this 雇员 o, Expressions.Tables.雇员.雇员.Handler eh = null, ColumnEnums.Tables.雇员.雇员.Handler updateCols = null, ColumnEnums.Tables.雇员.雇员.Handler fillCols = null, bool isFillAfterUpdate = true)
+		public static int Update(this Database.Tables.雇员.雇员 o, Expressions.Tables.雇员.雇员.Handler eh = null, ColumnEnums.Tables.雇员.雇员.Handler updateCols = null, ColumnEnums.Tables.雇员.雇员.Handler fillCols = null, bool isFillAfterUpdate = true)
 		{
-            return 雇员.Update(o, eh, updateCols, fillCols, isFillAfterUpdate);
+            return Database.Tables.雇员.雇员.Update(o, eh, updateCols, fillCols, isFillAfterUpdate);
 		}
         #endregion
 
         #region Delete
 
-		public static int Delete(this 雇员 o, ColumnEnums.Tables.雇员.雇员.Handler conditionCols = null)
+		public static int Delete(this Database.Tables.雇员.雇员 o, ColumnEnums.Tables.雇员.雇员.Handler conditionCols = null)
 		{
             if(conditionCols == null) return Database.Tables.雇员.雇员.Delete(t =>
                 t.雇员编号 == o.雇员编号
@@ -88,33 +85,29 @@ namespace DAL.Database.Tables.雇员
 
         #endregion
 
-    }
-}
-namespace DAL.Database.Tables.客户
-{
+        #endregion
 
-    public static partial class 订单_Extensions
-    {
+        #region 客户.订单
 
         #region Insert
 
-		public static int Insert(this 订单 o, ColumnEnums.Tables.客户.订单.Handler insertCols = null, ColumnEnums.Tables.客户.订单.Handler fillCols = null, bool isFillAfterInsert = true)
+		public static int Insert(this Database.Tables.客户.订单 o, ColumnEnums.Tables.客户.订单.Handler insertCols = null, ColumnEnums.Tables.客户.订单.Handler fillCols = null, bool isFillAfterInsert = true)
 		{
-            return 订单.Insert(o, insertCols, fillCols, isFillAfterInsert);
+            return Database.Tables.客户.订单.Insert(o, insertCols, fillCols, isFillAfterInsert);
 		}
         #endregion
 
         #region Update
 
-		public static int Update(this 订单 o, Expressions.Tables.客户.订单.Handler eh = null, ColumnEnums.Tables.客户.订单.Handler updateCols = null, ColumnEnums.Tables.客户.订单.Handler fillCols = null, bool isFillAfterUpdate = true)
+		public static int Update(this Database.Tables.客户.订单 o, Expressions.Tables.客户.订单.Handler eh = null, ColumnEnums.Tables.客户.订单.Handler updateCols = null, ColumnEnums.Tables.客户.订单.Handler fillCols = null, bool isFillAfterUpdate = true)
 		{
-            return 订单.Update(o, eh, updateCols, fillCols, isFillAfterUpdate);
+            return Database.Tables.客户.订单.Update(o, eh, updateCols, fillCols, isFillAfterUpdate);
 		}
         #endregion
 
         #region Delete
 
-		public static int Delete(this 订单 o, ColumnEnums.Tables.客户.订单.Handler conditionCols = null)
+		public static int Delete(this Database.Tables.客户.订单 o, ColumnEnums.Tables.客户.订单.Handler conditionCols = null)
 		{
             if(conditionCols == null) return Database.Tables.客户.订单.Delete(t =>
                 t.订单编号 == o.订单编号
@@ -124,35 +117,36 @@ namespace DAL.Database.Tables.客户
             if(cols.Contains(0)) exp.And(t => t.订单编号 == o.订单编号);
             if(cols.Contains(1)) exp.And(t => t.客户编号 == o.客户编号);
             if(cols.Contains(2)) exp.And(t => t.经办雇员编号 == o.经办雇员编号);
-            if(cols.Contains(3)) exp.And(t => t.下单时间 == o.下单时间);
+            if(cols.Contains(3)) exp.And(t => t.序列号 == o.序列号);
+            if(cols.Contains(4)) exp.And(t => t.下单时间 == o.下单时间);
             return Database.Tables.客户.订单.Delete(exp);
 		}
 
         #endregion
 
-    }
-    public static partial class 订单明细_Extensions
-    {
+        #endregion
+
+        #region 客户.订单明细
 
         #region Insert
 
-		public static int Insert(this 订单明细 o, ColumnEnums.Tables.客户.订单明细.Handler insertCols = null, ColumnEnums.Tables.客户.订单明细.Handler fillCols = null, bool isFillAfterInsert = true)
+		public static int Insert(this Database.Tables.客户.订单明细 o, ColumnEnums.Tables.客户.订单明细.Handler insertCols = null, ColumnEnums.Tables.客户.订单明细.Handler fillCols = null, bool isFillAfterInsert = true)
 		{
-            return 订单明细.Insert(o, insertCols, fillCols, isFillAfterInsert);
+            return Database.Tables.客户.订单明细.Insert(o, insertCols, fillCols, isFillAfterInsert);
 		}
         #endregion
 
         #region Update
 
-		public static int Update(this 订单明细 o, Expressions.Tables.客户.订单明细.Handler eh = null, ColumnEnums.Tables.客户.订单明细.Handler updateCols = null, ColumnEnums.Tables.客户.订单明细.Handler fillCols = null, bool isFillAfterUpdate = true)
+		public static int Update(this Database.Tables.客户.订单明细 o, Expressions.Tables.客户.订单明细.Handler eh = null, ColumnEnums.Tables.客户.订单明细.Handler updateCols = null, ColumnEnums.Tables.客户.订单明细.Handler fillCols = null, bool isFillAfterUpdate = true)
 		{
-            return 订单明细.Update(o, eh, updateCols, fillCols, isFillAfterUpdate);
+            return Database.Tables.客户.订单明细.Update(o, eh, updateCols, fillCols, isFillAfterUpdate);
 		}
         #endregion
 
         #region Delete
 
-		public static int Delete(this 订单明细 o, ColumnEnums.Tables.客户.订单明细.Handler conditionCols = null)
+		public static int Delete(this Database.Tables.客户.订单明细 o, ColumnEnums.Tables.客户.订单明细.Handler conditionCols = null)
 		{
             if(conditionCols == null) return Database.Tables.客户.订单明细.Delete(t =>
                 t.订单明细编号 == o.订单明细编号
@@ -169,29 +163,29 @@ namespace DAL.Database.Tables.客户
 
         #endregion
 
-    }
-    public static partial class 客户_Extensions
-    {
+        #endregion
+
+        #region 客户.客户
 
         #region Insert
 
-		public static int Insert(this 客户 o, ColumnEnums.Tables.客户.客户.Handler insertCols = null, ColumnEnums.Tables.客户.客户.Handler fillCols = null, bool isFillAfterInsert = true)
+		public static int Insert(this Database.Tables.客户.客户 o, ColumnEnums.Tables.客户.客户.Handler insertCols = null, ColumnEnums.Tables.客户.客户.Handler fillCols = null, bool isFillAfterInsert = true)
 		{
-            return 客户.Insert(o, insertCols, fillCols, isFillAfterInsert);
+            return Database.Tables.客户.客户.Insert(o, insertCols, fillCols, isFillAfterInsert);
 		}
         #endregion
 
         #region Update
 
-		public static int Update(this 客户 o, Expressions.Tables.客户.客户.Handler eh = null, ColumnEnums.Tables.客户.客户.Handler updateCols = null, ColumnEnums.Tables.客户.客户.Handler fillCols = null, bool isFillAfterUpdate = true)
+		public static int Update(this Database.Tables.客户.客户 o, Expressions.Tables.客户.客户.Handler eh = null, ColumnEnums.Tables.客户.客户.Handler updateCols = null, ColumnEnums.Tables.客户.客户.Handler fillCols = null, bool isFillAfterUpdate = true)
 		{
-            return 客户.Update(o, eh, updateCols, fillCols, isFillAfterUpdate);
+            return Database.Tables.客户.客户.Update(o, eh, updateCols, fillCols, isFillAfterUpdate);
 		}
         #endregion
 
         #region Delete
 
-		public static int Delete(this 客户 o, ColumnEnums.Tables.客户.客户.Handler conditionCols = null)
+		public static int Delete(this Database.Tables.客户.客户 o, ColumnEnums.Tables.客户.客户.Handler conditionCols = null)
 		{
             if(conditionCols == null) return Database.Tables.客户.客户.Delete(t =>
                 t.客户编号 == o.客户编号
@@ -206,33 +200,29 @@ namespace DAL.Database.Tables.客户
 
         #endregion
 
-    }
-}
-namespace DAL.Database.Tables.系统
-{
+        #endregion
 
-    public static partial class 管理员_Extensions
-    {
+        #region 系统.管理员
 
         #region Insert
 
-		public static int Insert(this 管理员 o, ColumnEnums.Tables.系统.管理员.Handler insertCols = null, ColumnEnums.Tables.系统.管理员.Handler fillCols = null, bool isFillAfterInsert = true)
+		public static int Insert(this Database.Tables.系统.管理员 o, ColumnEnums.Tables.系统.管理员.Handler insertCols = null, ColumnEnums.Tables.系统.管理员.Handler fillCols = null, bool isFillAfterInsert = true)
 		{
-            return 管理员.Insert(o, insertCols, fillCols, isFillAfterInsert);
+            return Database.Tables.系统.管理员.Insert(o, insertCols, fillCols, isFillAfterInsert);
 		}
         #endregion
 
         #region Update
 
-		public static int Update(this 管理员 o, Expressions.Tables.系统.管理员.Handler eh = null, ColumnEnums.Tables.系统.管理员.Handler updateCols = null, ColumnEnums.Tables.系统.管理员.Handler fillCols = null, bool isFillAfterUpdate = true)
+		public static int Update(this Database.Tables.系统.管理员 o, Expressions.Tables.系统.管理员.Handler eh = null, ColumnEnums.Tables.系统.管理员.Handler updateCols = null, ColumnEnums.Tables.系统.管理员.Handler fillCols = null, bool isFillAfterUpdate = true)
 		{
-            return 管理员.Update(o, eh, updateCols, fillCols, isFillAfterUpdate);
+            return Database.Tables.系统.管理员.Update(o, eh, updateCols, fillCols, isFillAfterUpdate);
 		}
         #endregion
 
         #region Delete
 
-		public static int Delete(this 管理员 o, ColumnEnums.Tables.系统.管理员.Handler conditionCols = null)
+		public static int Delete(this Database.Tables.系统.管理员 o, ColumnEnums.Tables.系统.管理员.Handler conditionCols = null)
 		{
             if(conditionCols == null) return Database.Tables.系统.管理员.Delete(t =>
                 t.管理员编号 == o.管理员编号
@@ -245,6 +235,8 @@ namespace DAL.Database.Tables.系统
             if(cols.Contains(3)) exp.And(t => t.创建时间 == o.创建时间);
             return Database.Tables.系统.管理员.Delete(exp);
 		}
+
+        #endregion
 
         #endregion
 

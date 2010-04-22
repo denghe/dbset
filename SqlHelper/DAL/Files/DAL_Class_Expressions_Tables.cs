@@ -32,6 +32,7 @@ namespace DAL.Expressions.Tables.客户
         public ExpNode_Int32<订单> 订单编号 { get { return this.New_Int32(@"订单编号"); } }
         public ExpNode_Int32<订单> 客户编号 { get { return this.New_Int32(@"客户编号"); } }
         public ExpNode_Int32<订单> 经办雇员编号 { get { return this.New_Int32(@"经办雇员编号"); } }
+        public ExpNode_String<订单> 序列号 { get { return this.New_String(@"序列号"); } }
         public ExpNode_DateTime<订单> 下单时间 { get { return this.New_DateTime(@"下单时间"); } }
     }
     public partial class 订单明细 : LogicalNode<订单明细>

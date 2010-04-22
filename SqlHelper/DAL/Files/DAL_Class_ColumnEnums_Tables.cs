@@ -52,12 +52,14 @@ namespace DAL.ColumnEnums.Tables.客户
         public 订单 订单编号 { get { __columns.Add(0); return this; } }
         public 订单 客户编号 { get { __columns.Add(1); return this; } }
         public 订单 经办雇员编号 { get { __columns.Add(2); return this; } }
-        public 订单 下单时间 { get { __columns.Add(3); return this; } }
+        public 订单 序列号 { get { __columns.Add(3); return this; } }
+        public 订单 下单时间 { get { __columns.Add(4); return this; } }
         protected static string[] __cns = new string[]
         {
             @"订单编号",
             @"客户编号",
             @"经办雇员编号",
+            @"序列号",
             @"下单时间"
         };
         public override string GetColumnName(int i) {

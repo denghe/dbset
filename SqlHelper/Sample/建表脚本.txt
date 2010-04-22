@@ -108,6 +108,7 @@ CREATE TABLE [客户].[订单](
 	[订单编号] [int] IDENTITY(1,1) NOT NULL,
 	[客户编号] [int] NOT NULL,
 	[经办雇员编号] [int] NOT NULL,
+	[序列号] [nvarchar](50) NOT NULL,
 	[下单时间] [datetime] NOT NULL,
  CONSTRAINT [PK_订单] PRIMARY KEY CLUSTERED 
 (
