@@ -27,6 +27,7 @@
             );
 
             Step1_InitData.Execute();
+            Step2_Stat.Execute();
 
             RL();
         }
@@ -36,6 +37,7 @@
             Console.ReadLine();
         }
     }
+
     public static class Extensions
     {
         public static void WL(this object o)
