@@ -15,7 +15,11 @@
     using SqlLib;
     using DAL.Database.Tables;
 
-    public class Step1_InitData
+    public static class Step1_InitData
     {
+        public static void Execute()
+        {
+            
+        }
     }
 }

@@ -26,6 +26,7 @@
                 dbname: "Test"
             );
 
+            Step1_InitData.Execute();
 
             RL();
         }
