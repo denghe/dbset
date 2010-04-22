@@ -12,8 +12,8 @@ using System.Windows.Shapes;
 
 using DAL;
 using SqlLib;
-using db = DAL.Database.Tables.dbo;
-using qu = DAL.Queries.Tables.dbo;
+//using db = DAL.Database.Tables.dbo;
+//using qu = DAL.Queries.Tables.dbo;
 
 namespace SLClient {
     public partial class MainPage : UserControl {

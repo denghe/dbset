@@ -7,8 +7,8 @@ using System.Text;
 
 using DAL;
 using SqlLib;
-using db = DAL.Database.Tables.dbo;
-using qu = DAL.Queries.Tables.dbo;
+//using db = DAL.Database.Tables.dbo;
+//using qu = DAL.Queries.Tables.dbo;
 
 namespace WCFServer {
     public class MyService : IMyService, IClientAccessPolicy {
@@ -41,16 +41,18 @@ namespace WCFServer {
         #region IService Members
 
         public string Get_dbo_t3_Query_TSql(byte[] query) {
-            var q = new qu.t3(query);
-            return q.ToString();
+            //var q = new qu.t3(query);
+            //return q.ToString();
+            return null;
         }
 
         public byte[] GetData(byte[] query) {
-            var rows = new List<db.t3>();
-            rows.Add(new db.t3 { c1 = 1, c2 = Guid.NewGuid(), c3 = DateTime.Now, c4 = "asdf" });
-            rows.Add(new db.t3 { c1 = 2, c2 = Guid.NewGuid(), c3 = DateTime.Now, c4 = "qwert" });
-            rows.Add(new db.t3 { c1 = 3, c2 = Guid.NewGuid(), c3 = DateTime.Now, c4 = "zxcvbn" });
-            return rows.GetBytes();
+            //var rows = new List<db.t3>();
+            //rows.Add(new db.t3 { c1 = 1, c2 = Guid.NewGuid(), c3 = DateTime.Now, c4 = "asdf" });
+            //rows.Add(new db.t3 { c1 = 2, c2 = Guid.NewGuid(), c3 = DateTime.Now, c4 = "qwert" });
+            //rows.Add(new db.t3 { c1 = 3, c2 = Guid.NewGuid(), c3 = DateTime.Now, c4 = "zxcvbn" });
+            //return rows.GetBytes();
+            return null;
         }
 
         #endregion

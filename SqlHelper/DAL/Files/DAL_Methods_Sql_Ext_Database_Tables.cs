@@ -32,7 +32,7 @@ namespace DAL.Database.Tables.产品
 
 		public static int Delete(this 产品 o, ColumnEnums.Tables.产品.产品.Handler conditionCols = null)
 		{
-            if (conditionCols == null) return Database.Tables.产品.产品.Delete(t =>
+            if(conditionCols == null) return Database.Tables.产品.产品.Delete(t =>
                 t.产品编号 == o.产品编号
             );
             var cols = conditionCols(new DAL.ColumnEnums.Tables.产品.产品());
@@ -73,7 +73,7 @@ namespace DAL.Database.Tables.雇员
 
 		public static int Delete(this 雇员 o, ColumnEnums.Tables.雇员.雇员.Handler conditionCols = null)
 		{
-            if (conditionCols == null) return Database.Tables.雇员.雇员.Delete(t =>
+            if(conditionCols == null) return Database.Tables.雇员.雇员.Delete(t =>
                 t.雇员编号 == o.雇员编号
             );
             var cols = conditionCols(new DAL.ColumnEnums.Tables.雇员.雇员());
@@ -116,7 +116,7 @@ namespace DAL.Database.Tables.客户
 
 		public static int Delete(this 订单 o, ColumnEnums.Tables.客户.订单.Handler conditionCols = null)
 		{
-            if(conditionCols == null) return 客户.订单.Delete(t =>
+            if(conditionCols == null) return Database.Tables.客户.订单.Delete(t =>
                 t.订单编号 == o.订单编号
             );
             var cols = conditionCols(new DAL.ColumnEnums.Tables.客户.订单());
@@ -125,7 +125,7 @@ namespace DAL.Database.Tables.客户
             if(cols.Contains(1)) exp.And(t => t.客户编号 == o.客户编号);
             if(cols.Contains(2)) exp.And(t => t.经办雇员编号 == o.经办雇员编号);
             if(cols.Contains(3)) exp.And(t => t.下单时间 == o.下单时间);
-            return 客户.订单.Delete(exp);
+            return Database.Tables.客户.订单.Delete(exp);
 		}
 
         #endregion
@@ -154,7 +154,7 @@ namespace DAL.Database.Tables.客户
 
 		public static int Delete(this 订单明细 o, ColumnEnums.Tables.客户.订单明细.Handler conditionCols = null)
 		{
-            if(conditionCols == null) return 客户.订单明细.Delete(t =>
+            if(conditionCols == null) return Database.Tables.客户.订单明细.Delete(t =>
                 t.订单明细编号 == o.订单明细编号
             );
             var cols = conditionCols(new DAL.ColumnEnums.Tables.客户.订单明细());
@@ -164,7 +164,7 @@ namespace DAL.Database.Tables.客户
             if(cols.Contains(2)) exp.And(t => t.产品编号 == o.产品编号);
             if(cols.Contains(3)) exp.And(t => t.数量 == o.数量);
             if(cols.Contains(4)) exp.And(t => t.单价 == o.单价);
-            return 客户.订单明细.Delete(exp);
+            return Database.Tables.客户.订单明细.Delete(exp);
 		}
 
         #endregion
@@ -193,7 +193,7 @@ namespace DAL.Database.Tables.客户
 
 		public static int Delete(this 客户 o, ColumnEnums.Tables.客户.客户.Handler conditionCols = null)
 		{
-            if(conditionCols == null) return 客户.客户.Delete(t =>
+            if(conditionCols == null) return Database.Tables.客户.客户.Delete(t =>
                 t.客户编号 == o.客户编号
             );
             var cols = conditionCols(new DAL.ColumnEnums.Tables.客户.客户());
@@ -201,7 +201,7 @@ namespace DAL.Database.Tables.客户
             if(cols.Contains(0)) exp.And(t => t.客户编号 == o.客户编号);
             if(cols.Contains(1)) exp.And(t => t.姓名 == o.姓名);
             if(cols.Contains(2)) exp.And(t => t.联系方式 == o.联系方式);
-            return 客户.客户.Delete(exp);
+            return Database.Tables.客户.客户.Delete(exp);
 		}
 
         #endregion
@@ -234,7 +234,7 @@ namespace DAL.Database.Tables.系统
 
 		public static int Delete(this 管理员 o, ColumnEnums.Tables.系统.管理员.Handler conditionCols = null)
 		{
-            if(conditionCols == null) return 系统.管理员.Delete(t =>
+            if(conditionCols == null) return Database.Tables.系统.管理员.Delete(t =>
                 t.管理员编号 == o.管理员编号
             );
             var cols = conditionCols(new DAL.ColumnEnums.Tables.系统.管理员());
@@ -243,7 +243,7 @@ namespace DAL.Database.Tables.系统
             if(cols.Contains(1)) exp.And(t => t.登录名 == o.登录名);
             if(cols.Contains(2)) exp.And(t => t.密码 == o.密码);
             if(cols.Contains(3)) exp.And(t => t.创建时间 == o.创建时间);
-            return 系统.管理员.Delete(exp);
+            return Database.Tables.系统.管理员.Delete(exp);
 		}
 
         #endregion
