@@ -60,6 +60,8 @@
 
             P.产品.Count(o => o.名称.Like("%产品%"), o => o.产品编号, true).WL();
 
+            P.产品.Exists(o => o.产品编号 > 0).WL();
+
             "Step2_Stat Done.".WL();
         }
     }
