@@ -58,7 +58,7 @@
             var o7 = C.订单.Select(o => o.序列号 == "7").FirstOrDefault();
             var o8 = C.订单.Select(o => o.序列号 == "8").FirstOrDefault();
 
-            
+            P.产品.Count(o => o.名称.Like("%产品%"), o => o.产品编号, true).WL();
 
             "Step2_Stat Done.".WL();
         }

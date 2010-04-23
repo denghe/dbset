@@ -20,8 +20,8 @@
         {
             // init connect string
             SqlHelper.InitConnectString(
-                server: "sql",
-                username: "sa",
+                server: "data,14333",
+                username: "admin",
                 password: "1",
                 dbname: "Test"
             );
