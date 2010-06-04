@@ -28,6 +28,15 @@
             };
         }
 
+        public Query()
+        {
+            PageIndex = 0;
+            PageSize = 0;
+            Where = new W();
+            OrderBy = new O();
+            Columns = new CS();
+        }
+
         public int PageIndex { get; set; }
         public int PageSize { get; set; }
         public W Where { get; set; }
