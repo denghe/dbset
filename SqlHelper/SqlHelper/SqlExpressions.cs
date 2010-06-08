@@ -545,7 +545,6 @@
             // skip parent
             buff.Add(ColumnName.GetBytes());
             buff.Add(new byte[] { (byte)(int)Operate });
-            var typeNumber = 0;
             if (Value == null || Value == DBNull.Value)
             {
                 buff.Add(new byte[] { (byte)0 });
@@ -572,18 +571,16 @@
             this.Parent = parent;
             this.ColumnName = buffer.ToString(ref startIndex);
             this.Operate = (Operators)(int)buffer.ToByte(ref startIndex);
-            if (buffer.ToByte(ref startIndex) == 0) Value = null;
+
+            if (buffer.ToByte(ref startIndex) == 0)
+                Value = null;
             else
-            {
-                var typeNumber = (int)buffer.ToByte(ref startIndex);
                 this.Value = buffer.ToObject(ref startIndex);
-            }
-            if (buffer.ToByte(ref startIndex) == 0) Value2 = null;
+
+            if (buffer.ToByte(ref startIndex) == 0)
+                Value2 = null;
             else
-            {
-                var typeNumber = (int)buffer.ToByte(ref startIndex);
                 this.Value2 = buffer.ToObject(ref startIndex);
-            }
         }
 
         protected virtual string GetValueString()
