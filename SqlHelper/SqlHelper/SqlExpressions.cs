@@ -205,6 +205,8 @@
                     case 24: this.Exp__ = new ExpNode_Nullable_Object<LogicalNode>(); break;
                     case 25: this.Exp__ = new ExpNode_String<LogicalNode>(); break;
                     case 26: this.Exp__ = new ExpNode_Nullable_String<LogicalNode>(); break;
+                    case 27: this.Exp__ = new ExpNode_DateTime2<LogicalNode>(); break;
+                    case 28: this.Exp__ = new ExpNode_Nullable_DateTime2<LogicalNode>(); break;
                 }
                 this.Exp__.Fill(buffer, ref startIndex, this);
             }
@@ -1085,12 +1087,12 @@
 
         protected override string GetValueString()
         {
-            return "'" + ((DateTime)this.Value).ToString("yyyy-MM-d HH:mm:ss.fffffff") + "'";
+            return "'" + ((DateTime)this.Value).ToString("yyyy-MM-d HH:mm:ss.fff") + "'";
         }
 
         protected override string GetValue2String()
         {
-            return "'" + ((DateTime)this.Value2).ToString("yyyy-MM-d HH:mm:ss.fffffff") + "'";
+            return "'" + ((DateTime)this.Value2).ToString("yyyy-MM-d HH:mm:ss.fff") + "'";
         }
 
         public T Equal(DateTime value)
@@ -1164,13 +1166,13 @@
         protected override string GetValueString()
         {
             if (this.Value == null || this.Value == DBNull.Value) return "NULL";
-            return "'" + ((DateTime?)this.Value).Value.ToString("yyyy-MM-d HH:mm:ss.fffffff") + "'";
+            return "'" + ((DateTime?)this.Value).Value.ToString("yyyy-MM-d HH:mm:ss.fff") + "'";
         }
 
         protected override string GetValue2String()
         {
             if (this.Value2 == null || this.Value2 == DBNull.Value) return "NULL";
-            return "'" + ((DateTime?)this.Value2).Value.ToString("yyyy-MM-d HH:mm:ss.fffffff") + "'";
+            return "'" + ((DateTime?)this.Value2).Value.ToString("yyyy-MM-d HH:mm:ss.fff") + "'";
         }
 
         public T Equal(DateTime? value)
@@ -2280,6 +2282,174 @@
 
         public static T operator ==(ExpNode_Nullable_String<T> a, String b) { return a.Equal(b); }
         public static T operator !=(ExpNode_Nullable_String<T> a, String b) { return a.NotEqual(b); }
+    }
+
+    #endregion
+
+    #region DateTime2
+
+    public partial class ExpNode_DateTime2<T> : ExpNode where T : LogicalNode, new()
+    {
+
+        public ExpNode_DateTime2()
+        {
+            this.TypeNumber__ = 27;
+        }
+
+        protected override string GetValueString()
+        {
+            return "'" + ((DateTime)this.Value).ToString("yyyy-MM-d HH:mm:ss.fffffff") + "'";
+        }
+
+        protected override string GetValue2String()
+        {
+            return "'" + ((DateTime)this.Value2).ToString("yyyy-MM-d HH:mm:ss.fffffff") + "'";
+        }
+
+        public T Equal(DateTime value)
+        {
+            this.Operate = Operators.Equal;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T NotEqual(DateTime value)
+        {
+            this.Operate = Operators.NotEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T GreaterThan(DateTime value)
+        {
+            this.Operate = Operators.GreaterThan;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T LessThan(DateTime value)
+        {
+            this.Operate = Operators.LessThan;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T GreaterEqual(DateTime value)
+        {
+            this.Operate = Operators.GreaterEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T LessEqual(DateTime value)
+        {
+            this.Operate = Operators.LessEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T Between(DateTime value, DateTime value2)
+        {
+            this.Operate = Operators.Between;
+            this.Value = value;
+            this.Value2 = value2;
+            return (T)this.Parent;
+        }
+
+        public static T operator >(ExpNode_DateTime2<T> a, DateTime b) { return a.GreaterThan(b); }
+        public static T operator <(ExpNode_DateTime2<T> a, DateTime b) { return a.LessThan(b); }
+
+        public static T operator >=(ExpNode_DateTime2<T> a, DateTime b) { return a.GreaterEqual(b); }
+        public static T operator <=(ExpNode_DateTime2<T> a, DateTime b) { return a.LessEqual(b); }
+
+        public static T operator ==(ExpNode_DateTime2<T> a, DateTime b) { return a.Equal(b); }
+        public static T operator !=(ExpNode_DateTime2<T> a, DateTime b) { return a.NotEqual(b); }
+    }
+
+    public partial class ExpNode_Nullable_DateTime2<T> : ExpNode_Nullable<T> where T : LogicalNode, new()
+    {
+
+        public ExpNode_Nullable_DateTime2()
+        {
+            this.TypeNumber__ = 28;
+        }
+
+        protected override string GetValueString()
+        {
+            if (this.Value == null || this.Value == DBNull.Value) return "NULL";
+            return "'" + ((DateTime?)this.Value).Value.ToString("yyyy-MM-d HH:mm:ss.fffffff") + "'";
+        }
+
+        protected override string GetValue2String()
+        {
+            if (this.Value2 == null || this.Value2 == DBNull.Value) return "NULL";
+            return "'" + ((DateTime?)this.Value2).Value.ToString("yyyy-MM-d HH:mm:ss.fffffff") + "'";
+        }
+
+        public T Equal(DateTime? value)
+        {
+            this.Operate = Operators.Equal;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T NotEqual(DateTime? value)
+        {
+            this.Operate = Operators.NotEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T GreaterThan(DateTime? value)
+        {
+            if (value == null) value = new DateTime();
+            this.Operate = Operators.GreaterThan;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T LessThan(DateTime? value)
+        {
+            if (value == null) value = new DateTime();
+            this.Operate = Operators.LessThan;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T GreaterEqual(DateTime? value)
+        {
+            if (value == null) value = new DateTime();
+            this.Operate = Operators.GreaterEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T LessEqual(DateTime? value)
+        {
+            if (value == null) value = new DateTime();
+            this.Operate = Operators.LessEqual;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        public T Between(DateTime? value, DateTime? value2)
+        {
+            if (value == null) value = new DateTime();
+            if (value2 == null) value2 = new DateTime();
+            this.Operate = Operators.Between;
+            this.Value = value;
+            this.Value2 = value2;
+            return (T)this.Parent;
+        }
+
+        public static T operator >(ExpNode_Nullable_DateTime2<T> a, DateTime? b) { return a.GreaterThan(b); }
+        public static T operator <(ExpNode_Nullable_DateTime2<T> a, DateTime? b) { return a.LessThan(b); }
+
+        public static T operator >=(ExpNode_Nullable_DateTime2<T> a, DateTime? b) { return a.GreaterEqual(b); }
+        public static T operator <=(ExpNode_Nullable_DateTime2<T> a, DateTime? b) { return a.LessEqual(b); }
+
+        public static T operator ==(ExpNode_Nullable_DateTime2<T> a, DateTime? b) { return a.Equal(b); }
+        public static T operator !=(ExpNode_Nullable_DateTime2<T> a, DateTime? b) { return a.NotEqual(b); }
     }
 
     #endregion
