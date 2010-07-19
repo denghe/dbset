@@ -19,7 +19,7 @@
         public static void Main()
         {
             // init connect string
-            SqlHelper.InitConnectString(
+            DAL.SqlHelper.InitConnectString(
                 server: "data,14333",
                 username: "admin",
                 password: "1",

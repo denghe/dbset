@@ -1,4 +1,4 @@
-﻿namespace DAL_XXXXX {
+﻿namespace DAL {
     using System;
     using System.Collections.Concurrent;
     using System.Data;

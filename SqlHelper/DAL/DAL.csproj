@@ -88,6 +88,7 @@
     <Compile Include="Files\DAL_Methods_Sql_Ext_Database_Tables.cs" />
     <Compile Include="Files\DAL_Methods_Sql_Ext_Database_UserDefinedTableTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SqlHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SqlHelper\SqlLib.csproj">
