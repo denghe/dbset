@@ -422,6 +422,23 @@
             return e;
         }
 
+        protected ExpNode_Nullable_DateTime2<T> New_Nullable_DateTime2(string column)
+        {
+            Check();
+            var L = new T();
+            var e = new ExpNode_Nullable_DateTime2<T> { Parent = L, ColumnName = column };
+            L.Exp__ = e;
+            return e;
+        }
+        protected ExpNode_DateTime2<T> New_DateTime2(string column)
+        {
+            Check();
+            var L = new T();
+            var e = new ExpNode_DateTime2<T> { Parent = L, ColumnName = column };
+            L.Exp__ = e;
+            return e;
+        }
+
         protected ExpNode_Nullable_Float<T> New_Nullable_Float(string column)
         {
             Check();
