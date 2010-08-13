@@ -211,7 +211,7 @@
                     }
                     else buffers.Add(new byte[] { (byte)1 });
                 }
-                buffers.Add(_itemArray[i].GetBytes());
+                buffers.Add(_itemArray[i].GetBytes(false));
             }
             return buffers.Combine();
         }
@@ -225,9 +225,9 @@
                     if (buffer[startIndex++] == (byte)0)
                         _itemArray[i] = DBNull.Value;
                     else
-                        _itemArray[i] = buffer.ToObject(ref startIndex, column.Type.Name);
+                        _itemArray[i] = buffer.ToObject(ref startIndex, column.Type.FullName);
                 }
-                else _itemArray[i] = buffer.ToObject(ref startIndex, column.Type.Name);
+                else _itemArray[i] = buffer.ToObject(ref startIndex, column.Type.FullName);
             }
         }
     }
