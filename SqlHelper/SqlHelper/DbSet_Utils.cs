@@ -307,137 +307,77 @@
 
         public static bool? ToNullableBoolean(this byte[] buffer, ref int startIndex)
         {
-            if (buffer[startIndex] == 0)
-            {
-                ++startIndex;
-                return null;
-            }
+            if (buffer[startIndex++] == 0) return null;
             return ToBoolean(buffer, ref startIndex);
         }
         public static byte? ToNullableByte(this byte[] buffer, ref int startIndex)
         {
-            if (buffer[startIndex] == 0)
-            {
-                ++startIndex;
-                return null;
-            }
+            if (buffer[startIndex++] == 0) return null;
             return ToByte(buffer, ref startIndex);
         }
         public static char? ToNullableChar(this byte[] buffer, ref int startIndex)
         {
-            if (buffer[startIndex] == 0)
-            {
-                ++startIndex;
-                return null;
-            }
+            if (buffer[startIndex++] == 0) return null;
             return ToChar(buffer, ref startIndex);
         }
         public static DateTime? ToNullableDateTime(this byte[] buffer, ref int startIndex)
         {
-            if (buffer[startIndex] == 0)
-            {
-                ++startIndex;
-                return null;
-            }
+            if (buffer[startIndex++] == 0) return null;
             return ToDateTime(buffer, ref startIndex);
         }
         public static decimal? ToNullableDecimal(this byte[] buffer, ref int startIndex)
         {
-            if (buffer[startIndex] == 0)
-            {
-                ++startIndex;
-                return null;
-            }
+            if (buffer[startIndex++] == 0) return null;
             return ToDecimal(buffer, ref startIndex);
         }
         public static double? ToNullableDouble(this byte[] buffer, ref int startIndex)
         {
-            if (buffer[startIndex] == 0)
-            {
-                ++startIndex;
-                return null;
-            }
+            if (buffer[startIndex++] == 0) return null;
             return ToDouble(buffer, ref startIndex);
         }
         public static Guid? ToNullableGuid(this byte[] buffer, ref int startIndex)
         {
-            if (buffer[startIndex] == 0)
-            {
-                ++startIndex;
-                return null;
-            }
+            if (buffer[startIndex++] == 0) return null;
             return ToGuid(buffer, ref startIndex);
         }
         public static short? ToNullableInt16(this byte[] buffer, ref int startIndex)
         {
-            if (buffer[startIndex] == 0)
-            {
-                ++startIndex;
-                return null;
-            }
+            if (buffer[startIndex++] == 0) return null;
             return ToInt16(buffer, ref startIndex);
         }
         public static int? ToNullableInt32(this byte[] buffer, ref int startIndex)
         {
-            if (buffer[startIndex] == 0)
-            {
-                ++startIndex;
-                return null;
-            }
+            if (buffer[startIndex++] == 0) return null;
             return ToInt32(buffer, ref startIndex);
         }
         public static long? ToNullableInt64(this byte[] buffer, ref int startIndex)
         {
-            if (buffer[startIndex] == 0)
-            {
-                ++startIndex;
-                return null;
-            }
+            if (buffer[startIndex++] == 0) return null;
             return ToInt64(buffer, ref startIndex);
         }
         public static sbyte? ToNullableSByte(this byte[] buffer, ref int startIndex)
         {
-            if (buffer[startIndex] == 0)
-            {
-                ++startIndex;
-                return null;
-            }
+            if (buffer[startIndex++] == 0) return null;
             return ToSByte(buffer, ref startIndex);
         }
         public static float? ToNullableSingle(this byte[] buffer, ref int startIndex)
         {
-            if (buffer[startIndex] == 0)
-            {
-                ++startIndex;
-                return null;
-            }
+            if (buffer[startIndex++] == 0) return null;
             return ToSingle(buffer, ref startIndex);
         }
         public static ushort? ToNullableUInt16(this byte[] buffer, ref int startIndex)
         {
-            if (buffer[startIndex] == 0)
-            {
-                ++startIndex;
-                return null;
-            }
+            if (buffer[startIndex++] == 0) return null;
             return ToUInt16(buffer, ref startIndex);
         }
         public static uint? ToNullableUInt32(this byte[] buffer, ref int startIndex)
         {
-            if (buffer[startIndex] == 0)
-            {
-                ++startIndex;
-                return null;
-            }
+            if (buffer[startIndex++] == 0) return null;
             return ToUInt32(buffer, ref startIndex);
         }
         public static ulong? ToNullableUInt64(this byte[] buffer, ref int startIndex)
         {
-            if (buffer[startIndex] == 0)
-            {
-                ++startIndex;
-                return null;
-            }
+            if (buffer[startIndex++] == 0) return null;
             return ToUInt64(buffer, ref startIndex);
         }
 
