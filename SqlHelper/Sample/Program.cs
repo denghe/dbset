@@ -18,6 +18,14 @@
     {
         public static void Main()
         {
+            var ds = new DbSet();
+
+            // todo: NewTable method
+            //new DbTable()
+            //ds.Tables.Add();
+
+
+
             // init connect string
             DAL.SqlHelper.InitConnectString(
                 server: "data,14333",
