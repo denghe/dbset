@@ -19,18 +19,15 @@
         public static void Main()
         {
             //test DbSet Serial
-            var ds = new DbSet();
-            var dt = ds.NewTable(
+            new DbSet().AddTable(
                   new object[] { 1, "erer", 234.567 }
                 , new object[] { "asdf", Guid.NewGuid() }
                 , new object[] { DateTime.Now }
-            );
+            ).Dump()
+            .GetBytes()
+            .ToDbSet()
+            .Dump();
 
-            dt.Dump();
-
-            var dt2 = new DbTable(dt.GetBytes());
-
-            dt2.Dump();
 
             return;
 
