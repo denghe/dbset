@@ -24,9 +24,20 @@
         public DbTable(int numCols, params object[][] valuesCollection)
             : this()
         {
-            for (int i = 0; i < numCols; i++) NewColumn();
+            NewColumn(numCols);
             foreach (var values in valuesCollection) AddRow(values);
         }
+
+        public DbTable(params object[][] valuesCollection)
+            : this()
+        {
+            var maxCols = valuesCollection.Max(a => a.Length);
+            NewColumn(maxCols);
+            foreach (var values in valuesCollection) AddRow(values);
+        }
+
+
+
 
         public DbTable(DbSet ds, params Type[] types)
             : this(types)
@@ -48,6 +59,14 @@
             this.Set = ds;
             ds.Tables.Add(this);
         }
+
+        public DbTable(DbSet ds, params object[][] valuesCollection)
+            : this(valuesCollection)
+        {
+            this.Set = ds;
+            ds.Tables.Add(this);
+        }
+
     }
 
     partial class DbSet
@@ -67,6 +86,13 @@
             return new DbTable(this, numCols, valuesCollection);
         }
 
+        public DbTable NewTable(params object[][] valuesCollection)
+        {
+            return new DbTable(this, valuesCollection);
+        }
+
+
+
         public DbSet AddTable(params Type[] types)
         {
             new DbTable(this, types);
@@ -85,5 +111,10 @@
             return this;
         }
 
+        public DbSet AddTable(params object[][] valuesCollection)
+        {
+            new DbTable(this, valuesCollection);
+            return this;
+        }
     }
 }

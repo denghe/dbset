@@ -56,11 +56,10 @@
         public DbTable AddRow(params object[] data) { new DbRow(this, data); return this; }
 
         public DbColumn NewColumn() { return new DbColumn(this, null, typeof(Object), true); }
+        public void NewColumn(int num) { for (int i = 0; i < num; i++) new DbColumn(this, null, typeof(Object), true); }
         public DbColumn NewColumn(string name, Type type, bool nullable = true) { return new DbColumn(this, name, type, nullable); }
         public DbColumn NewColumn(Type type) { return new DbColumn(this, null, type, true); }
         public DbColumn NewColumn(string name) { return new DbColumn(this, name, typeof(Object), true); }
-
-
     }
 
     public partial class Rows : List<DbRow>
@@ -106,13 +105,24 @@
                         this._itemArray[i] = DBNull.Value;
                     }
                 }
-                else if (data.Length != count)
+                else if (data.Length > count)
                 {
                     throw new Exception("Insufficient data or Beyond the limited number of fields");
                 }
+                else if (data.Length < count)
+                {
+                    this._itemArray = new object[count];
+                    for (int i = 0; i < count; i++)
+                    {
+                        if (i < data.Length)
+                            this._itemArray[i] = data[i];
+                        else
+                            this._itemArray[i] = DBNull.Value;
+                    }
+                }
                 else
                 {
-                    this._itemArray = data;
+                    this._itemArray = data.ToArray();
                 }
                 this.Table = parent;
                 parent.Rows.Add(this);

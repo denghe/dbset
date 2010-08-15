@@ -20,9 +20,9 @@
         {
             //test DbSet Serial
             var ds = new DbSet();
-            var dt = ds.NewTable(1
-                , new object[] { 1 }
-                , new object[] { "asdf" }
+            var dt = ds.NewTable(
+                  new object[] { 1, "erer", 234.567 }
+                , new object[] { "asdf", Guid.NewGuid() }
                 , new object[] { DateTime.Now }
             );
 
