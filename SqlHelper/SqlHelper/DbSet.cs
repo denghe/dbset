@@ -24,8 +24,7 @@
         public DbTable this[string name] { get { return Tables.First(o => o.Name == name); } }
         public DbTable this[string name, string schema] { get { return Tables.First(o => o.Name == name && o.Schema == schema); } }
 
-        //public DbTable NewTable() { return new DbTable(this); }
-        //public DbSet AddTable() { new DbTable(this); return this; }
+        public DbTable NewTable() { var dt = new DbTable { Set = this }; this.Tables.Add(dt); return dt; }
     }
 
     public partial class Tables : List<DbTable>
