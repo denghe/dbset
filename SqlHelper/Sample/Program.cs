@@ -18,21 +18,21 @@
     {
         public static void Main()
         {
-            // test DbSet Serial
-            // var ds = new DbSet();
-            // var dt = ds.NewTable();
-            // dt.NewColumn(typeof(Object));
-            // dt.NewRow(1);
-            // dt.NewRow("asdf");
-            // dt.NewRow(DateTime.Now);
+            //test DbSet Serial
+            var ds = new DbSet();
+            var dt = ds.NewTable(1
+                , new object[] { 1 }
+                , new object[] { "asdf" }
+                , new object[] { DateTime.Now }
+            );
 
-            // dt.Dump();
+            dt.Dump();
 
-            // var dt2 = new DbTable(dt.GetBytes());
+            var dt2 = new DbTable(dt.GetBytes());
 
-            // dt2.Dump();
+            dt2.Dump();
 
-            // return;
+            return;
 
 
 

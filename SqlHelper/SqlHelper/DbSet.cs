@@ -23,8 +23,6 @@
         public DbTable this[int index] { get { return Tables[index]; } }
         public DbTable this[string name] { get { return Tables.First(o => o.Name == name); } }
         public DbTable this[string name, string schema] { get { return Tables.First(o => o.Name == name && o.Schema == schema); } }
-
-        public DbTable NewTable() { var dt = new DbTable { Set = this }; this.Tables.Add(dt); return dt; }
     }
 
     public partial class Tables : List<DbTable>
@@ -57,10 +55,10 @@
         public DbRow NewRow(params object[] data) { return new DbRow(this, data); }
         public DbTable AddRow(params object[] data) { new DbRow(this, data); return this; }
 
-        public DbColumn NewColumn() { return new DbColumn(this, null, typeof(string), true); }
+        public DbColumn NewColumn() { return new DbColumn(this, null, typeof(Object), true); }
         public DbColumn NewColumn(string name, Type type, bool nullable = true) { return new DbColumn(this, name, type, nullable); }
         public DbColumn NewColumn(Type type) { return new DbColumn(this, null, type, true); }
-        public DbColumn NewColumn(string name) { return new DbColumn(this, name, typeof(string), true); }
+        public DbColumn NewColumn(string name) { return new DbColumn(this, name, typeof(Object), true); }
 
 
     }
