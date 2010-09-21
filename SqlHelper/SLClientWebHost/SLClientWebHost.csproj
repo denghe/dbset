@@ -13,7 +13,7 @@
     <RootNamespace>SLClientWebHost</RootNamespace>
     <AssemblyName>SLClientWebHost</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <SilverlightApplicationList>{F0585560-3EE1-4F68-B5DF-976AA41A4AE3}|..\SLClient\SLClient.csproj|ClientBin|False</SilverlightApplicationList>
+    <SilverlightApplicationList>{F0585560-3EE1-4F68-B5DF-976AA41A4AE3}|..\SLClient\SLClient.csproj|ClientBin|False,{EF44F5E8-76B0-4663-96F4-559FE3398465}|..\SLLayoutTest\SLLayoutTest.csproj|ClientBin|False</SilverlightApplicationList>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -60,6 +60,8 @@
     <Content Include="Silverlight.js" />
     <Content Include="SLClientTestPage.aspx" />
     <Content Include="SLClientTestPage.html" />
+    <Content Include="SLLayoutTestTestPage.aspx" />
+    <Content Include="SLLayoutTestTestPage.html" />
     <Content Include="Styles\Site.css" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
