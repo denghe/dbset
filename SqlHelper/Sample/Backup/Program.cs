@@ -18,6 +18,31 @@
     {
         public static void Main()
         {
+            //test DbSet Serial
+            new DbSet().AddTable(
+                  new object[] { 1, "erer", 234.567 }
+                , new object[] { "asdf", Guid.NewGuid() }
+                , new object[] { DateTime.Now }
+            ).Dump()
+            .GetBytes()
+            .ToDbSet()
+            .Dump();
+
+
+            return;
+
+
+
+            // init connect string
+            DAL.SqlHelper.InitConnectString(
+                server: "data,14333",
+                username: "admin",
+                password: "1",
+                dbname: "Test"
+            );
+
+            Step1_InitData.Execute();
+            Step2_Stat.Execute();
 
             RL();
         }

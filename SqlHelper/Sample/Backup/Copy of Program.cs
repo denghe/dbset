@@ -12,13 +12,14 @@
     using System.IO;
 
     using SqlLib;
+    using DAL;
 
     public class Test {
         public static void Main() {
             Console.SetWindowSize(Console.WindowWidth, 50);
 
             // int sql connection
-            SqlHelper.InitConnectString("data,14333", username: "admin");
+            SqlHelper.InitConnectString("sql");
 
             // test get info messages, multi select results
             var sql = @"
