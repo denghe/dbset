@@ -57,6 +57,7 @@
     <Content Include="Account\Login.aspx" />
     <Content Include="Account\Register.aspx" />
     <Content Include="ClientBin\SLClient.xap" />
+    <Content Include="ClientBin\SLLayoutTest.xap" />
     <Content Include="Silverlight.js" />
     <Content Include="SLClientTestPage.aspx" />
     <Content Include="SLClientTestPage.html" />

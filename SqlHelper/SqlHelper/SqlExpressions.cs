@@ -1837,6 +1837,21 @@
             return (T)this.Parent;
         }
 
+        public T In(Int32[] value)
+        {
+            this.Operate = Operators.In;
+            this.Value = value;
+            return (T)this.Parent;
+        }
+
+        protected override string GetValueString()
+        {
+            if (this.Operate != Operators.In) return base.GetValueString();
+            var v = (Int32[])this.Value;
+            if (v.Length == 0) return "";
+            return SqlUtils.Combine(v);
+        }
+
         public static T operator >(ExpNode_Int32<T> a, Int32 b) { return a.GreaterThan(b); }
         public static T operator <(ExpNode_Int32<T> a, Int32 b) { return a.LessThan(b); }
 
