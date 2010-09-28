@@ -44,6 +44,27 @@ namespace DAL.Database.UserDefinedTableTypes.表类型
 	/// <summary>
 	/// 
 	/// </summary>
+    public static partial class G_INT_INT_BIT_Extensions
+    {
+        public static DataTable ToDataTable(this IEnumerable<G_INT_INT_BIT> os)
+        {
+            var dt = new DataTable();
+            dt.Columns.Add("0");
+            dt.Columns.Add("1");
+            dt.Columns.Add("2");
+            foreach(var o in os) {
+                var rowdata = new object[3];
+                rowdata[0] = o.c1;
+                rowdata[1] = o.c2;
+                rowdata[2] = o.c3;
+                dt.Rows.Add(rowdata);
+            }
+            return dt;
+        }
+    }
+	/// <summary>
+	/// 
+	/// </summary>
     public static partial class G_INT_STRING_Extensions
     {
         public static DataTable ToDataTable(this IEnumerable<G_INT_STRING> os)

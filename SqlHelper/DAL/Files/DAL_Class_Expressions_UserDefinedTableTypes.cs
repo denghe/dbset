@@ -14,6 +14,12 @@ namespace DAL.Expressions.UserDefinedTableTypes.表类型
         public ExpNode_Int32<G_INT_INT> c1 { get { return this.New_Int32(@"c1"); } }
         public ExpNode_Int32<G_INT_INT> c2 { get { return this.New_Int32(@"c2"); } }
     }
+    public partial class G_INT_INT_BIT : LogicalNode<G_INT_INT_BIT>
+    {
+        public ExpNode_Int32<G_INT_INT_BIT> c1 { get { return this.New_Int32(@"c1"); } }
+        public ExpNode_Int32<G_INT_INT_BIT> c2 { get { return this.New_Int32(@"c2"); } }
+        public ExpNode_Boolean<G_INT_INT_BIT> c3 { get { return this.New_Boolean(@"c3"); } }
+    }
     public partial class G_INT_STRING : LogicalNode<G_INT_STRING>
     {
         public ExpNode_Int32<G_INT_STRING> c1 { get { return this.New_Int32(@"c1"); } }

@@ -71,6 +71,41 @@ namespace DAL.Database.UserDefinedTableTypes.表类型
         #endregion
 
     }
+    partial class G_INT_INT_BIT : ISerial
+    {
+        #region Constructor
+
+        public G_INT_INT_BIT() {
+        }
+        public G_INT_INT_BIT(byte[] buffer, ref int startIndex)
+            : this() {
+            Fill(buffer, ref startIndex);
+        }
+        public G_INT_INT_BIT(byte[] buffer)
+            : this() {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
+        #endregion
+
+        #region Serial
+        public byte[] GetBytes() {
+            return new byte[][]
+            {
+                this.c1.GetBytes(),
+                this.c2.GetBytes(),
+                this.c3.GetBytes(),
+            }.Combine();
+        }
+        public void Fill(byte[] buffer, ref int startIndex) {
+            this.c1 = buffer.ToInt32(ref startIndex);
+            this.c2 = buffer.ToInt32(ref startIndex);
+            this.c3 = buffer.ToBoolean(ref startIndex);
+        }
+        #endregion
+
+    }
     partial class G_INT_STRING : ISerial
     {
         #region Constructor

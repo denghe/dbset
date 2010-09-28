@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Text;
     using System.Reflection;
+    using System.Linq;
 
     #region base
 
@@ -1837,11 +1838,15 @@
             return (T)this.Parent;
         }
 
-        public T In(Int32[] value)
+        public T In(params Int32[] value)
         {
             this.Operate = Operators.In;
             this.Value = value;
             return (T)this.Parent;
+        }
+        public T In(IEnumerable<Int32> value)
+        {
+            return In(value.ToArray());
         }
 
         protected override string GetValueString()

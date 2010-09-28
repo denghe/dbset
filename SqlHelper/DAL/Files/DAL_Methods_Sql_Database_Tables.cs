@@ -171,7 +171,7 @@ VALUES (");
 
         #region Update
 
-		public static int Update(产品 o, Expressions.Tables.产品.产品 eh = null, ColumnEnums.Tables.产品.产品 ucs = null, ColumnEnums.Tables.产品.产品 fcs = null, bool isFillAfterUpdate = true)
+		public static int Update(产品 o, Expressions.Tables.产品.产品 eh, ColumnEnums.Tables.产品.产品 ucs = null, ColumnEnums.Tables.产品.产品 fcs = null, bool isFillAfterUpdate = true)
 		{
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
@@ -208,13 +208,13 @@ OUTPUT ");
                 }
             }
 
-            if (eh != null)
-            {
-                var ws = eh.ToString();
-                if(ws.Length > 0)
-    			    sb.Append(@"
+            if (eh == null) eh = Expressions.Tables.产品.产品.New(a => a.产品编号 == o.产品编号);
+
+            var ws = eh.ToString();
+            if (ws.Length > 0)
+                sb.Append(@"
  WHERE " + ws);
-            }
+
 			cmd.CommandText = sb.ToString();
 			if (!isFillAfterUpdate)
                 return SqlHelper.ExecuteNonQuery(cmd);
@@ -284,8 +284,8 @@ DELETE FROM [产品].[产品]";
 
         public static int Count(
             Expressions.Tables.产品.产品 where,
-            ColumnEnums.Tables.产品.产品 column,
-            bool isDistinct
+            ColumnEnums.Tables.产品.产品 column = null,
+            bool isDistinct = false
         )
         {
             string tsql;
@@ -566,7 +566,7 @@ VALUES (");
 
         #region Update
 
-		public static int Update(雇员 o, Expressions.Tables.雇员.雇员 eh = null, ColumnEnums.Tables.雇员.雇员 ucs = null, ColumnEnums.Tables.雇员.雇员 fcs = null, bool isFillAfterUpdate = true)
+		public static int Update(雇员 o, Expressions.Tables.雇员.雇员 eh, ColumnEnums.Tables.雇员.雇员 ucs = null, ColumnEnums.Tables.雇员.雇员 fcs = null, bool isFillAfterUpdate = true)
 		{
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
@@ -617,13 +617,13 @@ OUTPUT ");
                 }
             }
 
-            if (eh != null)
-            {
-                var ws = eh.ToString();
-                if(ws.Length > 0)
-    			    sb.Append(@"
+            if (eh == null) eh = Expressions.Tables.雇员.雇员.New(a => a.雇员编号 == o.雇员编号);
+
+            var ws = eh.ToString();
+            if (ws.Length > 0)
+                sb.Append(@"
  WHERE " + ws);
-            }
+
 			cmd.CommandText = sb.ToString();
 			if (!isFillAfterUpdate)
                 return SqlHelper.ExecuteNonQuery(cmd);
@@ -697,8 +697,8 @@ DELETE FROM [雇员].[雇员]";
 
         public static int Count(
             Expressions.Tables.雇员.雇员 where,
-            ColumnEnums.Tables.雇员.雇员 column,
-            bool isDistinct
+            ColumnEnums.Tables.雇员.雇员 column = null,
+            bool isDistinct = false
         )
         {
             string tsql;
@@ -995,7 +995,7 @@ VALUES (");
 
         #region Update
 
-		public static int Update(订单 o, Expressions.Tables.客户.订单 eh = null, ColumnEnums.Tables.客户.订单 ucs = null, ColumnEnums.Tables.客户.订单 fcs = null, bool isFillAfterUpdate = true)
+		public static int Update(订单 o, Expressions.Tables.客户.订单 eh, ColumnEnums.Tables.客户.订单 ucs = null, ColumnEnums.Tables.客户.订单 fcs = null, bool isFillAfterUpdate = true)
 		{
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
@@ -1046,13 +1046,13 @@ OUTPUT ");
                 }
             }
 
-            if (eh != null)
-            {
-                var ws = eh.ToString();
-                if(ws.Length > 0)
-    			    sb.Append(@"
+            if (eh == null) eh = Expressions.Tables.客户.订单.New(a => a.订单编号 == o.订单编号);
+
+            var ws = eh.ToString();
+            if (ws.Length > 0)
+                sb.Append(@"
  WHERE " + ws);
-            }
+
 			cmd.CommandText = sb.ToString();
 			if (!isFillAfterUpdate)
                 return SqlHelper.ExecuteNonQuery(cmd);
@@ -1126,8 +1126,8 @@ DELETE FROM [客户].[订单]";
 
         public static int Count(
             Expressions.Tables.客户.订单 where,
-            ColumnEnums.Tables.客户.订单 column,
-            bool isDistinct
+            ColumnEnums.Tables.客户.订单 column = null,
+            bool isDistinct = false
         )
         {
             string tsql;
@@ -1420,7 +1420,7 @@ VALUES (");
 
         #region Update
 
-		public static int Update(订单明细 o, Expressions.Tables.客户.订单明细 eh = null, ColumnEnums.Tables.客户.订单明细 ucs = null, ColumnEnums.Tables.客户.订单明细 fcs = null, bool isFillAfterUpdate = true)
+		public static int Update(订单明细 o, Expressions.Tables.客户.订单明细 eh, ColumnEnums.Tables.客户.订单明细 ucs = null, ColumnEnums.Tables.客户.订单明细 fcs = null, bool isFillAfterUpdate = true)
 		{
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
@@ -1471,13 +1471,13 @@ OUTPUT ");
                 }
             }
 
-            if (eh != null)
-            {
-                var ws = eh.ToString();
-                if(ws.Length > 0)
-    			    sb.Append(@"
+            if (eh == null) eh = Expressions.Tables.客户.订单明细.New(a => a.订单明细编号 == o.订单明细编号);
+
+            var ws = eh.ToString();
+            if (ws.Length > 0)
+                sb.Append(@"
  WHERE " + ws);
-            }
+
 			cmd.CommandText = sb.ToString();
 			if (!isFillAfterUpdate)
                 return SqlHelper.ExecuteNonQuery(cmd);
@@ -1551,8 +1551,8 @@ DELETE FROM [客户].[订单明细]";
 
         public static int Count(
             Expressions.Tables.客户.订单明细 where,
-            ColumnEnums.Tables.客户.订单明细 column,
-            bool isDistinct
+            ColumnEnums.Tables.客户.订单明细 column = null,
+            bool isDistinct = false
         )
         {
             string tsql;
@@ -1799,7 +1799,7 @@ VALUES (");
 
         #region Update
 
-		public static int Update(客户 o, Expressions.Tables.客户.客户 eh = null, ColumnEnums.Tables.客户.客户 ucs = null, ColumnEnums.Tables.客户.客户 fcs = null, bool isFillAfterUpdate = true)
+		public static int Update(客户 o, Expressions.Tables.客户.客户 eh, ColumnEnums.Tables.客户.客户 ucs = null, ColumnEnums.Tables.客户.客户 fcs = null, bool isFillAfterUpdate = true)
 		{
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
@@ -1836,13 +1836,13 @@ OUTPUT ");
                 }
             }
 
-            if (eh != null)
-            {
-                var ws = eh.ToString();
-                if(ws.Length > 0)
-    			    sb.Append(@"
+            if (eh == null) eh = Expressions.Tables.客户.客户.New(a => a.客户编号 == o.客户编号);
+
+            var ws = eh.ToString();
+            if (ws.Length > 0)
+                sb.Append(@"
  WHERE " + ws);
-            }
+
 			cmd.CommandText = sb.ToString();
 			if (!isFillAfterUpdate)
                 return SqlHelper.ExecuteNonQuery(cmd);
@@ -1912,8 +1912,8 @@ DELETE FROM [客户].[客户]";
 
         public static int Count(
             Expressions.Tables.客户.客户 where,
-            ColumnEnums.Tables.客户.客户 column,
-            bool isDistinct
+            ColumnEnums.Tables.客户.客户 column = null,
+            bool isDistinct = false
         )
         {
             string tsql;
@@ -2179,7 +2179,7 @@ VALUES (");
 
         #region Update
 
-		public static int Update(管理员 o, Expressions.Tables.系统.管理员 eh = null, ColumnEnums.Tables.系统.管理员 ucs = null, ColumnEnums.Tables.系统.管理员 fcs = null, bool isFillAfterUpdate = true)
+		public static int Update(管理员 o, Expressions.Tables.系统.管理员 eh, ColumnEnums.Tables.系统.管理员 ucs = null, ColumnEnums.Tables.系统.管理员 fcs = null, bool isFillAfterUpdate = true)
 		{
 			var cmd = new SqlCommand();
 			var sb = new StringBuilder(@"
@@ -2223,13 +2223,13 @@ OUTPUT ");
                 }
             }
 
-            if (eh != null)
-            {
-                var ws = eh.ToString();
-                if(ws.Length > 0)
-    			    sb.Append(@"
+            if (eh == null) eh = Expressions.Tables.系统.管理员.New(a => a.管理员编号 == o.管理员编号);
+
+            var ws = eh.ToString();
+            if (ws.Length > 0)
+                sb.Append(@"
  WHERE " + ws);
-            }
+
 			cmd.CommandText = sb.ToString();
 			if (!isFillAfterUpdate)
                 return SqlHelper.ExecuteNonQuery(cmd);
@@ -2301,8 +2301,8 @@ DELETE FROM [系统].[管理员]";
 
         public static int Count(
             Expressions.Tables.系统.管理员 where,
-            ColumnEnums.Tables.系统.管理员 column,
-            bool isDistinct
+            ColumnEnums.Tables.系统.管理员 column = null,
+            bool isDistinct = false
         )
         {
             string tsql;

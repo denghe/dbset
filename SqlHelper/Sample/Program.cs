@@ -16,6 +16,9 @@
     using DAL.Database.Tables;
     using dt = DAL.Database.Tables;
     using kh = DAL.Database.Tables.客户;
+    using ex = DAL.Expressions.Tables;
+    using sp = DAL.Database.StoredProcedures;
+    using tt = DAL.Database.UserDefinedTableTypes.表类型;
 
     using SqlLib;
 
@@ -99,13 +102,41 @@
     {
         public static void Main()
         {
-            var ts = new Tables<kh.客户, kh.订单, kh.订单明细>();
+            SqlHelper.InitConnectString("data,14333", "Test", "admin", "1");
 
-            ts.Table1 = kh.客户.Select(a => a.客户编号 == 2);
-            ts.Table2 = kh.订单.Select(a => a.客户编号 == 2);
-            ts.Table3 = kh.订单明细.Select(a => a.订单编号.In(ts.Table2.Select(b => b.订单编号)));
+            var exp = ex.产品.产品.New(a => a.产品编号.In(27, 28));
+            exp.ToSqlString().WL();
 
-            byte[] buff = ts.GetBytes();
+            byte[] buff = exp.GetBytes();
+
+            var exp2 = new ex.产品.产品(buff);
+            exp2.ToSqlString().WL();
+
+            var p = new sp.dbo.xxx.Parameters
+            {
+                iib = new tt.G_INT_INT_BIT[] {
+                    new tt.G_INT_INT_BIT { c1 = 1, c2 = 1, c3 = true },
+                    new tt.G_INT_INT_BIT { c1 = 2, c2 = 2, c3 = true },
+                    new tt.G_INT_INT_BIT { c1 = 3, c2 = 3, c3 = false }
+                }
+            };
+            var ds = sp.dbo.xxx.ExecuteDbSet(p);
+
+            ds.Dump();
+
+
+
+            //var rows = dt.产品.产品.Select(a => a.产品编号.In(27, 28));
+            //rows.ForEach(a => a.名称.WL());
+
+
+            //var ts = new Tables<kh.客户, kh.订单, kh.订单明细>();
+
+            //ts.Table1 = kh.客户.Select(a => a.客户编号 == 2);
+            //ts.Table2 = kh.订单.Select(a => a.客户编号 == 2);
+            //ts.Table3 = kh.订单明细.Select(a => a.订单编号.In(ts.Table2.Select(b => b.订单编号).ToArray()));
+
+            //byte[] buff = ts.GetBytes();
 
 
 

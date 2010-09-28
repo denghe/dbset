@@ -39,6 +39,23 @@ namespace DAL.Orientations.UserDefinedTableTypes.表类型
 
         #endregion
     }
+    partial class G_INT_INT_BIT
+    {
+        #region Serial
+
+        public G_INT_INT_BIT() { }
+        public G_INT_INT_BIT(byte[] buffer, ref int startIndex)
+            : this() {
+            Fill(buffer, ref startIndex);
+        }
+        public G_INT_INT_BIT(byte[] buffer)
+            : this() {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
+        #endregion
+    }
     partial class G_INT_STRING
     {
         #region Serial

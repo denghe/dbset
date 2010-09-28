@@ -29,6 +29,21 @@ namespace DAL.ColumnEnums.UserDefinedTableTypes.表类型
             return __cns[i];
         }
     }
+    public partial class G_INT_INT_BIT : ColumnList<G_INT_INT_BIT>
+    {
+        public G_INT_INT_BIT c1 { get { __columns.Add(0); return this; } }
+        public G_INT_INT_BIT c2 { get { __columns.Add(1); return this; } }
+        public G_INT_INT_BIT c3 { get { __columns.Add(2); return this; } }
+        protected static string[] __cns = new string[]
+        {
+            @"c1",
+            @"c2",
+            @"c3"
+        };
+        public override string GetColumnName(int i) {
+            return __cns[i];
+        }
+    }
     public partial class G_INT_STRING : ColumnList<G_INT_STRING>
     {
         public G_INT_STRING c1 { get { __columns.Add(0); return this; } }

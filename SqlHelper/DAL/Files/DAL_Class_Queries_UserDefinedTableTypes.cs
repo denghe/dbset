@@ -19,6 +19,13 @@ namespace DAL.Queries.UserDefinedTableTypes.表类型
             return base.ToSqlString(schema ?? @"表类型", name ?? @"G_INT_INT", columns);
         }
     }
+    public partial class G_INT_INT_BIT : Query<G_INT_INT_BIT, Expressions.UserDefinedTableTypes.表类型.G_INT_INT_BIT, Orientations.UserDefinedTableTypes.表类型.G_INT_INT_BIT, ColumnEnums.UserDefinedTableTypes.表类型.G_INT_INT_BIT>
+    {
+        public override string ToSqlString(string schema = null, string name = null, List<string> columns = null)
+        {
+            return base.ToSqlString(schema ?? @"表类型", name ?? @"G_INT_INT_BIT", columns);
+        }
+    }
     public partial class G_INT_STRING : Query<G_INT_STRING, Expressions.UserDefinedTableTypes.表类型.G_INT_STRING, Orientations.UserDefinedTableTypes.表类型.G_INT_STRING, ColumnEnums.UserDefinedTableTypes.表类型.G_INT_STRING>
     {
         public override string ToSqlString(string schema = null, string name = null, List<string> columns = null)

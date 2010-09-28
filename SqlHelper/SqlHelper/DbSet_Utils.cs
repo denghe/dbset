@@ -79,12 +79,28 @@
         }
         public static byte[] GetBytes(this string o)
         {
-            if (string.IsNullOrEmpty(o)) return new byte[4];
+            if (o == null) return BitConverter.GetBytes(-1);
+            else if (o.Length == 0) return new byte[4];
             var stringbytes = Encoding.Unicode.GetBytes(o);
             var length = stringbytes.Length;
             var bytes = BitConverter.GetBytes(length);
             Array.Resize<byte>(ref bytes, sizeof(int) + length);
             Array.Copy(stringbytes, 0, bytes, sizeof(int), length);
+            return bytes;
+        }
+        public static byte[] GetBytes(this int[] o)
+        {
+            if (o == null) return BitConverter.GetBytes(-1);
+            else if (o.Length == 0) return new byte[4];
+            var len = o.Length;
+            var bytes = new byte[(len << 2) + 4];
+            var buff = BitConverter.GetBytes(len);
+            Array.Copy(buff, 0, bytes, 0, 4);
+            for (int i = 0; i < len; i++)
+            {
+                buff = BitConverter.GetBytes(o[i]);
+                Array.Copy(buff, 0, bytes, 4 + (i << 2), 4);
+            }
             return bytes;
         }
         public static byte[] GetBytes(this ushort o)
@@ -280,6 +296,20 @@
             startIndex += len;
             return result;
         }
+        public static int[] ToInt32Array(this byte[] buffer, ref int startIndex)
+        {
+            var len = BitConverter.ToInt32(buffer, startIndex);
+            startIndex += 4;
+            if (len == 0) return new int[] { };
+            else if (len == -1) return null;
+            var array = new int[len];
+            for (int i = 0; i < len; i++)
+            {
+                array[i] = BitConverter.ToInt32(buffer, startIndex);
+                startIndex += 4;
+            }
+            return array;
+        }
         public static ushort ToUInt16(this byte[] buffer, ref int startIndex)
         {
             var result = BitConverter.ToUInt16(buffer, startIndex);
@@ -430,6 +460,8 @@
                         return new byte[][] { new byte[] { (byte)17 }, ((ulong)o).GetBytes() }.Combine();
                     case "System.Type":
                         return new byte[][] { new byte[] { (byte)18 }, ((Type)o).GetBytes() }.Combine();
+                    case "System.Int32[]":
+                        return new byte[][] { new byte[] { (byte)19 }, ((int[])o).GetBytes() }.Combine();
                     default:
                         return null;
                 }
@@ -474,6 +506,8 @@
                         return ((ulong)o).GetBytes();
                     case "System.Type":
                         return ((Type)o).GetBytes();
+                    case "System.Int32[]":
+                        return ((int[])o).GetBytes();
                     default:
                         return null;
                 }
@@ -524,6 +558,8 @@
                     return buffer.ToObject(ref startIndex, (byte)17);
                 case "System.Type":
                     return buffer.ToObject(ref startIndex, (byte)18);
+                case "System.Int32[]":
+                    return buffer.ToObject(ref startIndex, (byte)19);
                 default:
                     return null;
             }
@@ -570,6 +606,8 @@
                     return buffer.ToUInt64(ref startIndex);
                 case 18:
                     return buffer.ToType(ref startIndex);
+                case 19:
+                    return buffer.ToInt32Array(ref startIndex);
                 default:
                     return null;
             }

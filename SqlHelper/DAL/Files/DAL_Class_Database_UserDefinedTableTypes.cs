@@ -31,6 +31,24 @@ namespace DAL.Database.UserDefinedTableTypes.表类型
 	/// <summary>
 	/// 
 	/// </summary>
+    public partial class G_INT_INT_BIT
+    {
+		/// <summary>
+		/// 
+		/// </summary>
+        public int        c1 { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+        public int        c2 { get; set; }
+		/// <summary>
+		/// 
+		/// </summary>
+        public bool       c3 { get; set; }
+    }
+	/// <summary>
+	/// 
+	/// </summary>
     public partial class G_INT_STRING
     {
 		/// <summary>
