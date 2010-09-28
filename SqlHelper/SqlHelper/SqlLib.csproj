@@ -53,6 +53,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DbArray.cs" />
+    <Compile Include="DbList.cs" />
     <Compile Include="DbSet.cs" />
     <Compile Include="DbSet_Extensions.cs" />
     <Compile Include="DbSet_Partial.cs" />

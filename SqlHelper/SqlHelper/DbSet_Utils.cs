@@ -407,7 +407,7 @@
 
         public static byte[] GetBytes(this object o, bool isContainTypeNumber = true)
         {
-            if (o == null || o == DBNull.Value) return null;
+            if (o == null || o == DBNull.Value) return new byte[] { };
             var typeName = o.GetType().FullName;
             if (isContainTypeNumber)
             {
@@ -452,7 +452,7 @@
                     case "System.Int32[]":
                         return new byte[][] { new byte[] { (byte)19 }, ((int[])o).GetBytes() }.Combine();
                     default:
-                        return null;
+                        throw new Exception("unhandled data type");
                 }
             }
             else
@@ -498,7 +498,7 @@
                     case "System.Int32[]":
                         return ((int[])o).GetBytes();
                     default:
-                        return null;
+                        throw new Exception("unhandled data type");
                 }
             }
         }
@@ -550,7 +550,7 @@
                 case "System.Int32[]":
                     return buffer.ToObject(ref startIndex, (byte)19);
                 default:
-                    return null;
+                    throw new Exception("unhandled data type");
             }
         }
 
@@ -598,7 +598,7 @@
                 case 19:
                     return buffer.ToInt32Array(ref startIndex);
                 default:
-                    return null;
+                    throw new Exception("unhandled data type");
             }
         }
 
@@ -612,7 +612,7 @@
             var idx = 0;
             foreach (var bytes in byteslist)
             {
-                if (bytes == null) continue;
+                if (bytes == null || bytes.Length == 0) continue;
                 var len = bytes.Length;
                 Array.Copy(bytes, 0, result, idx, len);
                 idx += len;
@@ -625,7 +625,7 @@
             var idx = 0;
             foreach (var bytes in byteslist)
             {
-                if (bytes == null) continue;
+                if (bytes == null || bytes.Length == 0) continue;
                 var len = bytes.Length;
                 Array.Copy(bytes, 0, result, idx, len);
                 idx += len;
