@@ -38,9 +38,9 @@
             //ts.Table3 = 
 
             byte[] buff = ts.GetBytes();
-            var ts2 = new DbArray<kh.客户, kh.订单, kh.订单明细>(buff);
+            var ts2 = new DbList<kh.客户, kh.订单, kh.订单明细>(buff);
 
-            ts2.Table1.Length.WL();
+            ts2.Table1.Count.WL();
 
             RL();
         }
