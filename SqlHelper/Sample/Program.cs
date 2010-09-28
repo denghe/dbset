@@ -26,76 +26,161 @@
 
 
     public class Tables<T1> : ISerial
-        where T1 : ISerial
+        where T1 : ISerial, new()
     {
         public List<T1> Table1;
 
-        public byte[] GetBytes()
+        public Tables() { }
+        public Tables(byte[] buffer, ref int startIndex)
+            : this()
         {
-            throw new NotImplementedException();
+            Fill(buffer, ref startIndex);
+        }
+        public Tables(byte[] buffer)
+            : this()
+        {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
         }
 
+        public byte[] GetBytes()
+        {
+            return this.Table1.GetBytes();
+        }
         public void Fill(byte[] buffer, ref int startIndex)
         {
-            throw new NotImplementedException();
+            this.Table1 = buffer.ToList<T1>();
         }
     }
     public class Tables<T1, T2> : ISerial
-        where T1 : ISerial
-        where T2 : ISerial
+        where T1 : ISerial, new()
+        where T2 : ISerial, new()
     {
         public List<T1> Table1;
         public List<T2> Table2;
 
+        public Tables() { }
+        public Tables(byte[] buffer, ref int startIndex)
+            : this()
+        {
+            Fill(buffer, ref startIndex);
+        }
+        public Tables(byte[] buffer)
+            : this()
+        {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
         public byte[] GetBytes()
         {
-            throw new NotImplementedException();
+            var buff1 = this.Table1.GetBytes();
+            var buff2 = this.Table2.GetBytes();
+            var buff = new byte[buff1.Length + buff2.Length];
+            Array.Copy(buff1, 0, buff, 0, buff1.Length);
+            Array.Copy(buff2, 0, buff, buff1.Length, buff2.Length);
+            return buff;
         }
 
         public void Fill(byte[] buffer, ref int startIndex)
         {
-            throw new NotImplementedException();
+            this.Table1 = buffer.ToList<T1>(ref startIndex);
+            this.Table2 = buffer.ToList<T2>(ref startIndex);
         }
     }
     public class Tables<T1, T2, T3> : ISerial
-        where T1 : ISerial
-        where T2 : ISerial
-        where T3 : ISerial
+        where T1 : ISerial, new()
+        where T2 : ISerial, new()
+        where T3 : ISerial, new()
     {
         public List<T1> Table1;
         public List<T2> Table2;
         public List<T3> Table3;
 
+        public Tables() { }
+        public Tables(byte[] buffer, ref int startIndex)
+            : this()
+        {
+            Fill(buffer, ref startIndex);
+        }
+        public Tables(byte[] buffer)
+            : this()
+        {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
         public byte[] GetBytes()
         {
-            throw new NotImplementedException();
+            var buff1 = this.Table1.GetBytes();
+            var buff2 = this.Table2.GetBytes();
+            var buff3 = this.Table3.GetBytes();
+            var buff = new byte[buff1.Length + buff2.Length + buff3.Length];
+            var idx = 0;
+            Array.Copy(buff1, 0, buff, 0, buff1.Length);
+            idx += buff1.Length;
+            Array.Copy(buff2, 0, buff, idx, buff2.Length);
+            idx += buff2.Length;
+            Array.Copy(buff3, 0, buff, idx, buff3.Length);
+            return buff;
         }
 
         public void Fill(byte[] buffer, ref int startIndex)
         {
-            throw new NotImplementedException();
+            this.Table1 = buffer.ToList<T1>(ref startIndex);
+            this.Table2 = buffer.ToList<T2>(ref startIndex);
+            this.Table3 = buffer.ToList<T3>(ref startIndex);
         }
     }
     public class Tables<T1, T2, T3, T4> : ISerial
-        where T1 : ISerial
-        where T2 : ISerial
-        where T3 : ISerial
-        where T4 : ISerial
+        where T1 : ISerial, new()
+        where T2 : ISerial, new()
+        where T3 : ISerial, new()
+        where T4 : ISerial, new()
     {
         public List<T1> Table1;
         public List<T2> Table2;
         public List<T3> Table3;
         public List<T4> Table4;
 
+        public Tables() { }
+        public Tables(byte[] buffer, ref int startIndex)
+            : this()
+        {
+            Fill(buffer, ref startIndex);
+        }
+        public Tables(byte[] buffer)
+            : this()
+        {
+            var startIndex = 0;
+            Fill(buffer, ref startIndex);
+        }
+
         public byte[] GetBytes()
         {
-            throw new NotImplementedException();
+            var buff1 = this.Table1.GetBytes();
+            var buff2 = this.Table2.GetBytes();
+            var buff3 = this.Table2.GetBytes();
+            var buff4 = this.Table2.GetBytes();
+            var buff = new byte[buff1.Length + buff2.Length + buff3.Length + buff4.Length];
+            var idx = 0;
+            Array.Copy(buff1, 0, buff, 0, buff1.Length);
+            idx += buff1.Length;
+            Array.Copy(buff2, 0, buff, idx, buff2.Length);
+            idx += buff2.Length;
+            Array.Copy(buff3, 0, buff, idx, buff3.Length);
+            idx += buff3.Length;
+            Array.Copy(buff4, 0, buff, idx, buff4.Length);
+            return buff;
         }
 
         public void Fill(byte[] buffer, ref int startIndex)
         {
-            throw new NotImplementedException();
+            this.Table1 = buffer.ToList<T1>(ref startIndex);
+            this.Table2 = buffer.ToList<T2>(ref startIndex);
+            this.Table3 = buffer.ToList<T3>(ref startIndex);
         }
+
     }
 
     public class Test
@@ -104,40 +189,19 @@
         {
             SqlHelper.InitConnectString("data,14333", "Test", "admin", "1");
 
-            var exp = ex.产品.产品.New(a => a.产品编号.In(27, 28));
-            exp.ToSqlString().WL();
 
-            byte[] buff = exp.GetBytes();
+            var ts = new Tables<kh.客户, kh.订单, kh.订单明细>();
 
-            var exp2 = new ex.产品.产品(buff);
-            exp2.ToSqlString().WL();
+            ts.Table1 = kh.客户.Select(a => a.客户编号 == 27);
+            ts.Table2 = kh.订单.Select(a => a.客户编号 == 27);
+            ts.Table3 = kh.订单明细.Select(a => a.订单编号.In(ts.Table2.Select(b => b.订单编号)));
 
-            var p = new sp.dbo.xxx.Parameters
-            {
-                iib = new tt.G_INT_INT_BIT[] {
-                    new tt.G_INT_INT_BIT { c1 = 1, c2 = 1, c3 = true },
-                    new tt.G_INT_INT_BIT { c1 = 2, c2 = 2, c3 = true },
-                    new tt.G_INT_INT_BIT { c1 = 3, c2 = 3, c3 = false }
-                }
-            };
-            var ds = sp.dbo.xxx.ExecuteDbSet(p);
+            ts.Table3.Count.WL();
 
-            ds.Dump();
+            byte[] buff = ts.GetBytes();
+            var ts2 = new Tables<kh.客户, kh.订单, kh.订单明细>(buff);
 
-
-
-            //var rows = dt.产品.产品.Select(a => a.产品编号.In(27, 28));
-            //rows.ForEach(a => a.名称.WL());
-
-
-            //var ts = new Tables<kh.客户, kh.订单, kh.订单明细>();
-
-            //ts.Table1 = kh.客户.Select(a => a.客户编号 == 2);
-            //ts.Table2 = kh.订单.Select(a => a.客户编号 == 2);
-            //ts.Table3 = kh.订单明细.Select(a => a.订单编号.In(ts.Table2.Select(b => b.订单编号).ToArray()));
-
-            //byte[] buff = ts.GetBytes();
-
+            ts2.Table3.Count.WL();
 
 
             RL();

@@ -42,12 +42,7 @@
         }
         public static byte[] GetBytes(this decimal o)
         {
-            var buffers = new List<byte[]>();
-            var ints = decimal.GetBits(o);
-            buffers.Add(BitConverter.GetBytes((byte)ints.Length));
-            foreach (var a in ints)
-                buffers.Add(BitConverter.GetBytes(a));
-            return buffers.Combine();
+            return decimal.GetBits(o).GetBytes();
         }
         public static byte[] GetBytes(this double o)
         {
@@ -237,13 +232,7 @@
         }
         public static decimal ToDecimal(this byte[] buffer, ref int startIndex)
         {
-            var num = buffer[startIndex++];
-            var bits = new int[num];
-            var len = num * 4;
-            for (var i = 0; i < len; i += 4)
-                bits[i] = BitConverter.ToInt32(buffer, startIndex + i);
-            startIndex += len;
-            return new decimal(bits);
+            return new decimal(buffer.ToInt32Array(ref startIndex));
         }
         public static double ToDouble(this byte[] buffer, ref int startIndex)
         {
