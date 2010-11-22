@@ -51,7 +51,8 @@
         }
         public static string ToValueString(object o)
         {
-            return o == DBNull.Value ? "[Null]" : o.ToString();
+            if(o == null || o == DBNull.Value) return "[Null]";
+            else return o.ToString();
         }
         public static string ToErrorString(SqlError e)
         {
