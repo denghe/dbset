@@ -55,17 +55,17 @@
 
 
             var list = new List<DesktopWindowInfo>();
-            for (int i = 0; i < 5; i++)
-            {
-                list.Add(new DesktopWindowInfo
-                {
-                    开始时间 = DateTime.Now,
-                    结束时间 = DateTime.Now,
-                    窗口标题 = "xxx",
-                    程序集名称 = "asdf",
-                    动作 = 窗口动作.关闭
-                });
-            }
+            //for (int i = 0; i < 5; i++)
+            //{
+            //    list.Add(new DesktopWindowInfo
+            //    {
+            //        开始时间 = DateTime.Now,
+            //        结束时间 = DateTime.Now,
+            //        窗口标题 = "xxx",
+            //        程序集名称 = "asdf",
+            //        动作 = 窗口动作.关闭
+            //    });
+            //}
             list.Add(new DesktopWindowInfo
             {
                 开始时间 = DateTime.Now,

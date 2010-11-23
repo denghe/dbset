@@ -407,7 +407,8 @@
 
         public static byte[] GetBytes(this object o, bool isContainTypeNumber = true)
         {
-            if (o == null || o == DBNull.Value) return new byte[] { };
+            if (o == null) return BitConverter.GetBytes(-1);
+            else if (o == DBNull.Value) return new byte[] { };
             var typeName = o.GetType().FullName;
             if (isContainTypeNumber)
             {
