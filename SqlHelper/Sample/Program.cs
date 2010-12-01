@@ -31,86 +31,23 @@
     {
         public static void Main()
         {
-            //var ts = new DbArray<kh.客户, kh.订单, kh.订单明细>();
+            var ts = new DbList<DbArray<kh.客户, kh.订单, kh.订单明细>>();
 
-            //ts.Table1 = new kh.客户[] { new kh.客户 { 客户编号 = 1 }, new kh.客户 { 客户编号 = 2 } };
-            ////ts.Table2 = 
-            ////ts.Table3 = 
+            var ts1 = new DbArray<kh.客户, kh.订单, kh.订单明细>();
+            ts1.Table1 = new kh.客户[] { new kh.客户 { 客户编号 = 1 }, new kh.客户 { 客户编号 = 2 } };
+            //ts.Table2 = 
+            //ts.Table3 = 
+            var ts2 = new DbArray<kh.客户, kh.订单, kh.订单明细>(ts1.GetBytes());
 
-            //byte[] buff = ts.GetBytes();
-            //var ts2 = new DbList<kh.客户, kh.订单, kh.订单明细>(buff);
+            ts.Table1 = new List<DbArray<kh.客户, kh.订单, kh.订单明细>>();
+            ts.Table1.Add(ts1);
+            ts.Table1.Add(ts2);
 
-            //ts2.Table1.Count.WL();
+            byte[] buff = ts.GetBytes();
 
-
-            DbTable table = new DbTable();
-
-            // Declare DataColumn and DataRow variables.
-            table.NewColumn("程序集名称", typeof(string), true);
-            table.NewColumn("窗口标题", typeof(string), true);
-            table.NewColumn("动作", typeof(int), true);
-            table.NewColumn("结束时间", typeof(DateTime), true);
-            table.NewColumn("开始时间", typeof(DateTime), true);
-            table.Name = "windowslogs";
-
-
-            var list = new List<DesktopWindowInfo>();
-            //for (int i = 0; i < 5; i++)
-            //{
-            //    list.Add(new DesktopWindowInfo
-            //    {
-            //        开始时间 = DateTime.Now,
-            //        结束时间 = DateTime.Now,
-            //        窗口标题 = "xxx",
-            //        程序集名称 = "asdf",
-            //        动作 = 窗口动作.关闭
-            //    });
-            //}
-            list.Add(new DesktopWindowInfo
-            {
-                开始时间 = DateTime.Now,
-                结束时间 = DateTime.Now,
-                窗口标题 = null,
-                程序集名称 = null,
-                动作 = 窗口动作.关闭
-            });
-
-            AddlistToRows(table, list);
-
-            table.Dump();
-
-            var t = new DbTable(table.GetBytes());
-            t.Dump();
+            buff.WL();
 
             RL();
-        }
-
-
-        public class DesktopWindowInfo
-        {
-            public DateTime 开始时间 { get; set; }
-            public DateTime 结束时间 { get; set; }
-            public string 窗口标题 { get; set; }
-            public string 程序集名称 { get; set; }
-            public 窗口动作 动作 { get; set; }
-        }
-        public enum 窗口动作 : int
-        {
-            开启, 获得焦点, 失去焦点, 关闭
-        }
-
-        public static void AddlistToRows(DbTable dt, List<DesktopWindowInfo> lst)
-        {
-            foreach (var item in lst)
-            {
-                var row = dt.NewRow();
-                row["程序集名称"] = item.程序集名称;
-                row["窗口标题"] = item.窗口标题;
-                row["动作"] = (int)item.动作;
-                row["结束时间"] = item.结束时间;
-                row["开始时间"] = item.开始时间;
-
-            }
         }
 
         public static void RL()
