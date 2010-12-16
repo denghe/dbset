@@ -349,7 +349,7 @@
 
 
         /// <summary>
-        /// 执行一个 SQL 命令对象，返回一个 DbSet 数据集
+        /// 执行一个 SQL 命令对象，返回一个 DbTable 数据表
         /// </summary>
         public static DbTable ExecuteDbTable(SqlCommand cmd, SqlInfoMessageEventHandler imHandler = null) {
             var se = CurrentSqlElements;
